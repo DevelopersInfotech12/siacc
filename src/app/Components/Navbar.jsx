@@ -86,7 +86,7 @@ export default function Navbar() {
       <div className="desktop-top-bar" style={{ backgroundColor: C.forest, color: C.mintLight, fontSize: 12, padding: "8px 24px", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
         <div style={{ display: "flex", gap: 24 }}>
           <span>📞 +91 98765 43210</span>
-          <span>✉ info@certifypro.in</span>
+          <span>✉ info@siacc.in</span>
         </div>
         <div style={{ display: "flex", gap: 24, alignItems: "center" }}>
           <span>Mon–Sat: 9:00 AM – 6:00 PM</span>

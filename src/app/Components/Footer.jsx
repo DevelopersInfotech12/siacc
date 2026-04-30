@@ -12,24 +12,24 @@ const C = {
 };
 
 const footerServices = [
-  { name: "BIS Certification", href: "/screens/BISScreen" },
-  { name: "EPR Registration", href: "/screens/EPRScreen" },
-  { name: "WPC-ETA Approval", href: "/screens/WPCScreen" },
-  { name: "TEC / MTCTE", href: "/screens/TECScreen" },
-  { name: "BEE Registration", href: "/screens/BEEScreen" },
-  { name: "LMPC Registration", href: "/screens/LMPCScreen" },
-  { name: "ISO Certification", href: "/screens/ISOScreen" },
-  { name: "CDSCO / Drug License", href: "/screens/CDSCOScreen" },
+  { name: "BIS Certification", href: "/bis" },
+  { name: "EPR Registration", href: "/epr" },
+  { name: "WPC-ETA Approval", href: "/wpc" },
+  { name: "TEC / MTCTE", href: "/tec" },
+  { name: "BEE Registration", href: "/bee" },
+  { name: "LMPC Registration", href: "/lmpc" },
+  { name: "ISO Certification", href: "/iso" },
+  { name: "CDSCO / Drug License", href: "/cdsco" },
 ];
 
 const quickLinks = [
   { name: "Home", href: "/" },
-  { name: "About Us", href: "/screens/AboutScreen" },
-  { name: "All Services", href: "/screens/ServicesScreen" },
-  { name: "Blog", href: "/screens/BlogScreen" },
-  { name: "Careers", href: "/screens/CareerScreen" },
-  { name: "Contact", href: "/screens/ContactScreen" },
-  { name: "Privacy Policy", href: "/screens/PrivacyScreen" },
+  { name: "About Us", href: "/about" },
+  { name: "All Services", href: "/services" },
+  { name: "Blog", href: "/blog" },
+  { name: "Careers", href: "/career" },
+  { name: "Contact", href: "/contact" },
+  { name: "Privacy Policy", href: "/privacy" },
 ];
 
 export default function Footer() {
@@ -44,7 +44,7 @@ export default function Footer() {
             <p style={{ color: C.mint, fontSize: 14, margin: 0 }}>Talk to our experts today — free consultation, no obligations.</p>
           </div>
           <div style={{ display: "flex", gap: 12, flexShrink: 0 }}>
-            <Link href="/screens/ContactScreen"
+            <Link href="/contact"
               style={{ padding: "12px 24px", backgroundColor: C.mint, color: C.forest, fontWeight: 700, borderRadius: 10, textDecoration: "none", fontSize: 14 }}>
               Get Free Consultation
             </Link>
@@ -149,15 +149,11 @@ export default function Footer() {
 
       {/* Bottom bar */}
       <div style={{ borderTop: `1px solid ${C.forestMid}`, padding: "20px 24px" }}>
-        <div style={{ maxWidth: 1280, margin: "0 auto", display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 12 }}>
-          <span style={{ fontSize: 12, color: C.forestLight }}>
-            © {new Date().getFullYear()} Siacc India. All rights reserved.
+        <div style={{ maxWidth: 1280, margin: "0 auto", display: "flex", justifyContent: "center", alignItems: "center" }}>
+          <span style={{ fontSize: 12, color: C.forestLight, textAlign: "center" }}>
+            © {new Date().getFullYear()} Siacc India. All rights reserved. | Developed by{" "}
+            <a href="https://developersinfotech.in/" target="_blank" rel="noopener noreferrer" className="dev-link" style={{ color: C.mint, textDecoration: "none", fontWeight: 600 }}>Developers Infotech Pvt Ltd</a>
           </span>
-          <div style={{ display: "flex", gap: 20, alignItems: "center" }}>
-            <Link href="/screens/PrivacyScreen" style={{ fontSize: 12, color: C.forestLight, textDecoration: "none" }}>Privacy Policy</Link>
-            <span style={{ color: C.forestLight }}>|</span>
-            <Link href="/screens/ContactScreen" style={{ fontSize: 12, color: C.forestLight, textDecoration: "none" }}>Contact Us</Link>
-          </div>
         </div>
       </div>
 
