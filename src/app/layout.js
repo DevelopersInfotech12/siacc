@@ -1,5 +1,6 @@
 import { Playfair_Display, DM_Sans } from "next/font/google";
 import "./globals.css";
+import WhatsAppWidget from "./Components/WhatsAppWidget";
 
 const playfair = Playfair_Display({
   subsets: ["latin"],
@@ -26,6 +27,7 @@ export default function RootLayout({ children }) {
     <html lang="en" className={`${playfair.variable} ${dmSans.variable}`}>
       <body className="font-dm bg-[#F7FAF8] text-[#1A1A2E] antialiased">
         {children}
+        <WhatsAppWidget />
       </body>
     </html>
   );

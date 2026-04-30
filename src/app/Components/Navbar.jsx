@@ -1,22 +1,23 @@
 "use client";
 import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
-import Link from "next/link";
 import { ChevronDown, Menu, X } from "lucide-react";
 
 const C = {
-  forest: "#1B4332",
-  forestMid: "#2D6A4F",
-  forestLight: "#40916C",
-  mint: "#95D5B2",
-  mintLight: "#D8F3DC",
-  white: "#ffffff",
-  charcoal: "#1A1A2E",
+  primary: "#F97316",
+  primaryDark: "#EA6A0A",
+  primaryLight: "#FFF3E8",
+  navy: "#0C2340",
+  bodyText: "#374151",
+  mutedText: "#6B7280",
+  border: "#E5E7EB",
+  white: "#FFFFFF",
+  offWhite: "#F9FAFB",
   serif: "'Playfair Display', Georgia, serif",
   sans: "'DM Sans', system-ui, sans-serif",
 };
 
-const serviceDropdownItems = [
+const serviceDropdown = [
   { name: "BIS Certification", href: "/bis" },
   { name: "EPR Registration", href: "/epr" },
   { name: "WPC-ETA Approval", href: "/wpc" },
@@ -27,7 +28,7 @@ const serviceDropdownItems = [
   { name: "CDSCO / Drug License", href: "/cdsco" },
 ];
 
-const navItems = [
+const navLinks = [
   { name: "Home", href: "/" },
   { name: "About", href: "/about" },
   { name: "Services", href: "/services", hasDropdown: true },
@@ -40,120 +41,93 @@ export default function Navbar() {
   const router = useRouter();
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [activeDropdown, setActiveDropdown] = useState(null);
-  const [mobileServicesOpen, setMobileServicesOpen] = useState(false);
+  const [dropdown, setDropdown] = useState(null);
+  const [mobileServices, setMobileServices] = useState(false);
   const dropdownRef = useRef(null);
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 20);
+    const onScroll = () => setScrolled(window.scrollY > 10);
     window.addEventListener("scroll", onScroll);
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
   useEffect(() => {
-    const handleClickOutside = (e) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
-        setActiveDropdown(null);
-      }
+    const handleClick = (e) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(e.target)) setDropdown(null);
     };
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
+    document.addEventListener("mousedown", handleClick);
+    return () => document.removeEventListener("mousedown", handleClick);
   }, []);
 
-  const handleNavClick = (href) => {
-    setActiveDropdown(null);
-    setMobileOpen(false);
-    router.push(href);
-  };
-
-  const toggleDropdown = (name, e) => {
-    e.preventDefault();
-    setActiveDropdown(activeDropdown === name ? null : name);
-  };
+  const go = (href) => { setDropdown(null); setMobileOpen(false); router.push(href); };
 
   return (
     <div style={{ fontFamily: C.sans, position: "sticky", top: 0, zIndex: 1000 }}>
       <style>{`
+        .desktop-top-bar, .desktop-nav, .desktop-cta { }
+        .mobile-burger { display: none !important; }
         @media (max-width: 1024px) {
-          .mobile-only-burger { display: flex !important; }
-          .desktop-nav-links { display: none !important; }
-          .desktop-cta-buttons { display: none !important; }
           .desktop-top-bar { display: none !important; }
+          .desktop-nav { display: none !important; }
+          .desktop-cta { display: none !important; }
+          .mobile-burger { display: flex !important; }
         }
       `}</style>
 
-      {/* ── TOP INFO BAR — hidden on mobile ── */}
-      <div className="desktop-top-bar" style={{ backgroundColor: C.forest, color: C.mintLight, fontSize: 12, padding: "8px 24px", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+      {/* Top info bar */}
+      <div className="desktop-top-bar" style={{ backgroundColor: C.navy, color: "rgba(255,255,255,0.75)", fontSize: 12, padding: "7px 24px", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
         <div style={{ display: "flex", gap: 24 }}>
           <span>📞 +91 98765 43210</span>
-          <span>✉ info@siacc.in</span>
+          <span>✉ info@siacc.co.in</span>
         </div>
         <div style={{ display: "flex", gap: 24, alignItems: "center" }}>
           <span>Mon–Sat: 9:00 AM – 6:00 PM</span>
-          <button
-            onClick={() => handleNavClick("/contact")}
-            style={{ color: C.mint, background: "none", border: "none", cursor: "pointer", fontWeight: 500, fontSize: 12, fontFamily: C.sans }}
-          >
+          <button onClick={() => go("/contact")} style={{ color: C.primary, background: "none", border: "none", cursor: "pointer", fontWeight: 600, fontSize: 12, fontFamily: C.sans }}>
             Free Consultation →
           </button>
         </div>
       </div>
 
-      {/* ── MAIN NAV ── */}
-      <nav style={{ backgroundColor: C.white, borderBottom: `1px solid ${C.mintLight}`, boxShadow: scrolled ? "0 4px 20px rgba(27,67,50,0.10)" : "none", transition: "box-shadow 0.3s ease" }}>
+      {/* Main nav */}
+      <nav style={{ backgroundColor: C.white, borderBottom: `1px solid ${C.border}`, boxShadow: scrolled ? "0 4px 20px rgba(0,0,0,0.08)" : "none", transition: "box-shadow 0.3s ease" }}>
         <div style={{ maxWidth: 1280, margin: "0 auto", padding: "0 24px", display: "flex", alignItems: "center", justifyContent: "space-between", height: 68 }}>
 
           {/* Logo */}
-          <button
-            onClick={() => handleNavClick("/")}
-            style={{ display: "flex", alignItems: "center", gap: 10, background: "none", border: "none", cursor: "pointer", flexShrink: 0 }}
-          >
-            <div style={{ width: 38, height: 38, borderRadius: 10, backgroundColor: C.forest, display: "flex", alignItems: "center", justifyContent: "center" }}>
-              <span style={{ color: C.mint, fontFamily: C.serif, fontWeight: 700, fontSize: 20 }}>S</span>
+          <button onClick={() => go("/")} style={{ display: "flex", alignItems: "center", gap: 10, background: "none", border: "none", cursor: "pointer", flexShrink: 0 }}>
+            <div style={{ width: 40, height: 40, borderRadius: 10, backgroundColor: C.primary, display: "flex", alignItems: "center", justifyContent: "center" }}>
+              <span style={{ color: "#fff", fontFamily: C.serif, fontWeight: 800, fontSize: 20 }}>S</span>
             </div>
             <div style={{ textAlign: "left" }}>
-              <div style={{ fontFamily: C.serif, fontWeight: 700, color: C.forest, fontSize: 20, lineHeight: 1.1 }}>Siacc</div>
-              <div style={{ fontSize: 9, color: C.forestLight, letterSpacing: "0.18em", textTransform: "uppercase", lineHeight: 1.2 }}>India</div>
+              <div style={{ fontFamily: C.serif, fontWeight: 800, color: C.navy, fontSize: 20, lineHeight: 1.1 }}>SIACC</div>
+              <div style={{ fontSize: 9, color: C.mutedText, letterSpacing: "0.18em", textTransform: "uppercase", lineHeight: 1.2 }}>Star India Accreditation</div>
             </div>
           </button>
 
-          {/* Desktop Nav Links */}
-          <div className="desktop-nav-links" style={{ display: "flex", alignItems: "center", gap: 2 }}>
-            {navItems.map((item) =>
-              item.hasDropdown ? (
-                <div key={item.name} style={{ position: "relative" }} ref={dropdownRef}>
+          {/* Desktop nav */}
+          <div className="desktop-nav" style={{ display: "flex", alignItems: "center", gap: 2 }}>
+            {navLinks.map((link) =>
+              link.hasDropdown ? (
+                <div key={link.name} ref={dropdownRef} style={{ position: "relative" }}>
                   <button
-                    onClick={(e) => toggleDropdown(item.name, e)}
-                    style={{ display: "flex", alignItems: "center", gap: 4, padding: "8px 14px", fontSize: 14, fontWeight: 500, color: C.charcoal, background: "none", border: "none", cursor: "pointer", borderRadius: 8, fontFamily: C.sans }}
-                    onMouseEnter={(e) => { e.currentTarget.style.color = C.forest; e.currentTarget.style.backgroundColor = C.mintLight; }}
-                    onMouseLeave={(e) => { e.currentTarget.style.color = C.charcoal; e.currentTarget.style.backgroundColor = "transparent"; }}
+                    onClick={(e) => { e.preventDefault(); setDropdown(dropdown === link.name ? null : link.name); }}
+                    style={{ display: "flex", alignItems: "center", gap: 4, padding: "8px 14px", fontSize: 14, fontWeight: 500, color: C.bodyText, background: "none", border: "none", cursor: "pointer", borderRadius: 8, fontFamily: C.sans }}
+                    onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = C.primaryLight; e.currentTarget.style.color = C.primary; }}
+                    onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = "transparent"; e.currentTarget.style.color = C.bodyText; }}
                   >
-                    {item.name}
-                    <ChevronDown
-                      size={14}
-                      style={{ color: C.forestLight, transform: activeDropdown === item.name ? "rotate(180deg)" : "rotate(0deg)", transition: "transform 0.2s" }}
-                    />
+                    {link.name}
+                    <ChevronDown size={14} style={{ color: C.primary, transform: dropdown === link.name ? "rotate(180deg)" : "rotate(0)", transition: "transform 0.2s" }} />
                   </button>
-
-                  {/* Dropdown */}
-                  {activeDropdown === item.name && (
-                    <div style={{ position: "absolute", top: "100%", left: "50%", transform: "translateX(-50%)", marginTop: 8, width: 240, backgroundColor: C.white, borderRadius: 14, boxShadow: "0 16px 48px rgba(27,67,50,0.16)", border: `1px solid ${C.mintLight}`, borderTop: `3px solid ${C.forest}`, padding: "8px 0", zIndex: 200 }}>
-                      {serviceDropdownItems.map((d) => (
-                        <button
-                          key={d.name}
-                          onClick={() => handleNavClick(d.href)}
-                          style={{ display: "block", width: "100%", textAlign: "left", padding: "10px 20px", fontSize: 13, color: C.charcoal, background: "transparent", border: "none", cursor: "pointer", fontFamily: C.sans }}
-                          onMouseEnter={(e) => { e.currentTarget.style.color = C.forest; e.currentTarget.style.backgroundColor = C.mintLight; }}
-                          onMouseLeave={(e) => { e.currentTarget.style.color = C.charcoal; e.currentTarget.style.backgroundColor = "transparent"; }}
-                        >
-                          {d.name}
-                        </button>
+                  {dropdown === link.name && (
+                    <div style={{ position: "absolute", top: "100%", left: "50%", transform: "translateX(-50%)", marginTop: 8, width: 220, backgroundColor: C.white, borderRadius: 14, boxShadow: "0 16px 48px rgba(0,0,0,0.12)", border: `1px solid ${C.border}`, borderTop: `3px solid ${C.primary}`, padding: "8px 0", zIndex: 200 }}>
+                      {serviceDropdown.map((d) => (
+                        <button key={d.name} onClick={() => go(d.href)}
+                          style={{ display: "block", width: "100%", textAlign: "left", padding: "10px 20px", fontSize: 13, color: C.bodyText, background: "transparent", border: "none", cursor: "pointer", fontFamily: C.sans }}
+                          onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = C.primaryLight; e.currentTarget.style.color = C.primary; }}
+                          onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = "transparent"; e.currentTarget.style.color = C.bodyText; }}
+                        >{d.name}</button>
                       ))}
-                      <div style={{ borderTop: `1px solid ${C.mintLight}`, margin: "8px 0", padding: "8px 20px 4px" }}>
-                        <button
-                          onClick={() => handleNavClick("/services")}
-                          style={{ fontSize: 12, color: C.forestLight, fontWeight: 600, background: "none", border: "none", cursor: "pointer", fontFamily: C.sans }}
-                        >
+                      <div style={{ borderTop: `1px solid ${C.border}`, margin: "6px 0", padding: "8px 20px 4px" }}>
+                        <button onClick={() => go("/services")} style={{ fontSize: 12, color: C.primary, fontWeight: 700, background: "none", border: "none", cursor: "pointer", fontFamily: C.sans }}>
                           View All 50+ Services →
                         </button>
                       </div>
@@ -161,74 +135,53 @@ export default function Navbar() {
                   )}
                 </div>
               ) : (
-                <button
-                  key={item.name}
-                  onClick={() => handleNavClick(item.href)}
-                  style={{ padding: "8px 14px", fontSize: 14, fontWeight: 500, color: C.charcoal, background: "none", border: "none", cursor: "pointer", borderRadius: 8, fontFamily: C.sans }}
-                  onMouseEnter={(e) => { e.currentTarget.style.color = C.forest; e.currentTarget.style.backgroundColor = C.mintLight; }}
-                  onMouseLeave={(e) => { e.currentTarget.style.color = C.charcoal; e.currentTarget.style.backgroundColor = "transparent"; }}
-                >
-                  {item.name}
-                </button>
+                <button key={link.name} onClick={() => go(link.href)}
+                  style={{ padding: "8px 14px", fontSize: 14, fontWeight: 500, color: C.bodyText, background: "none", border: "none", cursor: "pointer", borderRadius: 8, fontFamily: C.sans }}
+                  onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = C.primaryLight; e.currentTarget.style.color = C.primary; }}
+                  onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = "transparent"; e.currentTarget.style.color = C.bodyText; }}
+                >{link.name}</button>
               )
             )}
           </div>
 
-          {/* CTA Buttons — desktop only */}
-          <div className="desktop-cta-buttons" style={{ display: "flex", gap: 10, alignItems: "center", flexShrink: 0 }}>
-            <button
-              onClick={() => handleNavClick("/contact")}
-              style={{ fontSize: 13, fontWeight: 600, color: C.forest, border: `1.5px solid ${C.forest}`, padding: "9px 18px", borderRadius: 10, background: "transparent", cursor: "pointer", fontFamily: C.sans }}
-              onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = C.mintLight)}
-              onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "transparent")}
-            >
-              Get Quote
-            </button>
-            <button
-              onClick={() => handleNavClick("/contact")}
-              style={{ fontSize: 13, fontWeight: 600, color: C.white, backgroundColor: C.forest, padding: "9px 20px", borderRadius: 10, border: "none", cursor: "pointer", fontFamily: C.sans }}
-              onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = C.forestMid)}
-              onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = C.forest)}
-            >
-              Free Consultation
-            </button>
+          {/* Desktop CTAs */}
+          <div className="desktop-cta" style={{ display: "flex", gap: 10, alignItems: "center", flexShrink: 0 }}>
+            <button onClick={() => go("/contact")}
+              style={{ fontSize: 13, fontWeight: 600, color: C.navy, border: `1.5px solid ${C.border}`, padding: "9px 18px", borderRadius: 10, background: C.white, cursor: "pointer", fontFamily: C.sans }}
+              onMouseEnter={(e) => { e.currentTarget.style.borderColor = C.primary; e.currentTarget.style.color = C.primary; }}
+              onMouseLeave={(e) => { e.currentTarget.style.borderColor = C.border; e.currentTarget.style.color = C.navy; }}
+            >Get Quote</button>
+            <button onClick={() => go("/contact")}
+              style={{ fontSize: 13, fontWeight: 700, color: "#fff", backgroundColor: C.primary, padding: "9px 20px", borderRadius: 10, border: "none", cursor: "pointer", fontFamily: C.sans, boxShadow: "0 4px 12px rgba(249,115,22,0.3)" }}
+              onMouseEnter={(e) => e.currentTarget.style.backgroundColor = C.primaryDark}
+              onMouseLeave={(e) => e.currentTarget.style.backgroundColor = C.primary}
+            >Free Consultation</button>
           </div>
 
-          {/* Mobile burger — hidden on desktop, visible on mobile only */}
-          <button
-            onClick={() => setMobileOpen(!mobileOpen)}
-            style={{ padding: 8, background: "none", border: `1px solid ${C.mintLight}`, borderRadius: 8, cursor: "pointer", display: "none", alignItems: "center", justifyContent: "center" }}
-            className="mobile-only-burger"
-          >
-            {mobileOpen
-              ? <X size={20} color={C.forest} />
-              : <Menu size={20} color={C.forest} />
-            }
+          {/* Mobile burger */}
+          <button onClick={() => setMobileOpen(!mobileOpen)} className="mobile-burger"
+            style={{ padding: 8, background: "none", border: `1px solid ${C.border}`, borderRadius: 8, cursor: "pointer", alignItems: "center", justifyContent: "center" }}>
+            {mobileOpen ? <X size={20} color={C.navy} /> : <Menu size={20} color={C.navy} />}
           </button>
         </div>
       </nav>
 
-      {/* ── MOBILE MENU ── */}
+      {/* Mobile menu */}
       {mobileOpen && (
-        <div style={{ backgroundColor: C.white, borderTop: `3px solid ${C.forest}`, padding: "16px 24px" }}>
-          {navItems.map((item) =>
-            item.hasDropdown ? (
-              <div key={item.name} style={{ marginBottom: 4 }}>
-                <button
-                  onClick={() => setMobileServicesOpen(!mobileServicesOpen)}
-                  style={{ width: "100%", display: "flex", justifyContent: "space-between", alignItems: "center", padding: "12px 16px", fontSize: 14, fontWeight: 500, color: C.charcoal, background: "transparent", border: `1px solid ${C.mintLight}`, borderRadius: 8, cursor: "pointer", fontFamily: C.sans, marginBottom: 4 }}
-                >
-                  {item.name}
-                  <ChevronDown size={14} style={{ color: C.forestLight, transform: mobileServicesOpen ? "rotate(180deg)" : "rotate(0deg)", transition: "transform 0.2s" }} />
+        <div style={{ backgroundColor: C.white, borderTop: `3px solid ${C.primary}`, padding: "16px 24px", boxShadow: "0 8px 24px rgba(0,0,0,0.08)" }}>
+          {navLinks.map((link) =>
+            link.hasDropdown ? (
+              <div key={link.name} style={{ marginBottom: 4 }}>
+                <button onClick={() => setMobileServices(!mobileServices)}
+                  style={{ width: "100%", display: "flex", justifyContent: "space-between", alignItems: "center", padding: "12px 16px", fontSize: 14, fontWeight: 500, color: C.navy, background: "transparent", border: `1px solid ${C.border}`, borderRadius: 8, cursor: "pointer", fontFamily: C.sans, marginBottom: 4 }}>
+                  {link.name}
+                  <ChevronDown size={14} style={{ color: C.primary, transform: mobileServices ? "rotate(180deg)" : "rotate(0)", transition: "transform 0.2s" }} />
                 </button>
-                {mobileServicesOpen && (
-                  <div style={{ paddingLeft: 12, marginBottom: 4 }}>
-                    {serviceDropdownItems.map((d) => (
-                      <button
-                        key={d.name}
-                        onClick={() => handleNavClick(d.href)}
-                        style={{ display: "block", width: "100%", textAlign: "left", padding: "10px 16px", fontSize: 13, color: C.forestMid, background: "transparent", border: "none", cursor: "pointer", fontFamily: C.sans }}
-                      >
+                {mobileServices && (
+                  <div style={{ paddingLeft: 12 }}>
+                    {serviceDropdown.map((d) => (
+                      <button key={d.name} onClick={() => go(d.href)}
+                        style={{ display: "block", width: "100%", textAlign: "left", padding: "10px 16px", fontSize: 13, color: C.primary, background: "transparent", border: "none", cursor: "pointer", fontFamily: C.sans }}>
                         → {d.name}
                       </button>
                     ))}
@@ -236,19 +189,14 @@ export default function Navbar() {
                 )}
               </div>
             ) : (
-              <button
-                key={item.name}
-                onClick={() => handleNavClick(item.href)}
-                style={{ display: "block", width: "100%", textAlign: "left", padding: "12px 16px", fontSize: 14, fontWeight: 500, color: C.charcoal, background: "transparent", border: `1px solid ${C.mintLight}`, borderRadius: 8, cursor: "pointer", fontFamily: C.sans, marginBottom: 4 }}
-              >
-                {item.name}
+              <button key={link.name} onClick={() => go(link.href)}
+                style={{ display: "block", width: "100%", textAlign: "left", padding: "12px 16px", fontSize: 14, fontWeight: 500, color: C.navy, background: "transparent", border: `1px solid ${C.border}`, borderRadius: 8, cursor: "pointer", fontFamily: C.sans, marginBottom: 4 }}>
+                {link.name}
               </button>
             )
           )}
-          <button
-            onClick={() => handleNavClick("/contact")}
-            style={{ display: "block", width: "100%", marginTop: 12, padding: "14px", fontSize: 14, fontWeight: 700, color: C.white, backgroundColor: C.forest, borderRadius: 10, border: "none", cursor: "pointer", fontFamily: C.sans }}
-          >
+          <button onClick={() => go("/contact")}
+            style={{ display: "block", width: "100%", marginTop: 12, padding: 13, fontSize: 14, fontWeight: 700, color: "#fff", backgroundColor: C.primary, borderRadius: 10, border: "none", cursor: "pointer", fontFamily: C.sans }}>
             Free Consultation
           </button>
         </div>

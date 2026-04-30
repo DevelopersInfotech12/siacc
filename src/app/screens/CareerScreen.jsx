@@ -1,11 +1,23 @@
+"use client";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
 import Navbar from "../Components/Navbar";
 import Footer from "../Components/Footer";
 
 const C = {
-  forest: "#1B4332", forestMid: "#2D6A4F", forestLight: "#40916C",
-  mint: "#95D5B2", mintLight: "#D8F3DC", gold: "#D4A017",
-  offWhite: "#F7FAF8", charcoal: "#1A1A2E", gray: "#6B7280", white: "#ffffff",
-  serif: "'Playfair Display', Georgia, serif", sans: "'DM Sans', system-ui, sans-serif",
+  primary: "#F97316",
+  primaryDark: "#EA6A0A",
+  primaryLight: "#FFF3E8",
+  blue: "#0891B2",
+  blueLight: "#ECFEFF",
+  navy: "#0C2340",
+  bodyText: "#374151",
+  mutedText: "#6B7280",
+  border: "#E5E7EB",
+  white: "#FFFFFF",
+  offWhite: "#F9FAFB",
+  serif: "'Playfair Display', Georgia, serif",
+  sans: "'DM Sans', system-ui, sans-serif",
 };
 
 const openings = [
@@ -18,92 +30,252 @@ const openings = [
 ];
 
 const perks = [
-  { icon: "🌿", title: "Meaningful Work", desc: "Help businesses navigate India's regulatory landscape. Your work directly enables market access." },
-  { icon: "📈", title: "Fast Growth", desc: "Performance-based promotions. Many of our senior leaders started as junior analysts." },
-  { icon: "🧠", title: "Deep Learning", desc: "Work across 50+ regulatory domains. Become an expert in India's compliance ecosystem." },
-  { icon: "🏡", title: "Flexible Work", desc: "Hybrid and remote options for eligible roles. Work-life balance is a priority." },
-  { icon: "💰", title: "Competitive Pay", desc: "Market-leading salaries, performance bonuses, and employee benefits." },
-  { icon: "🤝", title: "Great Team", desc: "100+ colleagues who are passionate, collaborative, and experts in their fields." },
+  { icon: "🌿", title: "Meaningful Work", desc: "Help businesses navigate India's regulatory landscape. Your work directly enables market access for hundreds of brands." },
+  { icon: "📈", title: "Fast Growth", desc: "Performance-based promotions with a clear career ladder. Many of our senior leaders started as junior analysts." },
+  { icon: "🧠", title: "Deep Learning", desc: "Work across 50+ regulatory domains. Become a sought-after expert in India's compliance ecosystem." },
+  { icon: "🏡", title: "Flexible Work", desc: "Hybrid and remote options for eligible roles. Work-life balance is built into our culture, not just a policy." },
+  { icon: "💰", title: "Competitive Pay", desc: "Market-leading salaries, performance bonuses, health insurance, and employee benefits from day one." },
+  { icon: "🤝", title: "Great Team", desc: "100+ colleagues who are passionate, collaborative, and recognised experts in their regulatory fields." },
 ];
 
-const typeColors = { "Full-time": { bg: C.mintLight, text: C.forest }, "Internship": { bg: "#FEF3C7", text: "#92400e" } };
+const typeColors = {
+  "Full-time": { bg: C.primaryLight, text: C.primaryDark },
+  "Internship": { bg: "#FEF3C7", text: "#92400e" },
+};
+
+const stats = [
+  { value: "100+", label: "Team Members", icon: "👥" },
+  { value: "4", label: "Office Locations", icon: "🏢" },
+  { value: "6", label: "Open Positions", icon: "📋" },
+  { value: "12+", label: "Years Building", icon: "🏆" },
+];
 
 export default function CareerScreen() {
+  const router = useRouter();
+
   return (
-    <div style={{ minHeight: "100vh", backgroundColor: C.offWhite, fontFamily: C.sans }}>
+    <div style={{ minHeight: "100vh", backgroundColor: C.white, fontFamily: C.sans, color: C.bodyText }}>
+      <style>{`
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        .section-label { font-size:11px; font-weight:700; letter-spacing:0.12em; text-transform:uppercase; color:${C.primary}; margin-bottom:12px; display:block; }
+
+        .perks-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 20px; }
+        @media (max-width: 900px) { .perks-grid { grid-template-columns: repeat(2,1fr); } }
+        @media (max-width: 540px) { .perks-grid { grid-template-columns: 1fr; } }
+
+        .stats-strip { display: grid; grid-template-columns: repeat(4,1fr); }
+        @media (max-width: 640px) { .stats-strip { grid-template-columns: repeat(2,1fr); } }
+
+        .perk-card { background:#fff; border-radius:16px; padding:28px; border:1.5px solid #F3F4F6; transition:all 0.2s; }
+        .perk-card:hover { border-color:${C.primary}; box-shadow:0 8px 24px rgba(249,115,22,0.10); transform:translateY(-2px); }
+
+        .job-card { background:#fff; border-radius:16px; padding:28px 32px; border:1.5px solid #F3F4F6; display:grid; grid-template-columns:1fr auto; gap:24px; align-items:center; transition:all 0.25s ease; }
+        .job-card:hover { border-color:${C.primary}; box-shadow:0 8px 28px rgba(249,115,22,0.12); }
+        @media (max-width: 640px) { .job-card { grid-template-columns:1fr; } }
+
+        .img-overlay { position:absolute; inset:0; background:linear-gradient(to right, rgba(12,35,64,0.88) 45%, rgba(12,35,64,0.35) 100%); }
+        @media (max-width:768px) { .img-overlay { background:rgba(12,35,64,0.86); } .sec-pad { padding:60px 16px !important; } }
+      `}</style>
+
       <Navbar />
 
-      {/* Hero */}
-      <section style={{ backgroundColor: C.forest, padding: "80px 24px", position: "relative", overflow: "hidden" }}>
-        <div style={{ position: "absolute", top: 0, right: 0, width: 400, height: 400, borderRadius: "50%", border: "1px solid rgba(149,213,178,0.15)", transform: "translate(30%,-30%)", pointerEvents: "none" }} />
-        <div style={{ maxWidth: 1280, margin: "0 auto", position: "relative", zIndex: 1, maxWidth: 700 }}>
-          <span style={{ fontSize: 11, fontWeight: 600, color: C.mint, letterSpacing: "0.12em", textTransform: "uppercase" }}>Join Our Team</span>
-          <h1 style={{ fontFamily: C.serif, fontSize: "clamp(2rem,4vw,3.2rem)", color: C.white, margin: "12px 0 20px", fontWeight: 700, lineHeight: 1.2 }}>Build Your Career in India's Fastest-Growing Compliance Industry</h1>
-          <p style={{ color: "#b7e4c7", fontSize: 16, lineHeight: 1.8, maxWidth: 560, marginBottom: 32 }}>Join a team of 100+ regulatory experts helping businesses navigate India's complex compliance landscape. We're hiring across all levels.</p>
-          <div style={{ display: "flex", gap: 16, flexWrap: "wrap" }}>
-            <div style={{ textAlign: "center", backgroundColor: C.forestMid, borderRadius: 12, padding: "16px 24px", border: `1px solid ${C.forestLight}` }}>
-              <div style={{ fontFamily: C.serif, fontSize: 28, color: C.mint, fontWeight: 700 }}>100+</div>
-              <div style={{ fontSize: 12, color: C.mintLight }}>Team Members</div>
+      {/* ── HERO — full bleed image (same treatment as HomeScreen) ── */}
+      <section style={{ position: "relative", minHeight: "88vh", display: "flex", alignItems: "center", overflow: "hidden" }}>
+        <img
+          src="https://images.unsplash.com/photo-1521737711867-e3b97375f902?w=1800&q=85&fit=crop"
+          alt="SIACC team at work"
+          style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", objectPosition: "center 40%" }}
+        />
+        <div className="img-overlay" />
+
+        {/* Floating badge top right */}
+        <div style={{ position: "absolute", top: 32, right: 40, zIndex: 3, background: "rgba(255,255,255,0.12)", backdropFilter: "blur(10px)", border: "1px solid rgba(255,255,255,0.2)", borderRadius: 14, padding: "12px 20px", display: "flex", gap: 16 }}>
+          {["100+ Team", "4 Offices", "6 Openings"].map((b) => (
+            <span key={b} style={{ fontSize: 11, fontWeight: 700, color: C.primary }}>{b}</span>
+          ))}
+        </div>
+
+        <div style={{ maxWidth: 1280, margin: "0 auto", padding: "80px 40px", width: "100%", position: "relative", zIndex: 2 }}>
+          <div style={{ maxWidth: 600 }}>
+            <div style={{ display: "inline-flex", alignItems: "center", gap: 8, background: "rgba(249,115,22,0.2)", border: "1px solid rgba(249,115,22,0.4)", borderRadius: 999, padding: "6px 16px", marginBottom: 24 }}>
+              <span style={{ width: 7, height: 7, borderRadius: "50%", backgroundColor: C.primary, display: "inline-block" }} />
+              <span style={{ color: C.primary, fontSize: 12, fontWeight: 600 }}>We're Hiring — Join Our Team</span>
             </div>
-            <div style={{ textAlign: "center", backgroundColor: C.forestMid, borderRadius: 12, padding: "16px 24px", border: `1px solid ${C.forestLight}` }}>
-              <div style={{ fontFamily: C.serif, fontSize: 28, color: C.mint, fontWeight: 700 }}>4</div>
-              <div style={{ fontSize: 12, color: C.mintLight }}>Office Locations</div>
+
+            <h1 style={{ fontFamily: C.serif, fontSize: "clamp(2.4rem,5vw,4.2rem)", color: "#fff", lineHeight: 1.12, marginBottom: 22, fontWeight: 800 }}>
+              Build Your Career in India's{" "}
+              <span style={{ color: C.primary }}>Fastest-Growing</span>{" "}
+              <em>Compliance</em> Industry
+            </h1>
+
+            <p style={{ fontSize: 18, lineHeight: 1.8, color: "rgba(255,255,255,0.8)", marginBottom: 40, maxWidth: 520 }}>
+              Join a team of 100+ regulatory experts helping businesses navigate India's complex compliance landscape. We're hiring across all levels and domains.
+            </p>
+
+            <div style={{ display: "flex", flexWrap: "wrap", gap: 14, marginBottom: 48 }}>
+              <button
+                onClick={() => { const el = document.getElementById("openings"); if (el) el.scrollIntoView({ behavior: "smooth" }); }}
+                style={{ padding: "16px 36px", backgroundColor: C.primary, color: "#fff", fontWeight: 700, borderRadius: 12, border: "none", fontSize: 15, cursor: "pointer", fontFamily: C.sans, boxShadow: "0 6px 20px rgba(249,115,22,0.45)" }}
+                onMouseEnter={(e) => e.currentTarget.style.backgroundColor = C.primaryDark}
+                onMouseLeave={(e) => e.currentTarget.style.backgroundColor = C.primary}
+              >View Open Positions</button>
+              <button
+                onClick={() => router.push("/contact")}
+                style={{ padding: "16px 32px", border: "2px solid rgba(255,255,255,0.4)", color: "#fff", borderRadius: 12, background: "rgba(255,255,255,0.08)", fontSize: 15, cursor: "pointer", fontWeight: 600, fontFamily: C.sans, backdropFilter: "blur(4px)" }}
+                onMouseEnter={(e) => { e.currentTarget.style.borderColor = C.primary; e.currentTarget.style.color = C.primary; }}
+                onMouseLeave={(e) => { e.currentTarget.style.borderColor = "rgba(255,255,255,0.4)"; e.currentTarget.style.color = "#fff"; }}
+              >Send Your Resume →</button>
             </div>
-            <div style={{ textAlign: "center", backgroundColor: C.forestMid, borderRadius: 12, padding: "16px 24px", border: `1px solid ${C.forestLight}` }}>
-              <div style={{ fontFamily: C.serif, fontSize: 28, color: C.mint, fontWeight: 700 }}>6</div>
-              <div style={{ fontSize: 12, color: C.mintLight }}>Open Positions</div>
+
+            <div style={{ display: "flex", flexWrap: "wrap", gap: 10 }}>
+              {["✓ Fast Growth", "✓ Hybrid Work", "✓ Competitive Pay", "✓ Expert Team"].map((b) => (
+                <span key={b} style={{ padding: "6px 14px", border: "1px solid rgba(255,255,255,0.25)", borderRadius: 999, fontSize: 12, color: "rgba(255,255,255,0.85)", background: "rgba(255,255,255,0.08)" }}>{b}</span>
+              ))}
             </div>
           </div>
         </div>
+
+        <div style={{ position: "absolute", bottom: 32, left: "50%", transform: "translateX(-50%)", zIndex: 3, display: "flex", flexDirection: "column", alignItems: "center", gap: 6 }}>
+          <div style={{ width: 1, height: 40, background: "linear-gradient(to bottom, rgba(255,255,255,0), rgba(249,115,22,0.8))" }} />
+          <span style={{ fontSize: 10, color: "rgba(255,255,255,0.5)", letterSpacing: "0.1em", textTransform: "uppercase" }}>Scroll</span>
+        </div>
       </section>
 
-      {/* Perks */}
-      <section style={{ backgroundColor: C.mintLight, padding: "80px 24px" }}>
+      {/* ── STATS STRIP ── */}
+      <section style={{ background: C.navy }}>
         <div style={{ maxWidth: 1280, margin: "0 auto" }}>
-          <div style={{ textAlign: "center", marginBottom: 52 }}>
-            <span style={{ fontSize: 11, fontWeight: 600, color: C.forestLight, letterSpacing: "0.12em", textTransform: "uppercase" }}>Life at Siacc</span>
-            <h2 style={{ fontFamily: C.serif, fontSize: "clamp(1.7rem,3vw,2.4rem)", color: C.forest, marginTop: 12, fontWeight: 700 }}>Why You'll Love Working Here</h2>
-          </div>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill,minmax(260px,1fr))", gap: 20 }}>
-            {perks.map((p) => (
-              <div key={p.title} style={{ backgroundColor: C.white, borderRadius: 16, padding: 28, border: "1px solid rgba(149,213,178,0.5)" }}>
-                <div style={{ fontSize: 32, marginBottom: 14 }}>{p.icon}</div>
-                <h3 style={{ fontFamily: C.serif, fontSize: 16, color: C.forest, marginBottom: 8, fontWeight: 600 }}>{p.title}</h3>
-                <p style={{ fontSize: 13, color: C.gray, lineHeight: 1.7, margin: 0 }}>{p.desc}</p>
+          <div className="stats-strip">
+            {stats.map((s, i) => (
+              <div key={s.label} style={{ textAlign: "center", padding: "28px 16px", borderRight: i < stats.length - 1 ? "1px solid rgba(255,255,255,0.08)" : "none" }}>
+                <div style={{ fontSize: 20, marginBottom: 6 }}>{s.icon}</div>
+                <div style={{ fontFamily: C.serif, fontSize: "clamp(1.6rem,2.5vw,2.2rem)", color: C.primary, fontWeight: 800 }}>{s.value}</div>
+                <div style={{ fontSize: 12, color: "rgba(255,255,255,0.6)", marginTop: 4 }}>{s.label}</div>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Openings */}
-      <section style={{ padding: "80px 24px" }}>
+      {/* ── LIFE AT SIACC — image + text (mirrors About strip from HomeScreen) ── */}
+      <section style={{ padding: "88px 24px", background: C.offWhite }} className="sec-pad">
+        <div style={{ maxWidth: 1280, margin: "0 auto" }}>
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 64, alignItems: "center" }}
+            className="about-grid"
+          >
+            <style>{`.about-grid { display:grid; grid-template-columns:1fr 1fr; gap:64px; align-items:center; } @media(max-width:860px){ .about-grid { grid-template-columns:1fr; } }`}</style>
+            {/* Image with floating card */}
+            <div style={{ position: "relative" }}>
+              <img
+                src="https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=700&q=80&fit=crop"
+                alt="Team collaborating"
+                style={{ width: "100%", borderRadius: 20, height: 400, objectFit: "cover", display: "block" }}
+              />
+              <div style={{ position: "absolute", bottom: -24, right: -24, background: "#fff", borderRadius: 16, padding: "20px 28px", boxShadow: "0 16px 48px rgba(0,0,0,0.12)", border: `2px solid ${C.primaryLight}` }}>
+                <div style={{ fontFamily: C.serif, fontSize: 36, color: C.primary, fontWeight: 800, lineHeight: 1 }}>100+</div>
+                <div style={{ fontSize: 13, color: C.mutedText, marginTop: 4 }}>Experts on the Team</div>
+              </div>
+              <div style={{ position: "absolute", top: 24, left: 24, background: C.primary, borderRadius: 12, padding: "10px 18px" }}>
+                <div style={{ fontSize: 11, fontWeight: 700, color: "#fff", letterSpacing: "0.06em" }}>Since 2011</div>
+              </div>
+            </div>
+
+            {/* Text */}
+            <div>
+              <span className="section-label">Life at SIACC</span>
+              <h2 style={{ fontFamily: C.serif, fontSize: "clamp(1.8rem,3vw,2.6rem)", color: C.navy, fontWeight: 800, marginBottom: 16, lineHeight: 1.2 }}>
+                A Place Where Experts Grow
+              </h2>
+              <p style={{ fontSize: 15, color: C.mutedText, lineHeight: 1.8, marginBottom: 16 }}>
+                At SIACC, every team member works on real, high-impact client mandates from day one. You're not a cog in a machine — you're a trusted advisor to manufacturers and importers navigating India's regulatory system.
+              </p>
+              <p style={{ fontSize: 15, color: C.mutedText, lineHeight: 1.8, marginBottom: 28 }}>
+                We invest in our people through training, mentorship, and clear career progression. Many of our division heads started here as freshers and analysts.
+              </p>
+              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, marginBottom: 32 }}>
+                {[{ n: "12+", l: "Years in Business" }, { n: "50+", l: "Regulatory Domains" }, { n: "4", l: "Office Locations" }, { n: "98%", l: "Client Success Rate" }].map((s) => (
+                  <div key={s.l} style={{ padding: "16px 20px", background: "#fff", borderRadius: 12, border: `1.5px solid ${C.border}` }}>
+                    <div style={{ fontFamily: C.serif, fontSize: 22, color: C.primary, fontWeight: 800 }}>{s.n}</div>
+                    <div style={{ fontSize: 12, color: C.mutedText, marginTop: 2 }}>{s.l}</div>
+                  </div>
+                ))}
+              </div>
+              <button
+                onClick={() => router.push("/about")}
+                style={{ padding: "13px 28px", backgroundColor: C.navy, color: "#fff", borderRadius: 12, border: "none", fontSize: 14, fontWeight: 700, cursor: "pointer", fontFamily: C.sans }}
+              >
+                Learn About SIACC →
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── PERKS ── */}
+      <section style={{ padding: "88px 24px", background: C.white }} className="sec-pad">
+        <div style={{ maxWidth: 1280, margin: "0 auto" }}>
+          {/* Feature image banner — same pattern as "Why Choose Us" in HomeScreen */}
+          <div style={{ position: "relative", borderRadius: 20, overflow: "hidden", marginBottom: 52, height: 220 }}>
+            <img
+              src="https://images.unsplash.com/photo-1556761175-5973dc0f32e7?w=1400&q=80&fit=crop"
+              alt="Office culture"
+              style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center 50%" }}
+            />
+            <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to right, rgba(12,35,64,0.85) 0%, rgba(12,35,64,0.4) 60%, transparent 100%)" }} />
+            <div style={{ position: "absolute", inset: 0, display: "flex", alignItems: "center", padding: "0 48px" }}>
+              <div>
+                <span className="section-label" style={{ color: C.primary }}>Why You'll Love Working Here</span>
+                <div style={{ fontFamily: C.serif, fontSize: "clamp(1.4rem,2.5vw,2rem)", color: "#fff", fontWeight: 800, marginBottom: 8 }}>
+                  Benefits Built Around You
+                </div>
+                <p style={{ color: "rgba(255,255,255,0.75)", fontSize: 14 }}>Flexible, rewarding, and meaningful work — from day one.</p>
+              </div>
+            </div>
+          </div>
+
+          <div className="perks-grid">
+            {perks.map((p) => (
+              <div key={p.title} className="perk-card">
+                <div style={{ width: 48, height: 48, borderRadius: 14, backgroundColor: C.primaryLight, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 22, marginBottom: 16 }}>{p.icon}</div>
+                <h3 style={{ fontFamily: C.serif, fontSize: 16, color: C.navy, marginBottom: 8, fontWeight: 700 }}>{p.title}</h3>
+                <p style={{ fontSize: 13, color: C.mutedText, lineHeight: 1.7, margin: 0 }}>{p.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── OPEN POSITIONS ── */}
+      <section id="openings" style={{ padding: "88px 24px", background: C.offWhite }} className="sec-pad">
         <div style={{ maxWidth: 1280, margin: "0 auto" }}>
           <div style={{ textAlign: "center", marginBottom: 52 }}>
-            <span style={{ fontSize: 11, fontWeight: 600, color: C.forestLight, letterSpacing: "0.12em", textTransform: "uppercase" }}>We're Hiring</span>
-            <h2 style={{ fontFamily: C.serif, fontSize: "clamp(1.7rem,3vw,2.4rem)", color: C.forest, marginTop: 12, fontWeight: 700 }}>Open Positions</h2>
+            <span className="section-label">We're Hiring</span>
+            <h2 style={{ fontFamily: C.serif, fontSize: "clamp(1.8rem,3vw,2.6rem)", color: C.navy, fontWeight: 800, marginBottom: 14 }}>Open Positions</h2>
+            <p style={{ color: C.mutedText, maxWidth: 460, margin: "0 auto", lineHeight: 1.7, fontSize: 15 }}>
+              Explore current openings across our divisions. All roles come with mentorship, growth paths, and a collaborative team culture.
+            </p>
           </div>
+
           <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
             {openings.map((job) => {
-              const tc = typeColors[job.type] || { bg: C.mintLight, text: C.forest };
+              const tc = typeColors[job.type] || { bg: C.primaryLight, text: C.primaryDark };
               return (
-                <div key={job.title} style={{ backgroundColor: C.white, borderRadius: 16, padding: "28px 32px", border: `1px solid ${C.mintLight}`, display: "grid", gridTemplateColumns: "1fr auto", gap: 24, alignItems: "center" }}
-                  onMouseEnter={(e) => { e.currentTarget.style.borderColor = C.mint; e.currentTarget.style.boxShadow = "0 4px 16px rgba(27,67,50,0.08)"; }}
-                  onMouseLeave={(e) => { e.currentTarget.style.borderColor = C.mintLight; e.currentTarget.style.boxShadow = "none"; }}
-                >
+                <div key={job.title} className="job-card">
                   <div>
                     <div style={{ display: "flex", gap: 10, flexWrap: "wrap", marginBottom: 12, alignItems: "center" }}>
                       <span style={{ fontSize: 10, fontWeight: 700, backgroundColor: tc.bg, color: tc.text, padding: "3px 10px", borderRadius: 999 }}>{job.type}</span>
-                      <span style={{ fontSize: 11, color: C.gray, backgroundColor: C.offWhite, padding: "3px 10px", borderRadius: 999 }}>{job.dept}</span>
-                      <span style={{ fontSize: 11, color: C.gray }}>📍 {job.location}</span>
-                      <span style={{ fontSize: 11, color: C.gray }}>💼 {job.exp}</span>
+                      <span style={{ fontSize: 11, color: C.mutedText, backgroundColor: C.white, padding: "3px 10px", borderRadius: 999, border: `1px solid ${C.border}` }}>{job.dept}</span>
+                      <span style={{ fontSize: 11, color: C.mutedText }}>📍 {job.location}</span>
+                      <span style={{ fontSize: 11, color: C.mutedText }}>💼 {job.exp}</span>
                     </div>
-                    <h3 style={{ fontFamily: C.serif, fontSize: 18, color: C.forest, marginBottom: 10, fontWeight: 600 }}>{job.title}</h3>
-                    <p style={{ fontSize: 13, color: C.gray, lineHeight: 1.65, margin: 0, maxWidth: 700 }}>{job.desc}</p>
+                    <h3 style={{ fontFamily: C.serif, fontSize: 18, color: C.navy, marginBottom: 10, fontWeight: 700 }}>{job.title}</h3>
+                    <p style={{ fontSize: 13, color: C.mutedText, lineHeight: 1.65, margin: 0, maxWidth: 700 }}>{job.desc}</p>
                   </div>
                   <button
-                    onClick={() => window.location.href = "/contact"}
-                    style={{ padding: "11px 24px", backgroundColor: C.forest, color: C.white, fontWeight: 600, borderRadius: 10, border: "none", fontSize: 13, cursor: "pointer", fontFamily: C.sans, whiteSpace: "nowrap", flexShrink: 0 }}
+                    onClick={() => router.push("/contact")}
+                    style={{ padding: "12px 26px", backgroundColor: C.primary, color: C.white, fontWeight: 700, borderRadius: 10, border: "none", fontSize: 13, cursor: "pointer", fontFamily: C.sans, whiteSpace: "nowrap", flexShrink: 0, boxShadow: "0 4px 14px rgba(249,115,22,0.3)" }}
+                    onMouseEnter={(e) => e.currentTarget.style.backgroundColor = C.primaryDark}
+                    onMouseLeave={(e) => e.currentTarget.style.backgroundColor = C.primary}
                   >Apply Now →</button>
                 </div>
               );
@@ -112,14 +284,35 @@ export default function CareerScreen() {
         </div>
       </section>
 
-      {/* Spontaneous application */}
-      <section style={{ backgroundColor: C.forest, padding: "64px 24px" }}>
-        <div style={{ maxWidth: 760, margin: "0 auto", textAlign: "center" }}>
-          <h2 style={{ fontFamily: C.serif, fontSize: "clamp(1.7rem,3vw,2.4rem)", color: C.white, marginBottom: 16, fontWeight: 700 }}>Don't See the Right Role?</h2>
-          <p style={{ color: C.mint, marginBottom: 32, lineHeight: 1.7, fontSize: 15 }}>We're always looking for talented people. Send us your resume and we'll reach out when there's a fit.</p>
-          <button onClick={() => window.location.href = "/contact"} style={{ padding: "14px 32px", backgroundColor: C.mint, color: C.forest, fontWeight: 700, borderRadius: 12, border: "none", fontSize: 14, cursor: "pointer", fontFamily: C.sans }}>
-            Send Spontaneous Application →
-          </button>
+      {/* ── SPONTANEOUS APPLICATION CTA — with image bg (same pattern as HomeScreen CTA) ── */}
+      <section style={{ position: "relative", padding: "88px 24px", overflow: "hidden" }}>
+        <img
+          src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=1600&q=80&fit=crop"
+          alt="Send your application"
+          style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", objectPosition: "center" }}
+        />
+        <div style={{ position: "absolute", inset: 0, background: "linear-gradient(135deg, rgba(249,115,22,0.92) 0%, rgba(234,88,12,0.88) 100%)" }} />
+        <div style={{ maxWidth: 800, margin: "0 auto", textAlign: "center", position: "relative", zIndex: 1 }}>
+          <h2 style={{ fontFamily: C.serif, fontSize: "clamp(1.8rem,3vw,2.8rem)", color: "#fff", marginBottom: 16, fontWeight: 800 }}>
+            Don't See the Right Role?
+          </h2>
+          <p style={{ color: "rgba(255,255,255,0.88)", marginBottom: 40, lineHeight: 1.7, fontSize: 16 }}>
+            We're always looking for talented people. Send us your resume and we'll reach out when there's a fit — across any of our divisions.
+          </p>
+          <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "center", gap: 16 }}>
+            <button
+              onClick={() => router.push("/contact")}
+              style={{ padding: "16px 40px", backgroundColor: "#fff", color: C.primary, fontWeight: 800, borderRadius: 12, border: "none", fontSize: 15, cursor: "pointer", fontFamily: C.sans, boxShadow: "0 6px 24px rgba(0,0,0,0.15)" }}
+            >
+              Send Spontaneous Application →
+            </button>
+            <a
+              href="mailto:careers@siacc.in"
+              style={{ padding: "16px 32px", border: "2px solid rgba(255,255,255,0.6)", color: "#fff", borderRadius: 12, textDecoration: "none", fontSize: 15, fontWeight: 600, display: "inline-flex", alignItems: "center", gap: 8 }}
+            >
+              ✉️ careers@siacc.in
+            </a>
+          </div>
         </div>
       </section>
 

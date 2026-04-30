@@ -1,19 +1,47 @@
 "use client";
+import { useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import Navbar from "../Components/Navbar";
 import Footer from "../Components/Footer";
 
+const C = {
+  primary: "#F97316",
+  primaryDark: "#EA6A0A",
+  primaryLight: "#FFF3E8",
+  blue: "#0891B2",
+  blueLight: "#ECFEFF",
+  navy: "#0C2340",
+  bodyText: "#374151",
+  mutedText: "#6B7280",
+  border: "#E5E7EB",
+  white: "#FFFFFF",
+  offWhite: "#F9FAFB",
+  serif: "'Playfair Display', Georgia, serif",
+  sans: "'DM Sans', system-ui, sans-serif",
+};
+
+// Free high-quality images from Unsplash (no auth needed)
+const IMGS = {
+  hero: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=1600&q=80&fit=crop",
+  teamWork: "https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=800&q=80&fit=crop",
+  certificate: "https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=800&q=80&fit=crop",
+  meeting: "https://images.unsplash.com/photo-1556761175-5973dc0f32e7?w=800&q=80&fit=crop",
+  factory: "https://images.unsplash.com/photo-1565043666747-69f6646db940?w=800&q=80&fit=crop",
+  document: "https://images.unsplash.com/photo-1568219557405-376e23e4f7cf?w=800&q=80&fit=crop",
+};
+
 const stats = [
-  { value: "12+", label: "Years of Experience" },
-  { value: "10,000+", label: "Happy Clients" },
-  { value: "50+", label: "Certifications Covered" },
-  { value: "98%", label: "Success Rate" },
-  { value: "500+", label: "Products Certified" },
+  { value: "12+", label: "Years Experience", icon: "🏆" },
+  { value: "10,000+", label: "Happy Clients", icon: "😊" },
+  { value: "50+", label: "Certifications", icon: "📜" },
+  { value: "98%", label: "Success Rate", icon: "✅" },
+  { value: "500+", label: "Products Certified", icon: "📦" },
 ];
 
 const services = [
-  { icon: "🏅", title: "BIS Certification", desc: "ISI Mark, CRS, Scheme-X for electronics & consumer products.", href: "/bis", tag: "Most Popular" },
-  { icon: "♻️", title: "EPR Registration", desc: "E-Waste, Plastic, Battery, Tyre & Used Oil EPR compliance.", href: "/epr", tag: "Mandatory" },
+  { icon: "🏅", title: "BIS Certification", desc: "ISI Mark, CRS, Scheme-X for electronics & consumer products.", href: "/bis", tag: "Most Popular", tagColor: "#FFF3E8", tagText: "#EA6A0A" },
+  { icon: "♻️", title: "EPR Registration", desc: "E-Waste, Plastic, Battery, Tyre & Used Oil EPR compliance.", href: "/epr", tag: "Mandatory", tagColor: "#FEF2F2", tagText: "#DC2626" },
   { icon: "📡", title: "WPC-ETA Approval", desc: "Wireless, Bluetooth & RF device import approvals.", href: "/wpc", tag: "" },
   { icon: "📶", title: "TEC / MTCTE", desc: "Telecom & IoT product approvals under DoT norms.", href: "/tec", tag: "" },
   { icon: "⚡", title: "BEE Registration", desc: "Energy star labelling & BEE compliance for appliances.", href: "/bee", tag: "" },
@@ -29,15 +57,13 @@ const whyUs = [
   { icon: "💰", title: "Transparent Pricing", desc: "No hidden charges. Fixed pricing with clear timelines from day one." },
   { icon: "📋", title: "End-to-End Service", desc: "From documentation to final certificate — we handle every step for you." },
   { icon: "🏆", title: "98% Success Rate", desc: "Our meticulous process and regulatory expertise delivers results every time." },
-  { icon: "🤝", title: "Dedicated Account Manager", desc: "A single point of contact assigned to you for the entire certification journey — no confusion, no delays." },
-  { icon: "🔄", title: "Post-Certification Support", desc: "We assist with renewals, amendments, and compliance updates even after your certificate is issued." },
 ];
 
 const steps = [
-  { step: "01", title: "Free Consultation", desc: "Tell us your product & requirements. We assess and advise on the right certification path." },
-  { step: "02", title: "Document Preparation", desc: "Our experts guide you through every document and lab test required for your application." },
-  { step: "03", title: "Application Filing", desc: "We file the complete application with the regulatory body on your behalf." },
-  { step: "04", title: "Certificate Delivery", desc: "We track and follow up until your certificate is issued and delivered to you." },
+  { step: "01", title: "Free Consultation", desc: "Tell us your product & requirements. We assess and advise on the right certification path.", icon: "💬" },
+  { step: "02", title: "Document Preparation", desc: "Our experts guide you through every document and lab test required for your application.", icon: "📄" },
+  { step: "03", title: "Application Filing", desc: "We file the complete application with the regulatory body on your behalf.", icon: "📤" },
+  { step: "04", title: "Certificate Delivery", desc: "We track and follow up until your certificate is issued and delivered to you.", icon: "🎓" },
 ];
 
 const industries = [
@@ -50,249 +76,250 @@ const testimonials = [
   { name: "Rajesh Mehta", company: "TechImport Pvt. Ltd.", text: "Siacc got our BIS CRS certification done in record time. Professional, transparent, and extremely knowledgeable team.", rating: 5 },
   { name: "Priya Sharma", company: "EcoGoods India", text: "We needed EPR registration urgently. Their team was available 24/7, guided us step by step, and delivered within the promised timeline.", rating: 5 },
   { name: "Arjun Kapoor", company: "Wireless Solutions Ltd.", text: "WPC-ETA approval was always a headache — until Siacc. Highly recommend them for any wireless product compliance.", rating: 5 },
-  { name: "Sneha Verma", company: "MediCare Devices Pvt. Ltd.", text: "Getting our CDSCO license felt impossible before we found Siacc. Their expertise and follow-up made the entire process stress-free and swift.", rating: 5 },
+  { name: "Sneha Verma", company: "MediCare Devices Pvt. Ltd.", text: "Getting our CDSCO license felt impossible before we found Siacc. Their expertise made the entire process stress-free and swift.", rating: 5 },
 ];
 
-const C = {
-  forest: "#1B4332",
-  forestMid: "#2D6A4F",
-  forestLight: "#40916C",
-  mint: "#95D5B2",
-  mintLight: "#D8F3DC",
-  gold: "#D4A017",
-  offWhite: "#F7FAF8",
-  charcoal: "#1A1A2E",
-  gray: "#6B7280",
-  white: "#ffffff",
-  serif: "'Playfair Display', Georgia, serif",
-  sans: "'DM Sans', system-ui, sans-serif",
-};
-
 export default function HomeScreen() {
+  const router = useRouter();
+
   return (
-    <div style={{ minHeight: "100vh", backgroundColor: C.offWhite, fontFamily: C.sans }}>
-
+    <div style={{ minHeight: "100vh", backgroundColor: C.white, fontFamily: C.sans, color: C.bodyText }}>
       <style>{`
-        .hero-grid {
-          display: grid;
-          grid-template-columns: 1fr 420px;
-          gap: 64px;
-          align-items: center;
-        }
-        @media (max-width: 900px) {
-          .hero-grid { grid-template-columns: 1fr; gap: 40px; }
-        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
 
-        .stats-grid {
-          display: grid;
-          grid-template-columns: repeat(5, 1fr);
-          gap: 16px;
-        }
-        @media (max-width: 768px) {
-          .stats-grid { grid-template-columns: repeat(3, 1fr); }
-        }
-        @media (max-width: 480px) {
-          .stats-grid { grid-template-columns: repeat(2, 1fr); }
-        }
+        .services-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px,1fr)); gap: 20px; }
+        @media (max-width: 600px) { .services-grid { grid-template-columns: 1fr; } }
 
-        .services-grid {
-          display: grid;
-          grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-          gap: 20px;
-        }
-        @media (max-width: 600px) {
-          .services-grid { grid-template-columns: 1fr; }
-        }
+        .why-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 20px; }
+        @media (max-width: 900px) { .why-grid { grid-template-columns: repeat(2,1fr); } }
+        @media (max-width: 540px) { .why-grid { grid-template-columns: 1fr; } }
 
-        .whyus-grid {
-          display: grid;
-          grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-          gap: 20px;
-        }
-        @media (max-width: 600px) {
-          .whyus-grid { grid-template-columns: 1fr; }
-        }
+        .steps-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 24px; }
+        @media (max-width: 900px) { .steps-grid { grid-template-columns: repeat(2,1fr); } }
+        @media (max-width: 480px) { .steps-grid { grid-template-columns: 1fr; } }
 
-        .steps-grid {
-          display: grid;
-          grid-template-columns: repeat(4, 1fr);
-          gap: 28px;
-        }
-        @media (max-width: 900px) {
-          .steps-grid { grid-template-columns: repeat(2, 1fr); gap: 36px; }
-        }
-        @media (max-width: 480px) {
-          .steps-grid { grid-template-columns: 1fr; }
-        }
+        .testi-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px,1fr)); gap: 24px; }
 
-        .testimonials-grid {
-          display: grid;
-          grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-          gap: 24px;
-        }
-        @media (max-width: 600px) {
-          .testimonials-grid { grid-template-columns: 1fr; }
-        }
+        .stats-strip { display: grid; grid-template-columns: repeat(5,1fr); }
+        @media (max-width: 768px) { .stats-strip { grid-template-columns: repeat(3,1fr); } }
+        @media (max-width: 480px) { .stats-strip { grid-template-columns: repeat(2,1fr); } }
 
-        .hero-buttons {
-          display: flex;
-          flex-wrap: wrap;
-          gap: 12px;
-          margin-bottom: 36px;
-        }
+        .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: center; }
+        @media (max-width: 860px) { .about-grid { grid-template-columns: 1fr; } }
 
-        .cta-buttons {
-          display: flex;
-          flex-wrap: wrap;
-          justify-content: center;
-          gap: 16px;
-        }
+        .svc-card { background:#fff; border-radius:16px; padding:24px; border:1.5px solid #F3F4F6; text-decoration:none; display:block; transition:all 0.25s ease; }
+        .svc-card:hover { border-color:${C.primary}; transform:translateY(-4px); box-shadow:0 16px 40px rgba(249,115,22,0.12); }
 
-        .service-card {
-          background-color: #ffffff;
-          border-radius: 16px;
-          padding: 24px;
-          border: 1px solid #D8F3DC;
-          text-decoration: none;
-          display: block;
-          transition: border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
-        }
-        .service-card:hover {
-          border-color: #95D5B2;
-          transform: translateY(-4px);
-          box-shadow: 0 12px 32px rgba(27,67,50,0.12);
-        }
+        .why-card { background:#fff; border-radius:16px; padding:24px; border:1.5px solid #F3F4F6; transition:all 0.2s; }
+        .why-card:hover { border-color:${C.blue}; box-shadow:0 8px 24px rgba(8,145,178,0.10); }
 
-        @media (max-width: 768px) {
-          .section-padding { padding: 56px 16px !important; }
-          .hero-section { padding: 56px 16px 64px !important; }
-        }
+        .testi-card { background:#fff; border-radius:16px; padding:28px; border:1.5px solid #F3F4F6; transition:all 0.2s; }
+        .testi-card:hover { border-color:${C.primary}; box-shadow:0 8px 24px rgba(249,115,22,0.10); }
+
+        .industry-tag { padding:10px 18px; border:1.5px solid rgba(255,255,255,0.2); border-radius:10px; font-size:13px; color:rgba(255,255,255,0.8); background:rgba(255,255,255,0.08); transition:all 0.2s; cursor:default; }
+        .industry-tag:hover { border-color:${C.primary}; color:${C.primary}; background:rgba(249,115,22,0.1); }
+
+        .section-label { font-size:11px; font-weight:700; letter-spacing:0.12em; text-transform:uppercase; color:${C.primary}; margin-bottom:12px; display:block; }
+
+        .img-overlay { position:absolute; inset:0; background:linear-gradient(to right, rgba(12,35,64,0.82) 45%, rgba(12,35,64,0.3) 100%); }
+        @media (max-width:768px) { .img-overlay { background:rgba(12,35,64,0.82); } }
+
+        .hero-content { position:relative; z-index:2; max-width:600px; }
+        @media (max-width:768px) { .sec-pad { padding:60px 16px !important; } }
       `}</style>
 
       <Navbar />
 
-      {/* ── HERO ── */}
-      <section style={{ backgroundColor: C.forest, position: "relative", overflow: "hidden" }}>
-        <div style={{ position: "absolute", top: 40, right: 40, width: 300, height: 300, borderRadius: "50%", border: "1px solid rgba(149,213,178,0.18)", pointerEvents: "none" }} />
-        <div style={{ position: "absolute", top: 110, right: 110, width: 180, height: 180, borderRadius: "50%", border: "1px solid rgba(149,213,178,0.12)", pointerEvents: "none" }} />
-        <div style={{ position: "absolute", bottom: -40, left: 60, width: 240, height: 240, borderRadius: "50%", border: "1px solid rgba(149,213,178,0.12)", pointerEvents: "none" }} />
+      {/* ── HERO — full bleed image ── */}
+      <section style={{ position: "relative", minHeight: "92vh", display: "flex", alignItems: "center", overflow: "hidden" }}>
+        {/* Background image */}
+        <img
+          src="https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=1800&q=85&fit=crop"
+          alt="Professional compliance team"
+          style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", objectPosition: "center" }}
+        />
+        {/* Overlay */}
+        <div className="img-overlay" />
 
-        <div style={{ maxWidth: 1280, margin: "0 auto", padding: "80px 24px 96px", position: "relative", zIndex: 1 }}>
-          <div className="hero-grid">
+        {/* Floating badge top right */}
+        <div style={{ position: "absolute", top: 32, right: 40, zIndex: 3, background: "rgba(255,255,255,0.12)", backdropFilter: "blur(10px)", border: "1px solid rgba(255,255,255,0.2)", borderRadius: 14, padding: "12px 20px", display: "flex", gap: 16 }}>
+          {["BIS", "EPR", "WPC", "ISO"].map((b) => (
+            <span key={b} style={{ fontSize: 11, fontWeight: 700, color: C.primary }}>{b}</span>
+          ))}
+        </div>
 
-            {/* Left content */}
-            <div>
-              <div style={{ display: "inline-flex", alignItems: "center", gap: 8, backgroundColor: C.forestMid, border: `1px solid ${C.forestLight}`, borderRadius: 999, padding: "6px 16px", marginBottom: 24 }}>
-                <span style={{ width: 8, height: 8, borderRadius: "50%", backgroundColor: C.mint, display: "inline-block" }} />
-                <span style={{ color: C.mint, fontSize: 12, fontWeight: 500, letterSpacing: "0.05em" }}>India's #1 Compliance Consultancy</span>
-              </div>
-
-              <h1 style={{ fontFamily: C.serif, fontSize: "clamp(2rem, 4vw, 3.4rem)", color: C.white, lineHeight: 1.2, marginBottom: 20, fontWeight: 700 }}>
-                Certifications Made{" "}
-                <span style={{ color: C.mint }}>Simple</span>,{" "}
-                <em>Fast</em> &amp; Reliable
-              </h1>
-
-              <p style={{ color: "#b7e4c7", fontSize: 17, lineHeight: 1.75, marginBottom: 36, maxWidth: 520 }}>
-                From BIS and EPR to ISO and CDSCO — we handle every certification your product needs to enter the Indian market legally and confidently.
-              </p>
-
-              <div className="hero-buttons">
-                <Link href="/contact" style={{ padding: "13px 28px", backgroundColor: C.mint, color: C.forest, fontWeight: 700, borderRadius: 12, textDecoration: "none", fontSize: 14, fontFamily: C.sans }}>
-                  Get Free Consultation
-                </Link>
-                <Link href="/services" style={{ padding: "13px 28px", border: `1px solid ${C.forestLight}`, color: C.mint, borderRadius: 12, textDecoration: "none", fontSize: 14 }}>
-                  Explore Services →
-                </Link>
-              </div>
-
-              <div style={{ display: "flex", flexWrap: "wrap", gap: 10 }}>
-                {["BIS Authorized", "ISO Certified", "DPIIT Recognized"].map((b) => (
-                  <span key={b} style={{ padding: "5px 14px", border: `1px solid ${C.forestLight}`, color: C.mint, borderRadius: 999, fontSize: 12 }}>✓ {b}</span>
-                ))}
-              </div>
+        <div style={{ maxWidth: 1280, margin: "0 auto", padding: "80px 40px", width: "100%", position: "relative", zIndex: 2 }}>
+          <div className="hero-content">
+            <div style={{ display: "inline-flex", alignItems: "center", gap: 8, background: "rgba(249,115,22,0.2)", border: "1px solid rgba(249,115,22,0.4)", borderRadius: 999, padding: "6px 16px", marginBottom: 24 }}>
+              <span style={{ width: 7, height: 7, borderRadius: "50%", backgroundColor: C.primary, display: "inline-block" }} />
+              <span style={{ color: C.primary, fontSize: 12, fontWeight: 600 }}>India's #1 Compliance Consultancy</span>
             </div>
 
-            {/* Enquiry card */}
-            <div style={{ backgroundColor: C.forestMid, borderRadius: 20, padding: 28, border: `1px solid ${C.forestLight}` }}>
-              <div style={{ color: C.mint, fontSize: 12, fontWeight: 600, marginBottom: 18, letterSpacing: "0.08em", textTransform: "uppercase" }}>Quick Enquiry</div>
-              <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-                {[{ type: "text", ph: "Your Full Name" }, { type: "tel", ph: "Phone Number" }, { type: "email", ph: "Email Address" }].map((f) => (
-                  <input key={f.ph} type={f.type} placeholder={f.ph} style={{ width: "100%", padding: "12px 16px", backgroundColor: C.forest, border: `1px solid ${C.forestLight}`, borderRadius: 12, color: C.white, fontSize: 14, outline: "none", boxSizing: "border-box", fontFamily: C.sans }} />
-                ))}
-                <select style={{ width: "100%", padding: "12px 16px", backgroundColor: C.forest, border: `1px solid ${C.forestLight}`, borderRadius: 12, color: C.mint, fontSize: 14, outline: "none", fontFamily: C.sans }}>
-                  <option value="">Select Service Required</option>
-                  {services.map((s) => <option key={s.title}>{s.title}</option>)}
-                </select>
-                <textarea rows={3} placeholder="Brief requirement..." style={{ width: "100%", padding: "12px 16px", backgroundColor: C.forest, border: `1px solid ${C.forestLight}`, borderRadius: 12, color: C.white, fontSize: 14, outline: "none", resize: "none", boxSizing: "border-box", fontFamily: C.sans }} />
-                <button style={{ width: "100%", padding: 14, backgroundColor: C.mint, color: C.forest, fontWeight: 700, borderRadius: 12, border: "none", fontSize: 14, cursor: "pointer", fontFamily: C.sans }}>
-                  Submit Enquiry →
-                </button>
-              </div>
+            <h1 style={{ fontFamily: C.serif, fontSize: "clamp(2.4rem,5vw,4.2rem)", color: "#fff", lineHeight: 1.12, marginBottom: 22, fontWeight: 800 }}>
+              Certifications Made{" "}
+              <span style={{ color: C.primary }}>Simple</span>,{" "}
+              <em>Fast</em> &amp;{" "}
+              <span style={{ color: "#fff" }}>Reliable</span>
+            </h1>
+
+            <p style={{ fontSize: 18, lineHeight: 1.8, color: "rgba(255,255,255,0.8)", marginBottom: 40, maxWidth: 520 }}>
+              From BIS and EPR to ISO and CDSCO — we handle every certification your product needs to enter the Indian market legally and confidently.
+            </p>
+
+            <div style={{ display: "flex", flexWrap: "wrap", gap: 14, marginBottom: 48 }}>
+              <button onClick={() => router.push("/contact")}
+                style={{ padding: "16px 36px", backgroundColor: C.primary, color: "#fff", fontWeight: 700, borderRadius: 12, border: "none", fontSize: 15, cursor: "pointer", fontFamily: C.sans, boxShadow: "0 6px 20px rgba(249,115,22,0.45)" }}
+                onMouseEnter={(e) => e.currentTarget.style.backgroundColor = C.primaryDark}
+                onMouseLeave={(e) => e.currentTarget.style.backgroundColor = C.primary}
+              >Get Free Consultation</button>
+              <button onClick={() => router.push("/services")}
+                style={{ padding: "16px 32px", border: "2px solid rgba(255,255,255,0.4)", color: "#fff", borderRadius: 12, background: "rgba(255,255,255,0.08)", fontSize: 15, cursor: "pointer", fontWeight: 600, fontFamily: C.sans, backdropFilter: "blur(4px)" }}
+                onMouseEnter={(e) => { e.currentTarget.style.borderColor = C.primary; e.currentTarget.style.color = C.primary; }}
+                onMouseLeave={(e) => { e.currentTarget.style.borderColor = "rgba(255,255,255,0.4)"; e.currentTarget.style.color = "#fff"; }}
+              >Explore Services →</button>
             </div>
 
+            {/* Trust badges */}
+            <div style={{ display: "flex", flexWrap: "wrap", gap: 10 }}>
+              {["✓ BIS Authorized", "✓ ISO Certified", "✓ DPIIT Recognized", "✓ 10,000+ Clients"].map((b) => (
+                <span key={b} style={{ padding: "6px 14px", border: "1px solid rgba(255,255,255,0.25)", borderRadius: 999, fontSize: 12, color: "rgba(255,255,255,0.85)", background: "rgba(255,255,255,0.08)" }}>{b}</span>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* Bottom scroll indicator */}
+        <div style={{ position: "absolute", bottom: 32, left: "50%", transform: "translateX(-50%)", zIndex: 3, display: "flex", flexDirection: "column", alignItems: "center", gap: 6 }}>
+          <div style={{ width: 1, height: 40, background: "linear-gradient(to bottom, rgba(255,255,255,0), rgba(249,115,22,0.8))" }} />
+          <span style={{ fontSize: 10, color: "rgba(255,255,255,0.5)", letterSpacing: "0.1em", textTransform: "uppercase" }}>Scroll</span>
+        </div>
+      </section>
+
+      {/* ── STATS STRIP ── */}
+      <section style={{ background: C.navy }}>
+        <div style={{ maxWidth: 1280, margin: "0 auto" }}>
+          <div className="stats-strip">
+            {stats.map((s, i) => (
+              <div key={s.label} style={{ textAlign: "center", padding: "28px 16px", borderRight: i < stats.length - 1 ? "1px solid rgba(255,255,255,0.08)" : "none" }}>
+                <div style={{ fontSize: 20, marginBottom: 6 }}>{s.icon}</div>
+                <div style={{ fontFamily: C.serif, fontSize: "clamp(1.6rem,2.5vw,2.2rem)", color: C.primary, fontWeight: 800 }}>{s.value}</div>
+                <div style={{ fontSize: 12, color: "rgba(255,255,255,0.6)", marginTop: 4 }}>{s.label}</div>
+              </div>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* ── STATS BAR ── */}
-      <section style={{ backgroundColor: C.forestMid }}>
-        <div style={{ maxWidth: 1280, margin: "0 auto", padding: "32px 24px" }}>
-          <div className="stats-grid">
-            {stats.map((s) => (
-              <div key={s.label} style={{ textAlign: "center" }}>
-                <div style={{ fontFamily: C.serif, fontSize: "clamp(1.8rem,3vw,2.6rem)", color: C.mint, fontWeight: 700 }}>{s.value}</div>
-                <div style={{ fontSize: 13, color: C.mintLight, marginTop: 4 }}>{s.label}</div>
+      {/* ── ABOUT STRIP — image + text ── */}
+      <section style={{ padding: "88px 24px", background: C.offWhite }} className="sec-pad">
+        <div style={{ maxWidth: 1280, margin: "0 auto" }}>
+          <div className="about-grid">
+            {/* Image collage */}
+            <div style={{ position: "relative" }}>
+              <img src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=700&q=80&fit=crop"
+                alt="Compliance experts at work"
+                style={{ width: "100%", borderRadius: 20, height: 400, objectFit: "cover", display: "block" }} />
+              {/* Floating stat card */}
+              <div style={{ position: "absolute", bottom: -24, right: -24, background: "#fff", borderRadius: 16, padding: "20px 28px", boxShadow: "0 16px 48px rgba(0,0,0,0.12)", border: `2px solid ${C.primaryLight}` }}>
+                <div style={{ fontFamily: C.serif, fontSize: 36, color: C.primary, fontWeight: 800, lineHeight: 1 }}>98%</div>
+                <div style={{ fontSize: 13, color: C.mutedText, marginTop: 4 }}>Application Success Rate</div>
               </div>
-            ))}
+              {/* Floating badge */}
+              <div style={{ position: "absolute", top: 24, left: 24, background: C.primary, borderRadius: 12, padding: "10px 18px" }}>
+                <div style={{ fontSize: 11, fontWeight: 700, color: "#fff", letterSpacing: "0.06em" }}>Since 2011</div>
+              </div>
+            </div>
+            {/* Text */}
+            <div>
+              <span className="section-label">About SIACC</span>
+              <h2 style={{ fontFamily: C.serif, fontSize: "clamp(1.8rem,3vw,2.6rem)", color: C.navy, fontWeight: 800, marginBottom: 16, lineHeight: 1.2 }}>
+                India's Most Trusted Compliance Partner
+              </h2>
+              <p style={{ fontSize: 15, color: C.mutedText, lineHeight: 1.8, marginBottom: 16 }}>
+                Founded in 2011, Star India Accreditation (SIACC) has grown into India's most trusted certification consultancy. We've helped over 10,000 businesses — from startups to Fortune 500 companies — navigate India's complex regulatory landscape.
+              </p>
+              <p style={{ fontSize: 15, color: C.mutedText, lineHeight: 1.8, marginBottom: 28 }}>
+                Our team of 100+ regulatory experts covers every certification your product needs — BIS, EPR, WPC, TEC, BEE, LMPC, ISO, CDSCO, and more.
+              </p>
+              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, marginBottom: 32 }}>
+                {[{ n: "12+", l: "Years of Experience" }, { n: "100+", l: "Expert Team Members" }, { n: "25+", l: "Countries Served" }, { n: "50+", l: "Certifications Covered" }].map((s) => (
+                  <div key={s.l} style={{ padding: "16px 20px", background: "#fff", borderRadius: 12, border: `1.5px solid ${C.border}` }}>
+                    <div style={{ fontFamily: C.serif, fontSize: 22, color: C.primary, fontWeight: 800 }}>{s.n}</div>
+                    <div style={{ fontSize: 12, color: C.mutedText, marginTop: 2 }}>{s.l}</div>
+                  </div>
+                ))}
+              </div>
+              <button onClick={() => router.push("/about")}
+                style={{ padding: "13px 28px", backgroundColor: C.navy, color: "#fff", borderRadius: 12, border: "none", fontSize: 14, fontWeight: 700, cursor: "pointer", fontFamily: C.sans }}>
+                Know More About Us →
+              </button>
+            </div>
           </div>
         </div>
       </section>
 
       {/* ── SERVICES ── */}
-      <section style={{ padding: "80px 24px" }}>
+      <section style={{ padding: "88px 24px", background: C.white }} className="sec-pad">
         <div style={{ maxWidth: 1280, margin: "0 auto" }}>
-          <div style={{ textAlign: "center", marginBottom: 52 }}>
-            <span style={{ fontSize: 11, fontWeight: 600, color: C.forestLight, letterSpacing: "0.12em", textTransform: "uppercase" }}>What We Offer</span>
-            <h2 style={{ fontFamily: C.serif, fontSize: "clamp(1.7rem,3vw,2.4rem)", color: C.forest, marginTop: 12, marginBottom: 14, fontWeight: 700 }}>Our Certification Services</h2>
-            <p style={{ color: C.gray, maxWidth: 540, margin: "0 auto", lineHeight: 1.7, fontSize: 15 }}>Comprehensive compliance solutions for manufacturers, importers, and brand owners across all regulatory frameworks in India.</p>
+          <div style={{ textAlign: "center", marginBottom: 56 }}>
+            <span className="section-label">What We Offer</span>
+            <h2 style={{ fontFamily: C.serif, fontSize: "clamp(1.8rem,3vw,2.6rem)", color: C.navy, fontWeight: 800, marginBottom: 14 }}>Our Certification Services</h2>
+            <p style={{ color: C.mutedText, maxWidth: 520, margin: "0 auto", lineHeight: 1.7, fontSize: 15 }}>
+              Comprehensive compliance solutions for manufacturers, importers, and brand owners across all regulatory frameworks in India.
+            </p>
           </div>
-
           <div className="services-grid">
             {services.map((s) => (
-              <Link key={s.title} href={s.href} className="service-card">
+              <Link key={s.title} href={s.href} className="svc-card">
                 <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", marginBottom: 16 }}>
-                  <div style={{ width: 48, height: 48, backgroundColor: C.mintLight, borderRadius: 12, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 22 }}>{s.icon}</div>
-                  {s.tag && <span style={{ fontSize: 10, fontWeight: 600, backgroundColor: C.mintLight, color: C.forest, padding: "3px 10px", borderRadius: 999 }}>{s.tag}</span>}
+                  <div style={{ width: 52, height: 52, backgroundColor: C.primaryLight, borderRadius: 14, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 24 }}>{s.icon}</div>
+                  {s.tag && <span style={{ fontSize: 10, fontWeight: 700, backgroundColor: s.tagColor, color: s.tagText, padding: "3px 10px", borderRadius: 999 }}>{s.tag}</span>}
                 </div>
-                <h3 style={{ fontFamily: C.serif, fontSize: 17, color: C.forest, marginBottom: 8, fontWeight: 600 }}>{s.title}</h3>
-                <p style={{ fontSize: 13, color: C.gray, lineHeight: 1.65, marginBottom: 16 }}>{s.desc}</p>
-                <span style={{ color: C.forestLight, fontSize: 12, fontWeight: 600 }}>Learn More →</span>
+                <h3 style={{ fontFamily: C.serif, fontSize: 17, color: C.navy, marginBottom: 8, fontWeight: 700 }}>{s.title}</h3>
+                <p style={{ fontSize: 13, color: C.mutedText, lineHeight: 1.65, marginBottom: 16 }}>{s.desc}</p>
+                <span style={{ color: C.primary, fontSize: 13, fontWeight: 700 }}>Learn More →</span>
               </Link>
             ))}
           </div>
-
-          <div style={{ textAlign: "center", marginTop: 40 }}>
-            <Link href="/services" style={{ display: "inline-block", padding: "14px 32px", backgroundColor: C.forest, color: C.white, borderRadius: 12, textDecoration: "none", fontSize: 14, fontWeight: 600 }}>
+          <div style={{ textAlign: "center", marginTop: 44 }}>
+            <button onClick={() => router.push("/services")}
+              style={{ padding: "14px 36px", backgroundColor: C.navy, color: "#fff", borderRadius: 12, border: "none", fontSize: 14, fontWeight: 700, cursor: "pointer", fontFamily: C.sans }}>
               View All 50+ Services →
-            </Link>
+            </button>
           </div>
         </div>
       </section>
 
-      {/* ── WHY CHOOSE US ── */}
-      <section style={{ backgroundColor: C.mintLight, padding: "80px 24px" }}>
+      {/* ── WHY CHOOSE US — with image ── */}
+      <section style={{ padding: "88px 24px", background: C.offWhite }} className="sec-pad">
         <div style={{ maxWidth: 1280, margin: "0 auto" }}>
           <div style={{ textAlign: "center", marginBottom: 52 }}>
-            <span style={{ fontSize: 11, fontWeight: 600, color: C.forestLight, letterSpacing: "0.12em", textTransform: "uppercase" }}>Why Siacc</span>
-            <h2 style={{ fontFamily: C.serif, fontSize: "clamp(1.7rem,3vw,2.4rem)", color: C.forest, marginTop: 12, fontWeight: 700 }}>What Makes Us Different</h2>
+            <span className="section-label">Why SIACC</span>
+            <h2 style={{ fontFamily: C.serif, fontSize: "clamp(1.8rem,3vw,2.6rem)", color: C.navy, fontWeight: 800, marginBottom: 14 }}>What Makes Us Different</h2>
           </div>
-          <div className="whyus-grid">
+
+          {/* Feature image banner */}
+          <div style={{ position: "relative", borderRadius: 20, overflow: "hidden", marginBottom: 40, height: 220 }}>
+            <img src="https://images.unsplash.com/photo-1521737711867-e3b97375f902?w=1400&q=80&fit=crop"
+              alt="Our team collaborating"
+              style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center 40%" }} />
+            <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to right, rgba(12,35,64,0.85) 0%, rgba(12,35,64,0.4) 60%, transparent 100%)" }} />
+            <div style={{ position: "absolute", inset: 0, display: "flex", alignItems: "center", padding: "0 48px" }}>
+              <div>
+                <div style={{ fontFamily: C.serif, fontSize: "clamp(1.4rem,2.5vw,2rem)", color: "#fff", fontWeight: 800, marginBottom: 8 }}>
+                  A Team of 100+ Regulatory Experts
+                </div>
+                <p style={{ color: "rgba(255,255,255,0.75)", fontSize: 14 }}>Dedicated specialists for every certification domain — always in your corner.</p>
+              </div>
+            </div>
+          </div>
+
+          <div className="why-grid">
             {whyUs.map((w) => (
-              <div key={w.title} style={{ backgroundColor: C.white, borderRadius: 16, padding: 28, border: "1px solid rgba(149,213,178,0.5)" }}>
-                <div style={{ fontSize: 32, marginBottom: 16 }}>{w.icon}</div>
-                <h3 style={{ fontFamily: C.serif, fontSize: 17, color: C.forest, marginBottom: 10, fontWeight: 600 }}>{w.title}</h3>
-                <p style={{ fontSize: 13, color: C.gray, lineHeight: 1.7 }}>{w.desc}</p>
+              <div key={w.title} className="why-card">
+                <div style={{ width: 44, height: 44, borderRadius: 12, backgroundColor: C.blueLight, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 20, marginBottom: 14 }}>{w.icon}</div>
+                <h3 style={{ fontFamily: C.serif, fontSize: 16, color: C.navy, marginBottom: 8, fontWeight: 700 }}>{w.title}</h3>
+                <p style={{ fontSize: 13, color: C.mutedText, lineHeight: 1.7 }}>{w.desc}</p>
               </div>
             ))}
           </div>
@@ -300,63 +327,67 @@ export default function HomeScreen() {
       </section>
 
       {/* ── HOW IT WORKS ── */}
-      <section style={{ padding: "80px 24px" }}>
+      <section style={{ padding: "88px 24px", background: C.white }} className="sec-pad">
         <div style={{ maxWidth: 1280, margin: "0 auto" }}>
-          <div style={{ textAlign: "center", marginBottom: 52 }}>
-            <span style={{ fontSize: 11, fontWeight: 600, color: C.forestLight, letterSpacing: "0.12em", textTransform: "uppercase" }}>Our Process</span>
-            <h2 style={{ fontFamily: C.serif, fontSize: "clamp(1.7rem,3vw,2.4rem)", color: C.forest, marginTop: 12, fontWeight: 700 }}>How It Works</h2>
-            <p style={{ color: C.gray, maxWidth: 420, margin: "12px auto 0", textAlign: "center", lineHeight: 1.7, fontSize: 15 }}>
-              A simple, transparent 4-step process from inquiry to certificate.
-            </p>
+          <div style={{ textAlign: "center", marginBottom: 56 }}>
+            <span className="section-label">Our Process</span>
+            <h2 style={{ fontFamily: C.serif, fontSize: "clamp(1.8rem,3vw,2.6rem)", color: C.navy, fontWeight: 800, marginBottom: 14 }}>How It Works</h2>
+            <p style={{ color: C.mutedText, maxWidth: 420, margin: "0 auto", lineHeight: 1.7, fontSize: 15 }}>A simple, transparent 4-step process from enquiry to certificate.</p>
           </div>
           <div className="steps-grid">
-            {steps.map((s) => (
-              <div key={s.step} style={{ textAlign: "center" }}>
-                <div style={{ width: 80, height: 80, margin: "0 auto 20px", borderRadius: 20, backgroundColor: C.forest, display: "flex", alignItems: "center", justifyContent: "center", boxShadow: "0 8px 24px rgba(27,67,50,0.22)" }}>
-                  <span style={{ fontFamily: C.serif, fontSize: 24, color: C.mint, fontWeight: 700 }}>{s.step}</span>
-                </div>
-                <h3 style={{ fontFamily: C.serif, fontSize: 17, color: C.forest, marginBottom: 10, fontWeight: 600 }}>{s.title}</h3>
-                <p style={{ fontSize: 13, color: C.gray, lineHeight: 1.7 }}>{s.desc}</p>
+            {steps.map((s, i) => (
+              <div key={s.step} style={{ background: C.white, borderRadius: 16, padding: 28, border: `1.5px solid ${C.border}`, textAlign: "center", position: "relative" }}>
+                {i < steps.length - 1 && (
+                  <div style={{ position: "absolute", top: 44, right: -12, width: 24, height: 2, background: C.primary, zIndex: 1 }} />
+                )}
+                <div style={{ width: 56, height: 56, margin: "0 auto 16px", borderRadius: 16, backgroundColor: C.primaryLight, border: `2px solid #FED7AA`, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 24 }}>{s.icon}</div>
+                <div style={{ fontSize: 11, fontWeight: 700, color: C.primary, letterSpacing: "0.1em", marginBottom: 8 }}>STEP {s.step}</div>
+                <h3 style={{ fontFamily: C.serif, fontSize: 17, color: C.navy, marginBottom: 10, fontWeight: 700 }}>{s.title}</h3>
+                <p style={{ fontSize: 13, color: C.mutedText, lineHeight: 1.7 }}>{s.desc}</p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* ── INDUSTRIES ── */}
-      <section style={{ backgroundColor: C.forest, padding: "64px 24px" }}>
-        <div style={{ maxWidth: 1280, margin: "0 auto" }}>
+      {/* ── INDUSTRIES — dark with image bg ── */}
+      <section style={{ position: "relative", padding: "80px 24px", overflow: "hidden" }} className="sec-pad">
+        <img src="https://images.unsplash.com/photo-1565043666747-69f6646db940?w=1600&q=80&fit=crop"
+          alt="Industries served"
+          style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }} />
+        <div style={{ position: "absolute", inset: 0, background: "rgba(12,35,64,0.88)" }} />
+        <div style={{ maxWidth: 1280, margin: "0 auto", position: "relative", zIndex: 1 }}>
           <div style={{ textAlign: "center", marginBottom: 40 }}>
-            <span style={{ fontSize: 11, fontWeight: 600, color: C.mint, letterSpacing: "0.12em", textTransform: "uppercase" }}>Industries We Serve</span>
-            <h2 style={{ fontFamily: C.serif, fontSize: "clamp(1.6rem,3vw,2.2rem)", color: C.white, marginTop: 12, fontWeight: 700 }}>Trusted Across Every Sector</h2>
+            <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase", color: C.primary, marginBottom: 12 }}>Industries We Serve</div>
+            <h2 style={{ fontFamily: C.serif, fontSize: "clamp(1.6rem,3vw,2.4rem)", color: "#fff", fontWeight: 800 }}>Trusted Across Every Sector</h2>
           </div>
           <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "center", gap: 12 }}>
             {industries.map((ind) => (
-              <span key={ind} style={{ padding: "10px 20px", border: `1px solid ${C.forestLight}`, color: C.mint, borderRadius: 12, fontSize: 13 }}>{ind}</span>
+              <span key={ind} className="industry-tag">{ind}</span>
             ))}
           </div>
         </div>
       </section>
 
       {/* ── TESTIMONIALS ── */}
-      <section style={{ padding: "80px 24px" }}>
+      <section style={{ padding: "88px 24px", background: C.offWhite }} className="sec-pad">
         <div style={{ maxWidth: 1280, margin: "0 auto" }}>
-          <div style={{ textAlign: "center", marginBottom: 52 }}>
-            <span style={{ fontSize: 11, fontWeight: 600, color: C.forestLight, letterSpacing: "0.12em", textTransform: "uppercase" }}>Client Stories</span>
-            <h2 style={{ fontFamily: C.serif, fontSize: "clamp(1.7rem,3vw,2.4rem)", color: C.forest, marginTop: 12, fontWeight: 700 }}>What Our Clients Say</h2>
+          <div style={{ textAlign: "center", marginBottom: 56 }}>
+            <span className="section-label">Client Stories</span>
+            <h2 style={{ fontFamily: C.serif, fontSize: "clamp(1.8rem,3vw,2.6rem)", color: C.navy, fontWeight: 800 }}>What Our Clients Say</h2>
           </div>
-          <div className="testimonials-grid">
+          <div className="testi-grid">
             {testimonials.map((t) => (
-              <div key={t.name} style={{ backgroundColor: C.white, borderRadius: 20, padding: 28, border: `1px solid ${C.mintLight}` }}>
+              <div key={t.name} className="testi-card">
                 <div style={{ display: "flex", gap: 2, marginBottom: 16 }}>
-                  {[...Array(t.rating)].map((_, i) => <span key={i} style={{ color: C.gold, fontSize: 16 }}>★</span>)}
+                  {[...Array(t.rating)].map((_, i) => <span key={i} style={{ color: "#F59E0B", fontSize: 16 }}>★</span>)}
                 </div>
-                <p style={{ color: "#374151", fontSize: 14, lineHeight: 1.75, marginBottom: 24, fontStyle: "italic" }}>"{t.text}"</p>
+                <p style={{ color: C.bodyText, fontSize: 14, lineHeight: 1.8, marginBottom: 24, fontStyle: "italic" }}>"{t.text}"</p>
                 <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-                  <div style={{ width: 42, height: 42, borderRadius: "50%", backgroundColor: C.mintLight, display: "flex", alignItems: "center", justifyContent: "center", fontFamily: C.serif, color: C.forest, fontWeight: 700, fontSize: 16, flexShrink: 0 }}>{t.name[0]}</div>
+                  <div style={{ width: 44, height: 44, borderRadius: "50%", backgroundColor: C.primaryLight, display: "flex", alignItems: "center", justifyContent: "center", fontFamily: C.serif, color: C.primary, fontWeight: 800, fontSize: 17, flexShrink: 0 }}>{t.name[0]}</div>
                   <div>
-                    <div style={{ fontWeight: 600, color: C.charcoal, fontSize: 14 }}>{t.name}</div>
-                    <div style={{ color: C.forestLight, fontSize: 12 }}>{t.company}</div>
+                    <div style={{ fontWeight: 700, color: C.navy, fontSize: 14 }}>{t.name}</div>
+                    <div style={{ color: C.mutedText, fontSize: 12 }}>{t.company}</div>
                   </div>
                 </div>
               </div>
@@ -365,14 +396,28 @@ export default function HomeScreen() {
         </div>
       </section>
 
-      {/* ── CTA BANNER ── */}
-      <section style={{ backgroundColor: C.forestMid, padding: "64px 24px" }}>
-        <div style={{ maxWidth: 760, margin: "0 auto", textAlign: "center" }}>
-          <h2 style={{ fontFamily: C.serif, fontSize: "clamp(1.7rem,3vw,2.4rem)", color: C.white, marginBottom: 16, fontWeight: 700 }}>Start Your Certification Journey Today</h2>
-          <p style={{ color: C.mint, marginBottom: 32, lineHeight: 1.7, fontSize: 15 }}>Our experts are ready to help. Get a free consultation and know exactly what you need — at no cost.</p>
-          <div className="cta-buttons">
-            <Link href="/contact" style={{ padding: "14px 32px", backgroundColor: C.mint, color: C.forest, fontWeight: 700, borderRadius: 12, textDecoration: "none", fontSize: 14 }}>Get Free Consultation</Link>
-            <a href="tel:+919876543210" style={{ padding: "14px 32px", border: `1px solid ${C.mint}`, color: C.mint, borderRadius: 12, textDecoration: "none", fontSize: 14 }}>📞 Call: +91 98765 43210</a>
+      {/* ── CTA BANNER — with image ── */}
+      <section style={{ position: "relative", padding: "88px 24px", overflow: "hidden" }}>
+        <img src="https://images.unsplash.com/photo-1568219557405-376e23e4f7cf?w=1600&q=80&fit=crop"
+          alt="Get certified"
+          style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", objectPosition: "center" }} />
+        <div style={{ position: "absolute", inset: 0, background: "linear-gradient(135deg, rgba(249,115,22,0.92) 0%, rgba(234,88,12,0.88) 100%)" }} />
+        <div style={{ maxWidth: 800, margin: "0 auto", textAlign: "center", position: "relative", zIndex: 1 }}>
+          <h2 style={{ fontFamily: C.serif, fontSize: "clamp(1.8rem,3vw,2.8rem)", color: "#fff", marginBottom: 16, fontWeight: 800 }}>
+            Start Your Certification Journey Today
+          </h2>
+          <p style={{ color: "rgba(255,255,255,0.88)", marginBottom: 40, lineHeight: 1.7, fontSize: 16 }}>
+            Our experts are ready to help. Get a free consultation and know exactly what you need — at no cost.
+          </p>
+          <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "center", gap: 16 }}>
+            <button onClick={() => router.push("/contact")}
+              style={{ padding: "16px 40px", backgroundColor: "#fff", color: C.primary, fontWeight: 800, borderRadius: 12, border: "none", fontSize: 15, cursor: "pointer", fontFamily: C.sans, boxShadow: "0 6px 24px rgba(0,0,0,0.15)" }}>
+              Get Free Consultation
+            </button>
+            <a href="tel:+919876543210"
+              style={{ padding: "16px 32px", border: "2px solid rgba(255,255,255,0.6)", color: "#fff", borderRadius: 12, textDecoration: "none", fontSize: 15, fontWeight: 600, display: "inline-flex", alignItems: "center", gap: 8 }}>
+              📞 +91 98765 43210
+            </a>
           </div>
         </div>
       </section>
