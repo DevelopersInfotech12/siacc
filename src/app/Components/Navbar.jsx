@@ -109,10 +109,10 @@ export default function Navbar() {
             style={{ display: "flex", alignItems: "center", gap: 10, background: "none", border: "none", cursor: "pointer", flexShrink: 0 }}
           >
             <div style={{ width: 38, height: 38, borderRadius: 10, backgroundColor: C.forest, display: "flex", alignItems: "center", justifyContent: "center" }}>
-              <span style={{ color: C.mint, fontFamily: C.serif, fontWeight: 700, fontSize: 20 }}>C</span>
+              <span style={{ color: C.mint, fontFamily: C.serif, fontWeight: 700, fontSize: 20 }}>S</span>
             </div>
             <div style={{ textAlign: "left" }}>
-              <div style={{ fontFamily: C.serif, fontWeight: 700, color: C.forest, fontSize: 20, lineHeight: 1.1 }}>CertifyPro</div>
+              <div style={{ fontFamily: C.serif, fontWeight: 700, color: C.forest, fontSize: 20, lineHeight: 1.1 }}>Siacc</div>
               <div style={{ fontSize: 9, color: C.forestLight, letterSpacing: "0.18em", textTransform: "uppercase", lineHeight: 1.2 }}>India</div>
             </div>
           </button>
