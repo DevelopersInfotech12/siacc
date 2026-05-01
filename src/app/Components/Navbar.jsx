@@ -18,13 +18,17 @@ const C = {
 };
 
 const serviceDropdown = [
-  { name: "BIS Certification", href: "/bis" },
-  { name: "EPR Registration", href: "/epr" },
+  // Priority Services
+  { name: "BIS-CRS & ISI Certification", href: "/bis" },
   { name: "WPC-ETA Approval", href: "/wpc" },
-  { name: "TEC / MTCTE", href: "/tec" },
-  { name: "BEE Registration", href: "/bee" },
-  { name: "LMPC Registration", href: "/lmpc" },
+  { name: "Testing & Certification", href: "/testing" },
+  { name: "BEE Certification", href: "/bee" },
   { name: "ISO Certification", href: "/iso" },
+
+  // Other Services
+  { name: "EPR Registration", href: "/epr" },
+  { name: "TEC / MTCTE", href: "/tec" },
+  { name: "LMPC Registration", href: "/lmpc" },
   { name: "CDSCO / Drug License", href: "/cdsco" },
 ];
 
@@ -154,7 +158,7 @@ export default function Navbar() {
                       ))}
                       <div style={{ borderTop: `1px solid ${C.border}`, margin: "6px 0", padding: "8px 20px 4px" }}>
                         <button onClick={() => go("/services")} style={{ fontSize: 12, color: C.primary, fontWeight: 700, background: "none", border: "none", cursor: "pointer", fontFamily: C.sans }}>
-                          View All 50+ Services →
+                          View All 9 Services →
                         </button>
                       </div>
                     </div>

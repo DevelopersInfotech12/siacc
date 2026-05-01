@@ -138,14 +138,6 @@ export default function WPCScreen() {
         </div>
 
         <div style={{ maxWidth: 1280, margin: "0 auto", padding: "80px 40px", width: "100%", position: "relative", zIndex: 2 }}>
-          {/* Breadcrumb */}
-          <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 28 }}>
-            <button onClick={() => router.push("/")} style={{ color: C.primary, fontSize: 13, background: "none", border: "none", cursor: "pointer", fontFamily: C.sans }}>Home</button>
-            <span style={{ color: "rgba(255,255,255,0.4)", fontSize: 13 }}>/</span>
-            <button onClick={() => router.push("/services")} style={{ color: "rgba(255,255,255,0.6)", fontSize: 13, background: "none", border: "none", cursor: "pointer", fontFamily: C.sans }}>Services</button>
-            <span style={{ color: "rgba(255,255,255,0.4)", fontSize: 13 }}>/</span>
-            <span style={{ color: "rgba(255,255,255,0.7)", fontSize: 13 }}>WPC-ETA Approval</span>
-          </div>
 
           <div className="hero-grid">
             {/* Left */}

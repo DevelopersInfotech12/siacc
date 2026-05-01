@@ -2,6 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 
+body {
+  margin: 0;
+  padding: 0;
+}
+
 :root {
   --forest: #0C4A6E;
   --forest-mid: #0891B2;
