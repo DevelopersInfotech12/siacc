@@ -22,10 +22,7 @@ const C = {
 };
 
 const offices = [
-  { city: "New Delhi", address: "12, Connaught Place, New Delhi – 110001", phone: "+91 98765 43210", email: "delhi@siacc.in", head: "Vikram Anand", hours: "Mon–Sat: 9AM – 6PM" },
-  { city: "Mumbai", address: "302, Nariman Point, Mumbai – 400021", phone: "+91 98765 43211", email: "mumbai@siacc.in", head: "Sneha Kapoor", hours: "Mon–Sat: 9AM – 6PM" },
-  { city: "Bengaluru", address: "14, MG Road, Bengaluru – 560001", phone: "+91 98765 43212", email: "bangalore@siacc.in", head: "Rohit Verma", hours: "Mon–Sat: 9AM – 6PM" },
-  { city: "Hyderabad", address: "8-2-120, Banjara Hills, Hyderabad – 500034", phone: "+91 98765 43213", email: "hyderabad@siacc.in", head: "Priya Sharma", hours: "Mon–Sat: 9AM – 6PM" },
+  { city: "New Delhi", address: "House no. - 211, Ground Floor, Pocket 9, North West New Delhi - 110086", phone: "+91-9540190334", email: "delhi@siacc.in", head: "Vikram Anand", hours: "Mon–Sat: 9AM – 6PM" },
 ];
 
 const services = [
@@ -35,7 +32,7 @@ const services = [
 
 const faqs = [
   { q: "How long does BIS certification take?", a: "Typically 4–12 weeks depending on the product category, lab testing schedules, and application completeness. We provide faster timelines for most categories." },
-  { q: "Do you handle international clients?", a: "Yes, we serve manufacturers and importers from 25+ countries seeking to enter the Indian market. We provide end-to-end support remotely." },
+  { q: "Do you handle clients across India?", a: "Yes, we serve manufacturers and importers from all states and union territories across India. We provide end-to-end support both in-person and remotely." },
   { q: "What is the consultation fee?", a: "Our initial consultation is completely free. We assess your requirement and give you a clear cost and timeline breakdown before any commitment." },
   { q: "Can you take over my stalled certification?", a: "Absolutely. We regularly take over applications that are stalled or rejected and successfully bring them to completion." },
 ];
@@ -43,14 +40,14 @@ const faqs = [
 const heroTrust = [
   { icon: "⚡", label: "2-Hour Response", desc: "Guaranteed reply within 2 business hours" },
   { icon: "🆓", label: "Free Consultation", desc: "No charges for initial assessment" },
-  { icon: "🌍", label: "25+ Countries", desc: "We serve international clients remotely" },
+  { icon: "🇮🇳", label: "Pan-India", desc: "Serving businesses across all Indian states" },
   { icon: "✅", label: "98% Success Rate", desc: "Across 10,000+ certifications filed" },
 ];
 
 const contactStats = [
   { value: "2 hrs", label: "Response Time", icon: "⚡" },
   { value: "Free", label: "Initial Consultation", icon: "🆓" },
-  { value: "25+", label: "Countries Served", icon: "🌍" },
+  { value: "Pan", label: "India Coverage", icon: "🇮🇳" },
   { value: "98%", label: "Success Rate", icon: "✅" },
 ];
 
@@ -78,7 +75,8 @@ export default function ContactScreen() {
         .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px; }
         @media (max-width: 560px) { .two-col { grid-template-columns: 1fr; } }
 
-        .offices-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; }
+        .office-split { display: grid; grid-template-columns: 340px 1fr; gap: 24px; align-items: stretch; }
+        @media (max-width: 768px) { .office-split { grid-template-columns: 1fr !important; } }
 
         .input-field { width: 100%; padding: 12px 14px; border: 1.5px solid ${C.border}; border-radius: 10px; font-size: 14px; color: #1A1A2E; outline: none; background: ${C.offWhite}; font-family: ${C.sans}; transition: border-color 0.2s; }
         .input-field:focus { border-color: ${C.primary}; }
@@ -96,7 +94,7 @@ export default function ContactScreen() {
 
       <Navbar />
 
-      {/* ── HERO — full bleed image (matching HomeScreen hero style) ── */}
+      {/* ── HERO ── */}
       <section style={{ position: "relative", minHeight: "480px", display: "flex", alignItems: "center", overflow: "hidden" }}>
         <img
           src="https://images.unsplash.com/photo-1556761175-5973dc0f32e7?w=1800&q=85&fit=crop"
@@ -105,7 +103,6 @@ export default function ContactScreen() {
         />
         <div className="img-overlay" />
 
-        {/* Floating badge top right */}
         <div style={{ position: "absolute", top: 32, right: 40, zIndex: 3, background: "rgba(255,255,255,0.12)", backdropFilter: "blur(10px)", border: "1px solid rgba(255,255,255,0.2)", borderRadius: 14, padding: "12px 20px", display: "flex", gap: 16 }}>
           {["BIS", "EPR", "WPC", "ISO"].map((b) => (
             <span key={b} style={{ fontSize: 11, fontWeight: 700, color: C.primary }}>{b}</span>
@@ -113,15 +110,7 @@ export default function ContactScreen() {
         </div>
 
         <div style={{ maxWidth: 1280, margin: "0 auto", padding: "80px 40px", width: "100%", position: "relative", zIndex: 2 }}>
-          {/* Breadcrumb */}
-          <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 28 }}>
-            <Link href="/" style={{ color: C.primary, fontSize: 13, textDecoration: "none" }}>Home</Link>
-            <span style={{ color: "rgba(255,255,255,0.4)", fontSize: 13 }}>/</span>
-            <span style={{ color: "rgba(255,255,255,0.7)", fontSize: 13 }}>Contact Us</span>
-          </div>
-
           <div className="contact-hero-grid">
-            {/* LEFT */}
             <div>
               <div style={{ display: "inline-flex", alignItems: "center", gap: 8, background: "rgba(249,115,22,0.2)", border: "1px solid rgba(249,115,22,0.4)", borderRadius: 999, padding: "6px 16px", marginBottom: 24 }}>
                 <span style={{ width: 7, height: 7, borderRadius: "50%", backgroundColor: C.primary, display: "inline-block" }} />
@@ -135,7 +124,7 @@ export default function ContactScreen() {
               </h1>
 
               <p style={{ fontSize: 15, lineHeight: 1.8, color: "rgba(255,255,255,0.8)", marginBottom: 36, maxWidth: 480 }}>
-                Reach out via the form below, call us, or walk into any of our offices. Our experts respond within 2 business hours — free of charge for initial consultations.
+                Reach out via the form below, call us, or walk into our New Delhi office. Our experts respond within 2 business hours — free of charge for initial consultations.
               </p>
 
               <div style={{ display: "flex", flexWrap: "wrap", gap: 14, marginBottom: 32 }}>
@@ -143,21 +132,19 @@ export default function ContactScreen() {
                   style={{ padding: "14px 30px", backgroundColor: C.primary, color: "#fff", fontWeight: 700, borderRadius: 12, textDecoration: "none", fontSize: 14, boxShadow: "0 6px 20px rgba(249,115,22,0.45)" }}>
                   Send a Message ↓
                 </a>
-                <a href="tel:+919876543210"
+                <a href="tel:+919540190334"
                   style={{ padding: "14px 26px", border: "2px solid rgba(255,255,255,0.4)", color: "#fff", borderRadius: 12, textDecoration: "none", fontSize: 14, fontWeight: 600, backdropFilter: "blur(4px)" }}>
                   📞 Call Us Now
                 </a>
               </div>
 
-              {/* Trust badges — matching HomeScreen style */}
               <div style={{ display: "flex", flexWrap: "wrap", gap: 10 }}>
-                {["✓ Free Consultation", "✓ 2-Hr Response", "✓ 98% Success Rate", "✓ 10,000+ Clients"].map((b) => (
+                {["✓ Free Consultation", "✓ 2-Hr Response", "✓ 98% Success Rate", "✓ Pan-India Service"].map((b) => (
                   <span key={b} style={{ padding: "6px 14px", border: "1px solid rgba(255,255,255,0.25)", borderRadius: 999, fontSize: 12, color: "rgba(255,255,255,0.85)", background: "rgba(255,255,255,0.08)" }}>{b}</span>
                 ))}
               </div>
             </div>
 
-            {/* RIGHT — trust signals */}
             <div className="contact-hero-right">
               <p style={{ fontSize: 11, fontWeight: 600, color: C.primary, letterSpacing: "0.1em", textTransform: "uppercase", marginBottom: 14 }}>Why Contact Us</p>
               <div className="trust-grid">
@@ -170,12 +157,11 @@ export default function ContactScreen() {
                     </div>
                   </div>
                 ))}
-                {/* Office cities strip */}
                 <div style={{ gridColumn: "span 2", background: "rgba(249,115,22,0.15)", border: "1px solid rgba(249,115,22,0.3)", borderRadius: 14, padding: "14px 18px", display: "flex", alignItems: "center", gap: 14 }}>
                   <div style={{ fontSize: 22, flexShrink: 0 }}>🏢</div>
                   <div>
-                    <div style={{ fontSize: 13, color: "#fff", fontWeight: 600, marginBottom: 3 }}>4 Offices Across India</div>
-                    <div style={{ fontSize: 12, color: "rgba(255,255,255,0.65)" }}>New Delhi · Mumbai · Bengaluru · Hyderabad</div>
+                    <div style={{ fontSize: 13, color: "#fff", fontWeight: 600, marginBottom: 3 }}>Based in New Delhi</div>
+                    <div style={{ fontSize: 12, color: "rgba(255,255,255,0.65)" }}>North West Delhi · Serving all of India</div>
                   </div>
                 </div>
               </div>
@@ -183,14 +169,13 @@ export default function ContactScreen() {
           </div>
         </div>
 
-        {/* Scroll indicator — same as HomeScreen */}
         <div style={{ position: "absolute", bottom: 32, left: "50%", transform: "translateX(-50%)", zIndex: 3, display: "flex", flexDirection: "column", alignItems: "center", gap: 6 }}>
           <div style={{ width: 1, height: 40, background: "linear-gradient(to bottom, rgba(255,255,255,0), rgba(249,115,22,0.8))" }} />
           <span style={{ fontSize: 10, color: "rgba(255,255,255,0.5)", letterSpacing: "0.1em", textTransform: "uppercase" }}>Scroll</span>
         </div>
       </section>
 
-      {/* ── STATS STRIP — navy like HomeScreen ── */}
+      {/* ── STATS STRIP ── */}
       <section style={{ background: C.navy }}>
         <div style={{ maxWidth: 1280, margin: "0 auto" }}>
           <div className="stats-strip">
@@ -211,8 +196,6 @@ export default function ContactScreen() {
 
           {/* Form */}
           <div style={{ backgroundColor: C.white, borderRadius: 20, padding: 40, border: `1.5px solid ${C.border}`, boxShadow: "0 4px 24px rgba(0,0,0,0.06)" }}>
-
-            {/* Image banner inside form — matching HomeScreen "Why Choose Us" banner */}
             <div style={{ position: "relative", borderRadius: 14, overflow: "hidden", height: 160, marginBottom: 32 }}>
               <img
                 src="https://images.unsplash.com/photo-1521737711867-e3b97375f902?w=900&q=80&fit=crop"
@@ -238,7 +221,7 @@ export default function ContactScreen() {
             </div>
 
             <div className="two-col">
-              {[{ label: "Phone Number *", type: "tel", placeholder: "+91 98765 43210" }, { label: "Email Address *", type: "email", placeholder: "rajesh@company.com" }].map((f) => (
+              {[{ label: "Phone Number *", type: "tel", placeholder: "Enter phone number" }, { label: "Email Address *", type: "email", placeholder: "Enter email address" }].map((f) => (
                 <div key={f.label}>
                   <label style={{ display: "block", fontSize: 13, fontWeight: 600, color: "#1A1A2E", marginBottom: 6 }}>{f.label}</label>
                   <input type={f.type} placeholder={f.placeholder} className="input-field" />
@@ -267,7 +250,8 @@ export default function ContactScreen() {
               </select>
             </div>
 
-            <button style={{ width: "100%", padding: "15px", backgroundColor: C.primary, color: C.white, fontWeight: 700, borderRadius: 12, border: "none", fontSize: 15, cursor: "pointer", fontFamily: C.sans, boxShadow: "0 6px 20px rgba(249,115,22,0.35)" }}
+            <button
+              style={{ width: "100%", padding: "15px", backgroundColor: C.primary, color: C.white, fontWeight: 700, borderRadius: 12, border: "none", fontSize: 15, cursor: "pointer", fontFamily: C.sans, boxShadow: "0 6px 20px rgba(249,115,22,0.35)" }}
               onMouseEnter={(e) => e.currentTarget.style.backgroundColor = C.primaryDark}
               onMouseLeave={(e) => e.currentTarget.style.backgroundColor = C.primary}>
               Submit Enquiry →
@@ -278,14 +262,14 @@ export default function ContactScreen() {
           {/* Right sidebar */}
           <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
 
-            {/* Quick contact — navy matching HomeScreen stats strip */}
+            {/* Quick contact */}
             <div style={{ backgroundColor: C.navy, borderRadius: 16, padding: 28 }}>
               <h3 style={{ fontFamily: C.serif, fontSize: 18, color: C.white, marginBottom: 20, fontWeight: 700 }}>Quick Contact</h3>
               <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
                 {[
-                  { icon: "📞", label: "Call Us", value: "+91 98765 43210", href: "tel:+919876543210" },
+                  { icon: "📞", label: "Call Us", value: "+91-9540190334", href: "tel:+919540190334" },
                   { icon: "✉", label: "Email Us", value: "info@siacc.in", href: "mailto:info@siacc.in" },
-                  { icon: "💬", label: "WhatsApp", value: "+91 98765 43210", href: "https://wa.me/919876543210" },
+                  { icon: "💬", label: "WhatsApp", value: "+91-9540190334", href: "https://wa.me/919540190334" },
                 ].map((item) => (
                   <a key={item.label} href={item.href} style={{ display: "flex", alignItems: "center", gap: 14, textDecoration: "none" }}>
                     <div style={{ width: 44, height: 44, borderRadius: 12, backgroundColor: "rgba(249,115,22,0.2)", border: "1px solid rgba(249,115,22,0.3)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 18, flexShrink: 0 }}>{item.icon}</div>
@@ -311,7 +295,7 @@ export default function ContactScreen() {
               </div>
             </div>
 
-            {/* Emergency CTA — using HomeScreen CTA banner style with image */}
+            {/* Emergency CTA */}
             <div style={{ position: "relative", borderRadius: 16, overflow: "hidden" }}>
               <img
                 src="https://images.unsplash.com/photo-1568219557405-376e23e4f7cf?w=600&q=80&fit=crop"
@@ -323,7 +307,7 @@ export default function ContactScreen() {
                 <div style={{ fontSize: 22, marginBottom: 10 }}>⚡</div>
                 <h3 style={{ fontFamily: C.serif, fontSize: 16, color: C.white, marginBottom: 8, fontWeight: 700 }}>Urgent Compliance Need?</h3>
                 <p style={{ fontSize: 13, color: "rgba(255,255,255,0.88)", lineHeight: 1.65, marginBottom: 18 }}>Facing a regulatory deadline or port hold? We have an emergency response team available 24/7.</p>
-                <a href="tel:+919876543210" style={{ display: "block", textAlign: "center", padding: "11px", backgroundColor: C.white, color: C.primary, borderRadius: 10, textDecoration: "none", fontSize: 13, fontWeight: 700 }}>
+                <a href="tel:+919540190334" style={{ display: "block", textAlign: "center", padding: "11px", backgroundColor: C.white, color: C.primary, borderRadius: 10, textDecoration: "none", fontSize: 13, fontWeight: 700 }}>
                   Call Emergency Line →
                 </a>
               </div>
@@ -332,37 +316,99 @@ export default function ContactScreen() {
         </div>
       </section>
 
-      {/* ── OFFICES — offWhite background matching HomeScreen sections ── */}
+      {/* ── OFFICE — single Delhi office with image panel ── */}
       <section style={{ backgroundColor: C.offWhite, padding: "72px 24px" }} className="sec-pad">
         <div style={{ maxWidth: 1280, margin: "0 auto" }}>
           <div style={{ textAlign: "center", marginBottom: 48 }}>
-            <span className="section-label">Our Offices</span>
-            <h2 style={{ fontFamily: C.serif, fontSize: "clamp(1.6rem,3vw,2.4rem)", color: C.navy, fontWeight: 800 }}>Find Us Across India</h2>
+            <span className="section-label">Our Office</span>
+            <h2 style={{ fontFamily: C.serif, fontSize: "clamp(1.6rem,3vw,2.4rem)", color: C.navy, fontWeight: 800 }}>Find Us in New Delhi</h2>
           </div>
-          <div className="offices-grid">
-            {offices.map((office) => (
-              <div key={office.city} className="office-card">
-                <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 20 }}>
-                  <div style={{ width: 44, height: 44, borderRadius: 14, backgroundColor: C.primaryLight, border: `1.5px solid #FED7AA`, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 20 }}>🏢</div>
+
+          <div className="office-split">
+
+            {/* Office Card */}
+            <div className="office-card" style={{ display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
+              <div>
+                <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 24 }}>
+                  <div style={{ width: 48, height: 48, borderRadius: 14, backgroundColor: C.primaryLight, border: `1.5px solid #FED7AA`, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 22 }}>🏢</div>
                   <div>
-                    <div style={{ fontFamily: C.serif, fontSize: 18, color: C.navy, fontWeight: 700 }}>{office.city}</div>
+                    <div style={{ fontFamily: C.serif, fontSize: 20, color: C.navy, fontWeight: 700 }}>New Delhi</div>
                     <div style={{ fontSize: 12, color: C.primary, fontWeight: 600 }}>Regional Office</div>
                   </div>
                 </div>
-                <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-                  {[{ icon: "📍", val: office.address }, { icon: "📞", val: office.phone }, { icon: "✉", val: office.email }, { icon: "🕐", val: office.hours }].map((item, i) => (
-                    <div key={i} style={{ display: "flex", gap: 10, fontSize: 13, alignItems: "flex-start" }}>
-                      <span style={{ flexShrink: 0 }}>{item.icon}</span>
-                      <span style={{ color: C.mutedText }}>{item.val}</span>
+                <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
+                  {[
+                    { icon: "📍", val: "House no. - 211, Ground Floor, Pocket 9, North West New Delhi - 110086" },
+                    { icon: "📞", val: "+91-9540190334" },
+                    { icon: "✉", val: "delhi@siacc.in" },
+                    { icon: "🕐", val: "Mon–Sat: 9AM – 6PM" },
+                  ].map((item, i) => (
+                    <div key={i} style={{ display: "flex", gap: 12, fontSize: 14, alignItems: "flex-start" }}>
+                      <span style={{ flexShrink: 0, fontSize: 16 }}>{item.icon}</span>
+                      <span style={{ color: C.mutedText, lineHeight: 1.6 }}>{item.val}</span>
                     </div>
                   ))}
-                  <div style={{ display: "flex", gap: 10, fontSize: 13 }}>
-                    <span>👤</span>
-                    <span style={{ color: C.mutedText }}>Head: <strong style={{ color: C.navy }}>{office.head}</strong></span>
+                  <div style={{ display: "flex", gap: 12, fontSize: 14 }}>
+                    <span style={{ fontSize: 16 }}>👤</span>
+                    <span style={{ color: C.mutedText }}>Head: <strong style={{ color: C.navy }}>Vikram Anand</strong></span>
                   </div>
                 </div>
               </div>
-            ))}
+
+              {/* CTA buttons */}
+              <div style={{ marginTop: 28, paddingTop: 22, borderTop: `1px solid ${C.border}` }}>
+                <a href="tel:+919540190334" style={{ display: "block", textAlign: "center", padding: "12px", backgroundColor: C.primary, color: "#fff", borderRadius: 10, textDecoration: "none", fontSize: 14, fontWeight: 700, boxShadow: "0 4px 14px rgba(249,115,22,0.35)", marginBottom: 10 }}>
+                  📞 Call This Office
+                </a>
+                <a href="https://maps.google.com/?q=Pocket+9+North+West+New+Delhi+110086" target="_blank" style={{ display: "block", textAlign: "center", padding: "12px", border: `1.5px solid ${C.border}`, color: C.navy, borderRadius: 10, textDecoration: "none", fontSize: 14, fontWeight: 600 }}>
+                  🗺️ Get Directions
+                </a>
+              </div>
+            </div>
+
+            {/* Right — Delhi monument image panel */}
+            <div style={{ position: "relative", borderRadius: 20, overflow: "hidden", minHeight: 440 }}>
+              {/* Red Fort, Delhi */}
+              <img
+                src="https://images.unsplash.com/photo-1587474260584-136574528ed5?w=1200&q=85&fit=crop"
+                alt="Red Fort New Delhi"
+                style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", objectPosition: "center 40%" }}
+              />
+              <div style={{ position: "absolute", inset: 0, background: "linear-gradient(135deg, rgba(12,35,64,0.85) 0%, rgba(12,35,64,0.45) 55%, rgba(249,115,22,0.2) 100%)" }} />
+
+              {/* Content over image */}
+              <div style={{ position: "relative", zIndex: 1, padding: 40, height: "100%", display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
+                <div>
+                  <div style={{ display: "inline-flex", alignItems: "center", gap: 8, background: "rgba(249,115,22,0.2)", border: "1px solid rgba(249,115,22,0.4)", borderRadius: 999, padding: "6px 16px", marginBottom: 20 }}>
+                    <span style={{ width: 7, height: 7, borderRadius: "50%", backgroundColor: C.primary, display: "inline-block" }} />
+                    <span style={{ color: C.primary, fontSize: 12, fontWeight: 600 }}>🇮🇳 New Delhi, India</span>
+                  </div>
+
+                  <h3 style={{ fontFamily: C.serif, fontSize: "clamp(1.4rem,2.5vw,2rem)", color: "#fff", fontWeight: 800, marginBottom: 14, lineHeight: 1.25 }}>
+                    Your Trusted Partner<br />in New Delhi
+                  </h3>
+
+                  <p style={{ color: "rgba(255,255,255,0.75)", fontSize: 14, lineHeight: 1.8, maxWidth: 440 }}>
+                    Based in New Delhi, we provide end-to-end regulatory compliance and certification services across India. Visit our office for a free consultation — no appointment needed.
+                  </p>
+                </div>
+
+                {/* Bottom stat row */}
+                <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 14, marginTop: 36 }}>
+                  {[
+                    { value: "10,000+", label: "Certifications Filed" },
+                    { value: "15+ yrs", label: "Industry Experience" },
+                    { value: "98%", label: "Success Rate" },
+                  ].map((s) => (
+                    <div key={s.label} style={{ background: "rgba(255,255,255,0.1)", border: "1px solid rgba(255,255,255,0.15)", borderRadius: 14, padding: "16px 14px", backdropFilter: "blur(8px)" }}>
+                      <div style={{ fontFamily: C.serif, fontSize: "1.4rem", color: C.primary, fontWeight: 800 }}>{s.value}</div>
+                      <div style={{ fontSize: 12, color: "rgba(255,255,255,0.65)", marginTop: 5, lineHeight: 1.4 }}>{s.label}</div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+
           </div>
         </div>
       </section>
@@ -383,7 +429,7 @@ export default function ContactScreen() {
         </div>
       </section>
 
-      {/* ── CTA BANNER — identical to HomeScreen CTA with image ── */}
+      {/* ── CTA BANNER ── */}
       <section style={{ position: "relative", padding: "88px 24px", overflow: "hidden" }}>
         <img
           src="https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=1600&q=80&fit=crop"
@@ -403,9 +449,9 @@ export default function ContactScreen() {
               style={{ padding: "16px 40px", backgroundColor: "#fff", color: C.primary, fontWeight: 800, borderRadius: 12, fontSize: 15, textDecoration: "none", boxShadow: "0 6px 24px rgba(0,0,0,0.15)" }}>
               Get Free Consultation
             </a>
-            <a href="tel:+919876543210"
+            <a href="tel:+919540190334"
               style={{ padding: "16px 32px", border: "2px solid rgba(255,255,255,0.6)", color: "#fff", borderRadius: 12, textDecoration: "none", fontSize: 15, fontWeight: 600, display: "inline-flex", alignItems: "center", gap: 8 }}>
-              📞 +91 98765 43210
+              📞 +91 9540190334
             </a>
           </div>
         </div>

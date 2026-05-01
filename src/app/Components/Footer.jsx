@@ -31,7 +31,7 @@ const quickLinks = [
   { name: "Blog", href: "/blog" },
   { name: "Careers", href: "/career" },
   { name: "Contact", href: "/contact" },
-  { name: "Privacy Policy", href: "/privacy" },
+  // { name: "Privacy Policy", href: "/privacy" },
 ];
 
 export default function Footer() {
@@ -49,7 +49,7 @@ export default function Footer() {
             <Link href="/contact" style={{ padding: "12px 28px", backgroundColor: C.primary, color: "#fff", fontWeight: 700, borderRadius: 10, textDecoration: "none", fontSize: 14, boxShadow: "0 4px 12px rgba(249,115,22,0.35)" }}>
               Get Free Consultation
             </Link>
-            <a href="tel:+919876543210" style={{ padding: "12px 24px", border: "1.5px solid rgba(255,255,255,0.25)", color: "rgba(255,255,255,0.85)", borderRadius: 10, textDecoration: "none", fontSize: 14 }}>
+            <a href="tel:+91- 9540190334" style={{ padding: "12px 24px", border: "1.5px solid rgba(255,255,255,0.25)", color: "rgba(255,255,255,0.85)", borderRadius: 10, textDecoration: "none", fontSize: 14 }}>
               Call Now
             </a>
           </div>
@@ -74,7 +74,7 @@ export default function Footer() {
             India's trusted compliance & certification consultancy. 12+ years, 10,000+ clients, 98% success rate.
           </p>
           <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-            {[{ icon: "📞", text: "+91 98765 43210", href: "tel:+919876543210" }, { icon: "✉", text: "info@siacc.co.in", href: "mailto:info@siacc.co.in" }].map((item) => (
+            {[{ icon: "📞", text: "+91-9540190334", href: "tel:+91-9540190334" }, { icon: "✉", text: "info@siacc.co.in", href: "mailto:info@siacc.co.in" }].map((item) => (
               <a key={item.text} href={item.href} style={{ display: "flex", alignItems: "center", gap: 8, fontSize: 13, color: "rgba(255,255,255,0.65)", textDecoration: "none" }}
                 onMouseEnter={(e) => e.currentTarget.style.color = C.primary}
                 onMouseLeave={(e) => e.currentTarget.style.color = "rgba(255,255,255,0.65)"}
@@ -83,7 +83,7 @@ export default function Footer() {
               </a>
             ))}
             <div style={{ display: "flex", alignItems: "flex-start", gap: 8, fontSize: 13, color: "rgba(255,255,255,0.6)" }}>
-              <span>📍</span><span>12, Connaught Place,<br />New Delhi – 110001</span>
+              <span>📍</span><span>House no. - 211, Ground Floor, Pocket 9, <br /> North West New Delhi - 110086 </span>
             </div>
           </div>
         </div>
@@ -136,13 +136,25 @@ export default function Footer() {
 
       {/* Bottom bar */}
       <div style={{ borderTop: "1px solid rgba(255,255,255,0.1)", padding: "18px 24px" }}>
-        <div style={{ maxWidth: 1280, margin: "0 auto", display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 12 }}>
-          <span style={{ fontSize: 12, color: "rgba(255,255,255,0.4)" }}>© {new Date().getFullYear()} SIACC — Star India Accreditation. All rights reserved.</span>
-          <div style={{ display: "flex", gap: 20 }}>
-            <Link href="/privacy" style={{ fontSize: 12, color: "rgba(255,255,255,0.4)", textDecoration: "none" }}>Privacy Policy</Link>
-            <span style={{ color: "rgba(255,255,255,0.2)" }}>|</span>
-            <Link href="/contact" style={{ fontSize: 12, color: "rgba(255,255,255,0.4)", textDecoration: "none" }}>Contact Us</Link>
-          </div>
+        <div style={{ maxWidth: 1280, margin: "0 auto", textAlign: "center" }}>
+
+          <span style={{ fontSize: 12, color: "rgba(255,255,255,0.5)" }}>
+            © {new Date().getFullYear()} SIACC — Star India Accreditation. All rights reserved. |
+            <a
+              href="https://developersinfotech.in/"
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{
+                color: "#F97316",
+                textDecoration: "none",
+                fontWeight: 600,
+                marginLeft: 6
+              }}
+            >
+              Developed by Developers Infotech Pvt Ltd
+            </a>
+          </span>
+
         </div>
       </div>
     </footer>

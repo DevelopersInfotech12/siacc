@@ -310,7 +310,7 @@ export default function CareerScreen() {
               href="mailto:careers@siacc.in"
               style={{ padding: "16px 32px", border: "2px solid rgba(255,255,255,0.6)", color: "#fff", borderRadius: 12, textDecoration: "none", fontSize: 15, fontWeight: 600, display: "inline-flex", alignItems: "center", gap: 8 }}
             >
-              ✉️ careers@siacc.in
+              ✉️ info@siacc.in
             </a>
           </div>
         </div>

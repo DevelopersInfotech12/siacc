@@ -40,14 +40,11 @@ const stats = [
 ];
 
 const services = [
-  { icon: "🏅", title: "BIS Certification", desc: "ISI Mark, CRS, Scheme-X for electronics & consumer products.", href: "/bis", tag: "Most Popular", tagColor: "#FFF3E8", tagText: "#EA6A0A" },
-  { icon: "♻️", title: "EPR Registration", desc: "E-Waste, Plastic, Battery, Tyre & Used Oil EPR compliance.", href: "/epr", tag: "Mandatory", tagColor: "#FEF2F2", tagText: "#DC2626" },
-  { icon: "📡", title: "WPC-ETA Approval", desc: "Wireless, Bluetooth & RF device import approvals.", href: "/wpc", tag: "" },
-  { icon: "📶", title: "TEC / MTCTE", desc: "Telecom & IoT product approvals under DoT norms.", href: "/tec", tag: "" },
-  { icon: "⚡", title: "BEE Registration", desc: "Energy star labelling & BEE compliance for appliances.", href: "/bee", tag: "" },
-  { icon: "⚖️", title: "LMPC Registration", desc: "Legal Metrology compliance for packaged goods importers.", href: "/lmpc", tag: "" },
-  { icon: "🌐", title: "ISO Certification", desc: "ISO 9001, 14001, 45001, 27001 and more for all sectors.", href: "/iso", tag: "" },
-  { icon: "💊", title: "CDSCO / Drug License", desc: "Medical device, drug & cosmetic license in India.", href: "/cdsco", tag: "" },
+  { icon: "🏅", title: "BIS — CRS Registration", desc: "Compulsory Registration Scheme for electronics & IT products sold in India.", href: "/bis", tag: "Most Popular", tagColor: "#FFF3E8", tagText: "#EA6A0A" },
+  { icon: "🔖", title: "BIS — ISI Mark", desc: "Mandatory ISI Mark certification for 370+ product categories including steel, cement & electrical goods.", href: "/bis", tag: "" },
+  { icon: "📡", title: "WPC-ETA Approval", desc: "Equipment Type Approval for wireless, Bluetooth & RF devices imported into India.", href: "/wpc", tag: "" },
+  { icon: "🧪", title: "Testing & Certification", desc: "End-to-end product testing coordination with BIS & accredited labs for all certification requirements.", href: "/tec", tag: "" },
+  { icon: "🌐", title: "ISO Certification", desc: "ISO 9001, 14001, 45001, 27001 and more for organizations of all sizes and sectors.", href: "/iso", tag: "" },
 ];
 
 const whyUs = [
@@ -89,6 +86,10 @@ export default function HomeScreen() {
 
         .services-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px,1fr)); gap: 20px; }
         @media (max-width: 600px) { .services-grid { grid-template-columns: 1fr; } }
+        .services-4col { display: grid; grid-template-columns: repeat(4,1fr); gap: 20px; }
+        @media (max-width: 1024px) { .services-4col { grid-template-columns: repeat(3,1fr); } }
+        @media (max-width: 768px) { .services-4col { grid-template-columns: repeat(2,1fr); } }
+        @media (max-width: 480px) { .services-4col { grid-template-columns: 1fr; } }
 
         .why-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 20px; }
         @media (max-width: 900px) { .why-grid { grid-template-columns: repeat(2,1fr); } }
@@ -268,24 +269,73 @@ export default function HomeScreen() {
               Comprehensive compliance solutions for manufacturers, importers, and brand owners across all regulatory frameworks in India.
             </p>
           </div>
-          <div className="services-grid">
-            {services.map((s) => (
-              <Link key={s.title} href={s.href} className="svc-card">
+
+          {/* Row 1 — 4 plain cards */}
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 20, marginBottom: 20 }}>
+            {services.slice(0, 4).map((s) => (
+              <Link key={s.title} href={s.href}
+                style={{ borderRadius: 16, border: `1.5px solid ${C.border}`, textDecoration: "none", display: "flex", flexDirection: "column", background: C.white, padding: 24, transition: "all 0.25s ease" }}
+                onMouseEnter={(e) => { e.currentTarget.style.borderColor = C.primary; e.currentTarget.style.transform = "translateY(-4px)"; e.currentTarget.style.boxShadow = "0 16px 40px rgba(249,115,22,0.12)"; }}
+                onMouseLeave={(e) => { e.currentTarget.style.borderColor = C.border; e.currentTarget.style.transform = "translateY(0)"; e.currentTarget.style.boxShadow = "none"; }}
+              >
                 <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", marginBottom: 16 }}>
                   <div style={{ width: 52, height: 52, backgroundColor: C.primaryLight, borderRadius: 14, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 24 }}>{s.icon}</div>
                   {s.tag && <span style={{ fontSize: 10, fontWeight: 700, backgroundColor: s.tagColor, color: s.tagText, padding: "3px 10px", borderRadius: 999 }}>{s.tag}</span>}
                 </div>
-                <h3 style={{ fontFamily: C.serif, fontSize: 17, color: C.navy, marginBottom: 8, fontWeight: 700 }}>{s.title}</h3>
-                <p style={{ fontSize: 13, color: C.mutedText, lineHeight: 1.65, marginBottom: 16 }}>{s.desc}</p>
+                <h3 style={{ fontFamily: C.serif, fontSize: 16, color: C.navy, marginBottom: 8, fontWeight: 700 }}>{s.title}</h3>
+                <p style={{ fontSize: 13, color: C.mutedText, lineHeight: 1.65, marginBottom: 16, flex: 1 }}>{s.desc}</p>
                 <span style={{ color: C.primary, fontSize: 13, fontWeight: 700 }}>Learn More →</span>
               </Link>
             ))}
           </div>
-          <div style={{ textAlign: "center", marginTop: 44 }}>
+
+          {/* Row 2 — ISO card + Image + View All button (same row, 3 equal cols) */}
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 20, alignItems: "stretch" }}>
+
+            {/* ISO card — plain, same style as row 1 */}
+            <Link href={services[4].href}
+              style={{ borderRadius: 16, border: `1.5px solid ${C.border}`, textDecoration: "none", display: "flex", flexDirection: "column", background: C.white, padding: 24, transition: "all 0.25s ease" }}
+              onMouseEnter={(e) => { e.currentTarget.style.borderColor = C.primary; e.currentTarget.style.transform = "translateY(-4px)"; e.currentTarget.style.boxShadow = "0 16px 40px rgba(249,115,22,0.12)"; }}
+              onMouseLeave={(e) => { e.currentTarget.style.borderColor = C.border; e.currentTarget.style.transform = "translateY(0)"; e.currentTarget.style.boxShadow = "none"; }}
+            >
+              <div style={{ width: 52, height: 52, backgroundColor: C.primaryLight, borderRadius: 14, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 24, marginBottom: 16 }}>
+                {services[4].icon}
+              </div>
+              <h3 style={{ fontFamily: C.serif, fontSize: 16, color: C.navy, marginBottom: 8, fontWeight: 700 }}>{services[4].title}</h3>
+              <p style={{ fontSize: 13, color: C.mutedText, lineHeight: 1.65, marginBottom: 16, flex: 1 }}>{services[4].desc}</p>
+              <span style={{ color: C.primary, fontSize: 13, fontWeight: 700 }}>Learn More →</span>
+            </Link>
+
+            {/* Image — relevant certification image */}
+            <div style={{ borderRadius: 16, overflow: "hidden", position: "relative", minHeight: 200 }}>
+              <img
+                src="https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=700&q=85&fit=crop"
+                alt="Certification compliance"
+                style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
+              />
+              <div style={{ position: "absolute", inset: 0, background: "linear-gradient(135deg, rgba(12,35,64,0.55) 0%, rgba(12,35,64,0.2) 100%)" }} />
+              <div style={{ position: "absolute", bottom: 20, left: 20, right: 20 }}>
+                <div style={{ fontFamily: C.serif, fontSize: 15, color: "#fff", fontWeight: 700, marginBottom: 4 }}>Certified. Compliant. Confident.</div>
+                <div style={{ fontSize: 12, color: "rgba(255,255,255,0.75)" }}>India's most trusted compliance partner since 2011</div>
+              </div>
+            </div>
+
+            {/* View All Services — CTA card */}
             <button onClick={() => router.push("/services")}
-              style={{ padding: "14px 36px", backgroundColor: C.navy, color: "#fff", borderRadius: 12, border: "none", fontSize: 14, fontWeight: 700, cursor: "pointer", fontFamily: C.sans }}>
-              View All 50+ Services →
+              style={{ borderRadius: 16, border: `2px dashed ${C.border}`, background: C.offWhite, cursor: "pointer", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 14, padding: "28px 20px", transition: "all 0.25s ease", fontFamily: C.sans, minHeight: 200 }}
+              onMouseEnter={(e) => { e.currentTarget.style.borderColor = C.primary; e.currentTarget.style.background = C.primaryLight; }}
+              onMouseLeave={(e) => { e.currentTarget.style.borderColor = C.border; e.currentTarget.style.background = C.offWhite; }}
+            >
+              <div style={{ width: 56, height: 56, borderRadius: "50%", backgroundColor: C.navy, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 26 }}>📋</div>
+              <div style={{ textAlign: "center" }}>
+                <div style={{ fontFamily: C.serif, fontSize: 18, color: C.navy, fontWeight: 800, marginBottom: 6 }}>50+ Services</div>
+                <div style={{ fontSize: 13, color: C.mutedText, lineHeight: 1.5, marginBottom: 16 }}>Explore our complete range of compliance & certification solutions</div>
+                <span style={{ display: "inline-block", padding: "10px 24px", backgroundColor: C.primary, color: "#fff", borderRadius: 10, fontSize: 13, fontWeight: 700, boxShadow: "0 4px 12px rgba(249,115,22,0.3)" }}>
+                  View All Services →
+                </span>
+              </div>
             </button>
+
           </div>
         </div>
       </section>

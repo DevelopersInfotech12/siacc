@@ -50,10 +50,10 @@ const values = [
 ];
 
 const heroHighlights = [
-  { number: "BIS", label: "ISI Mark & CRS Certified" },
-  { number: "EPR", label: "E-Waste & Plastic Compliance" },
-  { number: "WPC", label: "Wireless Product Approvals" },
-  { number: "ISO", label: "International Standards" },
+  { number: "BIS", label: "CRS & ISI Certification" },
+  { number: "WPC", label: "ETA Approval for Wireless Devices" },
+  { number: "TEST", label: "Testing & Product Certification" },
+  { number: "ISO", label: "International ISO Standards" },
 ];
 
 export default function AboutScreen() {
@@ -107,12 +107,7 @@ export default function AboutScreen() {
         <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to right, rgba(12,35,64,0.88) 50%, rgba(12,35,64,0.5) 100%)" }} />
 
         <div style={{ maxWidth: 1280, margin: "0 auto", padding: "80px 40px", width: "100%", position: "relative", zIndex: 2 }}>
-          {/* Breadcrumb */}
-          <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 36 }}>
-            <button onClick={() => router.push("/")} style={{ color: C.primary, fontSize: 13, background: "none", border: "none", cursor: "pointer", fontFamily: C.sans }}>Home</button>
-            <span style={{ color: "rgba(255,255,255,0.4)", fontSize: 13 }}>/</span>
-            <span style={{ color: "rgba(255,255,255,0.7)", fontSize: 13 }}>About Us</span>
-          </div>
+     
 
           <div className="hero-grid">
             {/* Left */}
@@ -292,7 +287,7 @@ export default function AboutScreen() {
       </section>
 
       {/* ── TEAM ── */}
-      <section className="sec-pad" style={{ background: C.offWhite }}>
+      {/* <section className="sec-pad" style={{ background: C.offWhite }}>
         <div style={{ maxWidth: 1280, margin: "0 auto" }}>
           <div style={{ textAlign: "center", marginBottom: 52 }}>
             <span className="section-label">Leadership</span>
@@ -300,7 +295,7 @@ export default function AboutScreen() {
           </div>
 
           {/* Team image banner */}
-          <div style={{ position: "relative", borderRadius: 20, overflow: "hidden", marginBottom: 36, height: 200 }}>
+          {/* <div style={{ position: "relative", borderRadius: 20, overflow: "hidden", marginBottom: 36, height: 200 }}>
             <img
               src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=1400&q=80&fit=crop"
               alt="SIACC team"
@@ -313,9 +308,9 @@ export default function AboutScreen() {
                 <p style={{ color: "rgba(255,255,255,0.7)", fontSize: 14 }}>Every specialist dedicated to getting your certification done right.</p>
               </div>
             </div>
-          </div>
+          </div> */}
 
-          <div className="team-grid">
+          {/* <div className="team-grid">
             {team.map((member) => (
               <div key={member.name} className="team-card">
                 <div style={{ width: 54, height: 54, borderRadius: "50%", backgroundColor: C.primaryLight, border: `2px solid ${C.primary}`, display: "flex", alignItems: "center", justifyContent: "center", fontFamily: C.serif, color: C.primary, fontWeight: 800, fontSize: 20, flexShrink: 0 }}>
@@ -329,8 +324,8 @@ export default function AboutScreen() {
               </div>
             ))}
           </div>
-        </div>
-      </section>
+        </div> */}
+      {/* </section> */} 
 
       {/* ── CTA BANNER — with image ── */}
       <section style={{ position: "relative", padding: "80px 24px", overflow: "hidden" }}>

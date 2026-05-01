@@ -1,7 +1,7 @@
 "use client";
 import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
-import { ChevronDown, Menu, X } from "lucide-react";
+import { ChevronDown, Menu, X, Instagram, Linkedin, Facebook } from "lucide-react";
 
 const C = {
   primary: "#F97316",
@@ -37,6 +37,24 @@ const navLinks = [
   { name: "Contact", href: "/contact" },
 ];
 
+const socialLinks = [
+  {
+    name: "Instagram",
+    href: "https://instagram.com/siacc",
+    icon: Instagram,
+  },
+  {
+    name: "LinkedIn",
+    href: "https://linkedin.com/company/siacc",
+    icon: Linkedin,
+  },
+  {
+    name: "Facebook",
+    href: "https://facebook.com/siacc",
+    icon: Facebook,
+  },
+];
+
 export default function Navbar() {
   const router = useRouter();
   const [scrolled, setScrolled] = useState(false);
@@ -66,6 +84,8 @@ export default function Navbar() {
       <style>{`
         .desktop-top-bar, .desktop-nav, .desktop-cta { }
         .mobile-burger { display: none !important; }
+        .social-icon { transition: color 0.2s, opacity 0.2s; }
+        .social-icon:hover { opacity: 0.7; }
         @media (max-width: 1024px) {
           .desktop-top-bar { display: none !important; }
           .desktop-nav { display: none !important; }
@@ -77,14 +97,20 @@ export default function Navbar() {
       {/* Top info bar */}
       <div className="desktop-top-bar" style={{ backgroundColor: C.navy, color: "rgba(255,255,255,0.75)", fontSize: 12, padding: "7px 24px", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
         <div style={{ display: "flex", gap: 24 }}>
-          <span>📞 +91 98765 43210</span>
+          <span>📞 +91- 9540190334</span>
           <span>✉ info@siacc.co.in</span>
         </div>
         <div style={{ display: "flex", gap: 24, alignItems: "center" }}>
           <span>Mon–Sat: 9:00 AM – 6:00 PM</span>
-          <button onClick={() => go("/contact")} style={{ color: C.primary, background: "none", border: "none", cursor: "pointer", fontWeight: 600, fontSize: 12, fontFamily: C.sans }}>
-            Free Consultation →
-          </button>
+
+          {/* Social Icons */}
+          <div style={{ display: "flex", gap: 14, alignItems: "center", borderLeft: "1px solid rgba(255,255,255,0.15)", paddingLeft: 20 }}>
+            {socialLinks.map(({ name, href, icon: Icon }) => (
+              <a key={name} href={href} target="_blank" rel="noopener noreferrer" aria-label={name} className="social-icon" style={{ color: C.primary, display: "flex", alignItems: "center" }}>
+                <Icon size={15} />
+              </a>
+            ))}
+          </div>
         </div>
       </div>
 
