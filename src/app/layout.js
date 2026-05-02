@@ -1,6 +1,6 @@
 import { Playfair_Display, DM_Sans } from "next/font/google";
 import "./globals.css";
-import WhatsAppWidget from "./Components/WhatsAppWidget";
+import WhatsAppWidget from "@/app/Components/WhatsAppWidget";
 
 const playfair = Playfair_Display({
   subsets: ["latin"],

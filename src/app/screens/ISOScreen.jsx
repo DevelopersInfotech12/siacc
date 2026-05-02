@@ -83,7 +83,7 @@ export default function ISOScreen() {
       {/* HERO SECTION */}
       <section style={{ position: "relative", minHeight: "72vh", display: "flex", alignItems: "center", overflow: "hidden" }}>
         <img
-          src="https://images.unsplash.com/photo-1552664730-d307ca884978?w=1800&q=85&fit=crop" 
+          src="https://images.unsplash.com/photo-1552664730-d307ca884978?w=1800&q=85&fit=crop"
           alt="ISO Certification"
           style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", objectPosition: "center" }}
         />
@@ -102,7 +102,7 @@ export default function ISOScreen() {
               </h1>
 
               <p style={{ color: "rgba(255,255,255,0.78)", fontSize: 16, lineHeight: 1.8, maxWidth: 520, marginBottom: 32 }}>
-                Globally recognized quality, environment, safety, and information security standards. 
+                Globally recognized quality, environment, safety, and information security standards.
                 We manage the complete ISO certification journey — from gap analysis to final certification.
               </p>
 
@@ -251,7 +251,7 @@ export default function ISOScreen() {
               href="tel:+919876543210"
               style={{ padding: "14px 28px", border: "2px solid rgba(255,255,255,0.6)", color: "#fff", borderRadius: 12, textDecoration: "none", fontSize: 14, fontWeight: 600 }}
             >
-              📞 +91 98765 43210
+              📞 +91- 9540190334
             </a>
           </div>
         </div>

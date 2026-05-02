@@ -21,7 +21,7 @@ const serviceDropdown = [
   // Priority Services
   { name: "BIS-CRS & ISI Certification", href: "/bis" },
   { name: "WPC-ETA Approval", href: "/wpc" },
-  { name: "Testing & Certification", href: "/testing" },
+  { name: "Testing & Certification", href: "/testing&certification" },
   { name: "BEE Certification", href: "/bee" },
   { name: "ISO Certification", href: "/iso" },
 
@@ -158,7 +158,7 @@ export default function Navbar() {
                       ))}
                       <div style={{ borderTop: `1px solid ${C.border}`, margin: "6px 0", padding: "8px 20px 4px" }}>
                         <button onClick={() => go("/services")} style={{ fontSize: 12, color: C.primary, fontWeight: 700, background: "none", border: "none", cursor: "pointer", fontFamily: C.sans }}>
-                          View All 9 Services →
+                          View All Services →
                         </button>
                       </div>
                     </div>

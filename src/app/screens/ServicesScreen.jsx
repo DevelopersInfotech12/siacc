@@ -339,7 +339,7 @@ export default function ServicesScreen() {
             </button>
             <a href="tel:+919876543210"
               style={{ padding: "14px 28px", border: "2px solid rgba(255,255,255,0.6)", color: "#fff", borderRadius: 12, textDecoration: "none", fontSize: 14, fontWeight: 600, display: "inline-flex", alignItems: "center", gap: 8 }}>
-              📞 +91 98765 43210
+              📞 +91- 9540190334
             </a>
           </div>
         </div>

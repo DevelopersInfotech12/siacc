@@ -31,38 +31,133 @@ const quickLinks = [
   { name: "Blog", href: "/blog" },
   { name: "Careers", href: "/career" },
   { name: "Contact", href: "/contact" },
-  // { name: "Privacy Policy", href: "/privacy" },
 ];
 
 export default function Footer() {
   return (
     <footer style={{ fontFamily: C.sans, backgroundColor: C.navy }}>
 
-      {/* CTA Band */}
-      <div style={{ borderBottom: "1px solid rgba(255,255,255,0.1)", padding: "48px 24px" }}>
-        <div style={{ maxWidth: 1280, margin: "0 auto", display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 24 }}>
+      <style>{`
+        * { box-sizing: border-box; }
+
+        /* CTA band */
+        .footer-cta-inner {
+          max-width: 1280px;
+          margin: 0 auto;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          flex-wrap: wrap;
+          gap: 24px;
+        }
+        .footer-cta-btns {
+          display: flex;
+          gap: 12px;
+          flex-shrink: 0;
+          flex-wrap: wrap;
+        }
+        @media (max-width: 640px) {
+          .footer-cta-inner { flex-direction: column; align-items: flex-start; }
+          .footer-cta-btns { width: 100%; }
+          .footer-cta-btns a { flex: 1; text-align: center; }
+        }
+
+        /* Main grid */
+        .footer-main-grid {
+          max-width: 1280px;
+          margin: 0 auto;
+          padding: 56px 24px 40px;
+          display: grid;
+          grid-template-columns: 2fr 1.5fr 1fr 1.8fr;
+          gap: 48px;
+        }
+        @media (max-width: 1024px) {
+          .footer-main-grid {
+            grid-template-columns: 1fr 1fr;
+            gap: 36px;
+          }
+        }
+        @media (max-width: 560px) {
+          .footer-main-grid {
+            grid-template-columns: 1fr;
+            gap: 32px;
+            padding: 40px 16px 32px;
+          }
+        }
+
+        /* Newsletter email row */
+        .footer-email-row {
+          display: flex;
+          gap: 8px;
+          margin-bottom: 24px;
+        }
+        @media (max-width: 400px) {
+          .footer-email-row { flex-direction: column; }
+          .footer-email-row button { width: 100%; padding: 10px; }
+        }
+
+        /* Bottom bar */
+        .footer-bottom-inner {
+          max-width: 1280px;
+          margin: 0 auto;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          flex-wrap: wrap;
+          gap: 8px;
+          text-align: center;
+        }
+
+        /* CTA band padding */
+        .footer-cta-pad {
+          border-bottom: 1px solid rgba(255,255,255,0.1);
+          padding: 48px 24px;
+        }
+        @media (max-width: 560px) {
+          .footer-cta-pad { padding: 32px 16px; }
+        }
+
+        /* Bottom bar padding */
+        .footer-bottom-pad {
+          border-top: 1px solid rgba(255,255,255,0.1);
+          padding: 18px 24px;
+        }
+        @media (max-width: 560px) {
+          .footer-bottom-pad { padding: 16px; }
+        }
+      `}</style>
+
+      {/* ── CTA Band ── */}
+      <div className="footer-cta-pad">
+        <div className="footer-cta-inner">
           <div>
-            <h3 style={{ fontFamily: C.serif, fontSize: 26, color: "#fff", marginBottom: 6, fontWeight: 800 }}>Ready to get certified?</h3>
-            <p style={{ color: "rgba(255,255,255,0.65)", fontSize: 14 }}>Talk to our experts today — free consultation, no obligations.</p>
+            <h3 style={{ fontFamily: C.serif, fontSize: "clamp(18px, 3vw, 26px)", color: "#fff", marginBottom: 6, fontWeight: 800 }}>
+              Ready to get certified?
+            </h3>
+            <p style={{ color: "rgba(255,255,255,0.65)", fontSize: 14, margin: 0 }}>
+              Talk to our experts today — free consultation, no obligations.
+            </p>
           </div>
-          <div style={{ display: "flex", gap: 12, flexShrink: 0 }}>
-            <Link href="/contact" style={{ padding: "12px 28px", backgroundColor: C.primary, color: "#fff", fontWeight: 700, borderRadius: 10, textDecoration: "none", fontSize: 14, boxShadow: "0 4px 12px rgba(249,115,22,0.35)" }}>
+          <div className="footer-cta-btns">
+            <Link href="/contact"
+              style={{ padding: "12px 28px", backgroundColor: C.primary, color: "#fff", fontWeight: 700, borderRadius: 10, textDecoration: "none", fontSize: 14, boxShadow: "0 4px 12px rgba(249,115,22,0.35)", display: "inline-block" }}>
               Get Free Consultation
             </Link>
-            <a href="tel:+91- 9540190334" style={{ padding: "12px 24px", border: "1.5px solid rgba(255,255,255,0.25)", color: "rgba(255,255,255,0.85)", borderRadius: 10, textDecoration: "none", fontSize: 14 }}>
-              Call Now
+            <a href="tel:+91-9540190334"
+              style={{ padding: "12px 24px", border: "1.5px solid rgba(255,255,255,0.25)", color: "rgba(255,255,255,0.85)", borderRadius: 10, textDecoration: "none", fontSize: 14, display: "inline-block" }}>
+              📞 Call Now
             </a>
           </div>
         </div>
       </div>
 
-      {/* Main footer */}
-      <div style={{ maxWidth: 1280, margin: "0 auto", padding: "56px 24px 40px", display: "grid", gridTemplateColumns: "2fr 1.5fr 1fr 1.8fr", gap: 48 }}>
+      {/* ── Main Footer Grid ── */}
+      <div className="footer-main-grid">
 
         {/* Brand */}
         <div>
           <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 16 }}>
-            <div style={{ width: 40, height: 40, borderRadius: 10, backgroundColor: C.primary, display: "flex", alignItems: "center", justifyContent: "center" }}>
+            <div style={{ width: 40, height: 40, borderRadius: 10, backgroundColor: C.primary, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
               <span style={{ color: "#fff", fontFamily: C.serif, fontWeight: 800, fontSize: 20 }}>S</span>
             </div>
             <div>
@@ -74,16 +169,21 @@ export default function Footer() {
             India's trusted compliance & certification consultancy. 12+ years, 10,000+ clients, 98% success rate.
           </p>
           <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-            {[{ icon: "📞", text: "+91-9540190334", href: "tel:+91-9540190334" }, { icon: "✉", text: "info@siacc.co.in", href: "mailto:info@siacc.co.in" }].map((item) => (
-              <a key={item.text} href={item.href} style={{ display: "flex", alignItems: "center", gap: 8, fontSize: 13, color: "rgba(255,255,255,0.65)", textDecoration: "none" }}
-                onMouseEnter={(e) => e.currentTarget.style.color = C.primary}
-                onMouseLeave={(e) => e.currentTarget.style.color = "rgba(255,255,255,0.65)"}
-              >
-                <span>{item.icon}</span><span>{item.text}</span>
-              </a>
-            ))}
+            <a href="tel:+91-9540190334"
+              style={{ display: "flex", alignItems: "center", gap: 8, fontSize: 13, color: "rgba(255,255,255,0.65)", textDecoration: "none" }}
+              onMouseEnter={e => e.currentTarget.style.color = C.primary}
+              onMouseLeave={e => e.currentTarget.style.color = "rgba(255,255,255,0.65)"}>
+              <span>📞</span><span>+91-9540190334</span>
+            </a>
+            <a href="mailto:info@siacc.co.in"
+              style={{ display: "flex", alignItems: "center", gap: 8, fontSize: 13, color: "rgba(255,255,255,0.65)", textDecoration: "none" }}
+              onMouseEnter={e => e.currentTarget.style.color = C.primary}
+              onMouseLeave={e => e.currentTarget.style.color = "rgba(255,255,255,0.65)"}>
+              <span>✉</span><span>info@siacc.co.in</span>
+            </a>
             <div style={{ display: "flex", alignItems: "flex-start", gap: 8, fontSize: 13, color: "rgba(255,255,255,0.6)" }}>
-              <span>📍</span><span>House no. - 211, Ground Floor, Pocket 9, <br /> North West New Delhi - 110086 </span>
+              <span style={{ flexShrink: 0 }}>📍</span>
+              <span>House No. 211, Ground Floor, Pocket 9,<br />North West New Delhi – 110086</span>
             </div>
           </div>
         </div>
@@ -92,11 +192,13 @@ export default function Footer() {
         <div>
           <h4 style={{ fontFamily: C.serif, fontSize: 17, color: "#fff", marginBottom: 20, fontWeight: 700 }}>Our Services</h4>
           <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-            {footerServices.map((s) => (
-              <Link key={s.name} href={s.href} style={{ fontSize: 13, color: "rgba(255,255,255,0.6)", textDecoration: "none" }}
-                onMouseEnter={(e) => e.currentTarget.style.color = C.primary}
-                onMouseLeave={(e) => e.currentTarget.style.color = "rgba(255,255,255,0.6)"}
-              >→ {s.name}</Link>
+            {footerServices.map(s => (
+              <Link key={s.name} href={s.href}
+                style={{ fontSize: 13, color: "rgba(255,255,255,0.6)", textDecoration: "none" }}
+                onMouseEnter={e => e.currentTarget.style.color = C.primary}
+                onMouseLeave={e => e.currentTarget.style.color = "rgba(255,255,255,0.6)"}>
+                → {s.name}
+              </Link>
             ))}
           </div>
         </div>
@@ -105,11 +207,13 @@ export default function Footer() {
         <div>
           <h4 style={{ fontFamily: C.serif, fontSize: 17, color: "#fff", marginBottom: 20, fontWeight: 700 }}>Quick Links</h4>
           <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-            {quickLinks.map((l) => (
-              <Link key={l.name} href={l.href} style={{ fontSize: 13, color: "rgba(255,255,255,0.6)", textDecoration: "none" }}
-                onMouseEnter={(e) => e.currentTarget.style.color = C.primary}
-                onMouseLeave={(e) => e.currentTarget.style.color = "rgba(255,255,255,0.6)"}
-              >→ {l.name}</Link>
+            {quickLinks.map(l => (
+              <Link key={l.name} href={l.href}
+                style={{ fontSize: 13, color: "rgba(255,255,255,0.6)", textDecoration: "none" }}
+                onMouseEnter={e => e.currentTarget.style.color = C.primary}
+                onMouseLeave={e => e.currentTarget.style.color = "rgba(255,255,255,0.6)"}>
+                → {l.name}
+              </Link>
             ))}
           </div>
         </div>
@@ -120,43 +224,47 @@ export default function Footer() {
           <p style={{ fontSize: 13, color: "rgba(255,255,255,0.6)", marginBottom: 16, lineHeight: 1.65 }}>
             Get regulatory updates, QCO notifications & compliance alerts.
           </p>
-          <div style={{ display: "flex", gap: 8, marginBottom: 24 }}>
-            <input type="email" placeholder="Your email"
-              style={{ flex: 1, padding: "10px 14px", fontSize: 13, backgroundColor: "rgba(255,255,255,0.08)", border: "1px solid rgba(255,255,255,0.15)", borderRadius: 8, color: "#fff", outline: "none", fontFamily: C.sans }} />
-            <button style={{ padding: "10px 16px", backgroundColor: C.primary, color: "#fff", fontWeight: 700, borderRadius: 8, border: "none", cursor: "pointer", fontSize: 14 }}>→</button>
+          <div className="footer-email-row">
+            <input
+              type="email"
+              placeholder="Your email"
+              style={{ flex: 1, padding: "10px 14px", fontSize: 13, backgroundColor: "rgba(255,255,255,0.08)", border: "1px solid rgba(255,255,255,0.15)", borderRadius: 8, color: "#fff", outline: "none", fontFamily: C.sans, minWidth: 0 }}
+            />
+            <button
+              style={{ padding: "10px 16px", backgroundColor: C.primary, color: "#fff", fontWeight: 700, borderRadius: 8, border: "none", cursor: "pointer", fontSize: 14, flexShrink: 0 }}>
+              →
+            </button>
           </div>
           <h4 style={{ fontFamily: C.serif, fontSize: 13, color: "#fff", marginBottom: 10, fontWeight: 700 }}>Certified & Recognized By</h4>
           <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
-            {["BIS", "EPR", "WPC", "TEC", "ISO", "DPIIT"].map((badge) => (
-              <span key={badge} style={{ padding: "4px 12px", fontSize: 11, fontWeight: 700, border: "1px solid rgba(249,115,22,0.4)", color: C.primary, borderRadius: 999, backgroundColor: "rgba(249,115,22,0.08)" }}>{badge}</span>
+            {["BIS", "EPR", "WPC", "TEC", "ISO", "DPIIT"].map(badge => (
+              <span key={badge}
+                style={{ padding: "4px 12px", fontSize: 11, fontWeight: 700, border: "1px solid rgba(249,115,22,0.4)", color: C.primary, borderRadius: 999, backgroundColor: "rgba(249,115,22,0.08)" }}>
+                {badge}
+              </span>
             ))}
           </div>
         </div>
+
       </div>
 
-      {/* Bottom bar */}
-      <div style={{ borderTop: "1px solid rgba(255,255,255,0.1)", padding: "18px 24px" }}>
-        <div style={{ maxWidth: 1280, margin: "0 auto", textAlign: "center" }}>
-
+      {/* ── Bottom Bar ── */}
+      <div className="footer-bottom-pad">
+        <div className="footer-bottom-inner">
           <span style={{ fontSize: 12, color: "rgba(255,255,255,0.5)" }}>
-            © {new Date().getFullYear()} SIACC — Star India Accreditation. All rights reserved. |
-            <a
-              href="https://developersinfotech.in/"
-              target="_blank"
-              rel="noopener noreferrer"
-              style={{
-                color: "#F97316",
-                textDecoration: "none",
-                fontWeight: 600,
-                marginLeft: 6
-              }}
-            >
-              Developed by Developers Infotech Pvt Ltd
-            </a>
+            © {new Date().getFullYear()} SIACC — Star India Accreditation. All rights reserved.
           </span>
-
+          <span style={{ fontSize: 12, color: "rgba(255,255,255,0.3)" }}>|</span>
+          <a
+            href="https://developersinfotech.in/"
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{ color: C.primary, textDecoration: "none", fontWeight: 600, fontSize: 12 }}>
+            Developed by Developers Infotech Pvt Ltd
+          </a>
         </div>
       </div>
+
     </footer>
   );
 }

@@ -242,7 +242,7 @@ export default function EPRScreen() {
             {/* Banner image */}
             <div style={{ position: "relative", borderRadius: 14, overflow: "hidden", height: 160, marginBottom: 32 }}>
               <img
-                src="https://images.unsplash.com/photo-1611284446314-60a58ac0deb9?w=900&q=80&fit=crop"
+                src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=400&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OHx8Y29ycG9yYXRlJTIwb2ZmaWNlfGVufDB8fDB8fHww"
                 alt="EPR compliance management"
                 style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center 40%" }}
               />
@@ -495,7 +495,7 @@ export default function EPRScreen() {
             </button>
             <a href="tel:+919876543210"
               style={{ padding: "16px 32px", border: "2px solid rgba(255,255,255,0.6)", color: "#fff", borderRadius: 12, textDecoration: "none", fontSize: 15, fontWeight: 600, display: "inline-flex", alignItems: "center", gap: 8 }}>
-              📞 +91 98765 43210
+              📞 +91- 9540190334
             </a>
           </div>
         </div>
