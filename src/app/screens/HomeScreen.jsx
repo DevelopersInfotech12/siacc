@@ -1,56 +1,86 @@
 "use client";
-import { useState } from "react";
-import Link from "next/link";
+import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import Navbar from "../Components/Navbar";
 import Footer from "../Components/Footer";
 
-const C = {
-  primary: "#F97316",
-  primaryDark: "#EA6A0A",
-  primaryLight: "#FFF3E8",
-  blue: "#0891B2",
-  blueLight: "#ECFEFF",
-  navy: "#0C2340",
-  bodyText: "#374151",
-  mutedText: "#6B7280",
-  border: "#E5E7EB",
+const T = {
+  teal: "#1E88C8",
+  tealDark: "#074D4D",
+  tealMid: "#0E8080",
+  tealLight: "#EBF5F5",
+  tealGhost: "#F4FAFA",
+  amber: "#C8780A",
+  amberLight: "#FEF3DC",
+  amberDark: "#9A5C06",
+  slate: "#0D1B2A",
+  slateMid: "#1C3144",
+  body: "#2D3748",
+  muted: "#718096",
+  subtle: "#A0AEC0",
+  border: "#E8E3DA",
+  borderLight: "#F0ECE5",
   white: "#FFFFFF",
-  offWhite: "#F9FAFB",
-  serif: "'Playfair Display', Georgia, serif",
-  sans: "'DM Sans', system-ui, sans-serif",
+  cream: "#FAF8F4",
+  creamMid: "#F3EFE8",
+  serif: "'Cormorant Garamond', 'Georgia', serif",
+  sans: "'Outfit', 'system-ui', sans-serif",
 };
 
-const stats = [
-  { value: "12+", label: "Years Experience", icon: "🏆" },
-  { value: "10,000+", label: "Happy Clients", icon: "😊" },
-  { value: "50+", label: "Certifications", icon: "📜" },
-  { value: "98%", label: "Success Rate", icon: "✅" },
-  { value: "500+", label: "Products Certified", icon: "📦" },
+const ticker = [
+  "BIS Conformity Assessment Amendment Regulations 2026 — Major Update",
+  "BIS CRS Registration now mandatory for AR/VR/MR Devices",
+  "TEC Launches Reimbursement Scheme for Start-ups & MSMEs",
+  "BIS Certification for Furniture Products mandatory from Feb 2026",
+  "EPR Registration deadline extended — Check your category now",
+];
+
+const sliderServices = [
+  { id: "crs", tag: "BIS — CRS", icon: "📱", title: "BIS CRS Registration", sub: "Compulsory Registration Scheme", desc: "Mandatory for 70+ electronic products — mobiles, laptops, LED lights, chargers, power banks. We handle lab coordination, filing & follow-up.", stat1: { v: "70+", l: "Products" }, stat2: { v: "4–8 wk", l: "Timeline" }, href: "/bis", img: "https://images.unsplash.com/photo-1581092921461-39d9a338b0cb?w=1000&q=85&fit=crop" },
+  { id: "isi", tag: "BIS — ISI", icon: "🔖", title: "BIS ISI Mark Certification", sub: "Mandatory Quality Certification", desc: "Required for 370+ categories including steel, cement, electrical goods, LPG cylinders. Full end-to-end support from lab to license.", stat1: { v: "370+", l: "Categories" }, stat2: { v: "8–12 wk", l: "Timeline" }, href: "/bis", img: "https://images.unsplash.com/photo-1565043666747-69f6646db940?w=1000&q=85&fit=crop" },
+  { id: "wpc", tag: "WPC — ETA", icon: "📡", title: "WPC-ETA Approval", sub: "Wireless Planning & Coordination", desc: "Mandatory for all wireless, Bluetooth, Wi-Fi, Zigbee and RF devices imported into India. We file through Saralsanchar portal.", stat1: { v: "5 yrs", l: "Validity" }, stat2: { v: "4–8 wk", l: "Timeline" }, href: "/wpc", img: "https://images.unsplash.com/photo-1518770660439-4636190af475?w=1000&q=85&fit=crop" },
+  { id: "test", tag: "Testing", icon: "🔬", title: "Testing & Certification", sub: "NABL / BIS / TEC Accredited Labs", desc: "End-to-end lab testing for all certifications — product safety, EMC, RF and chemical. 50+ partner labs across India for fastest results.", stat1: { v: "50+", l: "Labs" }, stat2: { v: "1–8 wk", l: "Turnaround" }, href: "/testing", img: "https://images.unsplash.com/photo-1532187863486-abf9dbad1b69?w=1000&q=85&fit=crop" },
+  { id: "bee", tag: "BEE", icon: "⚡", title: "BEE Star Rating", sub: "Bureau of Energy Efficiency", desc: "Mandatory star labelling for ACs, refrigerators, washing machines, geysers and fans. Voluntary and mandatory schemes both covered.", stat1: { v: "20+", l: "Products" }, stat2: { v: "4–6 wk", l: "Timeline" }, href: "/bee", img: "https://images.unsplash.com/photo-1497366216548-37526070297c?w=1000&q=85&fit=crop" },
+  { id: "iso", tag: "ISO", icon: "🌐", title: "ISO Certification", sub: "International Standards Organization", desc: "ISO 9001, 14001, 45001, 27001, 22000 and more. Globally recognized, required for government tenders, exports and enterprise contracts.", stat1: { v: "3 yrs", l: "Validity" }, stat2: { v: "2–4 mo", l: "Timeline" }, href: "/iso", img: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=1000&q=85&fit=crop" },
 ];
 
 const services = [
-  { icon: "🏅", title: "BIS — CRS Registration", desc: "Compulsory Registration Scheme for electronics & IT products sold in India.", href: "/bis", tag: "Most Popular", tagColor: "#FFF3E8", tagText: "#EA6A0A" },
-  { icon: "🔖", title: "BIS — ISI Mark", desc: "Mandatory ISI Mark certification for 370+ product categories including steel, cement & electrical goods.", href: "/bis", tag: "" },
-  { icon: "📡", title: "WPC-ETA Approval", desc: "Equipment Type Approval for wireless, Bluetooth & RF devices imported into India.", href: "/wpc", tag: "" },
-  { icon: "🧪", title: "Testing & Certification", desc: "End-to-end product testing coordination with BIS & accredited labs for all certification requirements.", href: "/tec", tag: "" },
-  { icon: "🌐", title: "ISO Certification", desc: "ISO 9001, 14001, 45001, 27001 and more for organizations of all sizes and sectors.", href: "/iso", tag: "" },
+  { icon: "🏅", title: "BIS Certification", desc: "ISI Mark & CRS registration for electronics and consumer products.", href: "/bis", tag: "Most Popular" },
+  { icon: "📡", title: "WPC-ETA Approval", desc: "Wireless, Bluetooth & RF device approvals via Saralsanchar portal.", href: "/wpc", tag: "" },
+  { icon: "🔬", title: "Testing & Certification", desc: "Lab testing coordination with NABL & BIS recognized labs.", href: "/testing", tag: "" },
+  { icon: "⚡", title: "BEE Registration", desc: "Energy efficiency star labelling for appliances under BEE norms.", href: "/bee", tag: "" },
+  { icon: "🌐", title: "ISO Certification", desc: "ISO 9001, 14001, 45001, 27001 & more for all industries.", href: "/iso", tag: "" },
+  { icon: "♻️", title: "EPR Registration", desc: "E-Waste, Plastic, Battery & Tyre EPR compliance under CPCB norms.", href: "/epr", tag: "Mandatory" },
+];
+
+const stats = [
+  { v: "12+", l: "Years of Excellence" },
+  { v: "10,000+", l: "Certifications Issued" },
+  { v: "50+", l: "Services & Domains" },
+  { v: "98%", l: "First-Attempt Success" },
 ];
 
 const whyUs = [
-  { icon: "🛡️", title: "Trusted & Experienced", desc: "12+ years of dedicated certification expertise across 50+ regulatory frameworks in India." },
-  { icon: "⚡", title: "Fast Turnaround", desc: "Streamlined processes with dedicated managers ensure the fastest possible approvals." },
-  { icon: "🕐", title: "24/7 Support", desc: "Round-the-clock assistance from our expert team — always a call or message away." },
-  { icon: "💰", title: "Transparent Pricing", desc: "No hidden charges. Fixed pricing with clear timelines from day one." },
-  { icon: "📋", title: "End-to-End Service", desc: "From documentation to final certificate — we handle every step for you." },
-  { icon: "🏆", title: "98% Success Rate", desc: "Our meticulous process and regulatory expertise delivers results every time." },
+  { icon: "🛡️", title: "Trusted & Experienced", desc: "12+ years and 10,000+ successful certifications across every major Indian regulatory framework." },
+  { icon: "⚡", title: "Fast Turnaround", desc: "Dedicated managers and streamlined processes ensure the fastest-possible approval timelines." },
+  { icon: "🕐", title: "24 / 7 Expert Support", desc: "Our compliance experts are available round-the-clock via call, WhatsApp, or email." },
+  { icon: "💰", title: "Transparent Pricing", desc: "Fixed pricing, no hidden charges, clear milestones from day one." },
+  { icon: "📋", title: "End-to-End Service", desc: "From documentation and lab testing to final certificate delivery — we manage everything." },
+  { icon: "🏆", title: "98% Success Rate", desc: "Meticulous preparation and regulatory expertise means your application succeeds first time." },
 ];
 
 const steps = [
-  { step: "01", title: "Free Consultation", desc: "Tell us your product & requirements. We assess and advise on the right certification path.", icon: "💬" },
-  { step: "02", title: "Document Preparation", desc: "Our experts guide you through every document and lab test required for your application.", icon: "📄" },
-  { step: "03", title: "Application Filing", desc: "We file the complete application with the regulatory body on your behalf.", icon: "📤" },
-  { step: "04", title: "Certificate Delivery", desc: "We track and follow up until your certificate is issued and delivered to you.", icon: "🎓" },
+  { n: "01", title: "Free Consultation", desc: "We assess your product and advise on the exact certification path needed.", icon: "💬" },
+  { n: "02", title: "Documentation", desc: "Our experts prepare every document and lab test required for your file.", icon: "📄" },
+  { n: "03", title: "Filing", desc: "We submit the complete, error-free application with the regulatory body.", icon: "📤" },
+  { n: "04", title: "Certificate", desc: "We track and follow up until your certificate is issued and delivered.", icon: "🎓" },
+];
+
+const testimonials = [
+  { name: "Rajesh Mehta", co: "TechImport Pvt. Ltd.", text: "SIACC handled our BIS CRS certification end-to-end. Professional, fast and transparent from day one. Highly recommended.", r: 5 },
+  { name: "Priya Sharma", co: "EcoGoods India", text: "EPR registration done within the promised timeline despite the urgency. Their 24/7 availability is genuinely a game-changer.", r: 5 },
+  { name: "Arjun Kapoor", co: "Wireless Solutions Ltd.", text: "WPC-ETA was always a black box for us. SIACC made it completely simple. Now we come to them for every new product launch.", r: 5 },
+  { name: "Sneha Verma", co: "MediCare Devices Pvt. Ltd.", text: "CDSCO licensing used to terrify us. SIACC's expertise made it completely stress-free. Outstanding team and service.", r: 5 },
 ];
 
 const industries = [
@@ -59,457 +89,545 @@ const industries = [
   "Chemicals", "Construction", "Toys & Furniture", "Energy & Power",
 ];
 
-const testimonials = [
-  { name: "Rajesh Mehta", company: "TechImport Pvt. Ltd.", text: "Siacc got our BIS CRS certification done in record time. Professional, transparent, and extremely knowledgeable team.", rating: 5 },
-  { name: "Priya Sharma", company: "EcoGoods India", text: "We needed EPR registration urgently. Their team was available 24/7, guided us step by step, and delivered within the promised timeline.", rating: 5 },
-  { name: "Arjun Kapoor", company: "Wireless Solutions Ltd.", text: "WPC-ETA approval was always a headache — until Siacc. Highly recommend them for any wireless product compliance.", rating: 5 },
-  { name: "Sneha Verma", company: "MediCare Devices Pvt. Ltd.", text: "Getting our CDSCO license felt impossible before we found Siacc. Their expertise made the entire process stress-free and swift.", rating: 5 },
-];
+/* ─── SHARED MICRO-COMPONENTS ─── */
+function SectionLabel({ children }) {
+  return (
+    <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 16 }}>
+      <div style={{ width: 28, height: 1.5, background: T.teal }} />
+      <span style={{ fontFamily: T.sans, fontSize: 11, fontWeight: 600, letterSpacing: "0.15em", textTransform: "uppercase", color: T.teal }}>{children}</span>
+    </div>
+  );
+}
 
+function PrimaryBtn({ children, onClick, style = {} }) {
+  const [hov, setHov] = useState(false);
+  return (
+    <button onClick={onClick}
+      onMouseEnter={() => setHov(true)}
+      onMouseLeave={() => setHov(false)}
+      style={{
+        padding: "13px 32px", fontFamily: T.sans, fontSize: 13.5, fontWeight: 600,
+        letterSpacing: "0.02em", border: "none", borderRadius: 6, cursor: "pointer",
+        background: hov ? T.teal : "#F97316", color: "#fff",
+        boxShadow: hov ? `0 8px 28px rgba(10,104,104,0.38)` : `0 4px 16px rgba(10,104,104,0.22)`,
+        transform: hov ? "translateY(-1px)" : "translateY(0)",
+        transition: "all 0.22s cubic-bezier(0.4,0,0.2,1)",
+        ...style,
+      }}>
+      {children}
+    </button>
+  );
+}
+
+function OutlineBtnTransparent({ children, onClick, style = {}, href }) {
+  const [hov, setHov] = useState(false);
+  const base = {
+    padding: "12px 28px", fontFamily: T.sans, fontSize: 13.5, fontWeight: 600,
+    letterSpacing: "0.02em", borderRadius: 6, cursor: "pointer",
+    border: `1.5px solid ${hov ? T.teal : T.border}`,
+    color: "#383737",
+    background: hov ? "#F97316" : "transparent",
+    transition: "all 0.22s cubic-bezier(0.4,0,0.2,1)",
+    textDecoration: "none", display: "inline-flex", alignItems: "center",
+    ...style,
+  };
+  if (href) return <a href={href} style={base} onMouseEnter={() => setHov(true)} onMouseLeave={() => setHov(false)}>{children}</a>;
+  return <button onClick={onClick} style={base} onMouseEnter={() => setHov(true)} onMouseLeave={() => setHov(false)}>{children}</button>;
+}
+
+function OutlineBtn({ children, onClick, style = {}, href }) {
+  const [hov, setHov] = useState(false);
+  const base = {
+    padding: "12px 28px", fontFamily: T.sans, fontSize: 13.5, fontWeight: 600,
+    letterSpacing: "0.02em", borderRadius: 6, cursor: "pointer",
+    border: `1.5px solid ${hov ? T.teal : T.border}`,
+    color: hov ? T.teal : "#ffffff",
+    background: hov ? "transparent" : "#F97316",
+    transition: "all 0.22s cubic-bezier(0.4,0,0.2,1)",
+    textDecoration: "none", display: "inline-flex", alignItems: "center",
+    ...style,
+  };
+  if (href) return <a href={href} style={base} onMouseEnter={() => setHov(true)} onMouseLeave={() => setHov(false)}>{children}</a>;
+  return <button onClick={onClick} style={base} onMouseEnter={() => setHov(true)} onMouseLeave={() => setHov(false)}>{children}</button>;
+}
+
+/* ─── HERO SLIDER ─── */
+function HeroSlider() {
+  const router = useRouter();
+  const [active, setActive] = useState(0);
+  const [entering, setEntering] = useState(false);
+  const [paused, setPaused] = useState(false);
+  const timerRef = useRef(null);
+
+  const goTo = (idx) => {
+    if (idx === active) return;
+    setActive(idx);
+    setEntering(true);
+    setTimeout(() => setEntering(false), 500);
+  };
+
+  useEffect(() => {
+    if (paused) { clearInterval(timerRef.current); return; }
+    timerRef.current = setInterval(() => goTo((active + 1) % sliderServices.length), 5500);
+    return () => clearInterval(timerRef.current);
+  }, [active, paused]);
+
+  const s = sliderServices[active];
+
+  return (
+    <div onMouseEnter={() => setPaused(true)} onMouseLeave={() => setPaused(false)}
+      style={{ background: T.cream, borderBottom: `1px solid ${T.border}` }}>
+
+      {/* Service Tab Row */}
+      <div style={{ background: T.white, borderBottom: `1px solid ${T.border}`, overflowX: "auto" }}>
+        <div style={{ display: "flex", maxWidth: 1380, margin: "0 auto", padding: "0 clamp(16px,4vw,56px)" }}>
+          {sliderServices.map((sl, i) => (
+            <button key={sl.id} onClick={() => goTo(i)}
+              style={{
+                padding: "14px 22px", fontFamily: T.sans, fontSize: 12.5, fontWeight: i === active ? 600 : 500,
+                border: "none", borderBottom: i === active ? `2px solid ${T.teal}` : "2px solid transparent",
+                background: "transparent", color: i === active ? T.teal : T.muted,
+                cursor: "pointer", whiteSpace: "nowrap", transition: "all 0.2s", letterSpacing: "0.01em",
+              }}>
+              {sl.icon} {sl.tag}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {/* Main Slide */}
+      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", maxWidth: "100%", overflow: "hidden" }} className="hero-slide-grid">
+        <div style={{ display: "flex", flexDirection: "column", justifyContent: "center", padding: "clamp(40px,6vw,88px) clamp(24px,5vw,72px)" }}>
+          <div key={s.id} style={{ animation: entering ? "fadeSlideUp 0.42s cubic-bezier(0.22,1,0.36,1) both" : "none" }}>
+            <div style={{ display: "inline-flex", alignItems: "center", gap: 8, background: T.tealLight, borderRadius: 4, padding: "5px 14px", marginBottom: 24 }}>
+              <span style={{ fontSize: 13 }}>{s.icon}</span>
+              <span style={{ fontFamily: T.sans, fontSize: 10.5, fontWeight: 700, color: T.teal, letterSpacing: "0.12em", textTransform: "uppercase" }}>{s.tag}</span>
+            </div>
+            <h1 style={{ fontFamily: T.serif, fontSize: "clamp(2rem,3.8vw,3.4rem)", color: T.slate, fontWeight: 700, lineHeight: 1.08, marginBottom: 10, letterSpacing: "-0.01em" }}>
+              {s.title}
+            </h1>
+            <p style={{ fontFamily: T.sans, fontSize: 12, fontWeight: 600, color: T.tealMid, marginBottom: 20, letterSpacing: "0.05em", textTransform: "uppercase" }}>{s.sub}</p>
+            <p style={{ fontFamily: T.sans, fontSize: "clamp(13.5px,1.4vw,15px)", color: T.muted, lineHeight: 1.9, marginBottom: 32, maxWidth: 460 }}>{s.desc}</p>
+            <div style={{ display: "flex", gap: 12, marginBottom: 36, flexWrap: "wrap" }}>
+              {[s.stat1, s.stat2].map((st, i) => (
+                <div key={i} style={{
+                  padding: "14px 24px", background: T.white,
+                  border: `1px solid ${T.border}`, borderRadius: 6,
+                  borderTop: `3px solid ${i === 0 ? T.teal : T.amber}`,
+                }}>
+                  <div style={{ fontFamily: T.serif, fontSize: 26, color: i === 0 ? T.teal : T.amber, fontWeight: 700, lineHeight: 1 }}>{st.v}</div>
+                  <div style={{ fontFamily: T.sans, fontSize: 11, color: T.subtle, marginTop: 4, letterSpacing: "0.04em" }}>{st.l}</div>
+                </div>
+              ))}
+            </div>
+            <div style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
+              <PrimaryBtn onClick={() => router.push("/contact")}>Get Free Consultation</PrimaryBtn>
+              <OutlineBtn onClick={() => router.push(s.href)}>Learn More →</OutlineBtn>
+            </div>
+          </div>
+        </div>
+
+        <div style={{ position: "relative", overflow: "hidden", minHeight: 520 }} className="hero-img-col">
+          <img key={s.id} src={s.img} alt={s.title}
+            style={{
+              position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", objectPosition: "center",
+              animation: entering ? "imgReveal 0.55s ease both" : "none"
+            }} />
+          <div style={{ position: "absolute", inset: 0, background: "linear-gradient(100deg, rgba(250,248,244,0.45) 0%, transparent 32%)" }} />
+          <div style={{
+            position: "absolute", bottom: 32, left: 32,
+            background: "rgba(255,255,255,0.96)", borderRadius: 8, padding: "16px 22px",
+            boxShadow: "0 12px 40px rgba(0,0,0,0.10)", border: `1px solid ${T.border}`,
+            backdropFilter: "blur(12px)", minWidth: 170,
+          }}>
+            <div style={{ fontFamily: T.sans, fontSize: 10, fontWeight: 700, color: T.subtle, textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: 5 }}>Current Service</div>
+            <div style={{ fontFamily: T.serif, fontSize: 16, color: T.slate, fontWeight: 600 }}>{s.title}</div>
+            <div style={{ fontFamily: T.sans, fontSize: 11, color: T.teal, marginTop: 3 }}>{s.sub}</div>
+          </div>
+          <div style={{
+            position: "absolute", top: 28, right: 28, background: "rgba(255,255,255,0.94)",
+            borderRadius: 6, padding: "8px 16px", backdropFilter: "blur(8px)",
+            fontFamily: T.sans, fontSize: 12, fontWeight: 700, color: T.slate,
+            letterSpacing: "0.08em", border: `1px solid ${T.border}`,
+          }}>
+            {String(active + 1).padStart(2, "0")} <span style={{ color: T.subtle }}>/</span> {String(sliderServices.length).padStart(2, "0")}
+          </div>
+        </div>
+      </div>
+
+      {/* Slider Controls */}
+      <div style={{ background: T.white, borderTop: `1px solid ${T.border}`, display: "flex", alignItems: "center", gap: 16, padding: "12px clamp(16px,4vw,56px)" }}>
+        <div style={{ display: "flex", gap: 5, flex: 1 }}>
+          {sliderServices.map((_, i) => (
+            <button key={i} onClick={() => goTo(i)}
+              style={{
+                height: 3, borderRadius: 999, border: "none", cursor: "pointer", transition: "all 0.35s ease",
+                background: i === active ? T.teal : T.border, width: i === active ? 36 : 14
+              }} />
+          ))}
+        </div>
+        <span style={{ fontFamily: T.sans, fontSize: 11.5, color: T.subtle, whiteSpace: "nowrap" }}>{s.tag} — {s.sub}</span>
+        <div style={{ display: "flex", gap: 6 }}>
+          {[["←", active > 0 ? active - 1 : sliderServices.length - 1], ["→", (active + 1) % sliderServices.length]].map(([lbl, idx]) => (
+            <NavArrow key={lbl} onClick={() => goTo(idx)}>{lbl}</NavArrow>
+          ))}
+        </div>
+      </div>
+
+      <div style={{ height: 2, background: T.borderLight }}>
+        {!paused && <div key={active} style={{ height: "100%", background: T.teal, animation: "sliderProgress 5.5s linear forwards" }} />}
+      </div>
+
+      <style>{`
+        @keyframes fadeSlideUp  { from{opacity:0;transform:translateY(18px)} to{opacity:1;transform:translateY(0)} }
+        @keyframes imgReveal    { from{opacity:0.5;transform:scale(1.05)} to{opacity:1;transform:scale(1)} }
+        @keyframes sliderProgress { from{width:0} to{width:100%} }
+        @media(max-width:860px){ .hero-slide-grid{grid-template-columns:1fr!important;} .hero-img-col{display:none!important;} }
+      `}</style>
+    </div>
+  );
+}
+
+function NavArrow({ children, onClick }) {
+  const [hov, setHov] = useState(false);
+  return (
+    <button onClick={onClick} onMouseEnter={() => setHov(true)} onMouseLeave={() => setHov(false)}
+      style={{
+        width: 34, height: 34, borderRadius: 6, border: `1px solid ${hov ? T.teal : T.border}`,
+        background: hov ? T.tealLight : T.white, cursor: "pointer", fontSize: 14, color: hov ? T.teal : T.slate,
+        fontFamily: T.sans, transition: "all 0.18s"
+      }}>
+      {children}
+    </button>
+  );
+}
+
+/* ─── MAIN PAGE ─── */
 export default function HomeScreen() {
   const router = useRouter();
 
   return (
-    <div style={{ minHeight: "100vh", backgroundColor: C.white, fontFamily: C.sans, color: C.bodyText }}>
+    <div style={{ minHeight: "100vh", background: T.white, fontFamily: T.sans, color: T.body }}>
       <style>{`
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-
-        /* ── Services grids ── */
-        .services-row1 {
-          display: grid;
-          grid-template-columns: repeat(4, 1fr);
-          gap: 20px;
-          margin-bottom: 20px;
-        }
-        @media (max-width: 1024px) { .services-row1 { grid-template-columns: repeat(2, 1fr); } }
-        @media (max-width: 480px)  { .services-row1 { grid-template-columns: 1fr; } }
-
-        .services-row2 {
-          display: grid;
-          grid-template-columns: 1fr 1fr 1fr;
-          gap: 20px;
-          align-items: stretch;
-        }
-        @media (max-width: 1024px) { .services-row2 { grid-template-columns: 1fr 1fr; } }
-        @media (max-width: 600px)  { .services-row2 { grid-template-columns: 1fr; } }
-
-        /* hide image card on tablet/mobile to keep layout clean */
-        .services-img-card {
-          display: block;
-        }
-        @media (max-width: 1024px) { .services-img-card { display: none; } }
-
-        /* ── Why grid ── */
-        .why-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
-        @media (max-width: 900px) { .why-grid { grid-template-columns: repeat(2, 1fr); } }
-        @media (max-width: 540px) { .why-grid { grid-template-columns: 1fr; } }
-
-        /* ── Steps grid ── */
-        .steps-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; }
-        @media (max-width: 900px) { .steps-grid { grid-template-columns: repeat(2, 1fr); } }
-        @media (max-width: 480px) { .steps-grid { grid-template-columns: 1fr; } }
-
-        /* hide step connectors on mobile */
-        .step-connector { display: block; }
-        @media (max-width: 900px) { .step-connector { display: none; } }
-
-        /* ── Testimonials ── */
-        .testi-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 24px; }
-
-        /* ── Stats strip ── */
-        .stats-strip { display: grid; grid-template-columns: repeat(5, 1fr); }
-        @media (max-width: 768px) { .stats-strip { grid-template-columns: repeat(3, 1fr); } }
-        @media (max-width: 400px) { .stats-strip { grid-template-columns: repeat(2, 1fr); } }
-
-        /* ── About ── */
-        .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: center; }
-        @media (max-width: 860px) { .about-grid { grid-template-columns: 1fr; gap: 40px; } }
-
-        .about-stat-card {
-          position: absolute;
-          bottom: -24px;
-          right: -24px;
-        }
-        @media (max-width: 860px) {
-          .about-stat-card {
-            bottom: 12px;
-            right: 12px;
-          }
-        }
-
-        /* ── Hero ── */
-        .hero-badge-top {
-          position: absolute;
-          top: 32px;
-          right: 40px;
-          z-index: 3;
-          background: rgba(255,255,255,0.12);
-          backdrop-filter: blur(10px);
-          border: 1px solid rgba(255,255,255,0.2);
-          border-radius: 14px;
-          padding: 12px 20px;
-          display: flex;
-          gap: 16px;
-        }
-        @media (max-width: 600px) { .hero-badge-top { display: none; } }
-
-        .hero-cta-row { display: flex; flex-wrap: wrap; gap: 14px; margin-bottom: 48px; }
-        @media (max-width: 480px) {
-          .hero-cta-row { flex-direction: column; }
-          .hero-cta-row button, .hero-cta-row a { width: 100%; text-align: center; justify-content: center; }
-        }
-
-        .hero-trust-row { display: flex; flex-wrap: wrap; gap: 10px; }
-
-        /* ── CTA section ── */
-        .cta-btn-row { display: flex; flex-wrap: wrap; justify-content: center; gap: 16px; }
-        @media (max-width: 480px) {
-          .cta-btn-row { flex-direction: column; align-items: center; }
-          .cta-btn-row button, .cta-btn-row a { width: 100%; max-width: 320px; text-align: center; justify-content: center; }
-        }
-
-        /* ── About mini stats ── */
-        .about-mini-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 32px; }
-
-        /* ── General ── */
+        @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Outfit:wght@300;400;500;600;700&display=swap');
+        *, *::before, *::after { box-sizing:border-box; margin:0; padding:0; }
+        img { max-width:100%; display:block; }
+        a { text-decoration:none; color:inherit; }
+        .ticker-outer { background:${T.teal}; overflow:hidden; padding:9px 0; }
+        .ticker-track { display:inline-flex; gap:0; animation:tickerMove 40s linear infinite; white-space:nowrap; }
+        .ticker-track:hover { animation-play-state:paused; }
+        @keyframes tickerMove { from{transform:translateX(0)} to{transform:translateX(-50%)} }
+        .sec { padding: clamp(64px,8vw,104px) clamp(16px,5vw,56px); }
+        .inner { max-width:1280px; margin:0 auto; }
+        .stats-band { display:grid; grid-template-columns:repeat(4,1fr); }
+        @media(max-width:640px){ .stats-band{grid-template-columns:repeat(2,1fr);} }
+        .about-grid { display:grid; grid-template-columns:1fr 1fr; gap:80px; align-items:center; }
+        @media(max-width:860px){ .about-grid{grid-template-columns:1fr; gap:48px;} }
+        .mini-stats { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:32px; }
+        @media(max-width:420px){ .mini-stats{grid-template-columns:1fr;} }
+        .svc-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; }
+        @media(max-width:900px){ .svc-grid{grid-template-columns:repeat(2,1fr);} }
+        @media(max-width:560px){ .svc-grid{grid-template-columns:1fr;} }
         .svc-card {
-          background: #fff; border-radius: 16px; padding: 24px;
-          border: 1.5px solid #F3F4F6; text-decoration: none;
-          display: flex; flex-direction: column;
-          transition: all 0.25s ease;
+          display:block; background:${T.white}; border-radius:10px; padding:28px;
+          border:1px solid ${T.border}; transition:all 0.25s cubic-bezier(0.4,0,0.2,1);
+          cursor:pointer; text-decoration:none; position:relative; overflow:hidden;
         }
-        .svc-card:hover { border-color: ${C.primary}; transform: translateY(-4px); box-shadow: 0 16px 40px rgba(249,115,22,0.12); }
-
-        .why-card { background:#fff; border-radius:16px; padding:24px; border:1.5px solid #F3F4F6; transition:all 0.2s; }
-        .why-card:hover { border-color:${C.blue}; box-shadow:0 8px 24px rgba(8,145,178,0.10); }
-
-        .testi-card { background:#fff; border-radius:16px; padding:28px; border:1.5px solid #F3F4F6; transition:all 0.2s; }
-        .testi-card:hover { border-color:${C.primary}; box-shadow:0 8px 24px rgba(249,115,22,0.10); }
-
-        .industry-tag { padding:10px 18px; border:1.5px solid rgba(255,255,255,0.2); border-radius:10px; font-size:13px; color:rgba(255,255,255,0.8); background:rgba(255,255,255,0.08); transition:all 0.2s; cursor:default; }
-        .industry-tag:hover { border-color:${C.primary}; color:${C.primary}; background:rgba(249,115,22,0.1); }
-
-        .section-label { font-size:11px; font-weight:700; letter-spacing:0.12em; text-transform:uppercase; color:${C.primary}; margin-bottom:12px; display:block; }
-
-        .img-overlay { position:absolute; inset:0; background:linear-gradient(to right, rgba(12,35,64,0.82) 45%, rgba(12,35,64,0.3) 100%); }
-        @media (max-width:768px) { .img-overlay { background:rgba(12,35,64,0.82); } }
-
-        .hero-content { position:relative; z-index:2; max-width:600px; }
-
-        .sec-pad { padding: 88px 24px; }
-        @media (max-width: 768px) { .sec-pad { padding: 60px 16px !important; } }
-
-        /* Why banner responsive */
-        .why-banner { position:relative; border-radius:20px; overflow:hidden; margin-bottom:40px; height:220px; }
-        @media (max-width: 600px) { .why-banner { height: 160px; } }
-        .why-banner-text { position:absolute; inset:0; display:flex; align-items:center; padding:0 48px; }
-        @media (max-width: 600px) { .why-banner-text { padding: 0 24px; } }
+        .svc-card::before {
+          content:''; position:absolute; inset:0; background:${T.tealGhost};
+          opacity:0; transition:opacity 0.25s;
+        }
+        .svc-card:hover { border-color:${T.teal}; transform:translateY(-3px); box-shadow:0 12px 32px rgba(10,104,104,0.09); }
+        .svc-card:hover::before { opacity:1; }
+        .svc-card > * { position:relative; }
+        .why-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; }
+        @media(max-width:900px){ .why-grid{grid-template-columns:repeat(2,1fr);} }
+        @media(max-width:540px){ .why-grid{grid-template-columns:1fr;} }
+        .why-card {
+          background:${T.white}; border-radius:10px; padding:28px; border:1px solid ${T.border};
+          transition:all 0.2s; position:relative;
+        }
+        .why-card:hover { border-color:${T.teal}; box-shadow:0 8px 24px rgba(10,104,104,0.07); transform:translateY(-2px); }
+        .steps-grid { display:grid; grid-template-columns:repeat(4,1fr); }
+        @media(max-width:860px){ .steps-grid{grid-template-columns:repeat(2,1fr);} }
+        @media(max-width:480px){ .steps-grid{grid-template-columns:1fr;} }
+        .testi-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(280px,1fr)); gap:20px; }
+        @media(max-width:560px){ .testi-grid{grid-template-columns:1fr;} }
+        .testi-card {
+          background:${T.white}; border-radius:10px; padding:28px 28px 24px; border:1px solid ${T.border};
+          transition:all 0.22s;
+        }
+        .testi-card:hover { border-color:${T.teal}; box-shadow:0 8px 24px rgba(10,104,104,0.07); }
+        .ind-pill {
+          padding:9px 20px; border:1px solid ${T.border}; border-radius:4px;
+          font-family:${T.sans}; font-size:13px; color:${T.body}; background:${T.white};
+          transition:all 0.18s; font-weight:500; letter-spacing:0.01em;
+        }
+        .ind-pill:hover { border-color:${T.teal}; color:${T.teal}; background:${T.tealLight}; }
+        .cta-split { display:grid; grid-template-columns:1fr auto; gap:40px; align-items:center; }
+        @media(max-width:720px){ .cta-split{grid-template-columns:1fr; gap:28px;} }
+        .about-img-wrap { position:relative; }
+        .ruled { width:100%; height:1px; background:${T.border}; }
       `}</style>
 
       <Navbar />
 
-      {/* ── HERO ── */}
-      <section style={{ position: "relative", minHeight: "92vh", display: "flex", alignItems: "center", overflow: "hidden" }}>
-        <img
-          src="https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=1800&q=85&fit=crop"
-          alt="Professional compliance team"
-          style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", objectPosition: "center" }}
-        />
-        <div className="img-overlay" />
-
-        <div className="hero-badge-top">
-          {["BIS", "EPR", "WPC", "ISO"].map((b) => (
-            <span key={b} style={{ fontSize: 11, fontWeight: 700, color: C.primary }}>{b}</span>
+      {/* NEWS TICKER */}
+      <div className="ticker-outer">
+        <div className="ticker-track">
+          {[...ticker, ...ticker].map((item, i) => (
+            <span key={i} style={{ fontFamily: T.sans, fontSize: 12, fontWeight: 500, color: "rgba(255,255,255,0.88)", padding: "0 48px" }}>
+              <span style={{ color: T.amberLight, marginRight: 10 }}>◆</span>
+              {item}
+            </span>
           ))}
         </div>
+      </div>
 
-        <div style={{
-          maxWidth: 1280,
-          margin: "0 auto",
-          padding: "80px 20px",
-          width: "100%",
-          position: "relative",
-          zIndex: 2
-        }} className="hero-container">
-          <div className="hero-content">
-            <div style={{ display: "inline-flex", alignItems: "center", gap: 8, background: "rgba(249,115,22,0.2)", border: "1px solid rgba(249,115,22,0.4)", borderRadius: 999, padding: "6px 16px", marginBottom: 24 }}>
-              <span style={{ width: 7, height: 7, borderRadius: "50%", backgroundColor: C.primary, display: "inline-block" }} />
-              <span style={{ color: C.primary, fontSize: 12, fontWeight: 600 }}>India's #1 Compliance Consultancy</span>
+      {/* HERO SLIDER */}
+      <HeroSlider />
+
+      {/* STATS BAND */}
+      <div style={{ background: T.teal }}>
+        <div style={{ maxWidth: 1280, margin: "0 auto" }}>
+          <div className="stats-band">
+            {stats.map((s, i) => (
+              <div key={s.l} style={{
+                textAlign: "center", padding: "36px 16px",
+                borderRight: i < stats.length - 1 ? "1px solid rgba(255,255,255,0.07)" : "none",
+              }}>
+                <div style={{ fontFamily: T.serif, fontSize: "clamp(2rem,2.8vw,2.8rem)", color: "#ffffff", fontWeight: 700, lineHeight: 1, letterSpacing: "-0.01em" }}>{s.v}</div>
+                <div style={{ fontFamily: T.sans, fontSize: 12, color: "rgb(255,255,255)", marginTop: 8, letterSpacing: "0.04em" }}>{s.l}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* ABOUT */}
+      <section className="sec" style={{ background: T.cream }}>
+        <div className="inner">
+          <div className="about-grid">
+            <div className="about-img-wrap">
+              <img src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=720&q=85&fit=crop"
+                alt="SIACC consultants at work"
+                style={{ width: "100%", height: "clamp(300px,42vw,480px)", objectFit: "cover", borderRadius: 10, boxShadow: "0 24px 64px rgba(0,0,0,0.10)" }} />
+              <div style={{
+                position: "absolute", bottom: -16, right: -12,
+                background: T.white, borderRadius: 8, padding: "20px 26px",
+                boxShadow: "0 16px 48px rgba(0,0,0,0.11)", border: `1px solid ${T.tealLight}`,
+              }}>
+                <div style={{ fontFamily: T.serif, fontSize: 36, color: T.teal, fontWeight: 700, lineHeight: 1 }}>10K+</div>
+                <div style={{ fontFamily: T.sans, fontSize: 11.5, color: T.muted, marginTop: 4 }}>Clients Served</div>
+              </div>
+              <div style={{
+                position: "absolute", top: 20, left: 20,
+                background: T.teal, borderRadius: 4, padding: "7px 16px",
+              }}>
+                <span style={{ fontFamily: T.sans, fontSize: 11, fontWeight: 700, color: "#fff", letterSpacing: "0.1em" }}>SINCE 2011</span>
+              </div>
             </div>
 
-            <h1 style={{ fontFamily: C.serif, fontSize: "clamp(2rem, 5vw, 4.2rem)", color: "#fff", lineHeight: 1.12, marginBottom: 22, fontWeight: 800 }}>
-              Certifications Made{" "}
-              <span style={{ color: C.primary }}>Simple</span>,{" "}
-              <em>Fast</em> &amp;{" "}
-              <span style={{ color: "#fff" }}>Reliable</span>
-            </h1>
+            <div>
+              <SectionLabel>About SIACC</SectionLabel>
+              <h2 style={{ fontFamily: T.serif, fontSize: "clamp(2rem,3.2vw,2.9rem)", color: T.slate, fontWeight: 700, marginBottom: 20, lineHeight: 1.12, letterSpacing: "-0.01em" }}>
+                India's Leading<br />Compliance Consultants
+              </h2>
+              <p style={{ fontFamily: T.sans, fontSize: 15, color: T.muted, lineHeight: 1.9, marginBottom: 14 }}>
+                Star India Accreditation (SIACC) is a trusted name with over 12+ years of experience in BIS, EPR, WPC, TEC, BEE and ISO certifications. We deliver fast, reliable, and cost-effective regulatory approvals for Indian and foreign manufacturers and importers.
+              </p>
+              <p style={{ fontFamily: T.sans, fontSize: 15, color: T.muted, lineHeight: 1.9, marginBottom: 32 }}>
+                With a deep understanding of Indian regulatory standards, we help businesses achieve full compliance — reducing delays, avoiding penalties, and speeding up market entry.
+              </p>
+              <div className="mini-stats">
+                {[{ n: "12+", l: "Years Experience" }, { n: "100+", l: "Expert Team" }, { n: "25+", l: "Countries Served" }, { n: "50+", l: "Services Covered" }].map(s => (
+                  <div key={s.l} style={{ padding: "16px 20px", background: T.white, borderRadius: 8, border: `1px solid ${T.border}`, borderLeft: `3px solid ${T.teal}` }}>
+                    <div style={{ fontFamily: T.serif, fontSize: 26, color: T.teal, fontWeight: 700, lineHeight: 1 }}>{s.n}</div>
+                    <div style={{ fontFamily: T.sans, fontSize: 11.5, color: T.muted, marginTop: 4 }}>{s.l}</div>
+                  </div>
+                ))}
+              </div>
+              <div style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
+                <PrimaryBtn onClick={() => router.push("/about")}>Our Story →</PrimaryBtn>
+                <OutlineBtnTransparent onClick={() => router.push("/contact")}>Free Consultation</OutlineBtnTransparent>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
 
-            <p style={{ fontSize: "clamp(14px, 2vw, 18px)", lineHeight: 1.8, color: "rgba(255,255,255,0.8)", marginBottom: 40, maxWidth: 520 }}>
-              From BIS and EPR to ISO and CDSCO — we handle every certification your product needs to enter the Indian market legally and confidently.
+      {/* SERVICES */}
+      <section className="sec" style={{ background: T.white }}>
+        <div className="inner">
+          <div style={{ display: "flex", alignItems: "flex-end", justifyContent: "space-between", marginBottom: 52, flexWrap: "wrap", gap: 20 }}>
+            <div>
+              <SectionLabel>What We Offer</SectionLabel>
+              <h2 style={{ fontFamily: T.serif, fontSize: "clamp(2rem,3.2vw,2.9rem)", color: T.slate, fontWeight: 700, lineHeight: 1.1, letterSpacing: "-0.01em" }}>
+                Certification Services
+              </h2>
+            </div>
+            <p style={{ fontFamily: T.sans, fontSize: 14.5, color: T.muted, maxWidth: 380, lineHeight: 1.8 }}>
+              End-to-end compliance for manufacturers, importers and brand owners across all Indian regulatory frameworks.
             </p>
+          </div>
 
-            <div className="hero-cta-row">
-              <button
-                onClick={() => router.push("/contact")}
-                style={{ padding: "16px 36px", backgroundColor: C.primary, color: "#fff", fontWeight: 700, borderRadius: 12, border: "none", fontSize: 15, cursor: "pointer", fontFamily: C.sans, boxShadow: "0 6px 20px rgba(249,115,22,0.45)" }}
-                onMouseEnter={(e) => e.currentTarget.style.backgroundColor = C.primaryDark}
-                onMouseLeave={(e) => e.currentTarget.style.backgroundColor = C.primary}
-              >Get Free Consultation</button>
-              <button
-                onClick={() => router.push("/services")}
-                style={{ padding: "16px 32px", border: "2px solid rgba(255,255,255,0.4)", color: "#fff", borderRadius: 12, background: "rgba(255,255,255,0.08)", fontSize: 15, cursor: "pointer", fontWeight: 600, fontFamily: C.sans, backdropFilter: "blur(4px)" }}
-                onMouseEnter={(e) => { e.currentTarget.style.borderColor = C.primary; e.currentTarget.style.color = C.primary; }}
-                onMouseLeave={(e) => { e.currentTarget.style.borderColor = "rgba(255,255,255,0.4)"; e.currentTarget.style.color = "#fff"; }}
-              >Explore Services →</button>
+          <div className="svc-grid">
+            {services.map(s => (
+              <a key={s.title} href={s.href} className="svc-card">
+                <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", marginBottom: 18 }}>
+                  <div style={{ width: 50, height: 50, borderRadius: 10, background: T.tealLight, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 22 }}>{s.icon}</div>
+                  {s.tag && (
+                    <span style={{
+                      fontFamily: T.sans, fontSize: 10, fontWeight: 700, letterSpacing: "0.06em",
+                      background: s.tag === "Most Popular" ? T.amberLight : "#FEF2F2",
+                      color: s.tag === "Most Popular" ? T.amberDark : "#C53030",
+                      padding: "3px 10px", borderRadius: 3, textTransform: "uppercase",
+                    }}>{s.tag}</span>
+                  )}
+                </div>
+                <h3 style={{ fontFamily: T.serif, fontSize: 17.5, color: T.slate, marginBottom: 8, fontWeight: 600, lineHeight: 1.3 }}>{s.title}</h3>
+                <p style={{ fontFamily: T.sans, fontSize: 13, color: T.muted, lineHeight: 1.7, marginBottom: 16 }}>{s.desc}</p>
+                <span style={{ fontFamily: T.sans, fontSize: 12.5, color: T.teal, fontWeight: 600, letterSpacing: "0.02em" }}>Learn More →</span>
+              </a>
+            ))}
+          </div>
+
+          <div style={{ textAlign: "center", marginTop: 48 }}>
+            <OutlineBtn onClick={() => router.push("/services")} style={{ padding: "13px 36px" }}>
+              View All 50+ Services
+            </OutlineBtn>
+          </div>
+        </div>
+      </section>
+
+      {/* WHY CHOOSE US */}
+      <section className="sec" style={{ background: T.cream }}>
+        <div className="inner">
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 72, alignItems: "center", marginBottom: 56 }} className="why-intro">
+            <div>
+              <SectionLabel>Why Choose Us</SectionLabel>
+              <h2 style={{ fontFamily: T.serif, fontSize: "clamp(2rem,3.2vw,2.9rem)", color: T.slate, fontWeight: 700, lineHeight: 1.12, letterSpacing: "-0.01em", marginBottom: 18 }}>
+                The SIACC<br />Difference
+              </h2>
+              <p style={{ fontFamily: T.sans, fontSize: 15, color: T.muted, lineHeight: 1.9, maxWidth: 420 }}>
+                We simplify even the most complex certification processes with reliable service, expert consultation, and dedicated client support — ensuring smooth approvals and complete peace of mind.
+              </p>
             </div>
+            <div style={{ position: "relative", borderRadius: 10, overflow: "hidden", height: 240 }}>
+              <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=1200&q=85&fit=crop"
+                alt="SIACC team"
+                style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center 38%" }} />
+              <div style={{ position: "absolute", inset: 0, background: "linear-gradient(135deg, rgba(10,104,104,0.82), rgba(13,27,42,0.70))" }} />
+              <div style={{ position: "absolute", inset: 0, display: "flex", alignItems: "center", justifyContent: "center", gap: 0 }}>
+                {[{ v: "100+", l: "Experts" }, { v: "50+", l: "Domains" }, { v: "12+", l: "Years" }].map((s, i) => (
+                  <div key={s.l} style={{ textAlign: "center", padding: "0 28px", borderRight: i < 2 ? "1px solid rgba(255,255,255,0.15)" : "none" }}>
+                    <div style={{ fontFamily: T.serif, fontSize: 32, color: T.amber, fontWeight: 700, lineHeight: 1 }}>{s.v}</div>
+                    <div style={{ fontFamily: T.sans, fontSize: 12, color: "rgba(255,255,255,0.72)", marginTop: 6 }}>{s.l}</div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+          <style>{`@media(max-width:860px){ .why-intro{grid-template-columns:1fr!important; gap:36px!important;} }`}</style>
+          <div className="why-grid">
+            {whyUs.map(w => (
+              <div key={w.title} className="why-card">
+                <div style={{ width: 46, height: 46, borderRadius: 9, background: T.tealLight, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 20, marginBottom: 16 }}>{w.icon}</div>
+                <h3 style={{ fontFamily: T.serif, fontSize: 17, color: T.slate, marginBottom: 8, fontWeight: 600 }}>{w.title}</h3>
+                <p style={{ fontFamily: T.sans, fontSize: 13, color: T.muted, lineHeight: 1.75 }}>{w.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
 
-            <div className="hero-trust-row">
-              {["✓ BIS Authorized", "✓ ISO Certified", "✓ DPIIT Recognized", "✓ 10,000+ Clients"].map((b) => (
-                <span key={b} style={{ padding: "6px 14px", border: "1px solid rgba(255,255,255,0.25)", borderRadius: 999, fontSize: 12, color: "rgba(255,255,255,0.85)", background: "rgba(255,255,255,0.08)" }}>{b}</span>
+      {/* HOW IT WORKS */}
+      <section className="sec" style={{ background: T.white }}>
+        <div className="inner">
+          {/* ✅ FIX: SectionLabel wrapped in flex-center div */}
+          <div style={{ textAlign: "center", marginBottom: 56 }}>
+            <div style={{ display: "flex", justifyContent: "center", marginBottom: 16 }}>
+              <SectionLabel>Our Process</SectionLabel>
+            </div>
+            <h2 style={{ fontFamily: T.serif, fontSize: "clamp(2rem,3.2vw,2.9rem)", color: T.slate, fontWeight: 700, letterSpacing: "-0.01em", marginBottom: 12 }}>How It Works</h2>
+            <p style={{ fontFamily: T.sans, color: T.muted, maxWidth: 380, margin: "0 auto", lineHeight: 1.75, fontSize: 14.5 }}>
+              A simple, transparent 4-step process — from first enquiry to certificate in hand.
+            </p>
+          </div>
+
+          <div style={{ background: T.cream, borderRadius: 12, border: `1px solid ${T.border}`, overflow: "hidden" }}>
+            <div className="steps-grid">
+              {steps.map((s, i) => (
+                <div key={s.n} style={{
+                  padding: "40px 32px", textAlign: "center", position: "relative",
+                  borderRight: i < steps.length - 1 ? `1px solid ${T.border}` : "none",
+                  background: i % 2 === 1 ? T.white : "transparent",
+                }}>
+                  {i < steps.length - 1 && (
+                    <div style={{ position: "absolute", top: 50, right: -8, width: 16, height: 16, borderRadius: "50%", background: T.white, border: `2px solid ${T.teal}`, zIndex: 1 }} />
+                  )}
+                  <div style={{ width: 54, height: 54, margin: "0 auto 16px", borderRadius: 10, background: T.tealLight, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 22 }}>{s.icon}</div>
+                  <div style={{ fontFamily: T.sans, fontSize: 10.5, fontWeight: 700, color: T.teal, letterSpacing: "0.14em", textTransform: "uppercase", marginBottom: 10 }}>Step {s.n}</div>
+                  <h3 style={{ fontFamily: T.serif, fontSize: 17, color: T.slate, marginBottom: 10, fontWeight: 600 }}>{s.title}</h3>
+                  <p style={{ fontFamily: T.sans, fontSize: 13, color: T.muted, lineHeight: 1.75 }}>{s.desc}</p>
+                </div>
               ))}
             </div>
           </div>
         </div>
-
-        <div style={{ position: "absolute", bottom: 32, left: "50%", transform: "translateX(-50%)", zIndex: 3, display: "flex", flexDirection: "column", alignItems: "center", gap: 6 }}>
-          <div style={{ width: 1, height: 40, background: "linear-gradient(to bottom, rgba(255,255,255,0), rgba(249,115,22,0.8))" }} />
-          <span style={{ fontSize: 10, color: "rgba(255,255,255,0.5)", letterSpacing: "0.1em", textTransform: "uppercase" }}>Scroll</span>
-        </div>
       </section>
 
-      {/* ── STATS STRIP ── */}
-      <section style={{ background: C.navy }}>
-        <div style={{ maxWidth: 1280, margin: "0 auto" }}>
-          <div className="stats-strip">
-            {stats.map((s, i) => (
-              <div key={s.label} style={{ textAlign: "center", padding: "28px 12px", borderRight: i < stats.length - 1 ? "1px solid rgba(255,255,255,0.08)" : "none" }}>
-                <div style={{ fontSize: 20, marginBottom: 6 }}>{s.icon}</div>
-                <div style={{ fontFamily: C.serif, fontSize: "clamp(1.4rem, 2.5vw, 2.2rem)", color: C.primary, fontWeight: 800 }}>{s.value}</div>
-                <div style={{ fontSize: 11, color: "rgba(255,255,255,0.6)", marginTop: 4 }}>{s.label}</div>
-              </div>
+      {/* INDUSTRIES */}
+      <section className="sec" style={{ background: T.tealLight, borderTop: `1px solid #C8DEDE`, borderBottom: `1px solid #C8DEDE` }}>
+        <div className="inner">
+          {/* ✅ FIX: SectionLabel wrapped in flex-center div */}
+          <div style={{ textAlign: "center", marginBottom: 44 }}>
+            <div style={{ display: "flex", justifyContent: "center", marginBottom: 16 }}>
+              <SectionLabel>Industries We Serve</SectionLabel>
+            </div>
+            <h2 style={{ fontFamily: T.serif, fontSize: "clamp(1.8rem,3vw,2.7rem)", color: T.slate, fontWeight: 700, letterSpacing: "-0.01em" }}>
+              Trusted Across Every Sector
+            </h2>
+          </div>
+          <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "center", gap: 10 }}>
+            {industries.map(ind => (
+              <span key={ind} className="ind-pill">{ind}</span>
             ))}
           </div>
         </div>
       </section>
 
-      {/* ── ABOUT ── */}
-      <section style={{ padding: "88px 24px", background: C.offWhite }} className="sec-pad">
-        <div style={{ maxWidth: 1280, margin: "0 auto" }}>
-          <div className="about-grid">
-            {/* Image */}
-            <div style={{ position: "relative", marginBottom: 32 }}>
-              <img
-                src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=700&q=80&fit=crop"
-                alt="Compliance experts at work"
-                style={{ width: "100%", borderRadius: 20, height: 400, objectFit: "cover", display: "block" }}
-              />
-              <div className="about-stat-card" style={{ background: "#fff", borderRadius: 16, padding: "20px 28px", boxShadow: "0 16px 48px rgba(0,0,0,0.12)", border: `2px solid ${C.primaryLight}` }}>
-                <div style={{ fontFamily: C.serif, fontSize: 36, color: C.primary, fontWeight: 800, lineHeight: 1 }}>98%</div>
-                <div style={{ fontSize: 13, color: C.mutedText, marginTop: 4 }}>Application Success Rate</div>
-              </div>
-              <div style={{ position: "absolute", top: 24, left: 24, background: C.primary, borderRadius: 12, padding: "10px 18px" }}>
-                <div style={{ fontSize: 11, fontWeight: 700, color: "#fff", letterSpacing: "0.06em" }}>Since 2011</div>
-              </div>
-            </div>
-            {/* Text */}
-            <div style={{ paddingTop: 16 }}>
-              <span className="section-label">About SIACC</span>
-              <h2 style={{ fontFamily: C.serif, fontSize: "clamp(1.6rem, 3vw, 2.6rem)", color: C.navy, fontWeight: 800, marginBottom: 16, lineHeight: 1.2 }}>
-                India's Most Trusted Compliance Partner
-              </h2>
-              <p style={{ fontSize: 15, color: C.mutedText, lineHeight: 1.8, marginBottom: 16 }}>
-                Founded in 2011, Star India Accreditation (SIACC) has grown into India's most trusted certification consultancy. We've helped over 10,000 businesses — from startups to Fortune 500 companies — navigate India's complex regulatory landscape.
-              </p>
-              <p style={{ fontSize: 15, color: C.mutedText, lineHeight: 1.8, marginBottom: 28 }}>
-                Our team of 100+ regulatory experts covers every certification your product needs — BIS, EPR, WPC, TEC, BEE, LMPC, ISO, CDSCO, and more.
-              </p>
-              <div className="about-mini-stats">
-                {[{ n: "12+", l: "Years of Experience" }, { n: "100+", l: "Expert Team Members" }, { n: "25+", l: "Countries Served" }, { n: "50+", l: "Certifications Covered" }].map((s) => (
-                  <div key={s.l} style={{ padding: "16px 20px", background: "#fff", borderRadius: 12, border: `1.5px solid ${C.border}` }}>
-                    <div style={{ fontFamily: C.serif, fontSize: 22, color: C.primary, fontWeight: 800 }}>{s.n}</div>
-                    <div style={{ fontSize: 12, color: C.mutedText, marginTop: 2 }}>{s.l}</div>
-                  </div>
-                ))}
-              </div>
-              <button
-                onClick={() => router.push("/about")}
-                style={{ padding: "13px 28px", backgroundColor: C.navy, color: "#fff", borderRadius: 12, border: "none", fontSize: 14, fontWeight: 700, cursor: "pointer", fontFamily: C.sans }}
-              >Know More About Us →</button>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ── SERVICES ── */}
-      <section style={{ padding: "88px 24px", background: C.white }} className="sec-pad">
-        <div style={{ maxWidth: 1280, margin: "0 auto" }}>
-          <div style={{ textAlign: "center", marginBottom: 56 }}>
-            <span className="section-label">What We Offer</span>
-            <h2 style={{ fontFamily: C.serif, fontSize: "clamp(1.6rem, 3vw, 2.6rem)", color: C.navy, fontWeight: 800, marginBottom: 14 }}>Our Certification Services</h2>
-            <p style={{ color: C.mutedText, maxWidth: 520, margin: "0 auto", lineHeight: 1.7, fontSize: 15 }}>
-              Comprehensive compliance solutions for manufacturers, importers, and brand owners across all regulatory frameworks in India.
-            </p>
-          </div>
-
-          {/* Row 1 — 4 cards */}
-          <div className="services-row1">
-            {services.slice(0, 4).map((s) => (
-              <Link key={s.title} href={s.href} className="svc-card">
-                <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", marginBottom: 16 }}>
-                  <div style={{ width: 52, height: 52, backgroundColor: C.primaryLight, borderRadius: 14, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 24 }}>{s.icon}</div>
-                  {s.tag && <span style={{ fontSize: 10, fontWeight: 700, backgroundColor: s.tagColor, color: s.tagText, padding: "3px 10px", borderRadius: 999 }}>{s.tag}</span>}
-                </div>
-                <h3 style={{ fontFamily: C.serif, fontSize: 16, color: C.navy, marginBottom: 8, fontWeight: 700 }}>{s.title}</h3>
-                <p style={{ fontSize: 13, color: C.mutedText, lineHeight: 1.65, marginBottom: 16, flex: 1 }}>{s.desc}</p>
-                <span style={{ color: C.primary, fontSize: 13, fontWeight: 700 }}>Learn More →</span>
-              </Link>
-            ))}
-          </div>
-
-          {/* Row 2 — ISO + image + CTA */}
-          <div className="services-row2">
-            <Link href={services[4].href} className="svc-card">
-              <div style={{ width: 52, height: 52, backgroundColor: C.primaryLight, borderRadius: 14, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 24, marginBottom: 16 }}>
-                {services[4].icon}
-              </div>
-              <h3 style={{ fontFamily: C.serif, fontSize: 16, color: C.navy, marginBottom: 8, fontWeight: 700 }}>{services[4].title}</h3>
-              <p style={{ fontSize: 13, color: C.mutedText, lineHeight: 1.65, marginBottom: 16, flex: 1 }}>{services[4].desc}</p>
-              <span style={{ color: C.primary, fontSize: 13, fontWeight: 700 }}>Learn More →</span>
-            </Link>
-
-            <div className="services-img-card" style={{ borderRadius: 16, overflow: "hidden", position: "relative", minHeight: 200 }}>
-              <img
-                src="https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=700&q=85&fit=crop"
-                alt="Certification compliance"
-                style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
-              />
-              <div style={{ position: "absolute", inset: 0, background: "linear-gradient(135deg, rgba(12,35,64,0.55) 0%, rgba(12,35,64,0.2) 100%)" }} />
-              <div style={{ position: "absolute", bottom: 20, left: 20, right: 20 }}>
-                <div style={{ fontFamily: C.serif, fontSize: 15, color: "#fff", fontWeight: 700, marginBottom: 4 }}>Certified. Compliant. Confident.</div>
-                <div style={{ fontSize: 12, color: "rgba(255,255,255,0.75)" }}>India's most trusted compliance partner since 2011</div>
-              </div>
-            </div>
-
-            <button
-              onClick={() => router.push("/services")}
-              style={{ borderRadius: 16, border: `2px dashed ${C.border}`, background: C.offWhite, cursor: "pointer", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 14, padding: "28px 20px", transition: "all 0.25s ease", fontFamily: C.sans, minHeight: 200, width: "100%" }}
-              onMouseEnter={(e) => { e.currentTarget.style.borderColor = C.primary; e.currentTarget.style.background = C.primaryLight; }}
-              onMouseLeave={(e) => { e.currentTarget.style.borderColor = C.border; e.currentTarget.style.background = C.offWhite; }}
-            >
-              <div style={{ width: 56, height: 56, borderRadius: "50%", backgroundColor: C.navy, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 26 }}>📋</div>
-              <div style={{ textAlign: "center" }}>
-                <div style={{ fontFamily: C.serif, fontSize: 18, color: C.navy, fontWeight: 800, marginBottom: 6 }}>50+ Services</div>
-                <div style={{ fontSize: 13, color: C.mutedText, lineHeight: 1.5, marginBottom: 16 }}>Explore our complete range of compliance & certification solutions</div>
-                <span style={{ display: "inline-block", padding: "10px 24px", backgroundColor: C.primary, color: "#fff", borderRadius: 10, fontSize: 13, fontWeight: 700, boxShadow: "0 4px 12px rgba(249,115,22,0.3)" }}>
-                  View All Services →
-                </span>
-              </div>
-            </button>
-          </div>
-        </div>
-      </section>
-
-      {/* ── WHY CHOOSE US ── */}
-      <section style={{ padding: "88px 24px", background: C.offWhite }} className="sec-pad">
-        <div style={{ maxWidth: 1280, margin: "0 auto" }}>
+      {/* TESTIMONIALS */}
+      <section className="sec" style={{ background: T.white }}>
+        <div className="inner">
+          {/* ✅ FIX: SectionLabel wrapped in flex-center div */}
           <div style={{ textAlign: "center", marginBottom: 52 }}>
-            <span className="section-label">Why SIACC</span>
-            <h2 style={{ fontFamily: C.serif, fontSize: "clamp(1.6rem, 3vw, 2.6rem)", color: C.navy, fontWeight: 800, marginBottom: 14 }}>What Makes Us Different</h2>
-          </div>
-
-          <div className="why-banner">
-            <img
-              src="https://images.unsplash.com/photo-1521737711867-e3b97375f902?w=1400&q=80&fit=crop"
-              alt="Our team collaborating"
-              style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center 40%" }}
-            />
-            <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to right, rgba(12,35,64,0.85) 0%, rgba(12,35,64,0.4) 60%, transparent 100%)" }} />
-            <div className="why-banner-text">
-              <div>
-                <div style={{ fontFamily: C.serif, fontSize: "clamp(1.2rem, 2.5vw, 2rem)", color: "#fff", fontWeight: 800, marginBottom: 8 }}>
-                  A Team of 100+ Regulatory Experts
-                </div>
-                <p style={{ color: "rgba(255,255,255,0.75)", fontSize: 14 }}>Dedicated specialists for every certification domain — always in your corner.</p>
-              </div>
+            <div style={{ display: "flex", justifyContent: "center", marginBottom: 16 }}>
+              <SectionLabel>Client Stories</SectionLabel>
             </div>
-          </div>
-
-          <div className="why-grid">
-            {whyUs.map((w) => (
-              <div key={w.title} className="why-card">
-                <div style={{ width: 44, height: 44, borderRadius: 12, backgroundColor: C.blueLight, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 20, marginBottom: 14 }}>{w.icon}</div>
-                <h3 style={{ fontFamily: C.serif, fontSize: 16, color: C.navy, marginBottom: 8, fontWeight: 700 }}>{w.title}</h3>
-                <p style={{ fontSize: 13, color: C.mutedText, lineHeight: 1.7 }}>{w.desc}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ── HOW IT WORKS ── */}
-      <section style={{ padding: "88px 24px", background: C.white }} className="sec-pad">
-        <div style={{ maxWidth: 1280, margin: "0 auto" }}>
-          <div style={{ textAlign: "center", marginBottom: 56 }}>
-            <span className="section-label">Our Process</span>
-            <h2 style={{ fontFamily: C.serif, fontSize: "clamp(1.6rem, 3vw, 2.6rem)", color: C.navy, fontWeight: 800, marginBottom: 14 }}>How It Works</h2>
-            <p style={{ color: C.mutedText, maxWidth: 420, margin: "0 auto", lineHeight: 1.7, fontSize: 15 }}>A simple, transparent 4-step process from enquiry to certificate.</p>
-          </div>
-          <div className="steps-grid">
-            {steps.map((s, i) => (
-              <div key={s.step} style={{ background: C.white, borderRadius: 16, padding: 28, border: `1.5px solid ${C.border}`, textAlign: "center", position: "relative" }}>
-                {i < steps.length - 1 && (
-                  <div className="step-connector" style={{ position: "absolute", top: 44, right: -12, width: 24, height: 2, background: C.primary, zIndex: 1 }} />
-                )}
-                <div style={{ width: 56, height: 56, margin: "0 auto 16px", borderRadius: 16, backgroundColor: C.primaryLight, border: `2px solid #FED7AA`, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 24 }}>{s.icon}</div>
-                <div style={{ fontSize: 11, fontWeight: 700, color: C.primary, letterSpacing: "0.1em", marginBottom: 8 }}>STEP {s.step}</div>
-                <h3 style={{ fontFamily: C.serif, fontSize: 17, color: C.navy, marginBottom: 10, fontWeight: 700 }}>{s.title}</h3>
-                <p style={{ fontSize: 13, color: C.mutedText, lineHeight: 1.7 }}>{s.desc}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ── INDUSTRIES ── */}
-      <section style={{ position: "relative", padding: "80px 24px", overflow: "hidden" }} className="sec-pad">
-        <img
-          src="https://images.unsplash.com/photo-1565043666747-69f6646db940?w=1600&q=80&fit=crop"
-          alt="Industries served"
-          style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }}
-        />
-        <div style={{ position: "absolute", inset: 0, background: "rgba(12,35,64,0.88)" }} />
-        <div style={{ maxWidth: 1280, margin: "0 auto", position: "relative", zIndex: 1 }}>
-          <div style={{ textAlign: "center", marginBottom: 40 }}>
-            <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase", color: C.primary, marginBottom: 12 }}>Industries We Serve</div>
-            <h2 style={{ fontFamily: C.serif, fontSize: "clamp(1.4rem, 3vw, 2.4rem)", color: "#fff", fontWeight: 800 }}>Trusted Across Every Sector</h2>
-          </div>
-          <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "center", gap: 12 }}>
-            {industries.map((ind) => (
-              <span key={ind} className="industry-tag">{ind}</span>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ── TESTIMONIALS ── */}
-      <section style={{ padding: "88px 24px", background: C.offWhite }} className="sec-pad">
-        <div style={{ maxWidth: 1280, margin: "0 auto" }}>
-          <div style={{ textAlign: "center", marginBottom: 56 }}>
-            <span className="section-label">Client Stories</span>
-            <h2 style={{ fontFamily: C.serif, fontSize: "clamp(1.6rem, 3vw, 2.6rem)", color: C.navy, fontWeight: 800 }}>What Our Clients Say</h2>
+            <h2 style={{ fontFamily: T.serif, fontSize: "clamp(2rem,3.2vw,2.9rem)", color: T.slate, fontWeight: 700, letterSpacing: "-0.01em" }}>
+              Why People Trust SIACC
+            </h2>
           </div>
           <div className="testi-grid">
-            {testimonials.map((t) => (
+            {testimonials.map(t => (
               <div key={t.name} className="testi-card">
-                <div style={{ display: "flex", gap: 2, marginBottom: 16 }}>
-                  {[...Array(t.rating)].map((_, i) => <span key={i} style={{ color: "#F59E0B", fontSize: 16 }}>★</span>)}
+                <div style={{ display: "flex", gap: 2, marginBottom: 18 }}>
+                  {[...Array(t.r)].map((_, i) => (
+                    <span key={i} style={{ color: T.amber, fontSize: 14 }}>★</span>
+                  ))}
                 </div>
-                <p style={{ color: C.bodyText, fontSize: 14, lineHeight: 1.8, marginBottom: 24, fontStyle: "italic" }}>"{t.text}"</p>
-                <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-                  <div style={{ width: 44, height: 44, borderRadius: "50%", backgroundColor: C.primaryLight, display: "flex", alignItems: "center", justifyContent: "center", fontFamily: C.serif, color: C.primary, fontWeight: 800, fontSize: 17, flexShrink: 0 }}>{t.name[0]}</div>
+                <div style={{ fontFamily: T.serif, fontSize: 52, color: T.tealLight, lineHeight: 0.6, marginBottom: 12, userSelect: "none" }}>"</div>
+                <p style={{ fontFamily: T.sans, color: T.body, fontSize: 14, lineHeight: 1.85, marginBottom: 24 }}>{t.text}</p>
+                <div style={{ display: "flex", alignItems: "center", gap: 12, paddingTop: 18, borderTop: `1px solid ${T.border}` }}>
+                  <div style={{
+                    width: 42, height: 42, borderRadius: "50%", background: T.tealLight,
+                    display: "flex", alignItems: "center", justifyContent: "center",
+                    fontFamily: T.serif, color: T.teal, fontWeight: 700, fontSize: 17, flexShrink: 0,
+                  }}>{t.name[0]}</div>
                   <div>
-                    <div style={{ fontWeight: 700, color: C.navy, fontSize: 14 }}>{t.name}</div>
-                    <div style={{ color: C.mutedText, fontSize: 12 }}>{t.company}</div>
+                    <div style={{ fontFamily: T.sans, fontWeight: 600, color: T.slate, fontSize: 13.5 }}>{t.name}</div>
+                    <div style={{ fontFamily: T.sans, color: T.muted, fontSize: 12, marginTop: 2 }}>{t.co}</div>
                   </div>
                 </div>
               </div>
@@ -518,30 +636,36 @@ export default function HomeScreen() {
         </div>
       </section>
 
-      {/* ── CTA BANNER ── */}
-      <section style={{ position: "relative", padding: "88px 24px", overflow: "hidden" }}>
-        <img
-          src="https://images.unsplash.com/photo-1568219557405-376e23e4f7cf?w=1600&q=80&fit=crop"
-          alt="Get certified"
-          style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", objectPosition: "center" }}
-        />
-        <div style={{ position: "absolute", inset: 0, background: "linear-gradient(135deg, rgba(249,115,22,0.92) 0%, rgba(234,88,12,0.88) 100%)" }} />
-        <div style={{ maxWidth: 800, margin: "0 auto", textAlign: "center", position: "relative", zIndex: 1 }}>
-          <h2 style={{ fontFamily: C.serif, fontSize: "clamp(1.6rem, 3vw, 2.8rem)", color: "#fff", marginBottom: 16, fontWeight: 800 }}>
-            Start Your Certification Journey Today
-          </h2>
-          <p style={{ color: "rgba(255,255,255,0.88)", marginBottom: 40, lineHeight: 1.7, fontSize: 16 }}>
-            Our experts are ready to help. Get a free consultation and know exactly what you need — at no cost.
-          </p>
-          <div className="cta-btn-row">
-            <button
-              onClick={() => router.push("/contact")}
-              style={{ padding: "16px 40px", backgroundColor: "#fff", color: C.primary, fontWeight: 800, borderRadius: 12, border: "none", fontSize: 15, cursor: "pointer", fontFamily: C.sans, boxShadow: "0 6px 24px rgba(0,0,0,0.15)" }}
-            >Get Free Consultation</button>
-            <a
-              href="tel:+919540190334"
-              style={{ padding: "16px 32px", border: "2px solid rgba(255,255,255,0.6)", color: "#fff", borderRadius: 12, textDecoration: "none", fontSize: 15, fontWeight: 600, display: "inline-flex", alignItems: "center", gap: 8 }}
-            >📞 +91-9540190334</a>
+      {/* ✅ CTA BAND — bg changed from T.slate (dark navy) to light blue #EBF5FB */}
+      <section style={{ background: "#EBF5FB", borderTop: "1px solid #C8DFF0", borderBottom: "1px solid #C8DFF0", padding: "80px clamp(16px,5vw,56px)" }}>
+        <div style={{ maxWidth: 1100, margin: "0 auto" }}>
+          <div className="cta-split">
+            <div>
+              <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 20 }}>
+                <div style={{ width: 28, height: 1.5, background: T.teal }} />
+                <span style={{ fontFamily: T.sans, fontSize: 11, fontWeight: 600, letterSpacing: "0.14em", textTransform: "uppercase", color: T.teal }}>Start Today</span>
+              </div>
+              <h2 style={{ fontFamily: T.serif, fontSize: "clamp(1.9rem,3.2vw,2.9rem)", color: T.slate, fontWeight: 700, lineHeight: 1.1, letterSpacing: "-0.01em", marginBottom: 14 }}>
+                Begin Your Certification<br />Journey with SIACC
+              </h2>
+              <p style={{ fontFamily: T.sans, color: T.muted, fontSize: 14.5, lineHeight: 1.8 }}>
+                Free consultation. Clear timeline. Transparent pricing.<br />Our experts respond within 2 hours.
+              </p>
+            </div>
+            <div style={{ display: "flex", flexDirection: "column", gap: 12, flexShrink: 0 }}>
+              <button onClick={() => router.push("/contact")}
+                style={{ padding: "14px 36px", fontFamily: T.sans, fontSize: 14, fontWeight: 600, letterSpacing: "0.02em", border: "none", borderRadius: 6, cursor: "pointer", background: "#F97316", color: "#fff", whiteSpace: "nowrap", transition: "background 0.2s" }}
+                onMouseEnter={e => e.currentTarget.style.background = T.teal}
+                onMouseLeave={e => e.currentTarget.style.background = "#F97316"}>
+                Get Free Consultation
+              </button>
+              <a href="tel:+919540190334"
+                style={{ padding: "13px 28px", border: `1.5px solid ${T.border}`, borderRadius: 6, fontFamily: T.sans, fontSize: 14, fontWeight: 500, color: T.slate, textDecoration: "none", display: "flex", alignItems: "center", justifyContent: "center", gap: 8, whiteSpace: "nowrap", background: T.white, transition: "border-color 0.2s" }}
+                onMouseEnter={e => e.currentTarget.style.borderColor = T.teal}
+                onMouseLeave={e => e.currentTarget.style.borderColor = T.border}>
+                📞 +91-9540190334
+              </a>
+            </div>
           </div>
         </div>
       </section>

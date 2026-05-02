@@ -18,14 +18,11 @@ const C = {
 };
 
 const serviceDropdown = [
-  // Priority Services
   { name: "BIS-CRS & ISI Certification", href: "/bis" },
   { name: "WPC-ETA Approval", href: "/wpc" },
   { name: "Testing & Certification", href: "/testing&certification" },
   { name: "BEE Certification", href: "/bee" },
   { name: "ISO Certification", href: "/iso" },
-
-  // Other Services
   { name: "EPR Registration", href: "/epr" },
   { name: "TEC / MTCTE", href: "/tec" },
   { name: "LMPC Registration", href: "/lmpc" },
@@ -42,21 +39,9 @@ const navLinks = [
 ];
 
 const socialLinks = [
-  {
-    name: "Instagram",
-    href: "https://instagram.com/siacc",
-    icon: Instagram,
-  },
-  {
-    name: "LinkedIn",
-    href: "https://linkedin.com/company/siacc",
-    icon: Linkedin,
-  },
-  {
-    name: "Facebook",
-    href: "https://facebook.com/siacc",
-    icon: Facebook,
-  },
+  { name: "Instagram", href: "https://instagram.com/siacc", icon: Instagram },
+  { name: "LinkedIn", href: "https://linkedin.com/company/siacc", icon: Linkedin },
+  { name: "Facebook", href: "https://facebook.com/siacc", icon: Facebook },
 ];
 
 export default function Navbar() {
@@ -99,18 +84,45 @@ export default function Navbar() {
       `}</style>
 
       {/* Top info bar */}
-      <div className="desktop-top-bar" style={{ backgroundColor: C.navy, color: "rgba(255,255,255,0.75)", fontSize: 12, padding: "7px 24px", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+      <div
+        className="desktop-top-bar"
+        style={{
+          backgroundColor: "#EBF4FF",
+          borderBottom: "1px solid #BFD7F5",
+          fontSize: 12,
+          padding: "7px 24px",
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+        }}
+      >
         <div style={{ display: "flex", gap: 24 }}>
-          <span>📞 +91- 9540190334</span>
-          <span>✉ info@siacc.co.in</span>
+          <span style={{ color: "#1E3A5F" }}>📞 +91- 9540190334</span>
+          <span style={{ color: "#1E3A5F" }}>✉ info@siacc.co.in</span>
         </div>
         <div style={{ display: "flex", gap: 24, alignItems: "center" }}>
-          <span>Mon–Sat: 9:00 AM – 6:00 PM</span>
+          <span style={{ color: "#4A6FA5" }}>Mon–Sat: 9:00 AM – 6:00 PM</span>
 
           {/* Social Icons */}
-          <div style={{ display: "flex", gap: 14, alignItems: "center", borderLeft: "1px solid rgba(255,255,255,0.15)", paddingLeft: 20 }}>
+          <div
+            style={{
+              display: "flex",
+              gap: 14,
+              alignItems: "center",
+              borderLeft: "1px solid #BFD7F5",
+              paddingLeft: 20,
+            }}
+          >
             {socialLinks.map(({ name, href, icon: Icon }) => (
-              <a key={name} href={href} target="_blank" rel="noopener noreferrer" aria-label={name} className="social-icon" style={{ color: C.primary, display: "flex", alignItems: "center" }}>
+              <a
+                key={name}
+                href={href}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={name}
+                className="social-icon"
+                style={{ color: C.primary, display: "flex", alignItems: "center" }}
+              >
                 <Icon size={15} />
               </a>
             ))}
