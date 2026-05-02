@@ -94,7 +94,7 @@ function SectionLabel({ children }) {
   return (
     <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 16 }}>
       <div style={{ width: 28, height: 1.5, background: T.teal }} />
-      <span style={{ fontFamily: T.sans, fontSize: 11, fontWeight: 600, letterSpacing: "0.15em", textTransform: "uppercase", color: T.teal }}>{children}</span>
+      <span style={{ fontFamily: T.sans, fontSize: 12, fontWeight: 600, letterSpacing: "0.15em", textTransform: "uppercase", color: T.teal }}>{children}</span>
     </div>
   );
 }
@@ -376,7 +376,7 @@ export default function HomeScreen() {
       <div className="ticker-outer">
         <div className="ticker-track">
           {[...ticker, ...ticker].map((item, i) => (
-            <span key={i} style={{ fontFamily: T.sans, fontSize: 12, fontWeight: 500, color: "rgba(255,255,255,0.88)", padding: "0 48px" }}>
+            <span key={i} style={{ fontFamily: T.sans, fontSize: 14, fontWeight: 500, color: "rgb(255, 255, 255)", padding: "0 48px" }}>
               <span style={{ color: T.amberLight, marginRight: 10 }}>◆</span>
               {item}
             </span>
@@ -486,7 +486,7 @@ export default function HomeScreen() {
                   )}
                 </div>
                 <h3 style={{ fontFamily: T.serif, fontSize: 17.5, color: T.slate, marginBottom: 8, fontWeight: 600, lineHeight: 1.3 }}>{s.title}</h3>
-                <p style={{ fontFamily: T.sans, fontSize: 13, color: T.muted, lineHeight: 1.7, marginBottom: 16 }}>{s.desc}</p>
+                <p style={{ fontFamily: T.sans, fontSize: 14, color: T.muted, lineHeight: 1.7, marginBottom: 16 }}>{s.desc}</p>
                 <span style={{ fontFamily: T.sans, fontSize: 12.5, color: T.teal, fontWeight: 600, letterSpacing: "0.02em" }}>Learn More →</span>
               </a>
             ))}
@@ -534,7 +534,7 @@ export default function HomeScreen() {
               <div key={w.title} className="why-card">
                 <div style={{ width: 46, height: 46, borderRadius: 9, background: T.tealLight, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 20, marginBottom: 16 }}>{w.icon}</div>
                 <h3 style={{ fontFamily: T.serif, fontSize: 17, color: T.slate, marginBottom: 8, fontWeight: 600 }}>{w.title}</h3>
-                <p style={{ fontFamily: T.sans, fontSize: 13, color: T.muted, lineHeight: 1.75 }}>{w.desc}</p>
+                <p style={{ fontFamily: T.sans, fontSize: 14, color: T.muted, lineHeight: 1.75 }}>{w.desc}</p>
               </div>
             ))}
           </div>
@@ -569,7 +569,7 @@ export default function HomeScreen() {
                   <div style={{ width: 54, height: 54, margin: "0 auto 16px", borderRadius: 10, background: T.tealLight, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 22 }}>{s.icon}</div>
                   <div style={{ fontFamily: T.sans, fontSize: 10.5, fontWeight: 700, color: T.teal, letterSpacing: "0.14em", textTransform: "uppercase", marginBottom: 10 }}>Step {s.n}</div>
                   <h3 style={{ fontFamily: T.serif, fontSize: 17, color: T.slate, marginBottom: 10, fontWeight: 600 }}>{s.title}</h3>
-                  <p style={{ fontFamily: T.sans, fontSize: 13, color: T.muted, lineHeight: 1.75 }}>{s.desc}</p>
+                  <p style={{ fontFamily: T.sans, fontSize: 14, color: T.muted, lineHeight: 1.75 }}>{s.desc}</p>
                 </div>
               ))}
             </div>
@@ -581,8 +581,8 @@ export default function HomeScreen() {
       <section className="sec" style={{ background: T.tealLight, borderTop: `1px solid #C8DEDE`, borderBottom: `1px solid #C8DEDE` }}>
         <div className="inner">
           {/* ✅ FIX: SectionLabel wrapped in flex-center div */}
-          <div style={{ textAlign: "center", marginBottom: 44 }}>
-            <div style={{ display: "flex", justifyContent: "center", marginBottom: 16 }}>
+          <div style={{ textAlign: "center", marginBottom: 22 }}>
+            <div style={{ display: "flex", justifyContent: "center" }}>
               <SectionLabel>Industries We Serve</SectionLabel>
             </div>
             <h2 style={{ fontFamily: T.serif, fontSize: "clamp(1.8rem,3vw,2.7rem)", color: T.slate, fontWeight: 700, letterSpacing: "-0.01em" }}>
@@ -602,7 +602,7 @@ export default function HomeScreen() {
         <div className="inner">
           {/* ✅ FIX: SectionLabel wrapped in flex-center div */}
           <div style={{ textAlign: "center", marginBottom: 52 }}>
-            <div style={{ display: "flex", justifyContent: "center", marginBottom: 16 }}>
+            <div style={{ display: "flex", justifyContent: "center", marginBottom: 1 }}>
               <SectionLabel>Client Stories</SectionLabel>
             </div>
             <h2 style={{ fontFamily: T.serif, fontSize: "clamp(2rem,3.2vw,2.9rem)", color: T.slate, fontWeight: 700, letterSpacing: "-0.01em" }}>
