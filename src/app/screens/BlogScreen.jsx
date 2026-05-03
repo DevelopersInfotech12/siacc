@@ -1,12 +1,13 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import Navbar from "../Components/Navbar";
 import Footer from "../Components/Footer";
+import "../animations.css";
 
-// ── EXACT same token palette as HomeScreen ──────────────────────────────────
 const T = {
   teal: "#1E88C8",
+  titleblue: "#0a6daa",
   tealDark: "#074D4D",
   tealMid: "#0E8080",
   tealLight: "#EBF5F5",
@@ -24,22 +25,47 @@ const T = {
   white: "#FFFFFF",
   cream: "#FAF8F4",
   creamMid: "#F3EFE8",
-  serif: "'Cormorant Garamond', 'Georgia', serif",
-  sans: "'Outfit', 'system-ui', sans-serif",
-  // convenience aliases used by BlogScreen logic
-  primary: "#1E88C8",         // was C.primary (orange) → now teal to match HomeScreen CTA
+  primary: "#1E88C8",
   primaryDark: "#1572A8",
   primaryLight: "#EBF5F5",
   blue: "#1E88C8",
   blueLight: "#EBF5F5",
-  navy: "#0D1B2A",            // maps to T.slate
+  navy: "#0D1B2A",
   bodyText: "#2D3748",
   mutedText: "#718096",
-  // CTA accent (orange) kept for buttons only
   cta: "#F97316",
   ctaDark: "#EA6A0A",
   ctaLight: "#FFF3E8",
+  serif: "'Cormorant Garamond', 'Georgia', serif",
+  sans: "'Outfit', 'system-ui', sans-serif",
 };
+
+/* ══════════════════════════════════════════════
+   useReveal HOOK
+══════════════════════════════════════════════ */
+function useReveal(opts = {}) {
+  const { threshold = 0.15, stagger = false, baseDelay = 90, once = true } = opts;
+  const ref = useRef(null);
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const obs = new IntersectionObserver(([entry]) => {
+      if (!entry.isIntersecting) return;
+      if (stagger) {
+        Array.from(el.children).forEach((child, i) => {
+          child.style.transitionDelay = i * baseDelay + "ms";
+          child.classList.add("revealed");
+        });
+      } else {
+        el.classList.add("revealed");
+      }
+      if (once) obs.unobserve(el);
+    }, { threshold });
+    obs.observe(el);
+    return () => obs.disconnect();
+  }, [threshold, stagger, baseDelay, once]);
+  return ref;
+}
 
 const featured = {
   tag: "BIS Update", date: "April 20, 2025",
@@ -62,7 +88,6 @@ const posts = [
 
 const categories = ["All", "BIS", "EPR", "WPC", "TEC", "BEE", "LMPC", "ISO", "CDSCO"];
 
-// Tag colours updated to harmonise with HomeScreen palette
 const tagColors = {
   BIS:   { bg: T.amberLight,   text: T.amberDark },
   EPR:   { bg: "#DCFCE7",      text: "#166534" },
@@ -86,6 +111,15 @@ export default function BlogScreen() {
   const [activeCategory, setActiveCategory] = useState("All");
   const filtered = activeCategory === "All" ? posts : posts.filter(p => p.tag === activeCategory);
 
+  /* ── Reveal refs ── */
+  const heroLeftRef     = useReveal();
+  const heroRightRef    = useReveal({ stagger: true, baseDelay: 100 });
+  const featuredRef     = useReveal();
+  const postsTitleRef   = useReveal();
+  const postsGridRef    = useReveal({ stagger: true, baseDelay: 70 });
+  const loadMoreRef     = useReveal();
+  const newsletterRef   = useReveal();
+
   return (
     <div style={{ minHeight: "100vh", backgroundColor: T.white, fontFamily: T.sans, color: T.body }}>
       <style>{`
@@ -94,14 +128,12 @@ export default function BlogScreen() {
         img { max-width:100%; display:block; }
         a { text-decoration:none; color:inherit; }
 
-        /* ── Hero (light cream + teal, matching HomeScreen) ── */
         .blog-hero-wrap {
           background: ${T.cream};
           border-bottom: 1px solid ${T.border};
           position: relative;
           overflow: hidden;
         }
-        /* Subtle teal-tinted decorative blob in top-right */
         .blog-hero-wrap::before {
           content: '';
           position: absolute;
@@ -117,17 +149,17 @@ export default function BlogScreen() {
         @media(max-width:900px){ .hero-right { display:none; } }
         .hero-cta-row { display:flex; gap:12px; flex-wrap:wrap; }
 
-        /* Stat cards — light, matching HomeScreen stat tiles */
         .stat-card {
           background: ${T.white};
           border: 1px solid ${T.border};
           border-top: 3px solid ${T.teal};
           border-radius: 8px;
           padding: 18px 20px;
+          transition: all 0.22s;
         }
+        .stat-card:hover { border-color:${T.teal}; box-shadow:0 6px 18px rgba(30,136,200,0.09); transform:translateY(-2px); }
         .stat-cards-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:12px; }
 
-        /* Category filter bar */
         .cat-filter-bar {
           background: ${T.white};
           border-bottom: 1px solid ${T.border};
@@ -151,15 +183,15 @@ export default function BlogScreen() {
         .cat-btn:hover { border-color: ${T.teal}; color: ${T.teal}; }
         .cat-btn.active { background: ${T.teal}; border-color: ${T.teal}; color: #fff; }
 
-        /* Featured post */
         .featured-card {
           border-radius: 12px; overflow: hidden; margin-bottom: 48px;
           display: grid; grid-template-columns: 1fr 1fr; min-height: 300px;
           border: 1px solid #C8DFF0;
           box-shadow: 0 8px 32px rgba(30,136,200,0.10);
+          transition: box-shadow 0.25s, transform 0.25s;
         }
+        .featured-card:hover { transform:translateY(-3px); box-shadow:0 16px 48px rgba(30,136,200,0.14); }
         @media(max-width:768px){ .featured-card { grid-template-columns:1fr; } .featured-img { min-height:200px; } }
-        /* Featured content: light blue matching newsletter/CTA band */
         .featured-content {
           padding: 32px 36px;
           background: #EBF5FB;
@@ -167,7 +199,6 @@ export default function BlogScreen() {
         }
         @media(max-width:480px){ .featured-content { padding:22px 20px; } }
 
-        /* Posts grid */
         .posts-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(300px,1fr)); gap:20px; }
         @media(max-width:640px){ .posts-grid { grid-template-columns:1fr; } }
         .post-card {
@@ -178,15 +209,15 @@ export default function BlogScreen() {
         }
         .post-card:hover {
           border-color: ${T.teal};
-          transform: translateY(-3px);
-          box-shadow: 0 12px 32px rgba(30,136,200,0.10);
+          transform: translateY(-4px);
+          box-shadow: 0 14px 36px rgba(30,136,200,0.12);
         }
+        .post-card:hover .post-img { transform: scale(1.05); }
+        .post-img { transition: transform 0.35s ease; }
 
-        /* Newsletter */
         .newsletter-input-row { display:flex; gap:10px; max-width:460px; margin:0 auto; }
         @media(max-width:480px){ .newsletter-input-row { flex-direction:column; } .newsletter-input-row button { width:100%; } }
 
-        /* Section label — matching HomeScreen SectionLabel */
         .section-label-row { display:flex; align-items:center; gap:12px; margin-bottom:16px; }
         .section-label-line { width:28px; height:1.5px; background:${T.teal}; }
         .section-label-text {
@@ -194,30 +225,29 @@ export default function BlogScreen() {
           letter-spacing: 0.15em; text-transform: uppercase; color: ${T.teal};
         }
 
-        /* Section padding */
         .sec-pad { padding: 80px 24px; }
         @media(max-width:768px){ .sec-pad { padding:52px 16px !important; } }
 
-        /* Topics tag pill */
         .topic-pill {
           padding: 5px 12px; border-radius: 4px; font-size: 11px; font-weight: 600;
           background: ${T.tealLight}; color: ${T.teal};
           border: 1px solid rgba(30,136,200,0.20);
           font-family: ${T.sans}; letter-spacing: 0.04em;
+          transition: all 0.2s;
         }
+        .topic-pill:hover { background:${T.teal}; color:#fff; transform:translateY(-1px); }
       `}</style>
 
       <Navbar />
 
-      {/* ── HERO (light cream, matching HomeScreen) ── */}
+      {/* ══ HERO ══ */}
       <section className="blog-hero-wrap">
         <div style={{ maxWidth: 1280, margin: "0 auto", padding: "clamp(56px,8vw,96px) clamp(16px,4vw,56px)" }}>
           <div className="blog-hero-grid">
 
-            {/* Left */}
-            <div>
-              {/* Tag badge — mirrors HomeScreen service tag */}
-              <div style={{
+            {/* Left — slides in from left */}
+            <div className="reveal-left" ref={heroLeftRef}>
+              <div className="anim-pill-in" style={{
                 display: "inline-flex", alignItems: "center", gap: 8,
                 background: T.tealLight, borderRadius: 4, padding: "5px 14px", marginBottom: 24,
               }}>
@@ -230,7 +260,7 @@ export default function BlogScreen() {
               <h1 style={{
                 fontFamily: T.serif,
                 fontSize: "clamp(2rem,3.8vw,3.4rem)",
-                color: T.slate, fontWeight: 700,
+                color: T.titleblue, fontWeight: 700,
                 lineHeight: 1.08, marginBottom: 10, letterSpacing: "-0.01em",
               }}>
                 Regulatory Updates &amp;<br />Certification Guides
@@ -245,14 +275,13 @@ export default function BlogScreen() {
               </p>
 
               <p style={{
-                fontFamily: T.sans, fontSize: "clamp(13.5px,1.4vw,15px)",
-                color: T.muted, lineHeight: 1.9, marginBottom: 32, maxWidth: 460,
+                fontFamily: T.sans, fontSize: 15.5, textAlign: "justify",
+                color: T.muted, lineHeight: 1.9, marginBottom: 32, maxWidth: 480,
               }}>
                 Stay ahead of India's ever-changing regulatory landscape. Expert insights written by practitioners, not generalists.
               </p>
 
               <div className="hero-cta-row">
-                {/* Primary CTA — orange, same as HomeScreen PrimaryBtn */}
                 <button
                   onClick={() => document.getElementById("posts-section").scrollIntoView({ behavior: "smooth" })}
                   style={{
@@ -266,7 +295,6 @@ export default function BlogScreen() {
                   onMouseLeave={e => { e.currentTarget.style.background = "#F97316"; e.currentTarget.style.boxShadow = "0 4px 16px rgba(10,104,104,0.22)"; e.currentTarget.style.transform = "translateY(0)"; }}
                 >Browse Articles ↓</button>
 
-                {/* Secondary CTA — outline, same as HomeScreen OutlineBtn */}
                 <button
                   onClick={() => document.getElementById("newsletter-section").scrollIntoView({ behavior: "smooth" })}
                   style={{
@@ -282,24 +310,25 @@ export default function BlogScreen() {
               </div>
             </div>
 
-            {/* Right — stat tiles (light, matching HomeScreen stat mini-cards) */}
-            <div className="hero-right">
-              <div className="stat-cards-grid">
+            {/* Right — stagger in */}
+            <div className="hero-right" ref={heroRightRef}>
+              {/* child[0] */}
+              <div className="reveal d0 stat-cards-grid">
                 {heroStats.map((s, i) => (
-                  <div key={s.label} className="stat-card">
+                  <div key={s.label} className="stat-card" style={{ borderTopColor: i % 2 === 0 ? T.teal : T.amber }}>
                     <div style={{ fontSize: 20, marginBottom: 6 }}>{s.icon}</div>
                     <div style={{
                       fontFamily: T.serif, fontSize: 26,
                       color: i % 2 === 0 ? T.teal : T.amber,
                       fontWeight: 700, lineHeight: 1,
                     }}>{s.value}</div>
-                    <div style={{ fontFamily: T.sans, fontSize: 11, color: T.subtle, marginTop: 4, letterSpacing: "0.04em" }}>{s.label}</div>
+                    <div style={{ fontFamily: T.sans, fontSize: 13.5, color: T.muted, fontWeight: 600, lineHeight: 1.5 }}>{s.label}</div>
                   </div>
                 ))}
               </div>
 
-              {/* Topics covered tile */}
-              <div style={{
+              {/* child[1] */}
+              <div className="reveal d1" style={{
                 background: T.white, border: `1px solid ${T.border}`,
                 borderRadius: 8, padding: "18px 20px",
               }}>
@@ -318,13 +347,12 @@ export default function BlogScreen() {
           </div>
         </div>
 
-        {/* Bottom accent line — mirrors HomeScreen's slider progress bar row */}
         <div style={{ height: 2, background: T.borderLight }}>
           <div style={{ width: "100%", height: "100%", background: T.teal, opacity: 0.4 }} />
         </div>
       </section>
 
-      {/* ── CATEGORY FILTERS ── */}
+      {/* ══ CATEGORY FILTERS ══ */}
       <div className="cat-filter-bar">
         <div className="cat-filter-inner">
           {categories.map(cat => (
@@ -334,13 +362,13 @@ export default function BlogScreen() {
         </div>
       </div>
 
-      {/* ── POSTS ── */}
+      {/* ══ POSTS ══ */}
       <section id="posts-section" className="sec-pad" style={{ background: T.cream }}>
         <div style={{ maxWidth: 1280, margin: "0 auto" }}>
 
-          {/* Featured */}
+          {/* Featured — fades up */}
           {activeCategory === "All" && (
-            <div className="featured-card">
+            <div className="reveal featured-card" ref={featuredRef}>
               <div className="featured-img" style={{ position: "relative", minHeight: 240 }}>
                 <img src={featured.img} alt={featured.title}
                   style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }} />
@@ -366,7 +394,7 @@ export default function BlogScreen() {
                   fontFamily: T.serif, fontSize: "clamp(1.1rem,2vw,1.6rem)",
                   color: T.slate, marginBottom: 12, fontWeight: 700, lineHeight: 1.3,
                 }}>{featured.title}</h2>
-                <p style={{ fontFamily: T.sans, fontSize: 13, color: T.muted, lineHeight: 1.75, marginBottom: 20 }}>{featured.excerpt}</p>
+                <p style={{ fontFamily: T.sans, fontSize: 15, color: T.muted, lineHeight: 1.75, marginBottom: 20, textAlign: "justify" }}>{featured.excerpt}</p>
                 <div style={{ display: "flex", gap: 16, alignItems: "center", flexWrap: "wrap" }}>
                   <button style={{
                     padding: "10px 22px", backgroundColor: "#F97316", color: "#fff",
@@ -384,33 +412,31 @@ export default function BlogScreen() {
             </div>
           )}
 
-          {/* Section heading */}
-          <div style={{ marginBottom: 32 }}>
+          {/* Section heading — fades up */}
+          <div style={{ marginBottom: 32 }} className="reveal" ref={postsTitleRef}>
             <div className="section-label-row">
               <div className="section-label-line" />
               <span className="section-label-text">{activeCategory === "All" ? "Latest Articles" : `${activeCategory} Articles`}</span>
             </div>
             <h2 style={{
               fontFamily: T.serif, fontSize: "clamp(1.3rem,2.5vw,2rem)",
-              color: T.slate, fontWeight: 700, letterSpacing: "-0.01em",
+              color: T.titleblue, fontWeight: 700, letterSpacing: "-0.01em",
             }}>
               {activeCategory === "All" ? "All Compliance Guides" : `${activeCategory} Compliance Guides`}
             </h2>
           </div>
 
-          {/* Cards grid */}
-          <div className="posts-grid">
-            {filtered.map(post => {
+          {/* Cards grid — stagger */}
+          <div className="posts-grid" ref={postsGridRef}>
+            {filtered.map((post, i) => {
               const tc = tagColors[post.tag] || { bg: T.tealLight, text: T.teal };
               return (
-                <div key={post.title} className="post-card">
+                <div key={post.title} className={`post-card reveal d${Math.min(i, 7)}`}>
                   <div style={{ position: "relative", height: 180, overflow: "hidden" }}>
                     <img src={post.img} alt={post.title}
-                      style={{ width: "100%", height: "100%", objectFit: "cover", transition: "transform 0.3s ease" }}
-                      onMouseEnter={e => e.currentTarget.style.transform = "scale(1.05)"}
-                      onMouseLeave={e => e.currentTarget.style.transform = "scale(1)"}
+                      className="post-img"
+                      style={{ width: "100%", height: "100%", objectFit: "cover" }}
                     />
-                    {/* Light blue overlay on images — matches CTA band colour #EBF5FB */}
                     <div style={{
                       position: "absolute", inset: 0,
                       background: "linear-gradient(180deg, rgba(235,245,251,0.18) 0%, rgba(235,245,251,0.42) 100%)",
@@ -431,14 +457,14 @@ export default function BlogScreen() {
                       fontFamily: T.serif, fontSize: 16, color: T.slate,
                       marginBottom: 8, fontWeight: 600, lineHeight: 1.35, flex: 1,
                     }}>{post.title}</h3>
-                    <p style={{ fontFamily: T.sans, fontSize: 13, color: T.muted, lineHeight: 1.7, marginBottom: 14 }}>{post.excerpt}</p>
+                    <p style={{ fontFamily: T.sans, fontSize: 14, color: T.muted, lineHeight: 1.7, marginBottom: 14 }}>{post.excerpt}</p>
                     <div style={{
                       display: "flex", justifyContent: "space-between", alignItems: "center",
                       paddingTop: 12, borderTop: `1px solid ${T.border}`,
                     }}>
                       <span style={{ fontFamily: T.sans, fontSize: 12, color: T.subtle }}>⏱ {post.readTime}</span>
                       <button style={{
-                        fontFamily: T.sans, fontSize: 12.5, color: T.teal,
+                        fontFamily: T.sans, fontSize: 12.5, color: "#F97316",
                         fontWeight: 600, background: "none", border: "none", cursor: "pointer",
                         letterSpacing: "0.02em",
                       }}>Read More →</button>
@@ -449,12 +475,12 @@ export default function BlogScreen() {
             })}
           </div>
 
-          {/* Load more */}
-          <div style={{ textAlign: "center", marginTop: 48 }}>
+          {/* Load more — fades up */}
+          <div style={{ textAlign: "center", marginTop: 48 }} className="reveal" ref={loadMoreRef}>
             <button
               style={{
                 padding: "13px 40px", border: `1.5px solid ${T.border}`,
-                color: T.slate, borderRadius: 6, background: "transparent",
+                color: "#fff", borderRadius: 6, background: "#F97316",
                 fontFamily: T.sans, fontSize: 13.5, fontWeight: 600, cursor: "pointer",
                 transition: "all 0.22s",
               }}
@@ -465,9 +491,11 @@ export default function BlogScreen() {
         </div>
       </section>
 
-      {/* ── NEWSLETTER (matches HomeScreen CTA band exactly) ── */}
+      {/* ══ NEWSLETTER — fades up ══ */}
       <section
         id="newsletter-section"
+        className="reveal"
+        ref={newsletterRef}
         style={{
           background: "#EBF5FB",
           borderTop: "1px solid #C8DFF0",
@@ -476,7 +504,6 @@ export default function BlogScreen() {
         }}
       >
         <div style={{ maxWidth: 560, margin: "0 auto", textAlign: "center" }}>
-          {/* Section label */}
           <div style={{ display: "flex", justifyContent: "center", marginBottom: 20 }}>
             <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
               <div style={{ width: 28, height: 1.5, background: T.teal }} />
@@ -487,7 +514,7 @@ export default function BlogScreen() {
 
           <h2 style={{
             fontFamily: T.serif, fontSize: "clamp(1.4rem,3vw,2.2rem)",
-            color: T.slate, marginBottom: 12, fontWeight: 700, letterSpacing: "-0.01em", lineHeight: 1.1,
+            color: T.titleblue, marginBottom: 12, fontWeight: 700, letterSpacing: "-0.01em", lineHeight: 1.1,
           }}>
             Get Regulatory Updates<br />in Your Inbox
           </h2>

@@ -1,5 +1,6 @@
 import { Playfair_Display, DM_Sans } from "next/font/google";
 import "./globals.css";
+import "./animations.css";
 import WhatsAppWidget from "@/app/Components/WhatsAppWidget";
 
 const playfair = Playfair_Display({

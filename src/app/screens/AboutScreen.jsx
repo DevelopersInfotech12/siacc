@@ -1,12 +1,15 @@
 "use client";
 import Link from "next/link";
+import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import Navbar from "../Components/Navbar";
 import Footer from "../Components/Footer";
+import "../animations.css";
 
-/* ── Shared token palette (HomeScreen / BlogScreen / CareerScreen / ContactScreen) ── */
+/* ── Shared token palette ── */
 const T = {
   teal: "#1E88C8",
+  titleblue: "#0a6daa",
   tealDark: "#074D4D",
   tealMid: "#0E8080",
   tealLight: "#EBF5F5",
@@ -32,11 +35,41 @@ const T = {
   sans: "'Outfit', 'system-ui', sans-serif",
 };
 
+/* ══════════════════════════════════════════════
+   useReveal HOOK — identical to HomeScreen
+══════════════════════════════════════════════ */
+function useReveal(opts = {}) {
+  const { threshold = 0.15, stagger = false, baseDelay = 90, once = true } = opts;
+  const ref = useRef(null);
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const obs = new IntersectionObserver(([entry]) => {
+      if (!entry.isIntersecting) return;
+      if (stagger) {
+        Array.from(el.children).forEach((child, i) => {
+          child.style.transitionDelay = i * baseDelay + "ms";
+          child.classList.add("revealed");
+        });
+      } else {
+        el.classList.add("revealed");
+      }
+      if (once) obs.unobserve(el);
+    }, { threshold });
+    obs.observe(el);
+    return () => obs.disconnect();
+  }, [threshold, stagger, baseDelay, once]);
+  return ref;
+}
+
+/* ══════════════════════════════════════════════
+   DATA
+══════════════════════════════════════════════ */
 const stats = [
-  { value: "2011",   label: "Year Founded",       icon: "📅" },
-  { value: "12+",    label: "Years of Experience", icon: "🏆" },
-  { value: "10,000+", label: "Clients Served",    icon: "🤝" },
-  { value: "98%",    label: "Success Rate",        icon: "✅" },
+  { value: "2011",    label: "Year Founded",        icon: "📅" },
+  { value: "12+",     label: "Years of Experience",  icon: "🏆" },
+  { value: "10,000+", label: "Clients Served",       icon: "🤝" },
+  { value: "98%",     label: "Success Rate",         icon: "✅" },
 ];
 
 const timeline = [
@@ -48,10 +81,10 @@ const timeline = [
 ];
 
 const values = [
-  { icon: "🎯", title: "Accuracy First",          desc: "Every application we file is meticulously reviewed. We don't cut corners — ever." },
-  { icon: "🤝", title: "Client Partnership",       desc: "We treat your business as our own. Your compliance success is our reputation." },
-  { icon: "🔍", title: "Transparency",             desc: "Clear timelines, honest pricing, and regular updates at every stage of your certification." },
-  { icon: "⚡", title: "Speed Without Compromise", desc: "Fast doesn't mean sloppy. We move quickly while maintaining the highest quality standards." },
+  { icon: "🎯", title: "Accuracy First",           desc: "Every application we file is meticulously reviewed. We don't cut corners — ever." },
+  { icon: "🤝", title: "Client Partnership",        desc: "We treat your business as our own. Your compliance success is our reputation." },
+  { icon: "🔍", title: "Transparency",              desc: "Clear timelines, honest pricing, and regular updates at every stage of your certification." },
+  { icon: "⚡", title: "Speed Without Compromise",  desc: "Fast doesn't mean sloppy. We move quickly while maintaining the highest quality standards." },
 ];
 
 const heroHighlights = [
@@ -61,6 +94,9 @@ const heroHighlights = [
   { number: "ISO",  label: "International ISO Standards" },
 ];
 
+/* ══════════════════════════════════════════════
+   SHARED MICRO-COMPONENTS
+══════════════════════════════════════════════ */
 function SectionLabel({ children, center = false }) {
   return (
     <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 16, justifyContent: center ? "center" : "flex-start" }}>
@@ -70,8 +106,22 @@ function SectionLabel({ children, center = false }) {
   );
 }
 
+/* ══════════════════════════════════════════════
+   MAIN PAGE
+══════════════════════════════════════════════ */
 export default function AboutScreen() {
   const router = useRouter();
+
+  /* ── Reveal refs for each section ── */
+  const heroLeftRef    = useReveal();
+  const heroRightRef   = useReveal({ stagger: true, baseDelay: 90 });
+  const statsRef       = useReveal({ stagger: true, baseDelay: 100 });
+  const storyImgRef    = useReveal();
+  const storyTxtRef    = useReveal();
+  const missionRef     = useReveal({ stagger: true, baseDelay: 100 });
+  const valuesRef      = useReveal({ stagger: true, baseDelay: 80 });
+  const timelineRef    = useReveal({ stagger: true, baseDelay: 110 });
+  const ctaRef         = useReveal();
 
   return (
     <div style={{ minHeight: "100vh", backgroundColor: T.white, fontFamily: T.sans, color: T.body }}>
@@ -81,7 +131,6 @@ export default function AboutScreen() {
         img { max-width:100%; display:block; }
         a { text-decoration:none; color:inherit; }
 
-        /* ── HERO — light cream, matching BlogScreen / CareerScreen / ContactScreen ── */
         .about-hero-wrap {
           background: ${T.cream};
           border-bottom: 1px solid ${T.border};
@@ -97,7 +146,6 @@ export default function AboutScreen() {
         .hero-grid { display:grid; grid-template-columns:1fr 1fr; gap:64px; align-items:center; }
         @media(max-width:900px){ .hero-grid { grid-template-columns:1fr; gap:40px; } .hero-right { display:none; } }
 
-        /* Hero right — light tiles matching HomeScreen mini-stat style */
         .highlight-card {
           background: ${T.white};
           border: 1px solid ${T.border};
@@ -106,15 +154,12 @@ export default function AboutScreen() {
         }
         .highlight-card:hover { border-color:${T.teal}; box-shadow:0 6px 18px rgba(30,136,200,0.09); transform:translateY(-2px); }
 
-        /* Stats strip */
         .stats-grid { display:grid; grid-template-columns:repeat(4,1fr); }
         @media(max-width:640px){ .stats-grid { grid-template-columns:repeat(2,1fr); } }
 
-        /* Story grid */
         .story-grid { display:grid; grid-template-columns:1fr 1fr; gap:64px; align-items:center; }
         @media(max-width:900px){ .story-grid { grid-template-columns:1fr; gap:40px; } }
 
-        /* Values */
         .values-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(260px,1fr)); gap:16px; }
         .value-card {
           background:${T.white}; border-radius:10px; padding:28px;
@@ -125,16 +170,18 @@ export default function AboutScreen() {
         .value-card:hover { border-color:${T.teal}; transform:translateY(-3px); box-shadow:0 12px 32px rgba(10,104,104,0.09); }
         .value-card:hover::before { opacity:1; }
         .value-card > * { position:relative; }
+        .value-icon { width:50px; height:50px; border-radius:10px; background:${T.tealLight}; display:flex; align-items:center; justify-content:center; font-size:22px; margin-bottom:16px; transition:all 0.3s cubic-bezier(0.34,1.56,0.64,1); }
+        .value-card:hover .value-icon { transform:scale(1.2) rotate(6deg); background:${T.teal}; }
 
-        /* Mission cards */
         .mission-card {
           background:${T.white}; border-radius:10px; padding:20px 24px;
           border:1px solid ${T.border}; display:flex; gap:16px; align-items:flex-start;
           transition:all 0.2s;
         }
         .mission-card:hover { border-color:${T.teal}; box-shadow:0 6px 20px rgba(30,136,200,0.08); }
+        .mission-icon { width:40px; height:40px; border-radius:9px; background:${T.tealLight}; display:flex; align-items:center; justify-content:center; font-size:18px; flex-shrink:0; transition:all 0.3s cubic-bezier(0.34,1.56,0.64,1); }
+        .mission-card:hover .mission-icon { transform:scale(1.18) rotate(-4deg); background:${T.teal}; }
 
-        /* CTA split */
         .cta-split { display:grid; grid-template-columns:1fr auto; gap:40px; align-items:center; }
         @media(max-width:720px){ .cta-split { grid-template-columns:1fr; gap:28px; } }
 
@@ -144,15 +191,14 @@ export default function AboutScreen() {
 
       <Navbar />
 
-      {/* ── HERO — light cream (same pattern as BlogScreen / CareerScreen / ContactScreen) ── */}
+      {/* ══ HERO ══ */}
       <section className="about-hero-wrap">
         <div style={{ maxWidth: 1280, margin: "0 auto", padding: "clamp(56px,8vw,96px) clamp(16px,4vw,56px)" }}>
           <div className="hero-grid">
 
-            {/* Left — text */}
-            <div>
-              {/* Badge — mirrors HomeScreen service tag */}
-              <div style={{
+            {/* Left — text: slides in from left */}
+            <div className="reveal-left" ref={heroLeftRef}>
+              <div className="anim-pill-in" style={{
                 display: "inline-flex", alignItems: "center", gap: 8,
                 background: T.tealLight, borderRadius: 4, padding: "5px 14px", marginBottom: 24,
               }}>
@@ -165,7 +211,7 @@ export default function AboutScreen() {
               <h1 style={{
                 fontFamily: T.serif,
                 fontSize: "clamp(2rem,3.8vw,3.4rem)",
-                color: T.slate, fontWeight: 700,
+                color: T.titleblue, fontWeight: 700,
                 lineHeight: 1.08, marginBottom: 10, letterSpacing: "-0.01em",
               }}>
                 12 Years of Simplifying<br />Indian Compliance
@@ -180,7 +226,7 @@ export default function AboutScreen() {
               </p>
 
               <p style={{
-                fontFamily: T.sans, fontSize: "clamp(13.5px,1.4vw,15px)",
+                fontFamily: T.sans, fontSize: 15.5, textAlign: "justify",
                 color: T.muted, lineHeight: 1.9, marginBottom: 32, maxWidth: 480,
               }}>
                 We started SIACC with one belief — no business should lose market access due to complex regulatory paperwork. Today, we are India's most trusted certification consultancy, having served 10,000+ clients across 25+ countries.
@@ -215,26 +261,28 @@ export default function AboutScreen() {
               </div>
             </div>
 
-            {/* Right — light highlight tiles (matching HomeScreen mini-stat style) */}
-            <div className="hero-right">
-              <div style={{ marginBottom: 14 }}>
+            {/* Right — highlight tiles: stagger in */}
+            <div className="hero-right" ref={heroRightRef}>
+              {/* Label row counts as child[0] */}
+              <div className="reveal d0" style={{ marginBottom: 14 }}>
                 <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 16 }}>
                   <div style={{ width: 28, height: 1.5, background: T.teal }} />
                   <span style={{ fontFamily: T.sans, fontSize: 10.5, fontWeight: 700, color: T.teal, letterSpacing: "0.12em", textTransform: "uppercase" }}>What We Certify</span>
                 </div>
               </div>
 
-              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12, marginBottom: 14 }}>
+              {/* Cards grid counts as child[1] */}
+              <div className="reveal d1" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12, marginBottom: 14 }}>
                 {heroHighlights.map((h, i) => (
                   <div key={h.number} className="highlight-card" style={{ borderTop: `3px solid ${i % 2 === 0 ? T.teal : T.amber}` }}>
                     <div style={{ fontFamily: T.serif, fontSize: 22, color: i % 2 === 0 ? T.teal : T.amber, fontWeight: 700, marginBottom: 6, lineHeight: 1 }}>{h.number}</div>
-                    <div style={{ fontFamily: T.sans, fontSize: 12, color: T.muted, lineHeight: 1.5 }}>{h.label}</div>
+                    <div style={{ fontFamily: T.sans, fontSize: 13.5, color: T.muted, fontWeight: 600, lineHeight: 1.5 }}>{h.label}</div>
                   </div>
                 ))}
               </div>
 
-              {/* Trust tile */}
-              <div style={{
+              {/* Trust tile counts as child[2] */}
+              <div className="reveal d2" style={{
                 background: T.white, border: `1px solid ${T.border}`,
                 borderRadius: 8, padding: "18px 20px",
                 display: "flex", alignItems: "center", gap: 14,
@@ -242,7 +290,7 @@ export default function AboutScreen() {
                 <div style={{ fontSize: 32, flexShrink: 0 }}>🏆</div>
                 <div>
                   <div style={{ fontFamily: T.serif, fontSize: 16, color: T.slate, fontWeight: 700, marginBottom: 4 }}>India's Most Trusted</div>
-                  <div style={{ fontFamily: T.sans, fontSize: 12, color: T.muted, lineHeight: 1.6 }}>Rated #1 compliance consultancy by 10,000+ manufacturers & importers since 2011.</div>
+                  <div style={{ fontFamily: T.sans, fontSize: 13, color: T.muted, lineHeight: 1.6 }}>Rated #1 compliance consultancy by 10,000+ manufacturers & importers.</div>
                 </div>
               </div>
             </div>
@@ -250,44 +298,45 @@ export default function AboutScreen() {
           </div>
         </div>
 
-        {/* Bottom accent line — same as other screens */}
         <div style={{ height: 2, background: T.borderLight }}>
           <div style={{ width: "100%", height: "100%", background: T.teal, opacity: 0.4 }} />
         </div>
       </section>
 
-      {/* ── STATS STRIP — teal bg ── */}
+      {/* ══ STATS STRIP ══ */}
       <section style={{ background: T.teal }}>
         <div style={{ maxWidth: 1280, margin: "0 auto" }}>
-          <div className="stats-grid">
+          {/* Stagger each stat cell */}
+          <div className="stats-grid" ref={statsRef}>
             {stats.map((s, i) => (
-              <div key={s.label} style={{
+              <div key={s.label} className={`reveal d${i}`} style={{
                 textAlign: "center", padding: "36px 16px",
                 borderRight: i < stats.length - 1 ? "1px solid rgba(255,255,255,0.07)" : "none",
               }}>
                 <div style={{ fontSize: 20, marginBottom: 6 }}>{s.icon}</div>
-                <div style={{ fontFamily: T.serif, fontSize: "clamp(2rem,2.8vw,2.8rem)", color: "#fff", fontWeight: 700, lineHeight: 1, letterSpacing: "-0.01em" }}>{s.value}</div>
-                <div style={{ fontFamily: T.sans, fontSize: 12, color: "rgba(255,255,255,0.80)", marginTop: 8, letterSpacing: "0.04em" }}>{s.label}</div>
+                {/* Count-up on the value number */}
+                <div className="anim-count-up" style={{ fontFamily: T.serif, fontSize: "clamp(2rem,2.8vw,2.8rem)", color: "#fff", fontWeight: 700, lineHeight: 1, letterSpacing: "-0.01em" }}>{s.value}</div>
+                <div style={{ fontFamily: T.sans, fontSize: 14, color: "rgb(255, 255, 255)", marginTop: 8, letterSpacing: "0.04em" }}>{s.label}</div>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* ── STORY + MISSION — cream bg ── */}
+      {/* ══ STORY + MISSION ══ */}
       <section className="sec" style={{ background: T.cream }}>
         <div className="inner">
           <div className="story-grid">
 
-            {/* Image side */}
-            <div style={{ position: "relative" }}>
+            {/* Image: slides in from left */}
+            <div className="reveal-left" ref={storyImgRef} style={{ position: "relative" }}>
               <img
                 src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=700&q=80&fit=crop"
                 alt="Compliance experts working"
                 style={{ width: "100%", borderRadius: 10, height: 460, objectFit: "cover", boxShadow: "0 24px 64px rgba(0,0,0,0.10)" }}
               />
-              {/* Floating badge */}
-              <div style={{
+              {/* Floating badge — same float-card animation as HomeScreen */}
+              <div className="float-card" style={{
                 position: "absolute", bottom: -16, right: -12,
                 background: T.white, borderRadius: 8, padding: "20px 26px",
                 boxShadow: "0 16px 48px rgba(0,0,0,0.11)", border: `1px solid ${T.tealLight}`,
@@ -300,30 +349,31 @@ export default function AboutScreen() {
               </div>
             </div>
 
-            {/* Text side */}
-            <div>
+            {/* Text: slides in from right */}
+            <div className="reveal-right" ref={storyTxtRef}>
               <SectionLabel>Our Story</SectionLabel>
-              <h2 style={{ fontFamily: T.serif, fontSize: "clamp(2rem,3.2vw,2.9rem)", color: T.slate, marginBottom: 20, fontWeight: 700, lineHeight: 1.12, letterSpacing: "-0.01em" }}>
+              <h2 style={{ fontFamily: T.serif, fontSize: "clamp(2rem,3.2vw,2.9rem)", color: T.titleblue, marginBottom: 20, fontWeight: 700, lineHeight: 1.12, letterSpacing: "-0.01em" }}>
                 Built by Compliance Experts,<br />for Businesses
               </h2>
-              <p style={{ fontFamily: T.sans, fontSize: 15, color: T.muted, lineHeight: 1.9, marginBottom: 16 }}>
+              <p style={{ fontFamily: T.sans, fontSize: 15.5, color: "#00000081", lineHeight: 1.4, marginBottom: 16, textAlign: "justify" }}>
                 In 2011, our founder Vikram Anand — after spending over a decade navigating India's complex regulatory maze — saw how countless manufacturers and importers were losing months and lakhs of rupees due to the lack of reliable certification guidance.
               </p>
-              <p style={{ fontFamily: T.sans, fontSize: 15, color: T.muted, lineHeight: 1.9, marginBottom: 32 }}>
+              <p style={{ fontFamily: T.sans, fontSize: 15.5, color: "#00000081", lineHeight: 1.4, marginBottom: 32, textAlign: "justify" }}>
                 He founded SIACC to bridge that gap. What started as a three-person office in Connaught Place has grown into a 100+ strong team of regulatory experts, lawyers, and certification specialists serving clients from startups to Fortune 500 companies.
               </p>
 
-              <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+              {/* Mission cards: stagger in */}
+              <div style={{ display: "flex", flexDirection: "column", gap: 12 }} ref={missionRef}>
                 {[
                   { icon: "🎯", title: "Our Mission", text: "To make Indian regulatory compliance accessible, affordable, and stress-free for every business — from local startups to global enterprises entering India." },
                   { icon: "🔭", title: "Our Vision",  text: "To be Asia's most trusted compliance partner, known for speed, accuracy, and the genuine care we bring to every client relationship." },
                   { icon: "⭐", title: "Our Promise", text: "No hidden fees. No unnecessary delays. No failed applications. If we take your case, we see it through — guaranteed." },
-                ].map(card => (
-                  <div key={card.title} className="mission-card">
-                    <div style={{ width: 40, height: 40, borderRadius: 9, background: T.tealLight, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 18, flexShrink: 0 }}>{card.icon}</div>
+                ].map((card, i) => (
+                  <div key={card.title} className={`mission-card reveal d${i}`}>
+                    <div className="mission-icon">{card.icon}</div>
                     <div>
-                      <h3 style={{ fontFamily: T.serif, fontSize: 16, color: T.slate, marginBottom: 5, fontWeight: 600 }}>{card.title}</h3>
-                      <p style={{ fontFamily: T.sans, fontSize: 13, color: T.muted, lineHeight: 1.75, margin: 0 }}>{card.text}</p>
+                      <h3 style={{ fontFamily: T.serif, fontSize: 17, color: T.slate, marginBottom: 5, fontWeight: 600 }}>{card.title}</h3>
+                      <p style={{ fontFamily: T.sans, fontSize: 15, color: T.muted, lineHeight: 1.75, margin: 0, textAlign: "justify" }}>{card.text}</p>
                     </div>
                   </div>
                 ))}
@@ -333,39 +383,42 @@ export default function AboutScreen() {
         </div>
       </section>
 
-      {/* ── VALUES — white bg ── */}
+      {/* ══ VALUES ══ */}
       <section className="sec" style={{ background: T.white }}>
         <div className="inner">
-          <div style={{ textAlign: "center", marginBottom: 35 }}>
+          {/* Section header fades up */}
+          <div style={{ textAlign: "center", marginBottom: 35 }} className="reveal" ref={useReveal()}>
             <div style={{ display: "flex", justifyContent: "center" }}>
               <SectionLabel>What We Stand For</SectionLabel>
             </div>
-            <h2 style={{ fontFamily: T.serif, fontSize: "clamp(2rem,3.2vw,2.9rem)", color: T.slate, fontWeight: 700, letterSpacing: "-0.01em" }}>Our Core Values</h2>
+            <h2 style={{ fontFamily: T.serif, fontSize: "clamp(2rem,3.2vw,2.9rem)", color: T.titleblue, fontWeight: 700, letterSpacing: "-0.01em" }}>Our Core Values</h2>
           </div>
-          <div className="values-grid">
-            {values.map(v => (
-              <div key={v.title} className="value-card">
-                <div style={{ width: 50, height: 50, borderRadius: 10, background: T.tealLight, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 22, marginBottom: 16 }}>{v.icon}</div>
-                <h3 style={{ fontFamily: T.serif, fontSize: 17, color: T.slate, marginBottom: 8, fontWeight: 600 }}>{v.title}</h3>
-                <p style={{ fontFamily: T.sans, fontSize: 14, color: T.muted, lineHeight: 1.75, margin: 0 }}>{v.desc}</p>
+
+          {/* Value cards stagger in */}
+          <div className="values-grid" ref={valuesRef}>
+            {values.map((v, i) => (
+              <div key={v.title} className={`value-card reveal d${i}`}>
+                <div className="value-icon">{v.icon}</div>
+                <h3 style={{ fontFamily: T.serif, fontSize: 18, color: T.slate, marginBottom: 8, fontWeight: 600 }}>{v.title}</h3>
+                <p style={{ fontFamily: T.sans, fontSize: 15, color: T.muted, lineHeight: 1.75, margin: 0, textAlign: "justify" }}>{v.desc}</p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* ── TIMELINE — dark photo bg (intentionally kept dark for contrast) ── */}
+      {/* ══ TIMELINE ══ */}
       <section style={{ position: "relative", overflow: "hidden" }} className="sec">
         <img
           src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=1600&q=80&fit=crop"
           alt="Company growth"
           style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }}
         />
-        {/* Light blue tint overlay — ties back to palette without full dark */}
         <div style={{ position: "absolute", inset: 0, background: "linear-gradient(135deg, rgba(13,27,42,0.95) 0%, rgba(14,128,128,0.88) 100%)" }} />
 
         <div style={{ maxWidth: 900, margin: "0 auto", position: "relative", zIndex: 1 }}>
-          <div style={{ textAlign: "center", marginBottom: 52 }}>
+          {/* Section heading fades up */}
+          <div style={{ textAlign: "center", marginBottom: 52 }} className="reveal" ref={useReveal({ threshold: 0.1 })}>
             <div style={{ display: "flex", justifyContent: "center", marginBottom: 16 }}>
               <SectionLabel>Our Journey</SectionLabel>
             </div>
@@ -374,9 +427,11 @@ export default function AboutScreen() {
 
           <div style={{ position: "relative" }}>
             <div style={{ position: "absolute", left: 88, top: 0, bottom: 0, width: 1.5, background: "rgba(30,136,200,0.40)" }} />
-            <div style={{ display: "flex", flexDirection: "column", gap: 28 }}>
-              {timeline.map(item => (
-                <div key={item.year} style={{ display: "flex", gap: 28, alignItems: "flex-start" }}>
+
+            {/* Timeline items stagger in */}
+            <div style={{ display: "flex", flexDirection: "column", gap: 28 }} ref={timelineRef}>
+              {timeline.map((item, i) => (
+                <div key={item.year} className={`reveal d${Math.min(i, 5)}`} style={{ display: "flex", gap: 28, alignItems: "flex-start" }}>
                   <div style={{ width: 80, flexShrink: 0, textAlign: "right" }}>
                     <span style={{
                       display: "inline-block", padding: "4px 12px",
@@ -390,8 +445,8 @@ export default function AboutScreen() {
                     background: "rgba(255,255,255,0.07)", borderRadius: 10, padding: "20px 24px",
                     border: "1px solid rgba(30,136,200,0.22)", flex: 1, backdropFilter: "blur(6px)",
                   }}>
-                    <h3 style={{ fontFamily: T.serif, fontSize: 16, color: "#fff", marginBottom: 8, fontWeight: 600 }}>{item.title}</h3>
-                    <p style={{ fontFamily: T.sans, fontSize: 14, color: "rgba(255,255,255,0.68)", lineHeight: 1.75, margin: 0 }}>{item.desc}</p>
+                    <h3 style={{ fontFamily: T.serif, fontSize: 17, color: "#fff", marginBottom: 8, fontWeight: 600 }}>{item.title}</h3>
+                    <p style={{ fontFamily: T.sans, fontSize: 15, color: "rgba(255,255,255,0.68)", lineHeight: 1.75, margin: 0 }}>{item.desc}</p>
                   </div>
                 </div>
               ))}
@@ -400,13 +455,17 @@ export default function AboutScreen() {
         </div>
       </section>
 
-      {/* ── CTA BAND — exact HomeScreen / ContactScreen / CareerScreen CTA band ── */}
-      <section style={{
-        background: T.ctaBand,
-        borderTop: `1px solid ${T.ctaBandBorder}`,
-        borderBottom: `1px solid ${T.ctaBandBorder}`,
-        padding: "80px clamp(16px,5vw,56px)",
-      }}>
+      {/* ══ CTA BAND ══ */}
+      <section
+        className="reveal"
+        ref={ctaRef}
+        style={{
+          background: T.ctaBand,
+          borderTop: `1px solid ${T.ctaBandBorder}`,
+          borderBottom: `1px solid ${T.ctaBandBorder}`,
+          padding: "80px clamp(16px,5vw,56px)",
+        }}
+      >
         <div style={{ maxWidth: 1100, margin: "0 auto" }}>
           <div className="cta-split">
             <div>
@@ -414,10 +473,10 @@ export default function AboutScreen() {
                 <div style={{ width: 28, height: 1.5, background: T.teal }} />
                 <span style={{ fontFamily: T.sans, fontSize: 11, fontWeight: 600, letterSpacing: "0.14em", textTransform: "uppercase", color: T.teal }}>Start Today</span>
               </div>
-              <h2 style={{ fontFamily: T.serif, fontSize: "clamp(1.9rem,3.2vw,2.9rem)", color: T.slate, fontWeight: 700, lineHeight: 1.1, letterSpacing: "-0.01em", marginBottom: 14 }}>
+              <h2 style={{ fontFamily: T.serif, fontSize: "clamp(1.9rem,3.2vw,2.9rem)", color: T.titleblue, fontWeight: 700, lineHeight: 1.1, letterSpacing: "-0.01em", marginBottom: 14 }}>
                 Ready to Work With<br />India's Best?
               </h2>
-              <p style={{ fontFamily: T.sans, color: T.muted, fontSize: 14.5, lineHeight: 1.8 }}>
+              <p style={{ fontFamily: T.sans, color: T.muted, fontSize: 16, lineHeight: 1.8 }}>
                 Join 10,000+ businesses who trust SIACC for their compliance needs.<br />Free consultation. Clear timeline. Transparent pricing.
               </p>
             </div>

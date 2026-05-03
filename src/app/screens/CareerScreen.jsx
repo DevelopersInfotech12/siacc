@@ -1,11 +1,13 @@
 "use client";
+import { useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import Navbar from "../Components/Navbar";
 import Footer from "../Components/Footer";
+import "../animations.css";
 
-// ── Exact same token palette as HomeScreen / BlogScreen ─────────────────────
 const T = {
   teal: "#1E88C8",
+  titleblue: "#0a6daa",
   tealDark: "#074D4D",
   tealMid: "#0E8080",
   tealLight: "#EBF5F5",
@@ -23,15 +25,40 @@ const T = {
   white: "#FFFFFF",
   cream: "#FAF8F4",
   creamMid: "#F3EFE8",
-  // CTA band exact colours
   ctaBand: "#EBF5FB",
   ctaBandBorder: "#C8DFF0",
-  // button accent
   orange: "#F97316",
   orangeDark: "#EA6A0A",
   serif: "'Cormorant Garamond', 'Georgia', serif",
   sans: "'Outfit', 'system-ui', sans-serif",
 };
+
+/* ══════════════════════════════════════════════
+   useReveal HOOK
+══════════════════════════════════════════════ */
+function useReveal(opts = {}) {
+  const { threshold = 0.15, stagger = false, baseDelay = 90, once = true } = opts;
+  const ref = useRef(null);
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const obs = new IntersectionObserver(([entry]) => {
+      if (!entry.isIntersecting) return;
+      if (stagger) {
+        Array.from(el.children).forEach((child, i) => {
+          child.style.transitionDelay = i * baseDelay + "ms";
+          child.classList.add("revealed");
+        });
+      } else {
+        el.classList.add("revealed");
+      }
+      if (once) obs.unobserve(el);
+    }, { threshold });
+    obs.observe(el);
+    return () => obs.disconnect();
+  }, [threshold, stagger, baseDelay, once]);
+  return ref;
+}
 
 const openings = [
   { title: "Senior BIS Certification Consultant", dept: "BIS Division", location: "New Delhi", type: "Full-time", exp: "5+ Years", desc: "Lead client engagements for BIS ISI Mark and CRS certification projects. Coordinate with labs, manage applications and mentor junior consultants." },
@@ -52,19 +79,32 @@ const perks = [
 ];
 
 const typeColors = {
-  "Full-time":  { bg: T.tealLight,   text: T.tealDark },
-  "Internship": { bg: T.amberLight,  text: T.amberDark },
+  "Full-time": { bg: T.tealLight, text: T.tealDark },
+  "Internship": { bg: T.amberLight, text: T.amberDark },
 };
 
 const stats = [
-  { value: "100+", label: "Team Members",    icon: "👥" },
-  { value: "4",    label: "Office Locations", icon: "🏢" },
-  { value: "6",    label: "Open Positions",   icon: "📋" },
-  { value: "12+",  label: "Years Building",   icon: "🏆" },
+  { value: "100+", label: "Team Members", icon: "👥" },
+  { value: "4", label: "Office Locations", icon: "🏢" },
+  { value: "6", label: "Open Positions", icon: "📋" },
+  { value: "12+", label: "Years Building", icon: "🏆" },
 ];
 
 export default function CareerScreen() {
   const router = useRouter();
+
+  /* ── Reveal refs ── */
+  const heroLeftRef = useReveal();
+  const heroRightRef = useReveal();
+  const statsRef = useReveal({ stagger: true, baseDelay: 100 });
+  const lifeImgRef = useReveal();
+  const lifeTxtRef = useReveal();
+  const miniStatsRef = useReveal({ stagger: true, baseDelay: 80 });
+  const perksBannerRef = useReveal();
+  const perksGridRef = useReveal({ stagger: true, baseDelay: 80 });
+  const openingsTtlRef = useReveal();
+  const openingsRef = useReveal({ stagger: true, baseDelay: 90 });
+  const ctaRef = useReveal();
 
   return (
     <div style={{ minHeight: "100vh", backgroundColor: T.white, fontFamily: T.sans, color: T.body }}>
@@ -74,18 +114,15 @@ export default function CareerScreen() {
         img { max-width:100%; display:block; }
         a { text-decoration:none; color:inherit; }
 
-        /* ── Section label — matches HomeScreen SectionLabel ── */
         .sl-row { display:flex; align-items:center; gap:12px; margin-bottom:16px; }
         .sl-line { width:28px; height:1.5px; background:${T.teal}; flex-shrink:0; }
         .sl-text { font-family:${T.sans}; font-size:11px; font-weight:600; letter-spacing:0.15em; text-transform:uppercase; color:${T.teal}; }
 
-        /* ── HERO — light cream + teal, same as BlogScreen hero ── */
         .career-hero-wrap {
           background: ${T.cream};
           border-bottom: 1px solid ${T.border};
           position: relative; overflow: hidden;
         }
-        /* Decorative radial blob */
         .career-hero-wrap::before {
           content:''; position:absolute; top:-100px; right:-140px;
           width:500px; height:500px;
@@ -96,7 +133,6 @@ export default function CareerScreen() {
         @media(max-width:900px){ .hero-grid { grid-template-columns:1fr; gap:40px; } }
         .hero-img-col { border-radius:12px; overflow:hidden; height:clamp(300px,42vw,460px); position:relative; }
         @media(max-width:900px){ .hero-img-col { display:none; } }
-        /* Light blue tint overlay on hero image */
         .hero-img-tint {
           position:absolute; inset:0;
           background:linear-gradient(135deg, rgba(235,245,251,0.38) 0%, rgba(30,136,200,0.18) 100%);
@@ -104,65 +140,58 @@ export default function CareerScreen() {
         .hero-cta-row { display:flex; flex-wrap:wrap; gap:12px; margin-bottom:32px; }
         .hero-trust-row { display:flex; flex-wrap:wrap; gap:8px; }
 
-        /* ── Stats strip — teal background, matches HomeScreen stats band ── */
         .stats-strip { display:grid; grid-template-columns:repeat(4,1fr); }
         @media(max-width:640px){ .stats-strip { grid-template-columns:repeat(2,1fr); } }
 
-        /* ── Life at SIACC ── */
         .about-grid { display:grid; grid-template-columns:1fr 1fr; gap:72px; align-items:center; }
         @media(max-width:860px){ .about-grid { grid-template-columns:1fr; gap:40px; } }
         .mini-stats-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:32px; }
         @media(max-width:420px){ .mini-stats-grid { grid-template-columns:1fr; } }
 
-        /* ── Perks ── */
         .perks-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; }
         @media(max-width:900px){ .perks-grid { grid-template-columns:repeat(2,1fr); } }
         @media(max-width:540px){ .perks-grid { grid-template-columns:1fr; } }
         .perk-card {
           background:${T.white}; border-radius:10px; padding:28px;
-          border:1px solid ${T.border}; transition:all 0.2s;
+          border:1px solid ${T.border}; transition:all 0.25s; position:relative; overflow:hidden;
         }
-        .perk-card:hover { border-color:${T.teal}; box-shadow:0 8px 24px rgba(30,136,200,0.08); transform:translateY(-2px); }
+        .perk-card::before { content:''; position:absolute; inset:0; background:${T.tealGhost}; opacity:0; transition:opacity 0.25s; }
+        .perk-card:hover { border-color:${T.teal}; box-shadow:0 10px 28px rgba(30,136,200,0.09); transform:translateY(-3px); }
+        .perk-card:hover::before { opacity:1; }
+        .perk-card > * { position:relative; }
+        .perk-icon { width:46px; height:46px; border-radius:9px; background:${T.tealLight}; display:flex; align-items:center; justify-content:center; font-size:20px; margin-bottom:16px; transition:all 0.3s cubic-bezier(0.34,1.56,0.64,1); }
+        .perk-card:hover .perk-icon { transform:scale(1.2) rotate(6deg); background:${T.teal}; }
 
-        /* ── Job cards ── */
         .job-card {
           background:${T.white}; border-radius:10px; padding:24px 28px;
           border:1px solid ${T.border};
           display:grid; grid-template-columns:1fr auto; gap:20px; align-items:center;
           transition:all 0.25s ease;
         }
-        .job-card:hover { border-color:${T.teal}; box-shadow:0 8px 28px rgba(30,136,200,0.09); }
+        .job-card:hover { border-color:${T.teal}; box-shadow:0 8px 28px rgba(30,136,200,0.09); transform:translateY(-2px); }
         @media(max-width:640px){ .job-card { grid-template-columns:1fr; gap:16px; padding:20px; } }
         .job-meta { display:flex; gap:8px; flex-wrap:wrap; margin-bottom:10px; align-items:center; }
 
-        /* ── Perks banner ── */
         .perks-banner { position:relative; border-radius:10px; overflow:hidden; margin-bottom:48px; height:200px; }
         @media(max-width:560px){ .perks-banner { height:150px; margin-bottom:32px; } }
 
-        /* ── CTA split — matches HomeScreen CTA band ── */
         .cta-split { display:grid; grid-template-columns:1fr auto; gap:40px; align-items:center; }
         @media(max-width:720px){ .cta-split { grid-template-columns:1fr; gap:28px; } }
 
-        /* Section padding */
         .sec { padding:clamp(64px,8vw,104px) clamp(16px,5vw,56px); }
         .inner { max-width:1280px; margin:0 auto; }
-
-        /* scroll-indicator */
-        .scroll-ind { position:absolute; bottom:24px; left:50%; transform:translateX(-50%); z-index:3; display:flex; flex-direction:column; align-items:center; gap:6px; }
-        @media(max-width:480px){ .scroll-ind { display:none; } }
       `}</style>
 
       <Navbar />
 
-      {/* ── HERO (light cream, same as BlogScreen) ── */}
+      {/* ══ HERO ══ */}
       <section className="career-hero-wrap">
         <div style={{ maxWidth: 1280, margin: "0 auto", padding: "clamp(56px,8vw,96px) clamp(16px,4vw,56px)" }}>
           <div className="hero-grid">
 
-            {/* Left — text */}
-            <div>
-              {/* Badge — mirrors HomeScreen service tag */}
-              <div style={{
+            {/* Left — slides in from left */}
+            <div className="reveal-left" ref={heroLeftRef}>
+              <div className="anim-pill-in" style={{
                 display: "inline-flex", alignItems: "center", gap: 8,
                 background: T.tealLight, borderRadius: 4, padding: "5px 14px", marginBottom: 24,
               }}>
@@ -173,10 +202,9 @@ export default function CareerScreen() {
               </div>
 
               <h1 style={{
-                fontFamily: T.serif,
-                fontSize: "clamp(2rem,3.8vw,3.4rem)",
-                color: T.slate, fontWeight: 700,
-                lineHeight: 1.08, marginBottom: 10, letterSpacing: "-0.01em",
+                fontFamily: T.serif, fontSize: "clamp(2rem,3.8vw,3.4rem)",
+                color: T.slate, fontWeight: 700, lineHeight: 1.08,
+                marginBottom: 10, letterSpacing: "-0.01em",
               }}>
                 Build Your Career in India's{" "}
                 <span style={{ color: T.teal }}>Fastest-Growing</span>{" "}
@@ -198,7 +226,6 @@ export default function CareerScreen() {
                 Join a team of regulatory experts helping businesses navigate India's complex compliance landscape. We're hiring across all levels and domains.
               </p>
 
-              {/* CTAs — same as HomeScreen PrimaryBtn / OutlineBtn */}
               <div className="hero-cta-row">
                 <button
                   onClick={() => { const el = document.getElementById("openings"); if (el) el.scrollIntoView({ behavior: "smooth" }); }}
@@ -227,7 +254,6 @@ export default function CareerScreen() {
                 >Send Your Resume →</button>
               </div>
 
-              {/* Trust pills */}
               <div className="hero-trust-row">
                 {["✓ Fast Growth", "✓ Hybrid Work", "✓ Competitive Pay", "✓ Expert Team"].map(b => (
                   <span key={b} style={{
@@ -239,8 +265,8 @@ export default function CareerScreen() {
               </div>
             </div>
 
-            {/* Right — image with light-blue tint overlay + floating card */}
-            <div style={{ position: "relative" }}>
+            {/* Right — slides in from right */}
+            <div className="reveal-right" ref={heroRightRef} style={{ position: "relative" }}>
               <div className="hero-img-col">
                 <img
                   src="https://images.unsplash.com/photo-1521737711867-e3b97375f902?w=1000&q=85&fit=crop"
@@ -248,8 +274,8 @@ export default function CareerScreen() {
                   style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center 40%" }}
                 />
                 <div className="hero-img-tint" />
-                {/* Counter badge on image — matches HomeScreen hero overlay card */}
-                <div style={{
+                {/* Float card — same float-card animation as HomeScreen */}
+                <div className="float-card" style={{
                   position: "absolute", bottom: 28, left: 28,
                   background: "rgba(255,255,255,0.97)", borderRadius: 8, padding: "16px 22px",
                   boxShadow: "0 12px 40px rgba(0,0,0,0.10)", border: `1px solid ${T.border}`,
@@ -259,7 +285,6 @@ export default function CareerScreen() {
                   <div style={{ fontFamily: T.serif, fontSize: 30, color: T.teal, fontWeight: 700, lineHeight: 1 }}>6</div>
                   <div style={{ fontFamily: T.sans, fontSize: 11, color: T.muted, marginTop: 3 }}>Positions Available</div>
                 </div>
-                {/* Since badge */}
                 <div style={{
                   position: "absolute", top: 24, right: 24,
                   background: T.teal, borderRadius: 4, padding: "7px 16px",
@@ -272,23 +297,22 @@ export default function CareerScreen() {
           </div>
         </div>
 
-        {/* Bottom accent line */}
         <div style={{ height: 2, background: T.borderLight }}>
           <div style={{ width: "100%", height: "100%", background: T.teal, opacity: 0.4 }} />
         </div>
       </section>
 
-      {/* ── STATS STRIP — teal bg, matches HomeScreen stats band ── */}
+      {/* ══ STATS STRIP ══ */}
       <section style={{ background: T.teal }}>
         <div style={{ maxWidth: 1280, margin: "0 auto" }}>
-          <div className="stats-strip">
+          <div className="stats-strip" ref={statsRef}>
             {stats.map((s, i) => (
-              <div key={s.label} style={{
+              <div key={s.label} className={`reveal d${i}`} style={{
                 textAlign: "center", padding: "36px 16px",
                 borderRight: i < stats.length - 1 ? "1px solid rgba(255,255,255,0.07)" : "none",
               }}>
                 <div style={{ fontSize: 20, marginBottom: 6 }}>{s.icon}</div>
-                <div style={{ fontFamily: T.serif, fontSize: "clamp(2rem,2.8vw,2.8rem)", color: "#fff", fontWeight: 700, lineHeight: 1, letterSpacing: "-0.01em" }}>{s.value}</div>
+                <div className="anim-count-up" style={{ fontFamily: T.serif, fontSize: "clamp(2rem,2.8vw,2.8rem)", color: "#fff", fontWeight: 700, lineHeight: 1, letterSpacing: "-0.01em" }}>{s.value}</div>
                 <div style={{ fontFamily: T.sans, fontSize: 12, color: "rgba(255,255,255,0.80)", marginTop: 8, letterSpacing: "0.04em" }}>{s.label}</div>
               </div>
             ))}
@@ -296,13 +320,13 @@ export default function CareerScreen() {
         </div>
       </section>
 
-      {/* ── LIFE AT SIACC — cream bg, matches HomeScreen About section ── */}
+      {/* ══ LIFE AT SIACC ══ */}
       <section className="sec" style={{ background: T.cream }}>
         <div className="inner">
           <div className="about-grid">
 
-            {/* Image col */}
-            <div style={{ position: "relative" }}>
+            {/* Image — slides in from left */}
+            <div className="reveal-left" ref={lifeImgRef} style={{ position: "relative" }}>
               <img
                 src="https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=700&q=80&fit=crop"
                 alt="Team collaborating"
@@ -312,16 +336,15 @@ export default function CareerScreen() {
                   boxShadow: "0 24px 64px rgba(0,0,0,0.09)",
                 }}
               />
-              {/* Floating stat card — mirrors HomeScreen about section card */}
-              <div style={{
+              {/* Floating badge */}
+              <div className="float-card" style={{
                 position: "absolute", bottom: -16, right: -12,
                 background: T.white, borderRadius: 8, padding: "20px 26px",
                 boxShadow: "0 16px 48px rgba(0,0,0,0.11)", border: `1px solid ${T.tealLight}`,
               }}>
                 <div style={{ fontFamily: T.serif, fontSize: 36, color: T.teal, fontWeight: 700, lineHeight: 1 }}>100+</div>
-                <div style={{ fontFamily: T.sans, fontSize: 11.5, color: T.muted, marginTop: 4 }}>Experts on the Team</div>
+                <div style={{ fontFamily: T.sans, fontSize: 12, color: T.muted, marginTop: 4 }}>Experts on the Team</div>
               </div>
-              {/* Since badge */}
               <div style={{
                 position: "absolute", top: 20, left: 20,
                 background: T.teal, borderRadius: 4, padding: "7px 16px",
@@ -330,33 +353,36 @@ export default function CareerScreen() {
               </div>
             </div>
 
-            {/* Text col */}
-            <div>
+            {/* Text — slides in from right */}
+            <div className="reveal-right" ref={lifeTxtRef}>
               <div className="sl-row"><div className="sl-line" /><span className="sl-text">Life at SIACC</span></div>
-              <h2 style={{ fontFamily: T.serif, fontSize: "clamp(2rem,3.2vw,2.9rem)", color: T.slate, fontWeight: 700, marginBottom: 20, lineHeight: 1.12, letterSpacing: "-0.01em" }}>
-                A Place Where<br />Experts Grow
+              <h2 style={{ fontFamily: T.serif, fontSize: "clamp(2rem,3.2vw,2.9rem)", color: T.titleblue, fontWeight: 700, marginBottom: 20, lineHeight: 1.12, letterSpacing: "-0.01em" }}>
+                A Place Where Experts Grow
               </h2>
-              <p style={{ fontFamily: T.sans, fontSize: 15, color: T.muted, lineHeight: 1.9, marginBottom: 14 }}>
+              <p style={{ fontFamily: T.sans, fontSize: 15.5, color: "#00000081", lineHeight: 1.4, marginBottom: 16, textAlign: "justify" }}>
                 At SIACC, every team member works on real, high-impact client mandates from day one. You're not a cog in a machine — you're a trusted advisor to manufacturers and importers navigating India's regulatory system.
               </p>
-              <p style={{ fontFamily: T.sans, fontSize: 15, color: T.muted, lineHeight: 1.9, marginBottom: 32 }}>
+              <p style={{ fontFamily: T.sans, fontSize: 15.5, color: "#00000081", lineHeight: 1.4, marginBottom: 16, textAlign: "justify" }}>
                 We invest in our people through training, mentorship, and clear career progression. Many of our division heads started here as freshers and analysts.
               </p>
-              <div className="mini-stats-grid">
+
+              {/* Mini stats — stagger */}
+              <div className="mini-stats-grid" ref={miniStatsRef}>
                 {[
                   { n: "12+", l: "Years in Business" }, { n: "50+", l: "Regulatory Domains" },
-                  { n: "4",   l: "Office Locations" },  { n: "98%", l: "Client Success Rate" },
+                  { n: "4", l: "Office Locations" }, { n: "98%", l: "Client Success Rate" },
                 ].map((s, i) => (
-                  <div key={s.l} style={{
+                  <div key={s.l} className={`reveal d${i}`} style={{
                     padding: "16px 20px", background: T.white,
                     borderRadius: 8, border: `1px solid ${T.border}`,
                     borderLeft: `3px solid ${i % 2 === 0 ? T.teal : T.amber}`,
                   }}>
                     <div style={{ fontFamily: T.serif, fontSize: 26, color: i % 2 === 0 ? T.teal : T.amber, fontWeight: 700, lineHeight: 1 }}>{s.n}</div>
-                    <div style={{ fontFamily: T.sans, fontSize: 11.5, color: T.muted, marginTop: 4 }}>{s.l}</div>
+                    <div style={{ fontFamily: T.sans, fontSize: 14, color: T.muted, marginTop: 4 }}>{s.l}</div>
                   </div>
                 ))}
               </div>
+
               <div style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
                 <button
                   onClick={() => router.push("/about")}
@@ -376,22 +402,24 @@ export default function CareerScreen() {
         </div>
       </section>
 
-      {/* ── PERKS — white bg, matches HomeScreen Why Choose Us ── */}
+      {/* ══ PERKS ══ */}
       <section className="sec" style={{ background: T.white }}>
         <div className="inner">
 
-          {/* Banner — light teal tint instead of dark overlay */}
-          <div className="perks-banner">
+          {/* Banner — fades up */}
+          <div className="reveal perks-banner" ref={perksBannerRef}>
             <img
               src="https://images.unsplash.com/photo-1556761175-5973dc0f32e7?w=1400&q=80&fit=crop"
               alt="Office culture"
               style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center 50%" }}
             />
-            {/* Light blue tint — same as ctaBand */}
             <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to right, rgba(14,128,128,0.82) 0%, rgba(30,136,200,0.55) 55%, rgba(235,245,251,0.30) 100%)" }} />
             <div style={{ position: "absolute", inset: 0, display: "flex", alignItems: "center", padding: "0 36px" }}>
               <div>
-                <div className="sl-row" style={{ marginBottom: 10 }}><div className="sl-line" style={{ background: "rgba(255,255,255,0.7)" }} /><span className="sl-text" style={{ color: "rgba(255,255,255,0.85)" }}>Why You'll Love Working Here</span></div>
+                <div className="sl-row" style={{ marginBottom: 10 }}>
+                  <div className="sl-line" style={{ background: "rgba(255,255,255,0.7)" }} />
+                  <span className="sl-text" style={{ color: "rgba(255,255,255,0.85)" }}>Why You'll Love Working Here</span>
+                </div>
                 <div style={{ fontFamily: T.serif, fontSize: "clamp(1.2rem,2.5vw,2rem)", color: "#fff", fontWeight: 700, marginBottom: 4 }}>
                   Benefits Built Around You
                 </div>
@@ -400,40 +428,40 @@ export default function CareerScreen() {
             </div>
           </div>
 
-          <div className="perks-grid">
-            {perks.map(p => (
-              <div key={p.title} className="perk-card">
-                <div style={{
-                  width: 46, height: 46, borderRadius: 9,
-                  background: T.tealLight, display: "flex", alignItems: "center",
-                  justifyContent: "center", fontSize: 20, marginBottom: 16,
-                }}>{p.icon}</div>
-                <h3 style={{ fontFamily: T.serif, fontSize: 17, color: T.slate, marginBottom: 8, fontWeight: 600 }}>{p.title}</h3>
-                <p style={{ fontFamily: T.sans, fontSize: 14, color: T.muted, lineHeight: 1.75 }}>{p.desc}</p>
+          {/* Perks cards — stagger */}
+          <div className="perks-grid" ref={perksGridRef}>
+            {perks.map((p, i) => (
+              <div key={p.title} className={`perk-card reveal d${i}`}>
+                <div className="perk-icon">{p.icon}</div>
+                <h3 style={{ fontFamily: T.serif, fontSize: 17.5, color: T.slate, marginBottom: 8, fontWeight: 600 }}>{p.title}</h3>
+                <p style={{ fontFamily: T.sans, fontSize: 14.5, color: T.muted, lineHeight: 1.75 }}>{p.desc}</p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* ── OPEN POSITIONS — cream bg ── */}
+      {/* ══ OPEN POSITIONS ══ */}
       <section id="openings" className="sec" style={{ background: T.cream }}>
         <div className="inner">
-          <div style={{ textAlign: "center", marginBottom: 52 }}>
-            <div style={{ display: "flex", justifyContent: "center", marginBottom: 16 }}>
+
+          {/* Section heading — fades up */}
+          <div style={{ textAlign: "center", marginBottom: 52 }} className="reveal" ref={openingsTtlRef}>
+            <div style={{ display: "flex", justifyContent: "center" }}>
               <div className="sl-row"><div className="sl-line" /><span className="sl-text">We're Hiring</span></div>
             </div>
-            <h2 style={{ fontFamily: T.serif, fontSize: "clamp(1.8rem,3.2vw,2.9rem)", color: T.slate, fontWeight: 700, letterSpacing: "-0.01em", marginBottom: 14 }}>Open Positions</h2>
+            <h2 style={{ fontFamily: T.serif, fontSize: "clamp(1.8rem,3.2vw,2.9rem)", color: T.titleblue, fontWeight: 700, letterSpacing: "-0.01em", marginBottom: 14 }}>Open Positions</h2>
             <p style={{ fontFamily: T.sans, color: T.muted, maxWidth: 460, margin: "0 auto", lineHeight: 1.75, fontSize: 14.5 }}>
               Explore current openings across our divisions. All roles come with mentorship, growth paths, and a collaborative team culture.
             </p>
           </div>
 
-          <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
-            {openings.map(job => {
+          {/* Job cards — stagger */}
+          <div style={{ display: "flex", flexDirection: "column", gap: 14 }} ref={openingsRef}>
+            {openings.map((job, i) => {
               const tc = typeColors[job.type] || { bg: T.tealLight, text: T.tealDark };
               return (
-                <div key={job.title} className="job-card">
+                <div key={job.title} className={`job-card reveal d${Math.min(i, 5)}`}>
                   <div>
                     <div className="job-meta">
                       <span style={{
@@ -449,7 +477,7 @@ export default function CareerScreen() {
                       <span style={{ fontFamily: T.sans, fontSize: 11, color: T.muted }}>📍 {job.location}</span>
                       <span style={{ fontFamily: T.sans, fontSize: 11, color: T.muted }}>💼 {job.exp}</span>
                     </div>
-                    <h3 style={{ fontFamily: T.serif, fontSize: "clamp(15px,2vw,18px)", color: T.slate, marginBottom: 10, fontWeight: 600 }}>{job.title}</h3>
+                    <h3 style={{ fontFamily: T.serif, fontSize: 19, color: T.slate, marginBottom: 10, fontWeight: 600 }}>{job.title}</h3>
                     <p style={{ fontFamily: T.sans, fontSize: 14, color: T.muted, lineHeight: 1.7 }}>{job.desc}</p>
                   </div>
                   <button
@@ -471,21 +499,25 @@ export default function CareerScreen() {
         </div>
       </section>
 
-      {/* ── CTA BAND — exact same as HomeScreen CTA band ── */}
-      <section style={{
-        background: "#EBF5FB",
-        borderTop: "1px solid #C8DFF0",
-        borderBottom: "1px solid #C8DFF0",
-        padding: "80px clamp(16px,5vw,56px)",
-      }}>
+      {/* ══ CTA BAND — fades up ══ */}
+      <section
+        className="reveal"
+        ref={ctaRef}
+        style={{
+          background: "#EBF5FB",
+          borderTop: "1px solid #C8DFF0",
+          borderBottom: "1px solid #C8DFF0",
+          padding: "80px clamp(16px,5vw,56px)",
+        }}
+      >
         <div style={{ maxWidth: 1100, margin: "0 auto" }}>
           <div className="cta-split">
             <div>
               <div className="sl-row" style={{ marginBottom: 20 }}><div className="sl-line" /><span className="sl-text">Don't See the Right Role?</span></div>
-              <h2 style={{ fontFamily: T.serif, fontSize: "clamp(1.9rem,3.2vw,2.9rem)", color: T.slate, fontWeight: 700, lineHeight: 1.1, letterSpacing: "-0.01em", marginBottom: 14 }}>
-                Send Us Your Resume<br />Anytime
+              <h2 style={{ fontFamily: T.serif, fontSize: "clamp(1.9rem,3.2vw,2.9rem)", color: T.titleblue, fontWeight: 700, lineHeight: 1.1, letterSpacing: "-0.01em", marginBottom: 14 }}>
+                Send Us Your Resume Anytime
               </h2>
-              <p style={{ fontFamily: T.sans, color: T.muted, fontSize: 14.5, lineHeight: 1.8 }}>
+              <p style={{ fontFamily: T.sans, color: T.muted, fontSize: 14.5, lineHeight: 1.8,  maxWidth: 500,  }}>
                 We're always looking for talented people. Send your resume and we'll reach out when there's a fit — across any of our divisions.
               </p>
             </div>

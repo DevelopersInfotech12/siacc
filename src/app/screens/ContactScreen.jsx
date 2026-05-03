@@ -1,13 +1,13 @@
 "use client";
-import { useState } from "react";
-import Link from "next/link";
+import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import Navbar from "../Components/Navbar";
 import Footer from "../Components/Footer";
+import "../animations.css";
 
-// ── Shared token palette (HomeScreen / BlogScreen / CareerScreen) ────────────
 const T = {
   teal: "#1E88C8",
+  titleblue: "#0a6daa",
   tealDark: "#074D4D",
   tealMid: "#0E8080",
   tealLight: "#EBF5F5",
@@ -33,6 +33,33 @@ const T = {
   sans: "'Outfit', 'system-ui', sans-serif",
 };
 
+/* ══════════════════════════════════════════════
+   useReveal HOOK
+══════════════════════════════════════════════ */
+function useReveal(opts = {}) {
+  const { threshold = 0.15, stagger = false, baseDelay = 90, once = true } = opts;
+  const ref = useRef(null);
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const obs = new IntersectionObserver(([entry]) => {
+      if (!entry.isIntersecting) return;
+      if (stagger) {
+        Array.from(el.children).forEach((child, i) => {
+          child.style.transitionDelay = i * baseDelay + "ms";
+          child.classList.add("revealed");
+        });
+      } else {
+        el.classList.add("revealed");
+      }
+      if (once) obs.unobserve(el);
+    }, { threshold });
+    obs.observe(el);
+    return () => obs.disconnect();
+  }, [threshold, stagger, baseDelay, once]);
+  return ref;
+}
+
 const services = [
   "BIS Certification", "EPR Registration", "WPC-ETA Approval", "TEC / MTCTE",
   "BEE Registration", "LMPC Registration", "ISO Certification", "CDSCO / Drug License", "Other",
@@ -53,14 +80,26 @@ const heroTrust = [
 ];
 
 const contactStats = [
-  { value: "2 hrs", label: "Response Time",        icon: "⚡" },
-  { value: "Free",  label: "Initial Consultation",  icon: "🆓" },
-  { value: "Pan",   label: "India Coverage",        icon: "🇮🇳" },
-  { value: "98%",   label: "Success Rate",          icon: "✅" },
+  { value: "2 hrs", label: "Response Time",       icon: "⚡" },
+  { value: "Free",  label: "Initial Consultation", icon: "🆓" },
+  { value: "Pan",   label: "India Coverage",       icon: "🇮🇳" },
+  { value: "98%",   label: "Success Rate",         icon: "✅" },
 ];
 
 export default function ContactScreen() {
   const router = useRouter();
+
+  /* ── Reveal refs ── */
+  const heroLeftRef    = useReveal();
+  const heroRightRef   = useReveal({ stagger: true, baseDelay: 100 });
+  const statsRef       = useReveal({ stagger: true, baseDelay: 100 });
+  const formRef        = useReveal();
+  const sidebarRef     = useReveal({ stagger: true, baseDelay: 100 });
+  const officeTtlRef   = useReveal();
+  const officeRef      = useReveal({ stagger: true, baseDelay: 120 });
+  const faqTtlRef      = useReveal();
+  const faqRef         = useReveal({ stagger: true, baseDelay: 80 });
+  const ctaRef         = useReveal();
 
   return (
     <div style={{ minHeight: "100vh", backgroundColor: T.white, fontFamily: T.sans, color: T.body }}>
@@ -70,12 +109,10 @@ export default function ContactScreen() {
         img { max-width:100%; display:block; }
         a { text-decoration:none; color:inherit; }
 
-        /* ── Section label ── */
         .sl-row { display:flex; align-items:center; gap:12px; margin-bottom:16px; }
         .sl-line { width:28px; height:1.5px; background:${T.teal}; flex-shrink:0; }
         .sl-text { font-family:${T.sans}; font-size:11px; font-weight:600; letter-spacing:0.15em; text-transform:uppercase; color:${T.teal}; }
 
-        /* ── Hero (light cream — same as BlogScreen / CareerScreen) ── */
         .contact-hero-wrap {
           background: ${T.cream};
           border-bottom: 1px solid ${T.border};
@@ -95,20 +132,19 @@ export default function ContactScreen() {
         .hero-cta-row { display:flex; flex-wrap:wrap; gap:12px; margin-bottom:32px; }
         .hero-trust-badges { display:flex; flex-wrap:wrap; gap:8px; }
 
-        /* ── Stats strip ── */
         .stats-strip { display:grid; grid-template-columns:repeat(4,1fr); }
         @media(max-width:640px){ .stats-strip { grid-template-columns:repeat(2,1fr); } }
 
-        /* ── Contact main grid ── */
         .contact-main-grid { display:grid; grid-template-columns:1fr 360px; gap:40px; align-items:flex-start; }
         @media(max-width:1024px){ .contact-main-grid { grid-template-columns:1fr; } }
 
-        /* ── Form card ── */
         .form-card {
           background:${T.white}; border-radius:10px; padding:36px;
           border:1px solid ${T.border};
           box-shadow:0 4px 24px rgba(0,0,0,0.05);
+          transition:box-shadow 0.25s;
         }
+        .form-card:hover { box-shadow:0 8px 40px rgba(30,136,200,0.08); }
         @media(max-width:480px){ .form-card { padding:20px 16px; } }
         .two-col { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:16px; }
         @media(max-width:540px){ .two-col { grid-template-columns:1fr; } }
@@ -121,10 +157,8 @@ export default function ContactScreen() {
         }
         .input-field:focus { border-color:${T.teal}; background:${T.white}; }
 
-        /* ── Sidebar ── */
         .sidebar { display:flex; flex-direction:column; gap:16px; }
 
-        /* ── Office section ── */
         .office-split { display:grid; grid-template-columns:340px 1fr; gap:20px; align-items:stretch; }
         @media(max-width:900px){ .office-split { grid-template-columns:1fr; } }
         .office-card {
@@ -138,33 +172,30 @@ export default function ContactScreen() {
         .office-stats-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin-top:28px; }
         @media(max-width:480px){ .office-stats-grid { grid-template-columns:1fr; gap:10px; margin-top:16px; } }
 
-        /* ── FAQ ── */
         .faq-card {
           background:${T.white}; border-radius:10px; padding:22px 24px;
           border:1px solid ${T.border};
-          transition:border-color 0.2s; margin-bottom:12px;
+          transition:all 0.22s; margin-bottom:12px;
         }
-        .faq-card:hover { border-color:${T.teal}; }
+        .faq-card:hover { border-color:${T.teal}; box-shadow:0 6px 20px rgba(30,136,200,0.08); transform:translateY(-2px); }
 
-        /* ── CTA band ── */
         .cta-split { display:grid; grid-template-columns:1fr auto; gap:40px; align-items:center; }
         @media(max-width:720px){ .cta-split { grid-template-columns:1fr; gap:28px; } }
 
-        /* Section padding */
         .sec { padding:clamp(64px,8vw,104px) clamp(16px,5vw,56px); }
         .inner { max-width:1280px; margin:0 auto; }
       `}</style>
 
       <Navbar />
 
-      {/* ── HERO (light cream) ── */}
+      {/* ══ HERO ══ */}
       <section className="contact-hero-wrap">
         <div style={{ maxWidth: 1280, margin: "0 auto", padding: "clamp(56px,8vw,96px) clamp(16px,4vw,56px)" }}>
           <div className="hero-grid">
 
-            {/* Left */}
-            <div>
-              <div style={{
+            {/* Left — slides in from left */}
+            <div className="reveal-left" ref={heroLeftRef}>
+              <div className="anim-pill-in" style={{
                 display: "inline-flex", alignItems: "center", gap: 8,
                 background: T.tealLight, borderRadius: 4, padding: "5px 14px", marginBottom: 24,
               }}>
@@ -236,19 +267,25 @@ export default function ContactScreen() {
               </div>
             </div>
 
-            {/* Right — light stat tiles */}
-            <div className="hero-right">
-              <div style={{ marginBottom: 12 }}>
+            {/* Right — stagger in */}
+            <div className="hero-right" ref={heroRightRef}>
+              {/* child[0] — label */}
+              <div className="reveal d0" style={{ marginBottom: 12 }}>
                 <div className="sl-row"><div className="sl-line" /><span className="sl-text">Why Contact Us</span></div>
               </div>
-              <div className="trust-grid">
+              {/* child[1] — trust cards grid */}
+              <div className="reveal d1 trust-grid">
                 {heroTrust.map((t, i) => (
                   <div key={t.label} style={{
                     background: T.white, border: `1px solid ${T.border}`,
                     borderTop: `3px solid ${i % 2 === 0 ? T.teal : T.amber}`,
                     borderRadius: 8, padding: "16px 14px",
                     display: "flex", gap: 10, alignItems: "flex-start",
-                  }}>
+                    transition: "all 0.2s",
+                  }}
+                    onMouseEnter={e => { e.currentTarget.style.borderColor = T.teal; e.currentTarget.style.transform = "translateY(-2px)"; e.currentTarget.style.boxShadow = "0 6px 18px rgba(30,136,200,0.09)"; }}
+                    onMouseLeave={e => { e.currentTarget.style.borderColor = T.border; e.currentTarget.style.transform = "translateY(0)"; e.currentTarget.style.boxShadow = "none"; }}
+                  >
                     <div style={{ fontSize: 20, flexShrink: 0, lineHeight: 1 }}>{t.icon}</div>
                     <div>
                       <div style={{ fontFamily: T.serif, fontSize: 14, color: T.slate, fontWeight: 600, marginBottom: 3 }}>{t.label}</div>
@@ -256,7 +293,7 @@ export default function ContactScreen() {
                     </div>
                   </div>
                 ))}
-                {/* Office pill spanning 2 cols */}
+                {/* Office pill */}
                 <div style={{
                   gridColumn: "span 2",
                   background: T.tealLight, border: `1px solid ${T.ctaBandBorder}`,
@@ -275,23 +312,22 @@ export default function ContactScreen() {
           </div>
         </div>
 
-        {/* Bottom accent line */}
         <div style={{ height: 2, background: T.borderLight }}>
           <div style={{ width: "100%", height: "100%", background: T.teal, opacity: 0.4 }} />
         </div>
       </section>
 
-      {/* ── STATS STRIP — teal bg ── */}
+      {/* ══ STATS STRIP ══ */}
       <section style={{ background: T.teal }}>
         <div style={{ maxWidth: 1280, margin: "0 auto" }}>
-          <div className="stats-strip">
+          <div className="stats-strip" ref={statsRef}>
             {contactStats.map((s, i) => (
-              <div key={s.label} style={{
+              <div key={s.label} className={`reveal d${i}`} style={{
                 textAlign: "center", padding: "36px 16px",
                 borderRight: i < contactStats.length - 1 ? "1px solid rgba(255,255,255,0.07)" : "none",
               }}>
                 <div style={{ fontSize: 20, marginBottom: 6 }}>{s.icon}</div>
-                <div style={{ fontFamily: T.serif, fontSize: "clamp(2rem,2.8vw,2.8rem)", color: "#fff", fontWeight: 700, lineHeight: 1, letterSpacing: "-0.01em" }}>{s.value}</div>
+                <div className="anim-count-up" style={{ fontFamily: T.serif, fontSize: "clamp(2rem,2.8vw,2.8rem)", color: "#fff", fontWeight: 700, lineHeight: 1, letterSpacing: "-0.01em" }}>{s.value}</div>
                 <div style={{ fontFamily: T.sans, fontSize: 12, color: "rgba(255,255,255,0.80)", marginTop: 8, letterSpacing: "0.04em" }}>{s.label}</div>
               </div>
             ))}
@@ -299,13 +335,13 @@ export default function ContactScreen() {
         </div>
       </section>
 
-      {/* ── CONTACT FORM + SIDEBAR ── */}
+      {/* ══ CONTACT FORM + SIDEBAR ══ */}
       <section id="contact-form" className="sec" style={{ background: T.white }}>
         <div className="inner">
           <div className="contact-main-grid">
 
-            {/* Form */}
-            <div className="form-card">
+            {/* Form — fades up */}
+            <div className="reveal form-card" ref={formRef}>
               {/* Banner inside form */}
               <div style={{ position: "relative", borderRadius: 8, overflow: "hidden", height: 140, marginBottom: 28 }}>
                 <img
@@ -313,7 +349,6 @@ export default function ContactScreen() {
                   alt="Our team"
                   style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center 35%" }}
                 />
-                {/* Light blue tint overlay */}
                 <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to right, rgba(14,128,128,0.85) 0%, rgba(30,136,200,0.55) 60%, rgba(235,245,251,0.30) 100%)" }} />
                 <div style={{ position: "absolute", inset: 0, display: "flex", alignItems: "center", padding: "0 24px" }}>
                   <div>
@@ -376,17 +411,17 @@ export default function ContactScreen() {
               <p style={{ fontFamily: T.sans, fontSize: 12, color: T.subtle, textAlign: "center", marginTop: 10 }}>We respond within 2 business hours. No spam, ever.</p>
             </div>
 
-            {/* Sidebar */}
-            <div className="sidebar">
+            {/* Sidebar — stagger */}
+            <div className="sidebar" ref={sidebarRef}>
 
-              {/* Quick contact — ctaBand light blue */}
-              <div style={{ background: T.ctaBand, border: `1px solid ${T.ctaBandBorder}`, borderRadius: 10, padding: 28 }}>
+              {/* child[0] — quick contact */}
+              <div className="reveal d0" style={{ background: T.ctaBand, border: `1px solid ${T.ctaBandBorder}`, borderRadius: 10, padding: 28 }}>
                 <div className="sl-row" style={{ marginBottom: 20 }}><div className="sl-line" /><span className="sl-text">Quick Contact</span></div>
                 <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
                   {[
-                    { icon: "📞", label: "Call Us",   value: "+91-9540190334",  href: "tel:+919540190334" },
-                    { icon: "✉",  label: "Email Us",  value: "info@siacc.in",   href: "mailto:info@siacc.in" },
-                    { icon: "💬", label: "WhatsApp",  value: "+91-9540190334",  href: "https://wa.me/919540190334" },
+                    { icon: "📞", label: "Call Us",  value: "+91-9540190334", href: "tel:+919540190334" },
+                    { icon: "✉",  label: "Email Us", value: "info@siacc.in",  href: "mailto:info@siacc.in" },
+                    { icon: "💬", label: "WhatsApp", value: "+91-9540190334", href: "https://wa.me/919540190334" },
                   ].map(item => (
                     <a key={item.label} href={item.href} style={{ display: "flex", alignItems: "center", gap: 14, textDecoration: "none" }}>
                       <div style={{
@@ -404,8 +439,8 @@ export default function ContactScreen() {
                 </div>
               </div>
 
-              {/* Business hours */}
-              <div style={{ background: T.white, borderRadius: 10, padding: 24, border: `1px solid ${T.border}` }}>
+              {/* child[1] — hours */}
+              <div className="reveal d1" style={{ background: T.white, borderRadius: 10, padding: 24, border: `1px solid ${T.border}` }}>
                 <div className="sl-row" style={{ marginBottom: 16 }}><div className="sl-line" /><span className="sl-text">Business Hours</span></div>
                 {[
                   { day: "Monday – Friday", time: "9:00 AM – 6:00 PM" },
@@ -423,8 +458,8 @@ export default function ContactScreen() {
                 ))}
               </div>
 
-              {/* Urgent CTA — teal gradient instead of orange */}
-              <div style={{ position: "relative", borderRadius: 10, overflow: "hidden" }}>
+              {/* child[2] — urgent CTA */}
+              <div className="reveal d2" style={{ position: "relative", borderRadius: 10, overflow: "hidden" }}>
                 <img
                   src="https://images.unsplash.com/photo-1568219557405-376e23e4f7cf?w=600&q=80&fit=crop"
                   alt="Urgent"
@@ -451,19 +486,23 @@ export default function ContactScreen() {
         </div>
       </section>
 
-      {/* ── OFFICE — cream bg ── */}
+      {/* ══ OFFICE ══ */}
       <section className="sec" style={{ background: T.cream }}>
         <div className="inner">
-          <div style={{ textAlign: "center", marginBottom: 48 }}>
-            <div style={{ display: "flex", justifyContent: "center", marginBottom: 16 }}>
+
+          {/* Heading — fades up */}
+          <div style={{ textAlign: "center", marginBottom: 48 }} className="reveal" ref={officeTtlRef}>
+            <div style={{ display: "flex", justifyContent: "center" }}>
               <div className="sl-row"><div className="sl-line" /><span className="sl-text">Our Office</span></div>
             </div>
-            <h2 style={{ fontFamily: T.serif, fontSize: "clamp(1.8rem,3.2vw,2.9rem)", color: T.slate, fontWeight: 700, letterSpacing: "-0.01em" }}>Find Us in New Delhi</h2>
+            <h2 style={{ fontFamily: T.serif, fontSize: "clamp(1.8rem,3.2vw,2.9rem)", color: T.titleblue, fontWeight: 700, letterSpacing: "-0.01em" }}>Find Us in New Delhi</h2>
           </div>
 
-          <div className="office-split">
-            {/* Office card */}
-            <div className="office-card">
+          {/* Office cards — stagger */}
+          <div className="office-split" ref={officeRef}>
+
+            {/* child[0] — office info card */}
+            <div className="reveal d0 office-card">
               <div>
                 <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 24 }}>
                   <div style={{
@@ -480,17 +519,17 @@ export default function ContactScreen() {
                   {[
                     { icon: "📍", val: "House no. 211, Ground Floor, Pocket 9, North West New Delhi – 110086" },
                     { icon: "📞", val: "+91-9540190334" },
-                    { icon: "✉",  val: "delhi@siacc.in" },
+                    { icon: "✉",  val: "info@siacc.in" },
                     { icon: "🕐", val: "Mon–Sat: 9AM – 6PM" },
                   ].map((item, i) => (
                     <div key={i} style={{ display: "flex", gap: 12, alignItems: "flex-start" }}>
                       <span style={{ flexShrink: 0, fontSize: 16 }}>{item.icon}</span>
-                      <span style={{ fontFamily: T.sans, fontSize: 14, color: T.muted, lineHeight: 1.6 }}>{item.val}</span>
+                      <span style={{ fontFamily: T.sans, fontSize: 16, color: T.muted, lineHeight: 1.6, textAlign: "justify" }}>{item.val}</span>
                     </div>
                   ))}
                   <div style={{ display: "flex", gap: 12 }}>
                     <span style={{ fontSize: 16 }}>👤</span>
-                    <span style={{ fontFamily: T.sans, fontSize: 14, color: T.muted }}>Head: <strong style={{ color: T.slate }}>Vikram Anand</strong></span>
+                    <span style={{ fontFamily: T.sans, fontSize: 14, color: T.muted }}>Head: <strong style={{ color: T.slate }}>Yogesh Jawa</strong></span>
                   </div>
                 </div>
               </div>
@@ -519,8 +558,8 @@ export default function ContactScreen() {
               </div>
             </div>
 
-            {/* Image panel — light blue tint overlay */}
-            <div className="office-image-panel">
+            {/* child[1] — image panel */}
+            <div className="reveal d1 office-image-panel">
               <img
                 src="https://images.unsplash.com/photo-1587474260584-136574528ed5?w=1200&q=85&fit=crop"
                 alt="New Delhi"
@@ -561,43 +600,54 @@ export default function ContactScreen() {
                 </div>
               </div>
             </div>
+
           </div>
         </div>
       </section>
 
-      {/* ── FAQs — white bg ── */}
+      {/* ══ FAQs ══ */}
       <section className="sec" style={{ background: T.white }}>
         <div style={{ maxWidth: 760, margin: "0 auto" }}>
-          <div style={{ textAlign: "center", marginBottom: 44 }}>
-            <div style={{ display: "flex", justifyContent: "center", marginBottom: 16 }}>
+
+          {/* Heading — fades up */}
+          <div style={{ textAlign: "center", marginBottom: 44 }} className="reveal" ref={faqTtlRef}>
+            <div style={{ display: "flex", justifyContent: "center" }}>
               <div className="sl-row"><div className="sl-line" /><span className="sl-text">Common Questions</span></div>
             </div>
-            <h2 style={{ fontFamily: T.serif, fontSize: "clamp(1.8rem,3.2vw,2.9rem)", color: T.slate, fontWeight: 700, letterSpacing: "-0.01em" }}>Frequently Asked</h2>
+            <h2 style={{ fontFamily: T.serif, fontSize: "clamp(1.8rem,3.2vw,2.9rem)", color: T.titleblue, fontWeight: 700, letterSpacing: "-0.01em" }}>Frequently Asked</h2>
           </div>
-          {faqs.map(faq => (
-            <div key={faq.q} className="faq-card">
-              <div style={{ fontFamily: T.serif, fontSize: 16, color: T.slate, marginBottom: 10, fontWeight: 600 }}>Q: {faq.q}</div>
-              <div style={{ fontFamily: T.sans, fontSize: 14, color: T.muted, lineHeight: 1.8 }}>{faq.a}</div>
-            </div>
-          ))}
+
+          {/* FAQ cards — stagger */}
+          <div ref={faqRef}>
+            {faqs.map((faq, i) => (
+              <div key={faq.q} className={`faq-card reveal d${i}`}>
+                <div style={{ fontFamily: T.serif, fontSize: 20, color: T.slate, marginBottom: 10, fontWeight: 600 }}>Q: {faq.q}</div>
+                <div style={{ fontFamily: T.sans, fontSize: 15, color: T.muted, lineHeight: 1.8 }}>{faq.a}</div>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 
-      {/* ── CTA BAND — exact HomeScreen CTA band ── */}
-      <section style={{
-        background: T.ctaBand,
-        borderTop: `1px solid ${T.ctaBandBorder}`,
-        borderBottom: `1px solid ${T.ctaBandBorder}`,
-        padding: "80px clamp(16px,5vw,56px)",
-      }}>
+      {/* ══ CTA BAND — fades up ══ */}
+      <section
+        className="reveal"
+        ref={ctaRef}
+        style={{
+          background: T.ctaBand,
+          borderTop: `1px solid ${T.ctaBandBorder}`,
+          borderBottom: `1px solid ${T.ctaBandBorder}`,
+          padding: "80px clamp(16px,5vw,56px)",
+        }}
+      >
         <div style={{ maxWidth: 1100, margin: "0 auto" }}>
           <div className="cta-split">
             <div>
               <div className="sl-row" style={{ marginBottom: 20 }}><div className="sl-line" /><span className="sl-text">Start Today</span></div>
-              <h2 style={{ fontFamily: T.serif, fontSize: "clamp(1.9rem,3.2vw,2.9rem)", color: T.slate, fontWeight: 700, lineHeight: 1.1, letterSpacing: "-0.01em", marginBottom: 14 }}>
+              <h2 style={{ fontFamily: T.serif, fontSize: "clamp(1.9rem,3.2vw,2.9rem)", color: T.titleblue, fontWeight: 700, lineHeight: 1.1, letterSpacing: "-0.01em", marginBottom: 14 }}>
                 Ready to Get Certified?
               </h2>
-              <p style={{ fontFamily: T.sans, color: T.muted, fontSize: 14.5, lineHeight: 1.8 }}>
+              <p style={{ fontFamily: T.sans, color: T.muted, fontSize: 16, lineHeight: 1.8 }}>
                 Free consultation. Clear timeline. Transparent pricing.<br />Our experts respond within 2 hours.
               </p>
             </div>
