@@ -20,7 +20,7 @@ const T = {
 // 4. Copy the short link (looks like: https://g.page/r/XXXX/review)
 // 5. Replace the URL below with that link — it NEVER breaks!
 // ─────────────────────────────────────────────────────────
-const GOOGLE_REVIEW_URL = "https://www.google.com/maps?cid=14804604414707242469";
+const GOOGLE_REVIEW_URL = "https://www.google.com/maps?cid=14804604414707242469#lrd=0x390d077d6997b6eb:0xcd748546eace15e5,1,,,,";
 
 const ratingLabels = {1:"Poor",2:"Fair",3:"Good",4:"Very Good",5:"Excellent"};
 const ratingEmoji  = {1:"😞",2:"😐",3:"🙂",4:"😊",5:"🤩"};
@@ -623,48 +623,52 @@ export default function ReviewPage() {
 
       {/* ── PASTE POPUP OVERLAY ── */}
       {showPastePopup && (
-        <div style={{position:"fixed",inset:0,zIndex:999,display:"flex",alignItems:"flex-end",justifyContent:"center",background:"rgba(13,27,42,0.80)",backdropFilter:"blur(6px)",animation:"fadeIn 0.2s ease both"}}>
-          <div style={{width:"100%",maxWidth:460,background:T.white,borderRadius:"28px 28px 0 0",padding:"24px 24px 40px",animation:"slideUp 0.35s cubic-bezier(0.22,1,0.36,1) both"}}>
+        <div style={{position:"fixed",inset:0,zIndex:9999,display:"flex",alignItems:"flex-end",justifyContent:"center",background:"rgba(13,27,42,0.82)",backdropFilter:"blur(5px)"}}>
+          <div style={{width:"100%",maxWidth:460,background:T.white,borderRadius:"24px 24px 0 0",padding:"20px 20px 36px",animation:"slideUp 0.35s cubic-bezier(0.22,1,0.36,1) both"}}>
 
             {/* Handle */}
-            <div style={{width:40,height:4,background:T.border,borderRadius:999,margin:"0 auto 22px"}}/>
+            <div style={{width:36,height:4,background:T.border,borderRadius:999,margin:"0 auto 18px"}}/>
 
-            {/* Big tick + copied */}
-            <div style={{textAlign:"center",marginBottom:20}}>
-              <div style={{width:64,height:64,borderRadius:"50%",background:"linear-gradient(135deg,#10B981,#059669)",display:"flex",alignItems:"center",justifyContent:"center",fontSize:32,margin:"0 auto 12px",boxShadow:"0 8px 24px rgba(16,185,129,0.35)"}}>✅</div>
-              <h3 style={{fontFamily:T.serif,fontSize:22,color:T.slate,fontWeight:700,marginBottom:4}}>Review Copied!</h3>
-              <p style={{fontSize:13,color:T.muted}}>Now do just ONE thing on Google 👇</p>
-            </div>
-
-            {/* The ONE instruction — big and clear */}
-            <div style={{background:`linear-gradient(135deg,${T.tealLight},#fff)`,border:`2px solid ${T.teal}`,borderRadius:18,padding:"20px 20px",marginBottom:20,textAlign:"center"}}>
-              <div style={{fontSize:40,marginBottom:10}}>📋</div>
-              <div style={{fontFamily:T.serif,fontSize:20,color:T.slate,fontWeight:700,marginBottom:6}}>Long press the text box</div>
-              <div style={{fontSize:15,color:T.teal,fontWeight:600,marginBottom:8}}>then tap <strong style={{fontSize:17}}>"Paste"</strong></div>
-              <div style={{display:"inline-flex",alignItems:"center",gap:6,background:T.teal,color:"#fff",borderRadius:999,padding:"6px 16px",fontSize:13,fontWeight:600}}>
-                ✓ Your review is ready to paste
+            {/* Header */}
+            <div style={{display:"flex",alignItems:"center",gap:10,marginBottom:16}}>
+              <div style={{width:42,height:42,borderRadius:12,background:"linear-gradient(135deg,#10B981,#059669)",display:"flex",alignItems:"center",justifyContent:"center",fontSize:22,flexShrink:0}}>✅</div>
+              <div>
+                <div style={{fontSize:15,fontWeight:700,color:T.slate}}>Review Copied!</div>
+                <div style={{fontSize:12,color:T.muted}}>Open Google → Long press text box → Paste</div>
               </div>
             </div>
 
-            {/* Preview of copied text */}
-            <div style={{background:T.cream,border:`1px solid ${T.border}`,borderRadius:12,padding:"12px 16px",marginBottom:20,position:"relative",overflow:"hidden"}}>
-              <div style={{fontSize:10,fontWeight:700,color:T.teal,letterSpacing:"0.1em",textTransform:"uppercase",marginBottom:6}}>Copied text (ready to paste)</div>
-              <p style={{fontSize:12,color:T.body,lineHeight:1.65,margin:0,display:"-webkit-box",WebkitLineClamp:2,WebkitBoxOrient:"vertical",overflow:"hidden"}}>{editText}</p>
+            {/* Review text — shown clearly so user can also type it */}
+            <div style={{background:T.tealLight,border:`2px solid ${T.teal}`,borderRadius:14,padding:"14px 16px",marginBottom:14}}>
+              <div style={{fontSize:10,fontWeight:700,color:T.teal,letterSpacing:"0.1em",textTransform:"uppercase",marginBottom:8,display:"flex",alignItems:"center",gap:6}}>
+                <span>📋</span> Your Review — Copied & Ready to Paste
+              </div>
+              <p style={{fontSize:14,color:T.slate,lineHeight:1.75,margin:0,fontStyle:"italic"}}>
+                "{editText}"
+              </p>
             </div>
 
-            {/* Go button */}
+            {/* One clear instruction */}
+            <div style={{background:"#FEF3DC",border:"1.5px solid #F5C94E",borderRadius:12,padding:"12px 16px",marginBottom:16,display:"flex",gap:10,alignItems:"center"}}>
+              <span style={{fontSize:22,flexShrink:0}}>👆</span>
+              <div style={{fontSize:13,color:"#92400E",fontWeight:600,lineHeight:1.5}}>
+                On Google: <strong>Long press</strong> the text box → tap <strong>"Paste"</strong> → tap <strong>"Post"</strong>
+              </div>
+            </div>
+
+            {/* Open Google button */}
             <button onClick={goToGoogle}
-              style={{width:"100%",padding:16,background:"linear-gradient(135deg,#4285F4,#1a73e8)",color:"#fff",border:"none",borderRadius:14,fontSize:15,fontWeight:700,cursor:"pointer",fontFamily:T.sans,display:"flex",alignItems:"center",justifyContent:"center",gap:10,boxShadow:"0 4px 20px rgba(66,133,244,0.40)",marginBottom:10}}>
+              style={{width:"100%",padding:15,background:"linear-gradient(135deg,#4285F4,#1a73e8)",color:"#fff",border:"none",borderRadius:14,fontSize:15,fontWeight:700,cursor:"pointer",fontFamily:T.sans,display:"flex",alignItems:"center",justifyContent:"center",gap:10,boxShadow:"0 4px 20px rgba(66,133,244,0.40)",marginBottom:10}}>
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
-                <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#fff" opacity="0.9"/>
-                <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#fff" opacity="0.9"/>
-                <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#fff" opacity="0.9"/>
-                <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#fff" opacity="0.9"/>
+                <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#fff"/>
+                <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#fff"/>
+                <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#fff"/>
+                <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#fff"/>
               </svg>
-              Open Google Reviews →
+              Open Google Review Box →
             </button>
 
-            <button onClick={() => setShowPastePopup(false)}
+            <button onClick={()=>setShowPastePopup(false)}
               style={{width:"100%",padding:12,background:"transparent",color:T.muted,border:`1.5px solid ${T.border}`,borderRadius:12,fontSize:13,cursor:"pointer",fontFamily:T.sans}}>
               Cancel
             </button>
