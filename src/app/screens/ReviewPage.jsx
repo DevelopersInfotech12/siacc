@@ -12,7 +12,15 @@ const T = {
 };
 
 // ✅ This is the OFFICIAL Google URL — opens Write Review box directly
-const GOOGLE_REVIEW_URL = "https://search.google.com/local/writereview?placeid=ChIJM1qrq6KGDTkR04ZYV7GXm2A";
+// ─────────────────────────────────────────────────────────
+// ✅ PERMANENT FIX — Get YOUR official short link:
+// 1. Go to: business.google.com
+// 2. Click "Star India Accreditation"
+// 3. Click "Ask for reviews"
+// 4. Copy the short link (looks like: https://g.page/r/XXXX/review)
+// 5. Replace the URL below with that link — it NEVER breaks!
+// ─────────────────────────────────────────────────────────
+const GOOGLE_REVIEW_URL = "https://www.google.com/maps?cid=14804604414707242469";
 
 const ratingLabels = {1:"Poor",2:"Fair",3:"Good",4:"Very Good",5:"Excellent"};
 const ratingEmoji  = {1:"😞",2:"😐",3:"🙂",4:"😊",5:"🤩"};
