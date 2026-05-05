@@ -25,24 +25,14 @@ const T = {
   white: "#FFFFFF",
   cream: "#FAF8F4",
   creamMid: "#F3EFE8",
-  primary: "#1E88C8",
-  primaryDark: "#1572A8",
-  primaryLight: "#EBF5F5",
-  blue: "#1E88C8",
-  blueLight: "#EBF5F5",
-  navy: "#0D1B2A",
-  bodyText: "#2D3748",
-  mutedText: "#718096",
-  cta: "#F97316",
-  ctaDark: "#EA6A0A",
-  ctaLight: "#FFF3E8",
+  ctaBand: "#EBF5FB",
+  ctaBandBorder: "#C8DFF0",
+  orange: "#F97316",
+  orangeDark: "#EA6A0A",
   serif: "'Cormorant Garamond', 'Georgia', serif",
   sans: "'Outfit', 'system-ui', sans-serif",
 };
 
-/* ══════════════════════════════════════════════
-   useReveal HOOK
-══════════════════════════════════════════════ */
 function useReveal(opts = {}) {
   const { threshold = 0.15, stagger = false, baseDelay = 90, once = true } = opts;
   const ref = useRef(null);
@@ -89,21 +79,21 @@ const posts = [
 const categories = ["All", "BIS", "EPR", "WPC", "TEC", "BEE", "LMPC", "ISO", "CDSCO"];
 
 const tagColors = {
-  BIS:   { bg: T.amberLight,   text: T.amberDark },
-  EPR:   { bg: "#DCFCE7",      text: "#166534" },
-  WPC:   { bg: T.tealLight,    text: T.tealDark },
-  TEC:   { bg: "#EDE9FE",      text: "#5b21b6" },
-  BEE:   { bg: "#FEF3C7",      text: "#92400e" },
-  LMPC:  { bg: "#FFE4E6",      text: "#9f1239" },
-  ISO:   { bg: T.tealLight,    text: T.tealMid },
-  CDSCO: { bg: "#FDF2F8",      text: "#9d174d" },
+  BIS:   { bg: T.amberLight, text: T.amberDark },
+  EPR:   { bg: "#DCFCE7",    text: "#166534"   },
+  WPC:   { bg: T.tealLight,  text: T.tealDark  },
+  TEC:   { bg: "#EDE9FE",    text: "#5b21b6"   },
+  BEE:   { bg: "#FEF3C7",    text: "#92400e"   },
+  LMPC:  { bg: "#FFE4E6",    text: "#9f1239"   },
+  ISO:   { bg: T.tealLight,  text: T.tealMid   },
+  CDSCO: { bg: "#FDF2F8",    text: "#9d174d"   },
 };
 
-const heroStats = [
-  { value: "150+",   label: "Articles Published",  icon: "📝" },
-  { value: "Weekly", label: "Update Frequency",     icon: "📅" },
-  { value: "10+",    label: "Compliance Topics",    icon: "📋" },
-  { value: "Free",   label: "Always",               icon: "🎁" },
+const heroChips = [
+  { icon: "📝", label: "150+ Articles"  },
+  { icon: "📅", label: "Weekly Updates" },
+  { icon: "🔍", label: "BIS · EPR · WPC · TEC" },
+  { icon: "🎁", label: "Always Free"   },
 ];
 
 export default function BlogScreen() {
@@ -111,14 +101,12 @@ export default function BlogScreen() {
   const [activeCategory, setActiveCategory] = useState("All");
   const filtered = activeCategory === "All" ? posts : posts.filter(p => p.tag === activeCategory);
 
-  /* ── Reveal refs ── */
-  const heroLeftRef     = useReveal();
-  const heroRightRef    = useReveal({ stagger: true, baseDelay: 100 });
-  const featuredRef     = useReveal();
-  const postsTitleRef   = useReveal();
-  const postsGridRef    = useReveal({ stagger: true, baseDelay: 70 });
-  const loadMoreRef     = useReveal();
-  const newsletterRef   = useReveal();
+  const heroLeftRef   = useReveal();
+  const featuredRef   = useReveal();
+  const postsTitleRef = useReveal();
+  const postsGridRef  = useReveal({ stagger: true, baseDelay: 70 });
+  const loadMoreRef   = useReveal();
+  const newsletterRef = useReveal();
 
   return (
     <div style={{ minHeight: "100vh", backgroundColor: T.white, fontFamily: T.sans, color: T.body }}>
@@ -128,92 +116,81 @@ export default function BlogScreen() {
         img { max-width:100%; display:block; }
         a { text-decoration:none; color:inherit; }
 
-        .blog-hero-wrap {
-          background: ${T.cream};
-          border-bottom: 1px solid ${T.border};
-          position: relative;
-          overflow: hidden;
+        @keyframes pulse-dot {
+          0%,100% { opacity:1; transform:scale(1); }
+          50%      { opacity:0.6; transform:scale(1.3); }
         }
-        .blog-hero-wrap::before {
-          content: '';
-          position: absolute;
-          top: -120px; right: -160px;
-          width: 520px; height: 520px;
-          background: radial-gradient(circle, rgba(30,136,200,0.10) 0%, transparent 70%);
-          border-radius: 50%;
-          pointer-events: none;
-        }
-        .blog-hero-grid { display:grid; grid-template-columns:1fr 1fr; gap:64px; align-items:center; }
-        @media(max-width:900px){ .blog-hero-grid { grid-template-columns:1fr; gap:36px; } }
-        .hero-right { display:block; }
-        @media(max-width:900px){ .hero-right { display:none; } }
-        .hero-cta-row { display:flex; gap:12px; flex-wrap:wrap; }
 
-        .stat-card {
-          background: ${T.white};
-          border: 1px solid ${T.border};
-          border-top: 3px solid ${T.teal};
-          border-radius: 8px;
-          padding: 18px 20px;
-          transition: all 0.22s;
+        .hero-chip {
+          display:inline-flex; align-items:center; gap:8px;
+          background:rgba(255,255,255,0.09);
+          border:1px solid rgba(255,255,255,0.16);
+          backdrop-filter:blur(6px);
+          border-radius:6px; padding:9px 16px;
+          font-family:${T.sans}; font-size:12.5px; font-weight:500;
+          color:rgba(255,255,255,0.90);
+          transition:background 0.2s, border-color 0.2s, transform 0.2s;
         }
-        .stat-card:hover { border-color:${T.teal}; box-shadow:0 6px 18px rgba(30,136,200,0.09); transform:translateY(-2px); }
-        .stat-cards-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:12px; }
+        .hero-chip:hover {
+          background:rgba(255,255,255,0.18);
+          border-color:rgba(255,255,255,0.35);
+          transform:translateY(-2px);
+        }
 
         .cat-filter-bar {
-          background: ${T.white};
-          border-bottom: 1px solid ${T.border};
-          padding: 0 24px;
-          position: sticky; top: 68px; z-index: 10;
-          box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+          background:${T.white};
+          border-bottom:1px solid ${T.border};
+          padding:0 24px;
+          position:sticky; top:68px; z-index:10;
+          box-shadow:0 2px 8px rgba(0,0,0,0.04);
         }
         .cat-filter-inner {
-          max-width: 1280px; margin: 0 auto;
-          display: flex; gap: 8px; overflow-x: auto;
-          padding: 14px 0; scrollbar-width: none;
+          max-width:1280px; margin:0 auto;
+          display:flex; gap:8px; overflow-x:auto;
+          padding:14px 0; scrollbar-width:none;
         }
-        .cat-filter-inner::-webkit-scrollbar { display: none; }
+        .cat-filter-inner::-webkit-scrollbar { display:none; }
         @media(max-width:480px){ .cat-filter-bar { padding:0 12px; top:60px; } }
 
         .cat-btn {
-          padding: 7px 16px; border-radius: 999px; font-size: 13px; font-weight: 500;
-          border: 1.5px solid ${T.border}; background: transparent; color: ${T.muted};
-          cursor: pointer; white-space: nowrap; font-family: ${T.sans}; transition: all 0.2s; flex-shrink: 0;
+          padding:7px 16px; border-radius:999px; font-size:13px; font-weight:500;
+          border:1.5px solid ${T.border}; background:transparent; color:${T.muted};
+          cursor:pointer; white-space:nowrap; font-family:${T.sans}; transition:all 0.2s; flex-shrink:0;
         }
-        .cat-btn:hover { border-color: ${T.teal}; color: ${T.teal}; }
-        .cat-btn.active { background: ${T.teal}; border-color: ${T.teal}; color: #fff; }
+        .cat-btn:hover { border-color:${T.teal}; color:${T.teal}; }
+        .cat-btn.active { background:${T.teal}; border-color:${T.teal}; color:#fff; }
 
         .featured-card {
-          border-radius: 12px; overflow: hidden; margin-bottom: 48px;
-          display: grid; grid-template-columns: 1fr 1fr; min-height: 300px;
-          border: 1px solid #C8DFF0;
-          box-shadow: 0 8px 32px rgba(30,136,200,0.10);
-          transition: box-shadow 0.25s, transform 0.25s;
+          border-radius:12px; overflow:hidden; margin-bottom:48px;
+          display:grid; grid-template-columns:1fr 1fr; min-height:300px;
+          border:1px solid #C8DFF0;
+          box-shadow:0 8px 32px rgba(30,136,200,0.10);
+          transition:box-shadow 0.25s, transform 0.25s;
         }
         .featured-card:hover { transform:translateY(-3px); box-shadow:0 16px 48px rgba(30,136,200,0.14); }
         @media(max-width:768px){ .featured-card { grid-template-columns:1fr; } .featured-img { min-height:200px; } }
         .featured-content {
-          padding: 32px 36px;
-          background: #EBF5FB;
-          display: flex; flex-direction: column; justify-content: center;
+          padding:32px 36px;
+          background:#EBF5FB;
+          display:flex; flex-direction:column; justify-content:center;
         }
         @media(max-width:480px){ .featured-content { padding:22px 20px; } }
 
         .posts-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(300px,1fr)); gap:20px; }
         @media(max-width:640px){ .posts-grid { grid-template-columns:1fr; } }
         .post-card {
-          background: ${T.white}; border-radius: 10px;
-          border: 1px solid ${T.border}; overflow: hidden;
-          cursor: pointer; transition: all 0.25s ease;
-          display: flex; flex-direction: column;
+          background:${T.white}; border-radius:10px;
+          border:1px solid ${T.border}; overflow:hidden;
+          cursor:pointer; transition:all 0.25s ease;
+          display:flex; flex-direction:column;
         }
         .post-card:hover {
-          border-color: ${T.teal};
-          transform: translateY(-4px);
-          box-shadow: 0 14px 36px rgba(30,136,200,0.12);
+          border-color:${T.teal};
+          transform:translateY(-4px);
+          box-shadow:0 14px 36px rgba(30,136,200,0.12);
         }
-        .post-card:hover .post-img { transform: scale(1.05); }
-        .post-img { transition: transform 0.35s ease; }
+        .post-card:hover .post-img { transform:scale(1.05); }
+        .post-img { transition:transform 0.35s ease; }
 
         .newsletter-input-row { display:flex; gap:10px; max-width:460px; margin:0 auto; }
         @media(max-width:480px){ .newsletter-input-row { flex-direction:column; } .newsletter-input-row button { width:100%; } }
@@ -221,138 +198,115 @@ export default function BlogScreen() {
         .section-label-row { display:flex; align-items:center; gap:12px; margin-bottom:16px; }
         .section-label-line { width:28px; height:1.5px; background:${T.teal}; }
         .section-label-text {
-          font-family: ${T.sans}; font-size: 11px; font-weight: 600;
-          letter-spacing: 0.15em; text-transform: uppercase; color: ${T.teal};
+          font-family:${T.sans}; font-size:11px; font-weight:600;
+          letter-spacing:0.15em; text-transform:uppercase; color:${T.teal};
         }
 
-        .sec-pad { padding: 80px 24px; }
+        .sec-pad { padding:80px 24px; }
         @media(max-width:768px){ .sec-pad { padding:52px 16px !important; } }
 
-        .topic-pill {
-          padding: 5px 12px; border-radius: 4px; font-size: 11px; font-weight: 600;
-          background: ${T.tealLight}; color: ${T.teal};
-          border: 1px solid rgba(30,136,200,0.20);
-          font-family: ${T.sans}; letter-spacing: 0.04em;
-          transition: all 0.2s;
-        }
-        .topic-pill:hover { background:${T.teal}; color:#fff; transform:translateY(-1px); }
+        .sl-row { display:flex; align-items:center; gap:12px; margin-bottom:16px; }
+        .sl-line { width:28px; height:1.5px; background:${T.teal}; flex-shrink:0; }
+        .sl-text { font-family:${T.sans}; font-size:11px; font-weight:600; letter-spacing:0.15em; text-transform:uppercase; color:${T.teal}; }
       `}</style>
 
       <Navbar />
 
-      {/* ══ HERO ══ */}
-      <section className="blog-hero-wrap">
-        <div style={{ maxWidth: 1280, margin: "0 auto", padding: "clamp(56px,8vw,96px) clamp(16px,4vw,56px)" }}>
-          <div className="blog-hero-grid">
+      {/* ══════════════════════════════════════
+          HERO
+      ══════════════════════════════════════ */}
+      <section style={{
+        position: "relative", overflow: "hidden",
+        borderBottom: `1px solid ${T.border}`,
+        minHeight: 420,
+        display: "flex", flexDirection: "column", justifyContent: "center",
+      }}>
+        {/* Left accent bar */}
+        <div style={{
+          position: "absolute", left: 0, top: 0, bottom: 0, width: 4,
+          background: `linear-gradient(to bottom, ${T.orange}, ${T.teal})`,
+          zIndex: 3,
+        }} />
 
-            {/* Left — slides in from left */}
-            <div className="reveal-left" ref={heroLeftRef}>
-              <div className="anim-pill-in" style={{
-                display: "inline-flex", alignItems: "center", gap: 8,
-                background: T.tealLight, borderRadius: 4, padding: "5px 14px", marginBottom: 24,
+        <img
+          src="https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=1200&q=85&fit=crop"
+          alt="Blog background"
+          style={{
+            position: "absolute", inset: 0, width: "100%", height: "100%",
+            objectFit: "cover", objectPosition: "center 30%", zIndex: 0,
+          }}
+        />
+        <div style={{
+          position: "absolute", inset: 0, zIndex: 1,
+          background: "linear-gradient(to right, rgba(7,18,28,0.88) 0%, rgba(7,18,28,0.60) 50%, rgba(7,18,28,0.10) 100%)",
+        }} />
+
+        {/* Content */}
+        <div style={{
+          position: "relative", zIndex: 2,
+          maxWidth: 1280, margin: "0 auto", width: "100%",
+          padding: "clamp(48px,7vw,88px) clamp(20px,4vw,60px)",
+        }}>
+          <div ref={heroLeftRef} className="reveal-left">
+
+            {/* Badge pill */}
+            <div style={{
+              display: "inline-flex", alignItems: "center", gap: 8,
+              background: "rgba(255,255,255,0.10)",
+              border: "1px solid rgba(255,255,255,0.20)",
+              backdropFilter: "blur(8px)",
+              borderRadius: 4, padding: "6px 16px", marginBottom: 22,
+            }}>
+              <span style={{
+                width: 7, height: 7, borderRadius: "50%",
+                background: "#4ade80",
+                boxShadow: "0 0 6px rgba(74,222,128,0.8)",
+                display: "inline-block",
+                animation: "pulse-dot 2s ease-in-out infinite",
+              }} />
+              <span style={{
+                fontFamily: T.sans, fontSize: 10.5, fontWeight: 700,
+                color: "#fff", letterSpacing: "0.14em", textTransform: "uppercase",
               }}>
-                <span style={{ width: 7, height: 7, borderRadius: "50%", background: T.teal, display: "inline-block" }} />
-                <span style={{ fontFamily: T.sans, fontSize: 10.5, fontWeight: 700, color: T.teal, letterSpacing: "0.12em", textTransform: "uppercase" }}>
-                  Compliance Insights
+                Compliance Insights — Updated Weekly
+              </span>
+            </div>
+
+            {/* Heading */}
+            <h1 style={{
+              fontFamily: T.serif,
+              fontSize: "clamp(2.6rem,5.2vw,4.2rem)",
+              fontWeight: 700, lineHeight: 1.04,
+              marginBottom: 20, letterSpacing: "-0.01em",
+              color: "#fff", maxWidth: 640,
+            }}>
+              Regulatory Updates &{" "}
+              <span style={{ color: T.orange }}>Certification</span>{" "}
+              Guides
+            </h1>
+
+            {/* Chips */}
+            <div style={{ display: "flex", flexWrap: "wrap", gap: 10, marginTop: 32 }}>
+              {heroChips.map(chip => (
+                <span key={chip.label} className="hero-chip">
+                  <span style={{ fontSize: 15 }}>{chip.icon}</span>
+                  {chip.label}
                 </span>
-              </div>
-
-              <h1 style={{
-                fontFamily: T.serif,
-                fontSize: "clamp(2rem,3.8vw,3.4rem)",
-                color: T.titleblue, fontWeight: 700,
-                lineHeight: 1.08, marginBottom: 10, letterSpacing: "-0.01em",
-              }}>
-                Regulatory Updates &amp;<br />Certification Guides
-              </h1>
-
-              <p style={{
-                fontFamily: T.sans, fontSize: 12, fontWeight: 600,
-                color: T.tealMid, marginBottom: 20,
-                letterSpacing: "0.05em", textTransform: "uppercase",
-              }}>
-                BIS · EPR · WPC · TEC · ISO &amp; More
-              </p>
-
-              <p style={{
-                fontFamily: T.sans, fontSize: 15.5, textAlign: "justify",
-                color: T.muted, lineHeight: 1.9, marginBottom: 32, maxWidth: 480,
-              }}>
-                Stay ahead of India's ever-changing regulatory landscape. Expert insights written by practitioners, not generalists.
-              </p>
-
-              <div className="hero-cta-row">
-                <button
-                  onClick={() => document.getElementById("posts-section").scrollIntoView({ behavior: "smooth" })}
-                  style={{
-                    padding: "13px 32px", fontFamily: T.sans, fontSize: 13.5, fontWeight: 600,
-                    letterSpacing: "0.02em", border: "none", borderRadius: 6, cursor: "pointer",
-                    background: "#F97316", color: "#fff",
-                    boxShadow: "0 4px 16px rgba(10,104,104,0.22)",
-                    transition: "all 0.22s cubic-bezier(0.4,0,0.2,1)",
-                  }}
-                  onMouseEnter={e => { e.currentTarget.style.background = T.teal; e.currentTarget.style.boxShadow = "0 8px 28px rgba(10,104,104,0.38)"; e.currentTarget.style.transform = "translateY(-1px)"; }}
-                  onMouseLeave={e => { e.currentTarget.style.background = "#F97316"; e.currentTarget.style.boxShadow = "0 4px 16px rgba(10,104,104,0.22)"; e.currentTarget.style.transform = "translateY(0)"; }}
-                >Browse Articles ↓</button>
-
-                <button
-                  onClick={() => document.getElementById("newsletter-section").scrollIntoView({ behavior: "smooth" })}
-                  style={{
-                    padding: "12px 28px", fontFamily: T.sans, fontSize: 13.5, fontWeight: 600,
-                    letterSpacing: "0.02em", borderRadius: 6, cursor: "pointer",
-                    border: `1.5px solid ${T.border}`,
-                    color: "#fff", background: "#F97316",
-                    transition: "all 0.22s cubic-bezier(0.4,0,0.2,1)",
-                  }}
-                  onMouseEnter={e => { e.currentTarget.style.borderColor = T.teal; e.currentTarget.style.color = T.teal; e.currentTarget.style.background = "transparent"; }}
-                  onMouseLeave={e => { e.currentTarget.style.borderColor = T.border; e.currentTarget.style.color = "#fff"; e.currentTarget.style.background = "#F97316"; }}
-                >Subscribe Free →</button>
-              </div>
+              ))}
             </div>
-
-            {/* Right — stagger in */}
-            <div className="hero-right" ref={heroRightRef}>
-              {/* child[0] */}
-              <div className="reveal d0 stat-cards-grid">
-                {heroStats.map((s, i) => (
-                  <div key={s.label} className="stat-card" style={{ borderTopColor: i % 2 === 0 ? T.teal : T.amber }}>
-                    <div style={{ fontSize: 20, marginBottom: 6 }}>{s.icon}</div>
-                    <div style={{
-                      fontFamily: T.serif, fontSize: 26,
-                      color: i % 2 === 0 ? T.teal : T.amber,
-                      fontWeight: 700, lineHeight: 1,
-                    }}>{s.value}</div>
-                    <div style={{ fontFamily: T.sans, fontSize: 13.5, color: T.muted, fontWeight: 600, lineHeight: 1.5 }}>{s.label}</div>
-                  </div>
-                ))}
-              </div>
-
-              {/* child[1] */}
-              <div className="reveal d1" style={{
-                background: T.white, border: `1px solid ${T.border}`,
-                borderRadius: 8, padding: "18px 20px",
-              }}>
-                <div style={{
-                  fontFamily: T.sans, fontSize: 10.5, fontWeight: 700,
-                  color: T.teal, letterSpacing: "0.12em", textTransform: "uppercase", marginBottom: 12,
-                }}>Topics Covered</div>
-                <div style={{ display: "flex", flexWrap: "wrap", gap: 6 }}>
-                  {["BIS", "EPR", "WPC", "TEC", "BEE", "LMPC", "ISO", "CDSCO", "QCO", "FSSAI"].map(t => (
-                    <span key={t} className="topic-pill">{t}</span>
-                  ))}
-                </div>
-              </div>
-            </div>
-
           </div>
         </div>
 
-        <div style={{ height: 2, background: T.borderLight }}>
-          <div style={{ width: "100%", height: "100%", background: T.teal, opacity: 0.4 }} />
-        </div>
+        {/* Bottom teal line */}
+        <div style={{
+          position: "absolute", bottom: 0, left: 0, right: 0,
+          height: 3, background: T.teal, opacity: 0.6, zIndex: 2,
+        }} />
       </section>
 
-      {/* ══ CATEGORY FILTERS ══ */}
+      {/* ══════════════════════════════════════
+          CATEGORY FILTERS
+      ══════════════════════════════════════ */}
       <div className="cat-filter-bar">
         <div className="cat-filter-inner">
           {categories.map(cat => (
@@ -362,22 +316,23 @@ export default function BlogScreen() {
         </div>
       </div>
 
-      {/* ══ POSTS ══ */}
+      {/* ══════════════════════════════════════
+          POSTS
+      ══════════════════════════════════════ */}
       <section id="posts-section" className="sec-pad" style={{ background: T.cream }}>
         <div style={{ maxWidth: 1280, margin: "0 auto" }}>
 
-          {/* Featured — fades up */}
+          {/* Featured */}
           {activeCategory === "All" && (
             <div className="reveal featured-card" ref={featuredRef}>
               <div className="featured-img" style={{ position: "relative", minHeight: 240 }}>
                 <img src={featured.img} alt={featured.title}
                   style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }} />
-                <div style={{ position: "absolute", inset: 0, background: `linear-gradient(to right, transparent, rgba(13,27,42,0.3))` }} />
+                <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to right, transparent, rgba(13,27,42,0.3))" }} />
                 <div style={{ position: "absolute", top: 16, left: 16 }}>
                   <span style={{
                     fontSize: 10, fontWeight: 800, backgroundColor: T.amber, color: "#fff",
-                    padding: "4px 14px", borderRadius: 3, letterSpacing: "0.06em",
-                    fontFamily: T.sans,
+                    padding: "4px 14px", borderRadius: 3, letterSpacing: "0.06em", fontFamily: T.sans,
                   }}>FEATURED</span>
                 </div>
               </div>
@@ -397,14 +352,14 @@ export default function BlogScreen() {
                 <p style={{ fontFamily: T.sans, fontSize: 15, color: T.muted, lineHeight: 1.75, marginBottom: 20, textAlign: "justify" }}>{featured.excerpt}</p>
                 <div style={{ display: "flex", gap: 16, alignItems: "center", flexWrap: "wrap" }}>
                   <button style={{
-                    padding: "10px 22px", backgroundColor: "#F97316", color: "#fff",
+                    padding: "10px 22px", backgroundColor: T.orange, color: "#fff",
                     fontWeight: 600, borderRadius: 6, border: "none", fontSize: 13,
                     cursor: "pointer", fontFamily: T.sans,
                     boxShadow: "0 4px 12px rgba(249,115,22,0.35)",
                     transition: "background 0.2s",
                   }}
                     onMouseEnter={e => e.currentTarget.style.background = T.teal}
-                    onMouseLeave={e => e.currentTarget.style.background = "#F97316"}
+                    onMouseLeave={e => e.currentTarget.style.background = T.orange}
                   >Read Full Article →</button>
                   <span style={{ fontSize: 12, color: T.subtle, fontFamily: T.sans }}>⏱ {featured.readTime}</span>
                 </div>
@@ -412,7 +367,7 @@ export default function BlogScreen() {
             </div>
           )}
 
-          {/* Section heading — fades up */}
+          {/* Section heading */}
           <div style={{ marginBottom: 32 }} className="reveal" ref={postsTitleRef}>
             <div className="section-label-row">
               <div className="section-label-line" />
@@ -426,7 +381,7 @@ export default function BlogScreen() {
             </h2>
           </div>
 
-          {/* Cards grid — stagger */}
+          {/* Cards grid */}
           <div className="posts-grid" ref={postsGridRef}>
             {filtered.map((post, i) => {
               const tc = tagColors[post.tag] || { bg: T.tealLight, text: T.teal };
@@ -464,7 +419,7 @@ export default function BlogScreen() {
                     }}>
                       <span style={{ fontFamily: T.sans, fontSize: 12, color: T.subtle }}>⏱ {post.readTime}</span>
                       <button style={{
-                        fontFamily: T.sans, fontSize: 12.5, color: "#F97316",
+                        fontFamily: T.sans, fontSize: 12.5, color: T.orange,
                         fontWeight: 600, background: "none", border: "none", cursor: "pointer",
                         letterSpacing: "0.02em",
                       }}>Read More →</button>
@@ -475,31 +430,33 @@ export default function BlogScreen() {
             })}
           </div>
 
-          {/* Load more — fades up */}
+          {/* Load more */}
           <div style={{ textAlign: "center", marginTop: 48 }} className="reveal" ref={loadMoreRef}>
             <button
               style={{
                 padding: "13px 40px", border: `1.5px solid ${T.border}`,
-                color: "#fff", borderRadius: 6, background: "#F97316",
+                color: "#fff", borderRadius: 6, background: T.orange,
                 fontFamily: T.sans, fontSize: 13.5, fontWeight: 600, cursor: "pointer",
                 transition: "all 0.22s",
               }}
               onMouseEnter={e => { e.currentTarget.style.borderColor = T.teal; e.currentTarget.style.color = T.teal; e.currentTarget.style.background = T.tealLight; }}
-              onMouseLeave={e => { e.currentTarget.style.borderColor = T.border; e.currentTarget.style.color = T.slate; e.currentTarget.style.background = "transparent"; }}
+              onMouseLeave={e => { e.currentTarget.style.borderColor = T.border; e.currentTarget.style.color = "#fff"; e.currentTarget.style.background = T.orange; }}
             >Load More Articles</button>
           </div>
         </div>
       </section>
 
-      {/* ══ NEWSLETTER — fades up ══ */}
+      {/* ══════════════════════════════════════
+          NEWSLETTER
+      ══════════════════════════════════════ */}
       <section
         id="newsletter-section"
         className="reveal"
         ref={newsletterRef}
         style={{
-          background: "#EBF5FB",
-          borderTop: "1px solid #C8DFF0",
-          borderBottom: "1px solid #C8DFF0",
+          background: T.ctaBand,
+          borderTop: `1px solid ${T.ctaBandBorder}`,
+          borderBottom: `1px solid ${T.ctaBandBorder}`,
           padding: "80px clamp(16px,5vw,56px)",
         }}
       >
@@ -511,7 +468,6 @@ export default function BlogScreen() {
               <div style={{ width: 28, height: 1.5, background: T.teal }} />
             </div>
           </div>
-
           <h2 style={{
             fontFamily: T.serif, fontSize: "clamp(1.4rem,3vw,2.2rem)",
             color: T.titleblue, marginBottom: 12, fontWeight: 700, letterSpacing: "-0.01em", lineHeight: 1.1,
@@ -521,7 +477,6 @@ export default function BlogScreen() {
           <p style={{ fontFamily: T.sans, fontSize: "clamp(13px,2vw,14.5px)", color: T.muted, marginBottom: 32, lineHeight: 1.8 }}>
             New QCO notifications, BIS updates, EPR changes — delivered weekly.<br />No spam, ever.
           </p>
-
           <div className="newsletter-input-row">
             <input
               type="email" placeholder="Your email address"
@@ -537,14 +492,14 @@ export default function BlogScreen() {
             />
             <button
               style={{
-                padding: "13px 22px", backgroundColor: "#F97316", color: "#fff",
+                padding: "13px 22px", backgroundColor: T.orange, color: "#fff",
                 fontWeight: 600, borderRadius: 6, border: "none",
                 fontFamily: T.sans, fontSize: 14, cursor: "pointer",
                 whiteSpace: "nowrap", transition: "background 0.2s",
                 boxShadow: "0 4px 14px rgba(249,115,22,0.30)",
               }}
               onMouseEnter={e => e.currentTarget.style.background = T.teal}
-              onMouseLeave={e => e.currentTarget.style.background = "#F97316"}
+              onMouseLeave={e => e.currentTarget.style.background = T.orange}
             >Subscribe →</button>
           </div>
           <p style={{ fontFamily: T.sans, fontSize: 12, color: T.subtle, marginTop: 14 }}>

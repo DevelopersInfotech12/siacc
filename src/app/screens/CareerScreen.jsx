@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useRef } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import Navbar from "../Components/Navbar";
 import Footer from "../Components/Footer";
@@ -33,9 +33,6 @@ const T = {
   sans: "'Outfit', 'system-ui', sans-serif",
 };
 
-/* ══════════════════════════════════════════════
-   useReveal HOOK
-══════════════════════════════════════════════ */
 function useReveal(opts = {}) {
   const { threshold = 0.15, stagger = false, baseDelay = 90, once = true } = opts;
   const ref = useRef(null);
@@ -90,12 +87,18 @@ const stats = [
   { value: "12+", label: "Years Building", icon: "🏆" },
 ];
 
+const heroChips = [
+  { icon: "✓", label: "Fast Growth" },
+  { icon: "🏡", label: "Hybrid Work" },
+  { icon: "💰", label: "Competitive Pay" },
+  { icon: "👥", label: "100+ Experts" },
+  { icon: "📋", label: "6 Open Positions" },
+];
+
 export default function CareerScreen() {
   const router = useRouter();
 
-  /* ── Reveal refs ── */
   const heroLeftRef = useReveal();
-  const heroRightRef = useReveal();
   const statsRef = useReveal({ stagger: true, baseDelay: 100 });
   const lifeImgRef = useReveal();
   const lifeTxtRef = useReveal();
@@ -118,27 +121,26 @@ export default function CareerScreen() {
         .sl-line { width:28px; height:1.5px; background:${T.teal}; flex-shrink:0; }
         .sl-text { font-family:${T.sans}; font-size:11px; font-weight:600; letter-spacing:0.15em; text-transform:uppercase; color:${T.teal}; }
 
-        .career-hero-wrap {
-          background: ${T.cream};
-          border-bottom: 1px solid ${T.border};
-          position: relative; overflow: hidden;
+        @keyframes pulse-dot {
+          0%,100% { opacity:1; transform:scale(1); }
+          50%      { opacity:0.6; transform:scale(1.3); }
         }
-        .career-hero-wrap::before {
-          content:''; position:absolute; top:-100px; right:-140px;
-          width:500px; height:500px;
-          background:radial-gradient(circle, rgba(30,136,200,0.11) 0%, transparent 70%);
-          border-radius:50%; pointer-events:none;
+
+        .hero-chip {
+          display:inline-flex; align-items:center; gap:8px;
+          background:rgba(255,255,255,0.09);
+          border:1px solid rgba(255,255,255,0.16);
+          backdrop-filter:blur(6px);
+          border-radius:6px; padding:9px 16px;
+          font-family:${T.sans}; font-size:12.5px; font-weight:500;
+          color:rgba(255,255,255,0.90);
+          transition:background 0.2s, border-color 0.2s, transform 0.2s;
         }
-        .hero-grid { display:grid; grid-template-columns:1fr 1fr; gap:64px; align-items:center; }
-        @media(max-width:900px){ .hero-grid { grid-template-columns:1fr; gap:40px; } }
-        .hero-img-col { border-radius:12px; overflow:hidden; height:clamp(300px,42vw,460px); position:relative; }
-        @media(max-width:900px){ .hero-img-col { display:none; } }
-        .hero-img-tint {
-          position:absolute; inset:0;
-          background:linear-gradient(135deg, rgba(235,245,251,0.38) 0%, rgba(30,136,200,0.18) 100%);
+        .hero-chip:hover {
+          background:rgba(255,255,255,0.18);
+          border-color:rgba(255,255,255,0.35);
+          transform:translateY(-2px);
         }
-        .hero-cta-row { display:flex; flex-wrap:wrap; gap:12px; margin-bottom:32px; }
-        .hero-trust-row { display:flex; flex-wrap:wrap; gap:8px; }
 
         .stats-strip { display:grid; grid-template-columns:repeat(4,1fr); }
         @media(max-width:640px){ .stats-strip { grid-template-columns:repeat(2,1fr); } }
@@ -184,125 +186,91 @@ export default function CareerScreen() {
 
       <Navbar />
 
-      {/* ══ HERO ══ */}
-      <section className="career-hero-wrap">
-        <div style={{ maxWidth: 1280, margin: "0 auto", padding: "clamp(56px,8vw,96px) clamp(16px,4vw,56px)" }}>
-          <div className="hero-grid">
+      {/* ══════════════════════════════════════
+          HERO
+      ══════════════════════════════════════ */}
+      <section style={{
+        position: "relative", overflow: "hidden",
+        borderBottom: `1px solid ${T.border}`,
+        minHeight: 200,
+        display: "flex", flexDirection: "column", justifyContent: "center",
+      }}>
+        {/* Left accent bar */}
+        <div style={{
+          position: "absolute", left: 0, top: 0, bottom: 0, width: 4,
+          background: `linear-gradient(to bottom, ${T.orange}, ${T.teal})`,
+          zIndex: 3,
+        }} />
 
-            {/* Left — slides in from left */}
-            <div className="reveal-left" ref={heroLeftRef}>
-              <div className="anim-pill-in" style={{
-                display: "inline-flex", alignItems: "center", gap: 8,
-                background: T.tealLight, borderRadius: 4, padding: "5px 14px", marginBottom: 24,
+        <img
+          src="/images/career.jpg"
+          alt="Careers background"
+          style={{
+            position: "absolute", inset: 0, width: "100%", height: "100%",
+            objectFit: "cover", objectPosition: "center 40%", zIndex: 0,
+          }}
+        />
+        <div style={{
+          position: "absolute", inset: 0, zIndex: 1,
+          background: "linear-gradient(to right, rgba(7,18,28,0.88) 0%, rgba(7,18,28,0.60) 50%, rgba(7,18,28,0.10) 100%)",
+        }} />
+
+        {/* Content */}
+        <div style={{
+          position: "relative", zIndex: 2,
+          maxWidth: 1280, margin: "0 auto", width: "100%",
+          padding: "clamp(48px,7vw,88px) clamp(20px,4vw,60px)",
+        }}>
+          <div ref={heroLeftRef} className="reveal-left">
+
+            {/* Badge pill */}
+            <div style={{
+              display: "inline-flex", alignItems: "center", gap: 8,
+              background: "rgba(255,255,255,0.10)",
+              border: "1px solid rgba(255,255,255,0.20)",
+              backdropFilter: "blur(8px)",
+              borderRadius: 4, padding: "6px 16px", marginBottom: 22,
+            }}>
+              <span style={{
+                width: 7, height: 7, borderRadius: "50%",
+                background: "#4ade80",
+                boxShadow: "0 0 6px rgba(74,222,128,0.8)",
+                display: "inline-block",
+                animation: "pulse-dot 2s ease-in-out infinite",
+              }} />
+              <span style={{
+                fontFamily: T.sans, fontSize: 10.5, fontWeight: 700,
+                color: "#fff", letterSpacing: "0.14em", textTransform: "uppercase",
               }}>
-                <span style={{ width: 7, height: 7, borderRadius: "50%", background: T.teal, display: "inline-block" }} />
-                <span style={{ fontFamily: T.sans, fontSize: 10.5, fontWeight: 700, color: T.teal, letterSpacing: "0.12em", textTransform: "uppercase" }}>
-                  We're Hiring — Join Our Team
-                </span>
-              </div>
-
-              <h1 style={{
-                fontFamily: T.serif, fontSize: "clamp(2rem,3.8vw,3.4rem)",
-                color: T.slate, fontWeight: 700, lineHeight: 1.08,
-                marginBottom: 10, letterSpacing: "-0.01em",
-              }}>
-                Build Your Career in India's{" "}
-                <span style={{ color: T.teal }}>Fastest-Growing</span>{" "}
-                Compliance Industry
-              </h1>
-
-              <p style={{
-                fontFamily: T.sans, fontSize: 12, fontWeight: 600,
-                color: T.tealMid, marginBottom: 20,
-                letterSpacing: "0.05em", textTransform: "uppercase",
-              }}>
-                100+ Experts · 4 Offices · 6 Open Positions
-              </p>
-
-              <p style={{
-                fontFamily: T.sans, fontSize: "clamp(13.5px,1.4vw,15px)",
-                color: T.muted, lineHeight: 1.9, marginBottom: 32, maxWidth: 460,
-              }}>
-                Join a team of regulatory experts helping businesses navigate India's complex compliance landscape. We're hiring across all levels and domains.
-              </p>
-
-              <div className="hero-cta-row">
-                <button
-                  onClick={() => { const el = document.getElementById("openings"); if (el) el.scrollIntoView({ behavior: "smooth" }); }}
-                  style={{
-                    padding: "13px 32px", fontFamily: T.sans, fontSize: 13.5, fontWeight: 600,
-                    letterSpacing: "0.02em", border: "none", borderRadius: 6, cursor: "pointer",
-                    background: T.orange, color: "#fff",
-                    boxShadow: "0 4px 16px rgba(10,104,104,0.22)",
-                    transition: "all 0.22s cubic-bezier(0.4,0,0.2,1)",
-                  }}
-                  onMouseEnter={e => { e.currentTarget.style.background = T.teal; e.currentTarget.style.transform = "translateY(-1px)"; e.currentTarget.style.boxShadow = "0 8px 28px rgba(10,104,104,0.38)"; }}
-                  onMouseLeave={e => { e.currentTarget.style.background = T.orange; e.currentTarget.style.transform = "translateY(0)"; e.currentTarget.style.boxShadow = "0 4px 16px rgba(10,104,104,0.22)"; }}
-                >View Open Positions</button>
-
-                <button
-                  onClick={() => router.push("/contact")}
-                  style={{
-                    padding: "12px 28px", fontFamily: T.sans, fontSize: 13.5, fontWeight: 600,
-                    letterSpacing: "0.02em", borderRadius: 6, cursor: "pointer",
-                    border: `1.5px solid ${T.border}`,
-                    color: "#fff", background: T.orange,
-                    transition: "all 0.22s cubic-bezier(0.4,0,0.2,1)",
-                  }}
-                  onMouseEnter={e => { e.currentTarget.style.borderColor = T.teal; e.currentTarget.style.color = T.teal; e.currentTarget.style.background = "transparent"; }}
-                  onMouseLeave={e => { e.currentTarget.style.borderColor = T.border; e.currentTarget.style.color = "#fff"; e.currentTarget.style.background = T.orange; }}
-                >Send Your Resume →</button>
-              </div>
-
-              <div className="hero-trust-row">
-                {["✓ Fast Growth", "✓ Hybrid Work", "✓ Competitive Pay", "✓ Expert Team"].map(b => (
-                  <span key={b} style={{
-                    padding: "6px 14px", border: `1px solid ${T.border}`,
-                    borderRadius: 4, fontSize: 12, color: T.muted,
-                    background: T.white, fontFamily: T.sans, fontWeight: 500,
-                  }}>{b}</span>
-                ))}
-              </div>
+                We're Hiring — Join Our Team
+              </span>
             </div>
 
-            {/* Right — slides in from right */}
-            <div className="reveal-right" ref={heroRightRef} style={{ position: "relative" }}>
-              <div className="hero-img-col">
-                <img
-                  src="https://images.unsplash.com/photo-1521737711867-e3b97375f902?w=1000&q=85&fit=crop"
-                  alt="SIACC team at work"
-                  style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center 40%" }}
-                />
-                <div className="hero-img-tint" />
-                {/* Float card — same float-card animation as HomeScreen */}
-                <div className="float-card" style={{
-                  position: "absolute", bottom: 28, left: 28,
-                  background: "rgba(255,255,255,0.97)", borderRadius: 8, padding: "16px 22px",
-                  boxShadow: "0 12px 40px rgba(0,0,0,0.10)", border: `1px solid ${T.border}`,
-                  backdropFilter: "blur(12px)", minWidth: 160,
-                }}>
-                  <div style={{ fontFamily: T.sans, fontSize: 10, fontWeight: 700, color: T.subtle, textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: 5 }}>Open Today</div>
-                  <div style={{ fontFamily: T.serif, fontSize: 30, color: T.teal, fontWeight: 700, lineHeight: 1 }}>6</div>
-                  <div style={{ fontFamily: T.sans, fontSize: 11, color: T.muted, marginTop: 3 }}>Positions Available</div>
-                </div>
-                <div style={{
-                  position: "absolute", top: 24, right: 24,
-                  background: T.teal, borderRadius: 4, padding: "7px 16px",
-                }}>
-                  <span style={{ fontFamily: T.sans, fontSize: 11, fontWeight: 700, color: "#fff", letterSpacing: "0.1em" }}>SINCE 2011</span>
-                </div>
-              </div>
-            </div>
-
+            {/* Heading */}
+            <h1 style={{
+              fontFamily: T.serif,
+              fontSize: "clamp(2.6rem,5.2vw,4.2rem)",
+              fontWeight: 700, lineHeight: 1.04,
+              marginBottom: 20, letterSpacing: "-0.01em",
+              color: "#fff", maxWidth: 640,
+            }}>
+              Build Your Career in{" "}
+              <span style={{ color: T.orange }}>India's Compliance</span>{" "}
+              Industry
+            </h1>
           </div>
         </div>
 
-        <div style={{ height: 2, background: T.borderLight }}>
-          <div style={{ width: "100%", height: "100%", background: T.teal, opacity: 0.4 }} />
-        </div>
+        {/* Bottom teal line */}
+        <div style={{
+          position: "absolute", bottom: 0, left: 0, right: 0,
+          height: 3, background: T.teal, opacity: 0.6, zIndex: 2,
+        }} />
       </section>
 
-      {/* ══ STATS STRIP ══ */}
+      {/* ══════════════════════════════════════
+          STATS STRIP
+      ══════════════════════════════════════ */}
       <section style={{ background: T.teal }}>
         <div style={{ maxWidth: 1280, margin: "0 auto" }}>
           <div className="stats-strip" ref={statsRef}>
@@ -312,7 +280,7 @@ export default function CareerScreen() {
                 borderRight: i < stats.length - 1 ? "1px solid rgba(255,255,255,0.07)" : "none",
               }}>
                 <div style={{ fontSize: 20, marginBottom: 6 }}>{s.icon}</div>
-                <div className="anim-count-up" style={{ fontFamily: T.serif, fontSize: "clamp(2rem,2.8vw,2.8rem)", color: "#fff", fontWeight: 700, lineHeight: 1, letterSpacing: "-0.01em" }}>{s.value}</div>
+                <div style={{ fontFamily: T.serif, fontSize: "clamp(2rem,2.8vw,2.8rem)", color: "#fff", fontWeight: 700, lineHeight: 1, letterSpacing: "-0.01em" }}>{s.value}</div>
                 <div style={{ fontFamily: T.sans, fontSize: 12, color: "rgba(255,255,255,0.80)", marginTop: 8, letterSpacing: "0.04em" }}>{s.label}</div>
               </div>
             ))}
@@ -320,12 +288,13 @@ export default function CareerScreen() {
         </div>
       </section>
 
-      {/* ══ LIFE AT SIACC ══ */}
+      {/* ══════════════════════════════════════
+          LIFE AT SIACC
+      ══════════════════════════════════════ */}
       <section className="sec" style={{ background: T.cream }}>
         <div className="inner">
           <div className="about-grid">
 
-            {/* Image — slides in from left */}
             <div className="reveal-left" ref={lifeImgRef} style={{ position: "relative" }}>
               <img
                 src="https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=700&q=80&fit=crop"
@@ -336,7 +305,6 @@ export default function CareerScreen() {
                   boxShadow: "0 24px 64px rgba(0,0,0,0.09)",
                 }}
               />
-              {/* Floating badge */}
               <div className="float-card" style={{
                 position: "absolute", bottom: -16, right: -12,
                 background: T.white, borderRadius: 8, padding: "20px 26px",
@@ -353,7 +321,6 @@ export default function CareerScreen() {
               </div>
             </div>
 
-            {/* Text — slides in from right */}
             <div className="reveal-right" ref={lifeTxtRef}>
               <div className="sl-row"><div className="sl-line" /><span className="sl-text">Life at SIACC</span></div>
               <h2 style={{ fontFamily: T.serif, fontSize: "clamp(2rem,3.2vw,2.9rem)", color: T.titleblue, fontWeight: 700, marginBottom: 20, lineHeight: 1.12, letterSpacing: "-0.01em" }}>
@@ -366,7 +333,6 @@ export default function CareerScreen() {
                 We invest in our people through training, mentorship, and clear career progression. Many of our division heads started here as freshers and analysts.
               </p>
 
-              {/* Mini stats — stagger */}
               <div className="mini-stats-grid" ref={miniStatsRef}>
                 {[
                   { n: "12+", l: "Years in Business" }, { n: "50+", l: "Regulatory Domains" },
@@ -402,11 +368,11 @@ export default function CareerScreen() {
         </div>
       </section>
 
-      {/* ══ PERKS ══ */}
+      {/* ══════════════════════════════════════
+          PERKS
+      ══════════════════════════════════════ */}
       <section className="sec" style={{ background: T.white }}>
         <div className="inner">
-
-          {/* Banner — fades up */}
           <div className="reveal perks-banner" ref={perksBannerRef}>
             <img
               src="https://images.unsplash.com/photo-1556761175-5973dc0f32e7?w=1400&q=80&fit=crop"
@@ -428,7 +394,6 @@ export default function CareerScreen() {
             </div>
           </div>
 
-          {/* Perks cards — stagger */}
           <div className="perks-grid" ref={perksGridRef}>
             {perks.map((p, i) => (
               <div key={p.title} className={`perk-card reveal d${i}`}>
@@ -441,11 +406,11 @@ export default function CareerScreen() {
         </div>
       </section>
 
-      {/* ══ OPEN POSITIONS ══ */}
+      {/* ══════════════════════════════════════
+          OPEN POSITIONS
+      ══════════════════════════════════════ */}
       <section id="openings" className="sec" style={{ background: T.cream }}>
         <div className="inner">
-
-          {/* Section heading — fades up */}
           <div style={{ textAlign: "center", marginBottom: 52 }} className="reveal" ref={openingsTtlRef}>
             <div style={{ display: "flex", justifyContent: "center" }}>
               <div className="sl-row"><div className="sl-line" /><span className="sl-text">We're Hiring</span></div>
@@ -456,7 +421,6 @@ export default function CareerScreen() {
             </p>
           </div>
 
-          {/* Job cards — stagger */}
           <div style={{ display: "flex", flexDirection: "column", gap: 14 }} ref={openingsRef}>
             {openings.map((job, i) => {
               const tc = typeColors[job.type] || { bg: T.tealLight, text: T.tealDark };
@@ -499,7 +463,9 @@ export default function CareerScreen() {
         </div>
       </section>
 
-      {/* ══ CTA BAND — fades up ══ */}
+      {/* ══════════════════════════════════════
+          CTA BAND
+      ══════════════════════════════════════ */}
       <section
         className="reveal"
         ref={ctaRef}
@@ -517,7 +483,7 @@ export default function CareerScreen() {
               <h2 style={{ fontFamily: T.serif, fontSize: "clamp(1.9rem,3.2vw,2.9rem)", color: T.titleblue, fontWeight: 700, lineHeight: 1.1, letterSpacing: "-0.01em", marginBottom: 14 }}>
                 Send Us Your Resume Anytime
               </h2>
-              <p style={{ fontFamily: T.sans, color: T.muted, fontSize: 14.5, lineHeight: 1.8,  maxWidth: 500,  }}>
+              <p style={{ fontFamily: T.sans, color: T.muted, fontSize: 14.5, lineHeight: 1.8, maxWidth: 500 }}>
                 We're always looking for talented people. Send your resume and we'll reach out when there's a fit — across any of our divisions.
               </p>
             </div>
@@ -533,24 +499,14 @@ export default function CareerScreen() {
                 onMouseEnter={e => e.currentTarget.style.background = T.teal}
                 onMouseLeave={e => e.currentTarget.style.background = T.orange}
               >Send Spontaneous Application</button>
-              <a
-                href="mailto:info@siacc.co.in"
-                style={{
-                  padding: "13px 28px", border: `1.5px solid ${T.border}`,
-                  borderRadius: 6, fontFamily: T.sans, fontSize: 14, fontWeight: 500,
-                  color: T.slate, display: "flex", alignItems: "center",
-                  justifyContent: "center", gap: 8, whiteSpace: "nowrap",
-                  background: T.white, transition: "border-color 0.2s",
-                }}
-                onMouseEnter={e => e.currentTarget.style.borderColor = T.teal}
-                onMouseLeave={e => e.currentTarget.style.borderColor = T.border}
-              >✉️ info@siacc.co.in</a>
+
+              <a href="mailto:info@siacc.co.in" style={{ padding: "13px 28px", border: `1.5px solid ${T.border}`, borderRadius: 6, fontFamily: T.sans, fontSize: 14, fontWeight: 500, color: T.slate, display: "flex", alignItems: "center", justifyContent: "center", gap: 8, whiteSpace: "nowrap", background: T.white, transition: "border-color 0.2s" }} onMouseEnter={e => e.currentTarget.style.borderColor = T.teal} onMouseLeave={e => e.currentTarget.style.borderColor = T.border}>✉️ info@siacc.co.in</a>
             </div>
           </div>
         </div>
-      </section>
+      </section >
 
       <Footer />
-    </div>
+    </div >
   );
 }

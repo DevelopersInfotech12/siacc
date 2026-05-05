@@ -33,9 +33,6 @@ const T = {
   sans: "'Outfit', 'system-ui', sans-serif",
 };
 
-/* ══════════════════════════════════════════════
-   useReveal HOOK
-══════════════════════════════════════════════ */
 function useReveal(opts = {}) {
   const { threshold = 0.15, stagger = false, baseDelay = 90, once = true } = opts;
   const ref = useRef(null);
@@ -72,34 +69,25 @@ const faqs = [
   { q: "Can you take over my stalled certification?", a: "Absolutely. We regularly take over applications that are stalled or rejected and successfully bring them to completion." },
 ];
 
-const heroTrust = [
-  { icon: "⚡", label: "2-Hour Response", desc: "Guaranteed reply within 2 business hours" },
-  { icon: "🆓", label: "Free Consultation", desc: "No charges for initial assessment" },
-  { icon: "🇮🇳", label: "Pan-India", desc: "Serving businesses across all Indian states" },
-  { icon: "✅", label: "98% Success Rate", desc: "Across 10,000+ certifications filed" },
-];
-
 const contactStats = [
-  { value: "2 hrs", label: "Response Time",       icon: "⚡" },
-  { value: "Free",  label: "Initial Consultation", icon: "🆓" },
-  { value: "Pan",   label: "India Coverage",       icon: "🇮🇳" },
-  { value: "98%",   label: "Success Rate",         icon: "✅" },
+  { value: "2 hrs", label: "Response Time", icon: "⚡" },
+  { value: "Free", label: "Initial Consultation", icon: "🆓" },
+  { value: "Pan", label: "India Coverage", icon: "🇮🇳" },
+  { value: "98%", label: "Success Rate", icon: "✅" },
 ];
 
 export default function ContactScreen() {
   const router = useRouter();
 
-  /* ── Reveal refs ── */
-  const heroLeftRef    = useReveal();
-  const heroRightRef   = useReveal({ stagger: true, baseDelay: 100 });
-  const statsRef       = useReveal({ stagger: true, baseDelay: 100 });
-  const formRef        = useReveal();
-  const sidebarRef     = useReveal({ stagger: true, baseDelay: 100 });
-  const officeTtlRef   = useReveal();
-  const officeRef      = useReveal({ stagger: true, baseDelay: 120 });
-  const faqTtlRef      = useReveal();
-  const faqRef         = useReveal({ stagger: true, baseDelay: 80 });
-  const ctaRef         = useReveal();
+  const heroLeftRef = useReveal();
+  const statsRef = useReveal({ stagger: true, baseDelay: 100 });
+  const formRef = useReveal();
+  const sidebarRef = useReveal({ stagger: true, baseDelay: 100 });
+  const officeTtlRef = useReveal();
+  const officeRef = useReveal({ stagger: true, baseDelay: 120 });
+  const faqTtlRef = useReveal();
+  const faqRef = useReveal({ stagger: true, baseDelay: 80 });
+  const ctaRef = useReveal();
 
   return (
     <div style={{ minHeight: "100vh", backgroundColor: T.white, fontFamily: T.sans, color: T.body }}>
@@ -113,28 +101,82 @@ export default function ContactScreen() {
         .sl-line { width:28px; height:1.5px; background:${T.teal}; flex-shrink:0; }
         .sl-text { font-family:${T.sans}; font-size:11px; font-weight:600; letter-spacing:0.15em; text-transform:uppercase; color:${T.teal}; }
 
+        /* ── HERO ── */
         .contact-hero-wrap {
-          background: ${T.cream};
-          border-bottom: 1px solid ${T.border};
           position: relative; overflow: hidden;
+          border-bottom: 1px solid ${T.border};
+          min-height: 420px;
+          display: flex; flex-direction: column; justify-content: center;
         }
-        .contact-hero-wrap::before {
-          content:''; position:absolute; top:-100px; right:-140px;
-          width:500px; height:500px;
-          background:radial-gradient(circle, rgba(30,136,200,0.11) 0%, transparent 70%);
-          border-radius:50%; pointer-events:none;
+        .contact-hero-bg {
+          position: absolute; inset: 0; width: 100%; height: 100%;
+          object-fit: cover; object-position: center 30%;
+          z-index: 0;
         }
-        .hero-grid { display:grid; grid-template-columns:1fr 1fr; gap:64px; align-items:center; }
-        @media(max-width:900px){ .hero-grid { grid-template-columns:1fr; gap:40px; } }
-        .hero-right { display:block; }
-        @media(max-width:900px){ .hero-right { display:none; } }
-        .trust-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
-        .hero-cta-row { display:flex; flex-wrap:wrap; gap:12px; margin-bottom:32px; }
-        .hero-trust-badges { display:flex; flex-wrap:wrap; gap:8px; }
+        .contact-hero-overlay {
+          position: absolute; inset: 0; z-index: 1;
+          background: linear-gradient(
+            to right,
+            rgba(7, 18, 28, 0.88) 0%,
+            rgba(7, 18, 28, 0.60) 50%,
+            rgba(7, 18, 28, 0.10) 100%
+          );
+        }
 
+        /* decorative left accent bar */
+        .hero-accent-bar {
+          position: absolute; left: 0; top: 0; bottom: 0;
+          width: 4px;
+          background: linear-gradient(to bottom, ${T.orange}, ${T.teal});
+          z-index: 3;
+        }
+
+        .hero-badge-pill {
+          display: inline-flex; align-items: center; gap: 8px;
+          background: rgba(255,255,255,0.10);
+          border: 1px solid rgba(255,255,255,0.20);
+          backdrop-filter: blur(8px);
+          border-radius: 4px; padding: 6px 16px; margin-bottom: 22px;
+        }
+        .hero-badge-dot {
+          width: 7px; height: 7px; border-radius: 50%;
+          background: #4ade80;
+          box-shadow: 0 0 6px rgba(74,222,128,0.8);
+          animation: pulse-dot 2s ease-in-out infinite;
+        }
+        @keyframes pulse-dot {
+          0%,100% { opacity:1; transform:scale(1); }
+          50% { opacity:0.6; transform:scale(1.3); }
+        }
+
+        .hero-contact-chips {
+          display: flex; flex-wrap: wrap; gap: 10px; margin-top: 32px;
+        }
+        .hero-chip {
+          display: inline-flex; align-items: center; gap: 8px;
+          background: rgba(255,255,255,0.09);
+          border: 1px solid rgba(255,255,255,0.16);
+          backdrop-filter: blur(6px);
+          border-radius: 6px; padding: 9px 16px;
+          font-family: ${T.sans}; font-size: 12.5px; font-weight: 500;
+          color: rgba(255,255,255,0.90);
+          transition: background 0.2s, border-color 0.2s, transform 0.2s;
+          cursor: default;
+          text-decoration: none;
+        }
+        .hero-chip:hover {
+          background: rgba(255,255,255,0.18);
+          border-color: rgba(255,255,255,0.35);
+          transform: translateY(-2px);
+          color: #fff;
+        }
+        .hero-chip-icon { font-size: 15px; }
+
+        /* ── STATS STRIP ── */
         .stats-strip { display:grid; grid-template-columns:repeat(4,1fr); }
         @media(max-width:640px){ .stats-strip { grid-template-columns:repeat(2,1fr); } }
 
+        /* ── CONTACT MAIN GRID ── */
         .contact-main-grid { display:grid; grid-template-columns:1fr 360px; gap:40px; align-items:flex-start; }
         @media(max-width:1024px){ .contact-main-grid { grid-template-columns:1fr; } }
 
@@ -146,8 +188,10 @@ export default function ContactScreen() {
         }
         .form-card:hover { box-shadow:0 8px 40px rgba(30,136,200,0.08); }
         @media(max-width:480px){ .form-card { padding:20px 16px; } }
+
         .two-col { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:16px; }
         @media(max-width:540px){ .two-col { grid-template-columns:1fr; } }
+
         .input-field {
           width:100%; padding:12px 14px;
           border:1.5px solid ${T.border}; border-radius:6px;
@@ -159,6 +203,7 @@ export default function ContactScreen() {
 
         .sidebar { display:flex; flex-direction:column; gap:16px; }
 
+        /* ── OFFICE ── */
         .office-split { display:grid; grid-template-columns:340px 1fr; gap:20px; align-items:stretch; }
         @media(max-width:900px){ .office-split { grid-template-columns:1fr; } }
         .office-card {
@@ -172,6 +217,7 @@ export default function ContactScreen() {
         .office-stats-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin-top:28px; }
         @media(max-width:480px){ .office-stats-grid { grid-template-columns:1fr; gap:10px; margin-top:16px; } }
 
+        /* ── FAQ ── */
         .faq-card {
           background:${T.white}; border-radius:10px; padding:22px 24px;
           border:1px solid ${T.border};
@@ -179,6 +225,7 @@ export default function ContactScreen() {
         }
         .faq-card:hover { border-color:${T.teal}; box-shadow:0 6px 20px rgba(30,136,200,0.08); transform:translateY(-2px); }
 
+        /* ── CTA BAND ── */
         .cta-split { display:grid; grid-template-columns:1fr auto; gap:40px; align-items:center; }
         @media(max-width:720px){ .cta-split { grid-template-columns:1fr; gap:28px; } }
 
@@ -188,136 +235,65 @@ export default function ContactScreen() {
 
       <Navbar />
 
-      {/* ══ HERO ══ */}
+      {/* ══════════════════════════════════════
+          HERO — Contact Us
+      ══════════════════════════════════════ */}
       <section className="contact-hero-wrap">
-        <div style={{ maxWidth: 1280, margin: "0 auto", padding: "clamp(56px,8vw,96px) clamp(16px,4vw,56px)" }}>
-          <div className="hero-grid">
 
-            {/* Left — slides in from left */}
-            <div className="reveal-left" ref={heroLeftRef}>
-              <div className="anim-pill-in" style={{
-                display: "inline-flex", alignItems: "center", gap: 8,
-                background: T.tealLight, borderRadius: 4, padding: "5px 14px", marginBottom: 24,
+        {/* Left accent bar */}
+        <div className="hero-accent-bar" />
+
+        {/* ── NEW hero image: professional contact / customer support ── */}
+        <img
+          src="/images/contactbanner.jpg"
+          alt="Contact us background"
+          className="contact-hero-bg"
+        />
+
+        {/* Dark gradient overlay — deeper on left for legibility */}
+        <div className="contact-hero-overlay" />
+
+        {/* Content */}
+        <div style={{
+          position: "relative", zIndex: 2,
+          maxWidth: 1280, margin: "0 auto", width: "100%",
+          padding: "clamp(48px,7vw,88px) clamp(20px,4vw,60px)",
+        }}>
+
+          {/* ── Live badge pill ── */}
+          <div ref={heroLeftRef} className="reveal-left">
+            <div className="hero-badge-pill">
+              <span className="hero-badge-dot" />
+              <span style={{
+                fontFamily: T.sans, fontSize: 10.5, fontWeight: 700,
+                color: "#fff", letterSpacing: "0.14em", textTransform: "uppercase",
               }}>
-                <span style={{ width: 7, height: 7, borderRadius: "50%", background: T.teal, display: "inline-block" }} />
-                <span style={{ fontFamily: T.sans, fontSize: 10.5, fontWeight: 700, color: T.teal, letterSpacing: "0.12em", textTransform: "uppercase" }}>
-                  Get In Touch
-                </span>
-              </div>
-
-              <h1 style={{
-                fontFamily: T.serif, fontSize: "clamp(2rem,3.8vw,3.4rem)",
-                color: T.slate, fontWeight: 700, lineHeight: 1.08,
-                marginBottom: 10, letterSpacing: "-0.01em",
-              }}>
-                Let's Start Your{" "}
-                <span style={{ color: T.teal }}>Certification</span>{" "}
-                Journey
-              </h1>
-
-              <p style={{
-                fontFamily: T.sans, fontSize: 12, fontWeight: 600,
-                color: T.tealMid, marginBottom: 20,
-                letterSpacing: "0.05em", textTransform: "uppercase",
-              }}>
-                Free Consultation · 2-Hour Response · Pan-India
-              </p>
-
-              <p style={{
-                fontFamily: T.sans, fontSize: "clamp(13.5px,1.4vw,15px)",
-                color: T.muted, lineHeight: 1.9, marginBottom: 32, maxWidth: 460,
-              }}>
-                Reach out via the form below, call us, or walk into our New Delhi office. Our experts respond within 2 business hours — free of charge for initial consultations.
-              </p>
-
-              <div className="hero-cta-row">
-                <a href="#contact-form" style={{
-                  padding: "13px 32px", fontFamily: T.sans, fontSize: 13.5, fontWeight: 600,
-                  letterSpacing: "0.02em", borderRadius: 6, cursor: "pointer",
-                  background: T.orange, color: "#fff", border: "none",
-                  boxShadow: "0 4px 16px rgba(10,104,104,0.22)",
-                  transition: "all 0.22s cubic-bezier(0.4,0,0.2,1)",
-                  display: "inline-block",
-                }}
-                  onMouseEnter={e => { e.currentTarget.style.background = T.teal; e.currentTarget.style.transform = "translateY(-1px)"; }}
-                  onMouseLeave={e => { e.currentTarget.style.background = T.orange; e.currentTarget.style.transform = "translateY(0)"; }}
-                >Send a Message ↓</a>
-
-                <a href="tel:+919540190334" style={{
-                  padding: "12px 28px", fontFamily: T.sans, fontSize: 13.5, fontWeight: 600,
-                  letterSpacing: "0.02em", borderRadius: 6, cursor: "pointer",
-                  border: `1.5px solid ${T.border}`,
-                  color: "#fff", background: T.orange,
-                  transition: "all 0.22s cubic-bezier(0.4,0,0.2,1)",
-                  display: "inline-block",
-                }}
-                  onMouseEnter={e => { e.currentTarget.style.borderColor = T.teal; e.currentTarget.style.color = T.teal; e.currentTarget.style.background = "transparent"; }}
-                  onMouseLeave={e => { e.currentTarget.style.borderColor = T.border; e.currentTarget.style.color = "#fff"; e.currentTarget.style.background = T.orange; }}
-                >📞 Call Us Now</a>
-              </div>
-
-              <div className="hero-trust-badges">
-                {["✓ Free Consultation", "✓ 2-Hr Response", "✓ 98% Success Rate", "✓ Pan-India"].map(b => (
-                  <span key={b} style={{
-                    padding: "6px 14px", border: `1px solid ${T.border}`,
-                    borderRadius: 4, fontSize: 12, color: T.muted,
-                    background: T.white, fontFamily: T.sans, fontWeight: 500,
-                  }}>{b}</span>
-                ))}
-              </div>
+                Contact Us — We Respond in 2 Hours
+              </span>
             </div>
 
-            {/* Right — stagger in */}
-            <div className="hero-right" ref={heroRightRef}>
-              {/* child[0] — label */}
-              <div className="reveal d0" style={{ marginBottom: 12 }}>
-                <div className="sl-row"><div className="sl-line" /><span className="sl-text">Why Contact Us</span></div>
-              </div>
-              {/* child[1] — trust cards grid */}
-              <div className="reveal d1 trust-grid">
-                {heroTrust.map((t, i) => (
-                  <div key={t.label} style={{
-                    background: T.white, border: `1px solid ${T.border}`,
-                    borderTop: `3px solid ${i % 2 === 0 ? T.teal : T.amber}`,
-                    borderRadius: 8, padding: "16px 14px",
-                    display: "flex", gap: 10, alignItems: "flex-start",
-                    transition: "all 0.2s",
-                  }}
-                    onMouseEnter={e => { e.currentTarget.style.borderColor = T.teal; e.currentTarget.style.transform = "translateY(-2px)"; e.currentTarget.style.boxShadow = "0 6px 18px rgba(30,136,200,0.09)"; }}
-                    onMouseLeave={e => { e.currentTarget.style.borderColor = T.border; e.currentTarget.style.transform = "translateY(0)"; e.currentTarget.style.boxShadow = "none"; }}
-                  >
-                    <div style={{ fontSize: 20, flexShrink: 0, lineHeight: 1 }}>{t.icon}</div>
-                    <div>
-                      <div style={{ fontFamily: T.serif, fontSize: 14, color: T.slate, fontWeight: 600, marginBottom: 3 }}>{t.label}</div>
-                      <div style={{ fontFamily: T.sans, fontSize: 11, color: T.muted, lineHeight: 1.5 }}>{t.desc}</div>
-                    </div>
-                  </div>
-                ))}
-                {/* Office pill */}
-                <div style={{
-                  gridColumn: "span 2",
-                  background: T.tealLight, border: `1px solid ${T.ctaBandBorder}`,
-                  borderRadius: 8, padding: "12px 16px",
-                  display: "flex", alignItems: "center", gap: 12,
-                }}>
-                  <span style={{ fontSize: 20, flexShrink: 0 }}>🏢</span>
-                  <div>
-                    <div style={{ fontFamily: T.sans, fontSize: 13, color: T.slate, fontWeight: 600, marginBottom: 2 }}>Based in New Delhi</div>
-                    <div style={{ fontFamily: T.sans, fontSize: 11, color: T.muted }}>North West Delhi · Serving all of India</div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
+            {/* ── Heading ── */}
+            <h1 style={{
+              fontFamily: T.serif,
+              fontSize: "clamp(2.6rem,5.2vw,4.2rem)",
+              fontWeight: 700, lineHeight: 1.04,
+              marginBottom: 20, letterSpacing: "-0.01em",
+              color: "#fff", maxWidth: 640,
+            }}>
+              We're Here to{" "}
+              <span style={{ color: T.orange }}>Help You</span>{" "}
+              Succeed
+            </h1>
           </div>
         </div>
 
-        <div style={{ height: 2, background: T.borderLight }}>
-          <div style={{ width: "100%", height: "100%", background: T.teal, opacity: 0.4 }} />
-        </div>
+        {/* Bottom teal accent line */}
+        <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, height: 3, background: T.teal, opacity: 0.6, zIndex: 2 }} />
       </section>
 
-      {/* ══ STATS STRIP ══ */}
+      {/* ══════════════════════════════════════
+          STATS STRIP
+      ══════════════════════════════════════ */}
       <section style={{ background: T.teal }}>
         <div style={{ maxWidth: 1280, margin: "0 auto" }}>
           <div className="stats-strip" ref={statsRef}>
@@ -327,7 +303,7 @@ export default function ContactScreen() {
                 borderRight: i < contactStats.length - 1 ? "1px solid rgba(255,255,255,0.07)" : "none",
               }}>
                 <div style={{ fontSize: 20, marginBottom: 6 }}>{s.icon}</div>
-                <div className="anim-count-up" style={{ fontFamily: T.serif, fontSize: "clamp(2rem,2.8vw,2.8rem)", color: "#fff", fontWeight: 700, lineHeight: 1, letterSpacing: "-0.01em" }}>{s.value}</div>
+                <div style={{ fontFamily: T.serif, fontSize: "clamp(2rem,2.8vw,2.8rem)", color: "#fff", fontWeight: 700, lineHeight: 1, letterSpacing: "-0.01em" }}>{s.value}</div>
                 <div style={{ fontFamily: T.sans, fontSize: 12, color: "rgba(255,255,255,0.80)", marginTop: 8, letterSpacing: "0.04em" }}>{s.label}</div>
               </div>
             ))}
@@ -335,31 +311,42 @@ export default function ContactScreen() {
         </div>
       </section>
 
-      {/* ══ CONTACT FORM + SIDEBAR ══ */}
+      {/* ══════════════════════════════════════
+          CONTACT FORM + SIDEBAR
+      ══════════════════════════════════════ */}
       <section id="contact-form" className="sec" style={{ background: T.white }}>
         <div className="inner">
           <div className="contact-main-grid">
 
-            {/* Form — fades up */}
+            {/* ── Form Card ── */}
             <div className="reveal form-card" ref={formRef}>
-              {/* Banner inside form */}
+
+              {/* Form banner — NEW contact image */}
               <div style={{ position: "relative", borderRadius: 8, overflow: "hidden", height: 140, marginBottom: 28 }}>
                 <img
-                  src="https://images.unsplash.com/photo-1521737711867-e3b97375f902?w=900&q=80&fit=crop"
-                  alt="Our team"
-                  style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center 35%" }}
+                  src="https://images.unsplash.com/photo-1596524430615-b46475ddff6e?w=900&q=80&fit=crop"
+                  alt="Talk to our team"
+                  style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center 40%" }}
                 />
-                <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to right, rgba(14,128,128,0.85) 0%, rgba(30,136,200,0.55) 60%, rgba(235,245,251,0.30) 100%)" }} />
+                <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to right, rgba(14,128,128,0.88) 0%, rgba(30,136,200,0.60) 60%, rgba(235,245,251,0.25) 100%)" }} />
                 <div style={{ position: "absolute", inset: 0, display: "flex", alignItems: "center", padding: "0 24px" }}>
                   <div>
-                    <div style={{ fontFamily: T.serif, fontSize: "clamp(1rem,2vw,1.3rem)", color: "#fff", fontWeight: 700, marginBottom: 4 }}>Talk to a Regulatory Expert</div>
-                    <p style={{ fontFamily: T.sans, color: "rgba(255,255,255,0.78)", fontSize: 12 }}>We respond within 2 business hours. No spam, ever.</p>
+                    <div style={{ fontFamily: T.serif, fontSize: "clamp(1rem,2vw,1.3rem)", color: "#fff", fontWeight: 700, marginBottom: 4 }}>
+                      Talk to a Regulatory Expert
+                    </div>
+                    <p style={{ fontFamily: T.sans, color: "rgba(255,255,255,0.78)", fontSize: 12 }}>
+                      We respond within 2 business hours. No spam, ever.
+                    </p>
                   </div>
                 </div>
               </div>
 
+              {/* Name & Company */}
               <div className="two-col">
-                {[{ label: "Full Name *", type: "text", placeholder: "Enter Your Full Name" }, { label: "Company Name", type: "text", placeholder: "Enter Your Company Name" }].map(f => (
+                {[
+                  { label: "Full Name *", type: "text", placeholder: "Enter Your Full Name" },
+                  { label: "Company Name", type: "text", placeholder: "Enter Your Company Name" },
+                ].map(f => (
                   <div key={f.label}>
                     <label style={{ display: "block", fontFamily: T.sans, fontSize: 13, fontWeight: 600, color: T.slate, marginBottom: 6 }}>{f.label}</label>
                     <input type={f.type} placeholder={f.placeholder} className="input-field" />
@@ -367,8 +354,12 @@ export default function ContactScreen() {
                 ))}
               </div>
 
+              {/* Phone & Email */}
               <div className="two-col">
-                {[{ label: "Phone Number *", type: "tel", placeholder: "Enter Your Phone Number" }, { label: "Email Address *", type: "email", placeholder: "Enter Your Email Address" }].map(f => (
+                {[
+                  { label: "Phone Number *", type: "tel", placeholder: "Enter Your Phone Number" },
+                  { label: "Email Address *", type: "email", placeholder: "Enter Your Email Address" },
+                ].map(f => (
                   <div key={f.label}>
                     <label style={{ display: "block", fontFamily: T.sans, fontSize: 13, fontWeight: 600, color: T.slate, marginBottom: 6 }}>{f.label}</label>
                     <input type={f.type} placeholder={f.placeholder} className="input-field" />
@@ -376,6 +367,7 @@ export default function ContactScreen() {
                 ))}
               </div>
 
+              {/* Service */}
               <div style={{ marginBottom: 16 }}>
                 <label style={{ display: "block", fontFamily: T.sans, fontSize: 13, fontWeight: 600, color: T.slate, marginBottom: 6 }}>Service Required *</label>
                 <select className="input-field">
@@ -384,11 +376,13 @@ export default function ContactScreen() {
                 </select>
               </div>
 
+              {/* Description */}
               <div style={{ marginBottom: 16 }}>
                 <label style={{ display: "block", fontFamily: T.sans, fontSize: 13, fontWeight: 600, color: T.slate, marginBottom: 6 }}>Product / Business Description *</label>
                 <textarea rows={4} placeholder="Briefly describe your product and what certification you're looking for..." className="input-field" style={{ resize: "vertical" }} />
               </div>
 
+              {/* Source */}
               <div style={{ marginBottom: 28 }}>
                 <label style={{ display: "block", fontFamily: T.sans, fontSize: 13, fontWeight: 600, color: T.slate, marginBottom: 6 }}>How did you hear about us?</label>
                 <select className="input-field">
@@ -402,25 +396,29 @@ export default function ContactScreen() {
                   width: "100%", padding: "14px", background: T.orange, color: T.white,
                   fontFamily: T.sans, fontWeight: 600, borderRadius: 6, border: "none",
                   fontSize: 14.5, cursor: "pointer", letterSpacing: "0.02em",
-                  boxShadow: "0 4px 16px rgba(10,104,104,0.22)",
+                  boxShadow: "0 4px 16px rgba(249,115,22,0.28)",
                   transition: "background 0.2s, transform 0.2s",
                 }}
                 onMouseEnter={e => { e.currentTarget.style.background = T.teal; e.currentTarget.style.transform = "translateY(-1px)"; }}
                 onMouseLeave={e => { e.currentTarget.style.background = T.orange; e.currentTarget.style.transform = "translateY(0)"; }}
-              >Submit Enquiry →</button>
-              <p style={{ fontFamily: T.sans, fontSize: 12, color: T.subtle, textAlign: "center", marginTop: 10 }}>We respond within 2 business hours. No spam, ever.</p>
+              >
+                Submit Enquiry →
+              </button>
+              <p style={{ fontFamily: T.sans, fontSize: 12, color: T.subtle, textAlign: "center", marginTop: 10 }}>
+                We respond within 2 business hours. No spam, ever.
+              </p>
             </div>
 
-            {/* Sidebar — stagger */}
+            {/* ── Sidebar ── */}
             <div className="sidebar" ref={sidebarRef}>
 
-              {/* child[0] — quick contact */}
+              {/* Quick Contact */}
               <div className="reveal d0" style={{ background: T.ctaBand, border: `1px solid ${T.ctaBandBorder}`, borderRadius: 10, padding: 28 }}>
                 <div className="sl-row" style={{ marginBottom: 20 }}><div className="sl-line" /><span className="sl-text">Quick Contact</span></div>
                 <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
                   {[
-                    { icon: "📞", label: "Call Us",  value: "+91-9540190334", href: "tel:+919540190334" },
-                    { icon: "✉",  label: "Email Us", value: "info@siacc.in",  href: "mailto:info@siacc.in" },
+                    { icon: "📞", label: "Call Us", value: "+91-9540190334", href: "tel:+919540190334" },
+                    { icon: "✉", label: "Email Us", value: "info@siacc.in", href: "mailto:info@siacc.in" },
                     { icon: "💬", label: "WhatsApp", value: "+91-9540190334", href: "https://wa.me/919540190334" },
                   ].map(item => (
                     <a key={item.label} href={item.href} style={{ display: "flex", alignItems: "center", gap: 14, textDecoration: "none" }}>
@@ -439,13 +437,13 @@ export default function ContactScreen() {
                 </div>
               </div>
 
-              {/* child[1] — hours */}
+              {/* Business Hours */}
               <div className="reveal d1" style={{ background: T.white, borderRadius: 10, padding: 24, border: `1px solid ${T.border}` }}>
                 <div className="sl-row" style={{ marginBottom: 16 }}><div className="sl-line" /><span className="sl-text">Business Hours</span></div>
                 {[
                   { day: "Monday – Friday", time: "9:00 AM – 6:00 PM" },
-                  { day: "Saturday",         time: "10:00 AM – 4:00 PM" },
-                  { day: "Sunday",           time: "Closed" },
+                  { day: "Saturday", time: "10:00 AM – 4:00 PM" },
+                  { day: "Sunday", time: "Closed" },
                 ].map((h, i, arr) => (
                   <div key={h.day} style={{
                     display: "flex", justifyContent: "space-between",
@@ -458,11 +456,11 @@ export default function ContactScreen() {
                 ))}
               </div>
 
-              {/* child[2] — urgent CTA */}
+              {/* Urgent card */}
               <div className="reveal d2" style={{ position: "relative", borderRadius: 10, overflow: "hidden" }}>
                 <img
                   src="https://images.unsplash.com/photo-1568219557405-376e23e4f7cf?w=600&q=80&fit=crop"
-                  alt="Urgent"
+                  alt="Urgent compliance"
                   style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }}
                 />
                 <div style={{ position: "absolute", inset: 0, background: `linear-gradient(135deg, rgba(14,128,128,0.94) 0%, rgba(30,136,200,0.90) 100%)` }} />
@@ -486,22 +484,21 @@ export default function ContactScreen() {
         </div>
       </section>
 
-      {/* ══ OFFICE ══ */}
+      {/* ══════════════════════════════════════
+          OFFICE
+      ══════════════════════════════════════ */}
       <section className="sec" style={{ background: T.cream }}>
         <div className="inner">
-
-          {/* Heading — fades up */}
           <div style={{ textAlign: "center", marginBottom: 48 }} className="reveal" ref={officeTtlRef}>
             <div style={{ display: "flex", justifyContent: "center" }}>
               <div className="sl-row"><div className="sl-line" /><span className="sl-text">Our Office</span></div>
             </div>
-            <h2 style={{ fontFamily: T.serif, fontSize: "clamp(1.8rem,3.2vw,2.9rem)", color: T.titleblue, fontWeight: 700, letterSpacing: "-0.01em" }}>Find Us in New Delhi</h2>
+            <h2 style={{ fontFamily: T.serif, fontSize: "clamp(1.8rem,3.2vw,2.9rem)", color: T.titleblue, fontWeight: 700, letterSpacing: "-0.01em" }}>
+              Find Us in New Delhi
+            </h2>
           </div>
 
-          {/* Office cards — stagger */}
           <div className="office-split" ref={officeRef}>
-
-            {/* child[0] — office info card */}
             <div className="reveal d0 office-card">
               <div>
                 <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 24 }}>
@@ -519,7 +516,7 @@ export default function ContactScreen() {
                   {[
                     { icon: "📍", val: "House no. 211, Ground Floor, Pocket 9, North West New Delhi – 110086" },
                     { icon: "📞", val: "+91-9540190334" },
-                    { icon: "✉",  val: "info@siacc.in" },
+                    { icon: "✉", val: "info@siacc.in" },
                     { icon: "🕐", val: "Mon–Sat: 9AM – 6PM" },
                   ].map((item, i) => (
                     <div key={i} style={{ display: "flex", gap: 12, alignItems: "flex-start" }}>
@@ -544,7 +541,8 @@ export default function ContactScreen() {
                   onMouseEnter={e => e.currentTarget.style.background = T.teal}
                   onMouseLeave={e => e.currentTarget.style.background = T.orange}
                 >📞 Call This Office</a>
-                <a href="https://maps.google.com/?q=Pocket+9+North+West+New+Delhi+110086"
+                <a
+                  href="https://maps.google.com/?q=Pocket+9+North+West+New+Delhi+110086"
                   target="_blank" rel="noopener noreferrer"
                   style={{
                     display: "block", textAlign: "center", padding: "12px",
@@ -558,7 +556,6 @@ export default function ContactScreen() {
               </div>
             </div>
 
-            {/* child[1] — image panel */}
             <div className="reveal d1 office-image-panel">
               <img
                 src="https://images.unsplash.com/photo-1587474260584-136574528ed5?w=1200&q=85&fit=crop"
@@ -587,7 +584,7 @@ export default function ContactScreen() {
                   {[
                     { value: "10,000+", label: "Certifications Filed" },
                     { value: "15+ yrs", label: "Industry Experience" },
-                    { value: "98%",     label: "Success Rate" },
+                    { value: "98%", label: "Success Rate" },
                   ].map(s => (
                     <div key={s.label} style={{
                       background: "rgba(255,255,255,0.13)", border: "1px solid rgba(255,255,255,0.20)",
@@ -600,24 +597,23 @@ export default function ContactScreen() {
                 </div>
               </div>
             </div>
-
           </div>
         </div>
       </section>
 
-      {/* ══ FAQs ══ */}
+      {/* ══════════════════════════════════════
+          FAQs
+      ══════════════════════════════════════ */}
       <section className="sec" style={{ background: T.white }}>
         <div style={{ maxWidth: 760, margin: "0 auto" }}>
-
-          {/* Heading — fades up */}
           <div style={{ textAlign: "center", marginBottom: 44 }} className="reveal" ref={faqTtlRef}>
             <div style={{ display: "flex", justifyContent: "center" }}>
               <div className="sl-row"><div className="sl-line" /><span className="sl-text">Common Questions</span></div>
             </div>
-            <h2 style={{ fontFamily: T.serif, fontSize: "clamp(1.8rem,3.2vw,2.9rem)", color: T.titleblue, fontWeight: 700, letterSpacing: "-0.01em" }}>Frequently Asked</h2>
+            <h2 style={{ fontFamily: T.serif, fontSize: "clamp(1.8rem,3.2vw,2.9rem)", color: T.titleblue, fontWeight: 700, letterSpacing: "-0.01em" }}>
+              Frequently Asked
+            </h2>
           </div>
-
-          {/* FAQ cards — stagger */}
           <div ref={faqRef}>
             {faqs.map((faq, i) => (
               <div key={faq.q} className={`faq-card reveal d${i}`}>
@@ -629,7 +625,9 @@ export default function ContactScreen() {
         </div>
       </section>
 
-      {/* ══ CTA BAND — fades up ══ */}
+      {/* ══════════════════════════════════════
+          CTA BAND
+      ══════════════════════════════════════ */}
       <section
         className="reveal"
         ref={ctaRef}
@@ -652,22 +650,26 @@ export default function ContactScreen() {
               </p>
             </div>
             <div style={{ display: "flex", flexDirection: "column", gap: 12, flexShrink: 0 }}>
-              <a href="#contact-form" style={{
-                padding: "14px 36px", fontFamily: T.sans, fontSize: 14, fontWeight: 600,
-                letterSpacing: "0.02em", border: "none", borderRadius: 6, cursor: "pointer",
-                background: T.orange, color: "#fff", whiteSpace: "nowrap",
-                transition: "background 0.2s", display: "block", textAlign: "center",
-              }}
+              <a
+                href="#contact-form"
+                style={{
+                  padding: "14px 36px", fontFamily: T.sans, fontSize: 14, fontWeight: 600,
+                  letterSpacing: "0.02em", border: "none", borderRadius: 6, cursor: "pointer",
+                  background: T.orange, color: "#fff", whiteSpace: "nowrap",
+                  transition: "background 0.2s", display: "block", textAlign: "center",
+                }}
                 onMouseEnter={e => e.currentTarget.style.background = T.teal}
                 onMouseLeave={e => e.currentTarget.style.background = T.orange}
               >Get Free Consultation</a>
-              <a href="tel:+919540190334" style={{
-                padding: "13px 28px", border: `1.5px solid ${T.border}`,
-                borderRadius: 6, fontFamily: T.sans, fontSize: 14, fontWeight: 500,
-                color: T.slate, display: "flex", alignItems: "center",
-                justifyContent: "center", gap: 8, whiteSpace: "nowrap",
-                background: T.white, transition: "border-color 0.2s",
-              }}
+              <a
+                href="tel:+919540190334"
+                style={{
+                  padding: "13px 28px", border: `1.5px solid ${T.border}`,
+                  borderRadius: 6, fontFamily: T.sans, fontSize: 14, fontWeight: 500,
+                  color: T.slate, display: "flex", alignItems: "center",
+                  justifyContent: "center", gap: 8, whiteSpace: "nowrap",
+                  background: T.white, transition: "border-color 0.2s",
+                }}
                 onMouseEnter={e => e.currentTarget.style.borderColor = T.teal}
                 onMouseLeave={e => e.currentTarget.style.borderColor = T.border}
               >📞 +91-9540190334</a>

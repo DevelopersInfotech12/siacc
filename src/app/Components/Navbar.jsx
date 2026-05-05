@@ -152,7 +152,7 @@ export default function Navbar() {
                 <div key={link.name} ref={dropdownRef} style={{ position: "relative" }}>
                   <button
                     onClick={(e) => { e.preventDefault(); setDropdown(dropdown === link.name ? null : link.name); }}
-                    style={{ display: "flex", alignItems: "center", gap: 4, padding: "8px 14px", fontSize: 14, fontWeight: 500, color: C.bodyText, background: "none", border: "none", cursor: "pointer", borderRadius: 8, fontFamily: C.sans }}
+                    style={{ display: "flex", alignItems: "center", gap: 4, padding: "8px 14px", fontSize: 16, fontWeight: 500, color: C.bodyText, background: "none", border: "none", cursor: "pointer", borderRadius: 8, fontFamily: C.sans }}
                     onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = C.primaryLight; e.currentTarget.style.color = C.primary; }}
                     onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = "transparent"; e.currentTarget.style.color = C.bodyText; }}
                   >
@@ -178,7 +178,7 @@ export default function Navbar() {
                 </div>
               ) : (
                 <button key={link.name} onClick={() => go(link.href)}
-                  style={{ padding: "8px 14px", fontSize: 14, fontWeight: 500, color: C.bodyText, background: "none", border: "none", cursor: "pointer", borderRadius: 8, fontFamily: C.sans }}
+                  style={{ padding: "8px 14px", fontSize: 16, fontWeight: 500, color: "#000000", background: "none", border: "none", cursor: "pointer", borderRadius: 8, fontFamily: C.sans }}
                   onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = C.primaryLight; e.currentTarget.style.color = C.primary; }}
                   onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = "transparent"; e.currentTarget.style.color = C.bodyText; }}
                 >{link.name}</button>

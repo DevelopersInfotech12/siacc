@@ -193,7 +193,7 @@ export default function AboutScreen() {
 
       {/* ══ HERO ══ */}
       <section className="about-hero-wrap">
-        <div style={{ maxWidth: 1280, margin: "0 auto", padding: "clamp(56px,8vw,96px) clamp(16px,4vw,56px)" }}>
+        <div style={{ maxWidth: 1280, margin: "0 auto", padding: "clamp(20px,3vw,36px) clamp(16px,4vw,56px)" }}>
           <div className="hero-grid">
 
             {/* Left — text: slides in from left */}
