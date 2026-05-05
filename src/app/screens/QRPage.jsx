@@ -12,11 +12,11 @@ const T = {
 };
 
 // QR code generated via Google Charts API — points to /review
-const QR_URL = `https://api.qrserver.com/v1/create-qr-code/?size=280x280&data=${encodeURIComponent("https://siacc.co.in/review")}&color=074D4D&bgcolor=FAF8F4&margin=12&qzone=2`;
+const QR_URL = `https://api.qrserver.com/v1/create-qr-code/?size=280x280&data=${encodeURIComponent("https://siacc.vercel.app/review")}&color=074D4D&bgcolor=FAF8F4&margin=12&qzone=2`;
 
 export default function QRPage() {
   const [copied, setCopied] = useState(false);
-  const reviewLink = "https://siacc.co.in/review";
+  const reviewLink = "https://siacc.vercel.app/review";
 
   const copyLink = () => {
     navigator.clipboard?.writeText(reviewLink);
@@ -253,7 +253,7 @@ export default function QRPage() {
         {/* Link box */}
         <div className="link-box" onClick={copyLink}>
           <span style={{ fontSize: 12, color: T.muted, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
-            siacc.co.in/review
+            siacc.vercel.app/review
           </span>
           <button className="copy-btn">
             {copied ? "✓ Copied!" : "Copy"}
@@ -281,7 +281,7 @@ export default function QRPage() {
 
         {/* Footer */}
         <p style={{ textAlign: "center", fontSize: 11, color: T.muted, marginTop: 16 }}>
-          siacc.co.in · info@siacc.co.in · +91-9540190334
+          siacc.vercel.app · info@siacc.co.in · +91-9540190334
         </p>
       </div>
 
