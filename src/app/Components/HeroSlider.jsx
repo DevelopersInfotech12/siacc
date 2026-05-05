@@ -33,7 +33,7 @@ const slides = [
     s1: { v: "440+", l: "Product categories" },
     s2: { v: "4–12 wk", l: "Typical timeline" },
     href: "/bis",
-    img: "/images/bis.png",
+    img: "/images/bisnew.png",
   },
   {
     id: "wpc",
