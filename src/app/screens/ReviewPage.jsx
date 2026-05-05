@@ -615,48 +615,38 @@ export default function ReviewPage() {
 
       {/* ── PASTE POPUP OVERLAY ── */}
       {showPastePopup && (
-        <div style={{position:"fixed",inset:0,zIndex:999,display:"flex",alignItems:"flex-end",justifyContent:"center",background:"rgba(13,27,42,0.75)",backdropFilter:"blur(4px)",animation:"fadeIn 0.2s ease both"}}>
-          <div style={{width:"100%",maxWidth:460,background:T.white,borderRadius:"24px 24px 0 0",padding:"28px 24px 40px",animation:"slideUp 0.35s cubic-bezier(0.22,1,0.36,1) both"}}>
+        <div style={{position:"fixed",inset:0,zIndex:999,display:"flex",alignItems:"flex-end",justifyContent:"center",background:"rgba(13,27,42,0.80)",backdropFilter:"blur(6px)",animation:"fadeIn 0.2s ease both"}}>
+          <div style={{width:"100%",maxWidth:460,background:T.white,borderRadius:"28px 28px 0 0",padding:"24px 24px 40px",animation:"slideUp 0.35s cubic-bezier(0.22,1,0.36,1) both"}}>
 
-            {/* Handle bar */}
-            <div style={{width:40,height:4,background:T.border,borderRadius:999,margin:"0 auto 24px"}}/>
+            {/* Handle */}
+            <div style={{width:40,height:4,background:T.border,borderRadius:999,margin:"0 auto 22px"}}/>
 
-            {/* Review copied confirmation */}
-            <div style={{background:T.tealLight,border:`1.5px solid #B2DADA`,borderRadius:14,padding:"16px 18px",marginBottom:20,display:"flex",gap:12,alignItems:"center"}}>
-              <div style={{width:40,height:40,borderRadius:10,background:T.teal,display:"flex",alignItems:"center",justifyContent:"center",fontSize:20,flexShrink:0}}>✅</div>
-              <div>
-                <div style={{fontSize:14,fontWeight:700,color:T.slate,marginBottom:2}}>Review copied!</div>
-                <div style={{fontSize:12,color:T.muted}}>Your review text is ready to paste</div>
+            {/* Big tick + copied */}
+            <div style={{textAlign:"center",marginBottom:20}}>
+              <div style={{width:64,height:64,borderRadius:"50%",background:"linear-gradient(135deg,#10B981,#059669)",display:"flex",alignItems:"center",justifyContent:"center",fontSize:32,margin:"0 auto 12px",boxShadow:"0 8px 24px rgba(16,185,129,0.35)"}}>✅</div>
+              <h3 style={{fontFamily:T.serif,fontSize:22,color:T.slate,fontWeight:700,marginBottom:4}}>Review Copied!</h3>
+              <p style={{fontSize:13,color:T.muted}}>Now do just ONE thing on Google 👇</p>
+            </div>
+
+            {/* The ONE instruction — big and clear */}
+            <div style={{background:`linear-gradient(135deg,${T.tealLight},#fff)`,border:`2px solid ${T.teal}`,borderRadius:18,padding:"20px 20px",marginBottom:20,textAlign:"center"}}>
+              <div style={{fontSize:40,marginBottom:10}}>📋</div>
+              <div style={{fontFamily:T.serif,fontSize:20,color:T.slate,fontWeight:700,marginBottom:6}}>Long press the text box</div>
+              <div style={{fontSize:15,color:T.teal,fontWeight:600,marginBottom:8}}>then tap <strong style={{fontSize:17}}>"Paste"</strong></div>
+              <div style={{display:"inline-flex",alignItems:"center",gap:6,background:T.teal,color:"#fff",borderRadius:999,padding:"6px 16px",fontSize:13,fontWeight:600}}>
+                ✓ Your review is ready to paste
               </div>
             </div>
 
-            {/* Review text preview */}
-            <div style={{background:T.cream,border:`1.5px solid ${T.border}`,borderRadius:12,padding:"14px 16px",marginBottom:20,maxHeight:100,overflow:"hidden",position:"relative"}}>
-              <p style={{fontSize:13,color:T.body,lineHeight:1.7,margin:0}}>{editText}</p>
-              <div style={{position:"absolute",bottom:0,left:0,right:0,height:32,background:`linear-gradient(to bottom,transparent,${T.cream})`}}/>
-            </div>
-
-            {/* Steps */}
-            <div style={{marginBottom:22}}>
-              <div style={{fontSize:11,fontWeight:700,color:T.teal,letterSpacing:"0.1em",textTransform:"uppercase",marginBottom:12}}>3 seconds to post</div>
-              {[
-                {n:"1",icon:"🌐",text:"Tap the button below — Google review page opens"},
-                {n:"2",icon:"📝",text:'Tap "Write a Review" on Google'},
-                {n:"3",icon:"📋",text:"Long press the text box → Tap Paste → Tap Post ✅"},
-              ].map((s,i)=>(
-                <div key={i} style={{display:"flex",gap:12,alignItems:"flex-start",padding:"10px 0",borderBottom:i<2?`1px solid ${T.border}`:"none"}}>
-                  <div style={{width:26,height:26,borderRadius:8,background:T.teal,color:"#fff",display:"flex",alignItems:"center",justifyContent:"center",fontSize:12,fontWeight:800,flexShrink:0}}>{s.n}</div>
-                  <div style={{display:"flex",gap:8,alignItems:"center"}}>
-                    <span style={{fontSize:18}}>{s.icon}</span>
-                    <span style={{fontSize:13,color:T.body,lineHeight:1.6}}>{s.text}</span>
-                  </div>
-                </div>
-              ))}
+            {/* Preview of copied text */}
+            <div style={{background:T.cream,border:`1px solid ${T.border}`,borderRadius:12,padding:"12px 16px",marginBottom:20,position:"relative",overflow:"hidden"}}>
+              <div style={{fontSize:10,fontWeight:700,color:T.teal,letterSpacing:"0.1em",textTransform:"uppercase",marginBottom:6}}>Copied text (ready to paste)</div>
+              <p style={{fontSize:12,color:T.body,lineHeight:1.65,margin:0,display:"-webkit-box",WebkitLineClamp:2,WebkitBoxOrient:"vertical",overflow:"hidden"}}>{editText}</p>
             </div>
 
             {/* Go button */}
             <button onClick={goToGoogle}
-              style={{width:"100%",padding:16,background:"linear-gradient(135deg,#4285F4,#1a73e8)",color:"#fff",border:"none",borderRadius:14,fontSize:15,fontWeight:700,cursor:"pointer",fontFamily:T.sans,display:"flex",alignItems:"center",justifyContent:"center",gap:10,boxShadow:"0 4px 16px rgba(66,133,244,0.40)",marginBottom:12}}>
+              style={{width:"100%",padding:16,background:"linear-gradient(135deg,#4285F4,#1a73e8)",color:"#fff",border:"none",borderRadius:14,fontSize:15,fontWeight:700,cursor:"pointer",fontFamily:T.sans,display:"flex",alignItems:"center",justifyContent:"center",gap:10,boxShadow:"0 4px 20px rgba(66,133,244,0.40)",marginBottom:10}}>
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
                 <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#fff" opacity="0.9"/>
                 <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#fff" opacity="0.9"/>
@@ -667,7 +657,7 @@ export default function ReviewPage() {
             </button>
 
             <button onClick={() => setShowPastePopup(false)}
-              style={{width:"100%",padding:13,background:"transparent",color:T.muted,border:`1.5px solid ${T.border}`,borderRadius:12,fontSize:13,cursor:"pointer",fontFamily:T.sans}}>
+              style={{width:"100%",padding:12,background:"transparent",color:T.muted,border:`1.5px solid ${T.border}`,borderRadius:12,fontSize:13,cursor:"pointer",fontFamily:T.sans}}>
               Cancel
             </button>
           </div>
