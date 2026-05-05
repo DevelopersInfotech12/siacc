@@ -11,7 +11,8 @@ const T = {
   sans:"'Outfit','system-ui',sans-serif",
 };
 
-const GOOGLE_REVIEW_URL = "https://maps.google.com/?cid=ChIJM1qrq6KGDTkR04ZYV7GXm2A&action=writeareview";
+// ✅ This is the OFFICIAL Google URL — opens Write Review box directly
+const GOOGLE_REVIEW_URL = "https://search.google.com/local/writereview?placeid=ChIJM1qrq6KGDTkR04ZYV7GXm2A";
 
 const ratingLabels = {1:"Poor",2:"Fair",3:"Good",4:"Very Good",5:"Excellent"};
 const ratingEmoji  = {1:"😞",2:"😐",3:"🙂",4:"😊",5:"🤩"};
@@ -135,8 +136,27 @@ export default function ReviewPage() {
     setTimeout(() => textRef.current?.focus(), 200);
   };
 
-  const handlePost = () => {
-    navigator.clipboard?.writeText(editText);
+  const handlePost = async () => {
+    // Step 1 — copy to clipboard
+    try { await navigator.clipboard.writeText(editText); } catch {}
+
+    // Step 2 — try Web Share API (Android/iOS native share sheet)
+    // This lets user share to WhatsApp, Gmail, Messages etc. directly
+    if (navigator.share) {
+      try {
+        await navigator.share({
+          title: "My review for Star India Accreditation",
+          text: editText,
+          url: GOOGLE_REVIEW_URL,
+        });
+        setDone(true);
+        return;
+      } catch (e) {
+        // User cancelled share — fall through to open Google directly
+      }
+    }
+
+    // Step 3 — fallback: open Google review page (text already copied)
     window.open(GOOGLE_REVIEW_URL, "_blank");
     setDone(true);
   };
@@ -492,10 +512,14 @@ export default function ReviewPage() {
 
               {/* Clipboard tip */}
               <div className="clip-tip">
-                <span style={{fontSize:18,flexShrink:0}}>📋</span>
-                <p style={{fontSize:12,color:T.muted,lineHeight:1.65,margin:0}}>
-                  Your review will be <strong style={{color:T.slate}}>copied to clipboard</strong> when you click Post. Just paste it on Google and hit Submit!
-                </p>
+                <span style={{fontSize:18,flexShrink:0}}>📱</span>
+                <div>
+                  <p style={{fontSize:13,color:T.slate,fontWeight:600,margin:"0 0 4px"}}>Tap the button below →</p>
+                  <p style={{fontSize:12,color:T.muted,lineHeight:1.7,margin:0}}>
+                    On your phone: a <strong style={{color:T.slate}}>share sheet opens</strong> — tap <strong style={{color:T.slate}}>Google Maps</strong> to post directly, or share via WhatsApp, Gmail etc.<br/>
+                    Your review text is also <strong style={{color:T.slate}}>auto-copied</strong> as backup.
+                  </p>
+                </div>
               </div>
 
               {/* Post button */}
@@ -566,8 +590,14 @@ export default function ReviewPage() {
                 <div style={{padding:"6px 16px 10px",textAlign:"right",fontSize:11,color:T.muted}}>{editText.length}/500</div>
               </div>
               <div className="clip-tip">
-                <span style={{fontSize:18,flexShrink:0}}>📋</span>
-                <p style={{fontSize:12,color:T.muted,lineHeight:1.65,margin:0}}>Your review will be <strong style={{color:T.slate}}>copied to clipboard</strong> when you click Post.</p>
+                <span style={{fontSize:18,flexShrink:0}}>📱</span>
+                <div>
+                  <p style={{fontSize:13,color:T.slate,fontWeight:600,margin:"0 0 4px"}}>Tap the button below →</p>
+                  <p style={{fontSize:12,color:T.muted,lineHeight:1.7,margin:0}}>
+                    A <strong style={{color:T.slate}}>share sheet opens</strong> on your phone — tap <strong style={{color:T.slate}}>Google Maps</strong> to post directly.<br/>
+                    Review text also <strong style={{color:T.slate}}>auto-copied</strong> as backup.
+                  </p>
+                </div>
               </div>
               <button className="btn-google" onClick={handlePost} disabled={!editText.trim()}>
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
@@ -636,9 +666,14 @@ function DoneScreen({ rating, reset }) {
               </div>
             ))}
           </div>
-          <div style={{background:"#FEF3DC",border:"1px solid #F5C94E",borderRadius:12,padding:"12px 14px",display:"flex",gap:10,alignItems:"flex-start",marginBottom:24}}>
-            <span style={{fontSize:16,flexShrink:0}}>📋</span>
-            <p style={{fontSize:12,color:"#92400E",lineHeight:1.6,margin:0}}><strong>Review copied!</strong> Open Google Maps, find Star India Accreditation, and paste your review.</p>
+          <div style={{background:"#FEF3DC",border:"1px solid #F5C94E",borderRadius:12,padding:"14px 16px",display:"flex",gap:10,alignItems:"flex-start",marginBottom:24}}>
+            <span style={{fontSize:20,flexShrink:0}}>📋</span>
+            <div>
+              <p style={{fontSize:13,color:"#92400E",fontWeight:700,margin:"0 0 4px"}}>Review text copied to clipboard!</p>
+              <p style={{fontSize:12,color:"#92400E",lineHeight:1.65,margin:0}}>
+                If Google Maps opened — paste your review in the box and tap <strong>Post</strong>. That's it! ✅
+              </p>
+            </div>
           </div>
           <button onClick={reset} style={{width:"100%",padding:15,background:T2.orange,color:"#fff",border:"none",borderRadius:14,fontSize:15,fontWeight:700,cursor:"pointer",fontFamily:T2.sans}}>
             ⭐ Leave Another Review
