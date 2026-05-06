@@ -69,7 +69,7 @@ export default function Navbar() {
   const go = (href) => { setDropdown(null); setMobileOpen(false); router.push(href); };
 
   return (
-    <div style={{ fontFamily: C.sans, position: "sticky", top: 0, zIndex: 1000 }}>
+   <div style={{ fontFamily: C.sans, position: "sticky", top: 0, zIndex: 1000, margin: 0, padding: 0, lineHeight: 0 }}>
       <style>{`
         .desktop-top-bar, .desktop-nav, .desktop-cta { }
         .mobile-burger { display: none !important; }

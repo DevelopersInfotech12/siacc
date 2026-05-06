@@ -193,7 +193,7 @@ export default function WhyChooseUs() {
         .wcu-underline { display: flex; gap: 5px; align-items: center; margin-bottom: 18px; }
 
         .wcu-desc {
-          font-size: 16.5px; color: rgba(0,0,0,0.56);
+          font-size: 16.5px; color: T.para;
           line-height: 1.82; font-weight: 400; max-width: 420px; text-align: justify;
         }
 
@@ -292,7 +292,7 @@ export default function WhyChooseUs() {
         .wcu-card:hover .wcu-card-title { color: ${tealDk}; }
 
         .wcu-card-desc {
-          font-size: 15px; color: rgba(0,0,0,0.52);
+          font-size: 15px; color: rgba(0, 0, 0, 0.66);
           line-height: 1.72; font-weight: 400; flex: 1; text-align: justify;
         }
 

@@ -207,7 +207,7 @@ export default function WhyDecisionHome() {
         }
 
         .wdh-desc {
-          font-size: 13.5px; color: rgba(0,0,0,0.55);
+          font-size: 15px; color: T.para;
           line-height: 1.75; font-weight: 400;
           max-width: 400px; margin-bottom: 20px;
           position: relative; z-index: 1;
@@ -222,8 +222,8 @@ export default function WhyDecisionHome() {
           display: flex; align-items: center; justify-content: center;
           flex-shrink: 0; margin-top: 1px;
         }
-        .wdh-feat-text { font-size: 13px; color: #374151; font-weight: 600; }
-        .wdh-feat-sub  { font-size: 11.5px; color: #9ca3af; font-weight: 400; }
+        .wdh-feat-text { font-size: 15px; color: #374151; font-weight: 600; }
+        .wdh-feat-sub  { font-size: 13px; color: T.para; font-weight: 400; }
 
         /* ── Stats bar ── */
         .wdh-stats-bar {

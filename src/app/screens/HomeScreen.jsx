@@ -12,12 +12,10 @@ import ClientStories from "../Components/ClientStories";
 import "../animations.css";
 import WhyChooseUs from "../Components/WhyChooseUs";
 
-/* ══════════════════════════════════════════════
-   THEME TOKENS
-══════════════════════════════════════════════ */
 const T = {
   teal: "#1E88C8",
   titleblue: "#0a6daa",
+  para: "#080000b0", paradark: "#080000c4",
   tealDark: "#074D4D",
   tealMid: "#0E8080",
   tealLight: "#EBF5F5",
@@ -39,9 +37,6 @@ const T = {
   sans: "'Outfit', 'system-ui', sans-serif",
 };
 
-/* ══════════════════════════════════════════════
-   useReveal HOOK
-══════════════════════════════════════════════ */
 function useReveal(opts = {}) {
   const { threshold = 0.15, stagger = false, baseDelay = 90, once = true } = opts;
   const ref = useRef(null);
@@ -66,9 +61,6 @@ function useReveal(opts = {}) {
   return ref;
 }
 
-/* ══════════════════════════════════════════════
-   DATA
-══════════════════════════════════════════════ */
 const ticker = [
   "BIS Conformity Assessment Amendment Regulations 2026 — Major Update",
   "BIS CRS Registration now mandatory for AR/VR/MR Devices",
@@ -78,15 +70,12 @@ const ticker = [
 ];
 
 const stats = [
-  { v: "12+",     l: "Years of Excellence" },
+  { v: "12+", l: "Years of Excellence" },
   { v: "10,000+", l: "Certifications Issued" },
-  { v: "50+",     l: "Services & Domains" },
-  { v: "98%",     l: "First-Attempt Success" },
+  { v: "50+", l: "Services & Domains" },
+  { v: "98%", l: "First-Attempt Success" },
 ];
 
-/* ══════════════════════════════════════════════
-   SHARED MICRO-COMPONENTS
-══════════════════════════════════════════════ */
 function SectionLabel({ children }) {
   return (
     <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 16 }}>
@@ -143,49 +132,63 @@ function OutlineBtnTransparent({ children, onClick, style = {} }) {
   );
 }
 
-/* ══════════════════════════════════════════════
-   MAIN PAGE
-══════════════════════════════════════════════ */
 export default function HomeScreen() {
   const router = useRouter();
 
-  const statsRef     = useReveal({ stagger: true, baseDelay: 100 });
-  const aboutImgRef  = useReveal();
-  const aboutTxtRef  = useReveal();
+  const statsRef = useReveal({ stagger: true, baseDelay: 100 });
+  const aboutImgRef = useReveal();
+  const aboutTxtRef = useReveal();
   const miniStatsRef = useReveal({ stagger: true, baseDelay: 80 });
-  const ctaRef       = useReveal();
+  const ctaRef = useReveal();
 
   return (
-    <div style={{ minHeight: "100vh", background: T.white, fontFamily: T.sans, color: T.body }}>
+    <div style={{ minHeight: "100vh", background: T.white, fontFamily: T.sans, color: T.body, paddingTop: 0 }}>
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Outfit:wght@300;400;500;600;700&display=swap');
-        *, *::before, *::after { box-sizing:border-box; margin:0; padding:0; }
-        img { max-width:100%; display:block; }
-        a { text-decoration:none; color:inherit; }
+        html, body { margin: 0; padding: 0; }
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        img { max-width: 100%; display: block; }
+        a { text-decoration: none; color: inherit; }
         .sec   { padding: clamp(64px,8vw,104px) clamp(16px,5vw,56px); }
-        .inner { max-width:1280px; margin:0 auto; }
-        .stats-band  { display:grid; grid-template-columns:repeat(4,1fr); }
-        .about-grid  { display:grid; grid-template-columns:1fr 1fr; gap:80px; align-items:center; }
-        .mini-stats  { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:32px; }
-        .cta-split   { display:grid; grid-template-columns:1fr auto; gap:40px; align-items:center; }
-        .about-img-wrap { position:relative; }
-        @media(max-width:640px){ .stats-band{grid-template-columns:repeat(2,1fr)} }
-        @media(max-width:860px){ .about-grid{grid-template-columns:1fr;gap:48px} }
-        @media(max-width:480px){ .mini-stats{grid-template-columns:1fr} }
-        @media(max-width:720px){ .cta-split{grid-template-columns:1fr;gap:28px} }
+        .inner { max-width: 1280px; margin: 0 auto; }
+        .stats-band  { display: grid; grid-template-columns: repeat(4,1fr); }
+        .about-grid  { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
+        .mini-stats  { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 32px; }
+        .cta-split   { display: grid; grid-template-columns: 1fr auto; gap: 40px; align-items: center; }
+        .about-img-wrap { position: relative; }
+        @media(max-width:640px)  { .stats-band { grid-template-columns: repeat(2,1fr); } }
+        @media(max-width:860px)  { .about-grid { grid-template-columns: 1fr; gap: 48px; } }
+        @media(max-width:480px)  { .mini-stats { grid-template-columns: 1fr; } }
+        @media(max-width:720px)  { .cta-split  { grid-template-columns: 1fr; gap: 28px; } }
       `}</style>
 
       <Navbar />
 
       {/* ══ NEWS TICKER ══ */}
-      <div className="ticker-outer" style={{ background: T.teal, overflow: "hidden", padding: "9px 0", display: "flex", alignItems: "center" }}>
-        <div className="anim-badge" style={{ flexShrink: 0, background: "#F97316", color: "#fff", fontSize: 10, fontWeight: 800, letterSpacing: "0.12em", padding: "4px 14px", margin: "0 14px 0 16px", borderRadius: 3, whiteSpace: "nowrap", fontFamily: T.sans }}>
+      <div
+        style={{
+          background: T.teal,
+          overflow: "hidden",
+          padding: "9px 0",
+          display: "flex",
+          alignItems: "center",
+          margin: 0,
+        }}
+      >
+        <div style={{
+          flexShrink: 0, background: "#F97316", color: "#fff", fontSize: 10,
+          fontWeight: 800, letterSpacing: "0.12em", padding: "4px 14px",
+          margin: "0 14px 0 16px", borderRadius: 3, whiteSpace: "nowrap", fontFamily: T.sans,
+        }}>
           LIVE UPDATES
         </div>
         <div style={{ overflow: "hidden", flex: 1 }}>
           <div className="anim-ticker" style={{ display: "inline-flex", whiteSpace: "nowrap" }}>
             {[...ticker, ...ticker].map((item, i) => (
-              <span key={i} style={{ fontFamily: T.sans, fontSize: 13.5, fontWeight: 500, color: "#fff", padding: "0 48px", display: "inline-flex", alignItems: "center", gap: 10 }}>
+              <span key={i} style={{
+                fontFamily: T.sans, fontSize: 13.5, fontWeight: 500, color: "#fff",
+                padding: "0 48px", display: "inline-flex", alignItems: "center", gap: 10,
+              }}>
                 <span style={{ color: "rgba(255,255,255,0.55)", fontSize: 9 }}>◆</span>
                 {item}
               </span>
@@ -195,9 +198,7 @@ export default function HomeScreen() {
       </div>
 
       {/* ══ HERO SLIDER ══ */}
-      <div style={{ paddingLeft: "35px" }}>
-        <HeroSlider />
-      </div>
+      <HeroSlider />
 
       {/* ══ STATS BAND ══ */}
       <div style={{ background: T.teal }}>
@@ -208,8 +209,12 @@ export default function HomeScreen() {
                 textAlign: "center", padding: "36px 16px",
                 borderRight: i < stats.length - 1 ? "1px solid rgba(255,255,255,0.07)" : "none",
               }}>
-                <div className="anim-count-up" style={{ fontFamily: T.serif, fontSize: "clamp(2rem,2.8vw,2.8rem)", color: "#fff", fontWeight: 700, lineHeight: 1, letterSpacing: "-0.01em" }}>{s.v}</div>
-                <div style={{ fontFamily: T.sans, fontSize: 14, color: "rgba(255,255,255,0.8)", marginTop: 8, letterSpacing: "0.04em" }}>{s.l}</div>
+                <div className="anim-count-up" style={{ fontFamily: T.serif, fontSize: "clamp(2rem,2.8vw,2.8rem)", color: "#fff", fontWeight: 700, lineHeight: 1, letterSpacing: "-0.01em" }}>
+                  {s.v}
+                </div>
+                <div style={{ fontFamily: T.sans, fontSize: 14, color: "rgba(255,255,255,0.8)", marginTop: 8, letterSpacing: "0.04em" }}>
+                  {s.l}
+                </div>
               </div>
             ))}
           </div>
@@ -244,22 +249,22 @@ export default function HomeScreen() {
               <h2 style={{ fontFamily: T.serif, fontSize: "clamp(2rem,3.2vw,2.9rem)", color: T.titleblue, fontWeight: 700, marginBottom: 20, lineHeight: 1.12, letterSpacing: "-0.01em" }}>
                 India's Leading<br />Compliance Consultants
               </h2>
-              <p style={{ fontFamily: T.sans, fontSize: 15, color: "#0000009c", lineHeight: 1.9, marginBottom: 14 }}>
+              <p style={{ fontFamily: T.sans, fontSize: 15, color: T.para, lineHeight: 1.9, marginBottom: 14, textAlign: "justify" }}>
                 Star India Accreditation (SIACC) is a trusted name with over 12+ years of experience in BIS, EPR, WPC, TEC, BEE and ISO certifications. We deliver fast, reliable, and cost-effective regulatory approvals for Indian and foreign manufacturers and importers.
               </p>
-              <p style={{ fontFamily: T.sans, fontSize: 15, color: "#000000ab", lineHeight: 1.9, marginBottom: 32 }}>
+              <p style={{ fontFamily: T.sans, fontSize: 15, color: T.para, lineHeight: 1.9, marginBottom: 32 }}>
                 With a deep understanding of Indian regulatory standards, we help businesses achieve full compliance — reducing delays, avoiding penalties, and speeding up market entry.
               </p>
               <div className="mini-stats" ref={miniStatsRef}>
                 {[
-                  { n: "12+",  l: "Years Experience" },
+                  { n: "12+", l: "Years Experience" },
                   { n: "100+", l: "Expert Team" },
-                  { n: "25+",  l: "Countries Served" },
-                  { n: "50+",  l: "Services Covered" },
+                  { n: "25+", l: "Countries Served" },
+                  { n: "50+", l: "Services Covered" },
                 ].map((s, i) => (
                   <div key={s.l} className={`reveal d${i}`} style={{ padding: "16px 20px", background: T.white, borderRadius: 8, border: `1px solid ${T.border}`, borderLeft: `3px solid ${T.teal}` }}>
                     <div style={{ fontFamily: T.serif, fontSize: 26, color: T.teal, fontWeight: 700, lineHeight: 1 }}>{s.n}</div>
-                    <div style={{ fontFamily: T.sans, fontSize: 13, color: "#000000d7", marginTop: 4 }}>{s.l}</div>
+                    <div style={{ fontFamily: T.sans, fontSize: 14, color: T.para, marginTop: 4 }}>{s.l}</div>
                   </div>
                 ))}
               </div>
@@ -306,7 +311,7 @@ export default function HomeScreen() {
               <h2 style={{ fontFamily: T.serif, fontSize: "clamp(1.9rem,3.2vw,2.9rem)", color: T.titleblue, fontWeight: 700, lineHeight: 1.1, letterSpacing: "-0.01em", marginBottom: 14 }}>
                 Begin Your Certification<br />Journey with SIACC
               </h2>
-              <p style={{ fontFamily: T.sans, color: T.muted, fontSize: 14.5, lineHeight: 1.8 }}>
+              <p style={{ fontFamily: T.sans, color: T.para, fontSize: 16, lineHeight: 1.8 }}>
                 Free consultation. Clear timeline. Transparent pricing.<br />Our experts respond within 2 hours.
               </p>
             </div>
@@ -314,16 +319,16 @@ export default function HomeScreen() {
               <button
                 onClick={() => router.push("/contact")}
                 style={{ padding: "14px 36px", fontFamily: T.sans, fontSize: 14, fontWeight: 600, letterSpacing: "0.02em", border: "none", borderRadius: 6, cursor: "pointer", background: "#F97316", color: "#fff", whiteSpace: "nowrap", transition: "background 0.2s" }}
-                onMouseEnter={e => e.currentTarget.style.background = T.teal}
-                onMouseLeave={e => e.currentTarget.style.background = "#F97316"}
+                onMouseEnter={(e) => { e.currentTarget.style.background = T.teal; }}
+                onMouseLeave={(e) => { e.currentTarget.style.background = "#F97316"; }}
               >
                 Get Free Consultation
               </button>
               <a
                 href="tel:+919540190334"
                 style={{ padding: "13px 28px", border: `1.5px solid ${T.border}`, borderRadius: 6, fontFamily: T.sans, fontSize: 14, fontWeight: 500, color: T.slate, textDecoration: "none", display: "flex", alignItems: "center", justifyContent: "center", gap: 8, whiteSpace: "nowrap", background: T.white, transition: "border-color 0.2s" }}
-                onMouseEnter={e => e.currentTarget.style.borderColor = T.teal}
-                onMouseLeave={e => e.currentTarget.style.borderColor = T.border}
+                onMouseEnter={(e) => { e.currentTarget.style.borderColor = T.teal; }}
+                onMouseLeave={(e) => { e.currentTarget.style.borderColor = T.border; }}
               >
                 📞 +91-9540190334
               </a>

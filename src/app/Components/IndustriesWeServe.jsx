@@ -104,10 +104,10 @@ function IndustryCard({ item }) {
         {item.icon}
       </div>
       <div>
-        <div style={{ fontFamily: T.sans, fontSize: 13, fontWeight: 600, color: T.slate, lineHeight: 1.3 }}>
+        <div style={{ fontFamily: T.sans, fontSize: 15, fontWeight: 600, color: T.paradark, lineHeight: 1.3 }}>
           {item.name}
         </div>
-        <div style={{ fontFamily: T.sans, fontSize: 11, color: T.muted, marginTop: 2 }}>
+        <div style={{ fontFamily: T.sans, fontSize: 11, color: T.para, marginTop: 2 }}>
           {item.sub}
         </div>
       </div>
@@ -175,8 +175,8 @@ export default function IndustriesWeServe() {
             </h2>
             <p style={{
               fontFamily: T.sans,
-              fontSize: 14,
-              color: T.muted,
+              fontSize: 15,
+              color: T.para,
               lineHeight: 1.7,
               maxWidth: 500,
             }}>

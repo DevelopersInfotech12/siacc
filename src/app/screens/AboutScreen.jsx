@@ -87,21 +87,27 @@ const values = [
   { icon: "⚡", title: "Speed Without Compromise",  desc: "Fast doesn't mean sloppy. We move quickly while maintaining the highest quality standards." },
 ];
 
-const heroHighlights = [
-  { number: "BIS",  label: "CRS & ISI Certification" },
-  { number: "WPC",  label: "ETA Approval for Wireless Devices" },
-  { number: "TEST", label: "Testing & Product Certification" },
-  { number: "ISO",  label: "International ISO Standards" },
+/* Hero chips — matching BIS style */
+const heroChips = [
+  { icon: "🏆", label: "Est. 2011" },
+  { icon: "🤝", label: "10,000+ Clients" },
+  { icon: "🌍", label: "25+ Countries" },
+  { icon: "✅", label: "98% Success Rate" },
+  { icon: "🔖", label: "BIS · WPC · ISO · EPR" },
 ];
 
 /* ══════════════════════════════════════════════
    SHARED MICRO-COMPONENTS
 ══════════════════════════════════════════════ */
-function SectionLabel({ children, center = false }) {
+function SectionLabel({ children, center = false, light = false }) {
   return (
     <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 16, justifyContent: center ? "center" : "flex-start" }}>
-      <div style={{ width: 28, height: 1.5, background: T.teal }} />
-      <span style={{ fontFamily: T.sans, fontSize: 11, fontWeight: 600, letterSpacing: "0.15em", textTransform: "uppercase", color: T.teal }}>{children}</span>
+      <div style={{ width: 28, height: 1.5, background: light ? "rgba(255,255,255,0.5)" : T.teal }} />
+      <span style={{
+        fontFamily: T.sans, fontSize: 11, fontWeight: 600,
+        letterSpacing: "0.15em", textTransform: "uppercase",
+        color: light ? "rgba(255,255,255,0.75)" : T.teal,
+      }}>{children}</span>
     </div>
   );
 }
@@ -114,8 +120,9 @@ export default function AboutScreen() {
 
   /* ── Reveal refs for each section ── */
   const heroLeftRef    = useReveal();
-  const heroRightRef   = useReveal({ stagger: true, baseDelay: 90 });
   const statsRef       = useReveal({ stagger: true, baseDelay: 100 });
+  const overviewRef    = useReveal();
+  const infoCardRef    = useReveal();
   const storyImgRef    = useReveal();
   const storyTxtRef    = useReveal();
   const missionRef     = useReveal({ stagger: true, baseDelay: 100 });
@@ -131,28 +138,26 @@ export default function AboutScreen() {
         img { max-width:100%; display:block; }
         a { text-decoration:none; color:inherit; }
 
-        .about-hero-wrap {
-          background: ${T.cream};
-          border-bottom: 1px solid ${T.border};
-          position: relative; overflow: hidden;
+        /* ── Hero chip (matches BIS) ── */
+        @keyframes pulse-dot {
+          0%,100%{opacity:1;transform:scale(1);}
+          50%{opacity:0.6;transform:scale(1.3);}
         }
-        .about-hero-wrap::before {
-          content:''; position:absolute; top:-100px; right:-140px;
-          width:500px; height:500px;
-          background:radial-gradient(circle, rgba(30,136,200,0.11) 0%, transparent 70%);
-          border-radius:50%; pointer-events:none;
+        .hero-chip {
+          display:inline-flex; align-items:center; gap:8px;
+          background:rgba(255,255,255,0.09);
+          border:1px solid rgba(255,255,255,0.16);
+          backdrop-filter:blur(6px);
+          border-radius:6px; padding:9px 16px;
+          font-family:'Outfit','system-ui',sans-serif; font-size:12.5px; font-weight:500;
+          color:rgba(255,255,255,0.90);
+          transition:background 0.2s,border-color 0.2s,transform 0.2s;
         }
-
-        .hero-grid { display:grid; grid-template-columns:1fr 1fr; gap:64px; align-items:center; }
-        @media(max-width:900px){ .hero-grid { grid-template-columns:1fr; gap:40px; } .hero-right { display:none; } }
-
-        .highlight-card {
-          background: ${T.white};
-          border: 1px solid ${T.border};
-          border-radius: 8px; padding: 18px 16px;
-          transition: all 0.2s;
+        .hero-chip:hover {
+          background:rgba(255,255,255,0.18);
+          border-color:rgba(255,255,255,0.35);
+          transform:translateY(-2px);
         }
-        .highlight-card:hover { border-color:${T.teal}; box-shadow:0 6px 18px rgba(30,136,200,0.09); transform:translateY(-2px); }
 
         .stats-grid { display:grid; grid-template-columns:repeat(4,1fr); }
         @media(max-width:640px){ .stats-grid { grid-template-columns:repeat(2,1fr); } }
@@ -182,6 +187,9 @@ export default function AboutScreen() {
         .mission-icon { width:40px; height:40px; border-radius:9px; background:${T.tealLight}; display:flex; align-items:center; justify-content:center; font-size:18px; flex-shrink:0; transition:all 0.3s cubic-bezier(0.34,1.56,0.64,1); }
         .mission-card:hover .mission-icon { transform:scale(1.18) rotate(-4deg); background:${T.teal}; }
 
+        .overview-grid { display:grid; grid-template-columns:1fr 360px; gap:48px; align-items:flex-start; }
+        @media(max-width:960px){ .overview-grid { grid-template-columns:1fr; } }
+
         .cta-split { display:grid; grid-template-columns:1fr auto; gap:40px; align-items:center; }
         @media(max-width:720px){ .cta-split { grid-template-columns:1fr; gap:28px; } }
 
@@ -191,122 +199,105 @@ export default function AboutScreen() {
 
       <Navbar />
 
-      {/* ══ HERO ══ */}
-      <section className="about-hero-wrap">
-        <div style={{ maxWidth: 1280, margin: "0 auto", padding: "clamp(20px,3vw,36px) clamp(16px,4vw,56px)" }}>
-          <div className="hero-grid">
+      {/* ══ HERO — Full-bleed image, BIS-style ══ */}
+      <section style={{
+        position: "relative",
+        overflow: "hidden",
+        borderBottom: `1px solid ${T.border}`,
+        minHeight: 420,
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+      }}>
+        {/* Left accent bar */}
+        <div style={{
+          position: "absolute", left: 0, top: 0, bottom: 0, width: 4,
+          background: `linear-gradient(to bottom, ${T.orange}, ${T.teal})`,
+          zIndex: 3,
+        }} />
 
-            {/* Left — text: slides in from left */}
-            <div className="reveal-left" ref={heroLeftRef}>
-              <div className="anim-pill-in" style={{
-                display: "inline-flex", alignItems: "center", gap: 8,
-                background: T.tealLight, borderRadius: 4, padding: "5px 14px", marginBottom: 24,
+        {/* Hero background image */}
+        <img
+          src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=1600&q=80&fit=crop"
+          alt="SIACC India — Compliance Experts"
+          style={{
+            position: "absolute", inset: 0, width: "100%", height: "100%",
+            objectFit: "cover", objectPosition: "center 40%", zIndex: 0,
+          }}
+        />
+
+        {/* Dark overlay — same gradient as BIS */}
+        <div style={{
+          position: "absolute", inset: 0, zIndex: 1,
+          background: "linear-gradient(to right,rgba(7,18,28,0.88) 0%,rgba(7,18,28,0.60) 50%,rgba(7,18,28,0.10) 100%)",
+        }} />
+
+        {/* Content */}
+        <div style={{
+          position: "relative", zIndex: 2,
+          maxWidth: 1280, margin: "0 auto", width: "100%",
+          padding: "clamp(48px,7vw,88px) clamp(20px,4vw,60px)",
+        }}>
+          <div ref={heroLeftRef} className="reveal-left">
+
+            {/* Badge pill with pulsing dot */}
+            <div style={{
+              display: "inline-flex", alignItems: "center", gap: 8,
+              background: "rgba(255,255,255,0.10)",
+              border: "1px solid rgba(255,255,255,0.20)",
+              backdropFilter: "blur(8px)",
+              borderRadius: 4, padding: "6px 16px", marginBottom: 22,
+            }}>
+              <span style={{
+                width: 7, height: 7, borderRadius: "50%",
+                background: "#4ade80",
+                boxShadow: "0 0 6px rgba(74,222,128,0.8)",
+                display: "inline-block",
+                animation: "pulse-dot 2s ease-in-out infinite",
+              }} />
+              <span style={{
+                fontFamily: T.sans, fontSize: 10.5, fontWeight: 700,
+                color: "#fff", letterSpacing: "0.14em", textTransform: "uppercase",
               }}>
-                <span style={{ width: 7, height: 7, borderRadius: "50%", background: T.teal, display: "inline-block" }} />
-                <span style={{ fontFamily: T.sans, fontSize: 10.5, fontWeight: 700, color: T.teal, letterSpacing: "0.12em", textTransform: "uppercase" }}>
-                  About SIACC India
-                </span>
-              </div>
-
-              <h1 style={{
-                fontFamily: T.serif,
-                fontSize: "clamp(2rem,3.8vw,3.4rem)",
-                color: T.titleblue, fontWeight: 700,
-                lineHeight: 1.08, marginBottom: 10, letterSpacing: "-0.01em",
-              }}>
-                12 Years of Simplifying<br />Indian Compliance
-              </h1>
-
-              <p style={{
-                fontFamily: T.sans, fontSize: 12, fontWeight: 600,
-                color: T.tealMid, marginBottom: 20,
-                letterSpacing: "0.05em", textTransform: "uppercase",
-              }}>
-                Est. 2011 · 10,000+ Clients · 25+ Countries
-              </p>
-
-              <p style={{
-                fontFamily: T.sans, fontSize: 15.5, textAlign: "justify",
-                color: T.muted, lineHeight: 1.9, marginBottom: 32, maxWidth: 480,
-              }}>
-                We started SIACC with one belief — no business should lose market access due to complex regulatory paperwork. Today, we are India's most trusted certification consultancy, having served 10,000+ clients across 25+ countries.
-              </p>
-
-              <div style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
-                <button
-                  onClick={() => router.push("/contact")}
-                  style={{
-                    padding: "13px 32px", fontFamily: T.sans, fontSize: 13.5, fontWeight: 600,
-                    letterSpacing: "0.02em", border: "none", borderRadius: 6, cursor: "pointer",
-                    background: T.orange, color: "#fff",
-                    boxShadow: "0 4px 16px rgba(10,104,104,0.22)",
-                    transition: "all 0.22s cubic-bezier(0.4,0,0.2,1)",
-                  }}
-                  onMouseEnter={e => { e.currentTarget.style.background = T.teal; e.currentTarget.style.transform = "translateY(-1px)"; e.currentTarget.style.boxShadow = "0 8px 28px rgba(10,104,104,0.38)"; }}
-                  onMouseLeave={e => { e.currentTarget.style.background = T.orange; e.currentTarget.style.transform = "translateY(0)"; e.currentTarget.style.boxShadow = "0 4px 16px rgba(10,104,104,0.22)"; }}
-                >Get Free Consultation</button>
-
-                <button
-                  onClick={() => router.push("/services")}
-                  style={{
-                    padding: "12px 28px", fontFamily: T.sans, fontSize: 13.5, fontWeight: 600,
-                    letterSpacing: "0.02em", borderRadius: 6, cursor: "pointer",
-                    border: `1.5px solid ${T.border}`,
-                    color: T.white, background: T.orange,
-                    transition: "all 0.22s cubic-bezier(0.4,0,0.2,1)",
-                  }}
-                  onMouseEnter={e => { e.currentTarget.style.borderColor = T.teal; e.currentTarget.style.color = T.teal; e.currentTarget.style.background = "transparent"; }}
-                  onMouseLeave={e => { e.currentTarget.style.borderColor = T.border; e.currentTarget.style.color = T.white; e.currentTarget.style.background = T.orange; }}
-                >Our Services →</button>
-              </div>
+                India's Most Trusted Certification Consultancy
+              </span>
             </div>
 
-            {/* Right — highlight tiles: stagger in */}
-            <div className="hero-right" ref={heroRightRef}>
-              {/* Label row counts as child[0] */}
-              <div className="reveal d0" style={{ marginBottom: 14 }}>
-                <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 16 }}>
-                  <div style={{ width: 28, height: 1.5, background: T.teal }} />
-                  <span style={{ fontFamily: T.sans, fontSize: 10.5, fontWeight: 700, color: T.teal, letterSpacing: "0.12em", textTransform: "uppercase" }}>What We Certify</span>
-                </div>
-              </div>
+            {/* Heading */}
+            <h1 style={{
+              fontFamily: T.serif,
+              fontSize: "clamp(2.6rem,5.2vw,4.2rem)",
+              fontWeight: 700, lineHeight: 1.04,
+              marginBottom: 20, letterSpacing: "-0.01em",
+              color: "#fff", maxWidth: 640,
+            }}>
+              12 Years of Simplifying{" "}
+              <span style={{ color: T.orange }}>Indian Compliance</span>
+            </h1>
 
-              {/* Cards grid counts as child[1] */}
-              <div className="reveal d1" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12, marginBottom: 14 }}>
-                {heroHighlights.map((h, i) => (
-                  <div key={h.number} className="highlight-card" style={{ borderTop: `3px solid ${i % 2 === 0 ? T.teal : T.amber}` }}>
-                    <div style={{ fontFamily: T.serif, fontSize: 22, color: i % 2 === 0 ? T.teal : T.amber, fontWeight: 700, marginBottom: 6, lineHeight: 1 }}>{h.number}</div>
-                    <div style={{ fontFamily: T.sans, fontSize: 13.5, color: T.muted, fontWeight: 600, lineHeight: 1.5 }}>{h.label}</div>
-                  </div>
-                ))}
-              </div>
-
-              {/* Trust tile counts as child[2] */}
-              <div className="reveal d2" style={{
-                background: T.white, border: `1px solid ${T.border}`,
-                borderRadius: 8, padding: "18px 20px",
-                display: "flex", alignItems: "center", gap: 14,
-              }}>
-                <div style={{ fontSize: 32, flexShrink: 0 }}>🏆</div>
-                <div>
-                  <div style={{ fontFamily: T.serif, fontSize: 16, color: T.slate, fontWeight: 700, marginBottom: 4 }}>India's Most Trusted</div>
-                  <div style={{ fontFamily: T.sans, fontSize: 13, color: T.muted, lineHeight: 1.6 }}>Rated #1 compliance consultancy by 10,000+ manufacturers & importers.</div>
-                </div>
-              </div>
+            {/* Chips row */}
+            <div style={{ display: "flex", flexWrap: "wrap", gap: 10, marginTop: 32 }}>
+              {heroChips.map(chip => (
+                <span key={chip.label} className="hero-chip">
+                  <span style={{ fontSize: 15 }}>{chip.icon}</span>
+                  {chip.label}
+                </span>
+              ))}
             </div>
 
           </div>
         </div>
 
-        <div style={{ height: 2, background: T.borderLight }}>
-          <div style={{ width: "100%", height: "100%", background: T.teal, opacity: 0.4 }} />
-        </div>
+        {/* Bottom teal line */}
+        <div style={{
+          position: "absolute", bottom: 0, left: 0, right: 0,
+          height: 3, background: T.teal, opacity: 0.6, zIndex: 2,
+        }} />
       </section>
 
       {/* ══ STATS STRIP ══ */}
       <section style={{ background: T.teal }}>
         <div style={{ maxWidth: 1280, margin: "0 auto" }}>
-          {/* Stagger each stat cell */}
           <div className="stats-grid" ref={statsRef}>
             {stats.map((s, i) => (
               <div key={s.label} className={`reveal d${i}`} style={{
@@ -314,17 +305,116 @@ export default function AboutScreen() {
                 borderRight: i < stats.length - 1 ? "1px solid rgba(255,255,255,0.07)" : "none",
               }}>
                 <div style={{ fontSize: 20, marginBottom: 6 }}>{s.icon}</div>
-                {/* Count-up on the value number */}
                 <div className="anim-count-up" style={{ fontFamily: T.serif, fontSize: "clamp(2rem,2.8vw,2.8rem)", color: "#fff", fontWeight: 700, lineHeight: 1, letterSpacing: "-0.01em" }}>{s.value}</div>
-                <div style={{ fontFamily: T.sans, fontSize: 14, color: "rgb(255, 255, 255)", marginTop: 8, letterSpacing: "0.04em" }}>{s.label}</div>
+                <div style={{ fontFamily: T.sans, fontSize: 14, color: "rgb(255,255,255)", marginTop: 8, letterSpacing: "0.04em" }}>{s.label}</div>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* ══ STORY + MISSION ══ */}
+      {/* ══ OVERVIEW — BIS-style (left: text+image | right: Quick Info card) ══ */}
       <section className="sec" style={{ background: T.cream }}>
+        <div className="inner">
+          <div className="overview-grid">
+
+            {/* Left — section label + heading + paras + image banner */}
+            <div className="reveal-left" ref={overviewRef}>
+              <SectionLabel>About SIACC India</SectionLabel>
+              <h2 style={{ fontFamily: T.serif, fontSize: "clamp(2rem,3.2vw,2.9rem)", color: T.titleblue, fontWeight: 700, lineHeight: 1.1, letterSpacing: "-0.01em", marginBottom: 16 }}>
+                India's Most Trusted<br />Compliance Partner
+              </h2>
+              <p style={{ fontFamily: T.sans, fontSize: 15.5, color: T.para, lineHeight: 1.9, marginBottom: 16, textAlign: "justify" }}>
+                We started SIACC with one belief — no business should lose market access due to complex regulatory paperwork. Today we are India's most trusted certification consultancy, having guided 10,000+ clients across BIS, WPC, EPR, ISO and more.
+              </p>
+              <p style={{ fontFamily: T.sans, fontSize: 15.5, color: T.para, lineHeight: 1.9, marginBottom: 32, textAlign: "justify" }}>
+                Our team of 100+ regulatory experts, lawyers, and certification specialists handle everything end-to-end — from lab coordination and document filing to government follow-ups and post-certification support — so you can focus on your business.
+              </p>
+
+              {/* Image with overlay banner — same as BIS */}
+              <div style={{ position: "relative", borderRadius: 10, overflow: "hidden", height: 220 }}>
+                <img
+                  src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=900&q=80&fit=crop"
+                  alt="SIACC compliance team at work"
+                  style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center 40%" }}
+                />
+                <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to right,rgba(14,128,128,0.88) 0%,rgba(30,136,200,0.60) 55%,rgba(235,245,251,0.25) 100%)" }} />
+                <div style={{ position: "absolute", inset: 0, display: "flex", alignItems: "center", padding: "0 28px" }}>
+                  <div>
+                    <div style={{ fontFamily: T.serif, fontSize: "clamp(1rem,2vw,1.3rem)", color: "#fff", fontWeight: 700, marginBottom: 4 }}>
+                      Trusted by 10,000+ Businesses
+                    </div>
+                    <p style={{ fontFamily: T.sans, color: "rgba(255,255,255,0.80)", fontSize: 12.5 }}>
+                      BIS · WPC · EPR · ISO · Testing & More
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Right — sticky Quick Info card */}
+            <div className="reveal-right" ref={infoCardRef}>
+              <div style={{
+                background: T.white, border: `1px solid ${T.border}`,
+                borderRadius: 10, padding: 28,
+                boxShadow: "0 4px 20px rgba(0,0,0,0.05)",
+                position: "sticky", top: 100,
+              }}>
+                <SectionLabel>Quick Info</SectionLabel>
+
+                {[
+                  { label: "Founded",            value: "2011, New Delhi" },
+                  { label: "Team Size",           value: "100+ Experts" },
+                  { label: "Clients Served",      value: "10,000+" },
+                  { label: "Countries Covered",   value: "25+ Countries" },
+                  { label: "Our Success Rate",    value: "98%" },
+                ].map((item, i, arr) => (
+                  <div key={item.label} style={{
+                    display: "flex", justifyContent: "space-between", alignItems: "center",
+                    padding: "12px 0",
+                    borderBottom: i < arr.length - 1 ? `1px solid ${T.border}` : "none",
+                  }}>
+                    <span style={{ fontFamily: T.sans, fontSize: 13, color: T.muted }}>{item.label}</span>
+                    <span style={{ fontFamily: T.sans, fontSize: 13, color: T.slate, fontWeight: 600, textAlign: "right", maxWidth: "55%" }}>{item.value}</span>
+                  </div>
+                ))}
+
+                <button
+                  onClick={() => router.push("/contact")}
+                  style={{
+                    width: "100%", marginTop: 22, padding: 13,
+                    background: T.orange, color: "#fff", fontWeight: 600,
+                    borderRadius: 6, border: "none", fontFamily: T.sans, fontSize: 14,
+                    cursor: "pointer", transition: "background 0.2s",
+                  }}
+                  onMouseEnter={e => e.currentTarget.style.background = T.teal}
+                  onMouseLeave={e => e.currentTarget.style.background = T.orange}
+                >Get Free Consultation →</button>
+
+                {/* Contact strip */}
+                <div style={{ marginTop: 16, paddingTop: 16, borderTop: `1px solid ${T.border}`, display: "flex", flexDirection: "column", gap: 10 }}>
+                  {[
+                    { icon: "📞", label: "Call Us",   value: "+91-9540190334", href: "tel:+919540190334" },
+                    { icon: "✉",  label: "Email Us",  value: "info@siacc.in",  href: "mailto:info@siacc.in" },
+                  ].map(item => (
+                    <a key={item.label} href={item.href} style={{ display: "flex", alignItems: "center", gap: 10, textDecoration: "none" }}>
+                      <div style={{ width: 36, height: 36, borderRadius: 7, backgroundColor: T.tealLight, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 15, flexShrink: 0 }}>{item.icon}</div>
+                      <div>
+                        <div style={{ fontFamily: T.sans, fontSize: 10, color: T.teal, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.08em" }}>{item.label}</div>
+                        <div style={{ fontFamily: T.sans, fontSize: 13, color: T.slate, fontWeight: 500, marginTop: 1 }}>{item.value}</div>
+                      </div>
+                    </a>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      {/* ══ STORY + MISSION ══ */}
+      <section className="sec" style={{ background: T.white }}>
         <div className="inner">
           <div className="story-grid">
 
@@ -335,7 +425,7 @@ export default function AboutScreen() {
                 alt="Compliance experts working"
                 style={{ width: "100%", borderRadius: 10, height: 460, objectFit: "cover", boxShadow: "0 24px 64px rgba(0,0,0,0.10)" }}
               />
-              {/* Floating badge — same float-card animation as HomeScreen */}
+              {/* Floating badge */}
               <div className="float-card" style={{
                 position: "absolute", bottom: -16, right: -12,
                 background: T.white, borderRadius: 8, padding: "20px 26px",
@@ -355,10 +445,10 @@ export default function AboutScreen() {
               <h2 style={{ fontFamily: T.serif, fontSize: "clamp(2rem,3.2vw,2.9rem)", color: T.titleblue, marginBottom: 20, fontWeight: 700, lineHeight: 1.12, letterSpacing: "-0.01em" }}>
                 Built by Compliance Experts,<br />for Businesses
               </h2>
-              <p style={{ fontFamily: T.sans, fontSize: 15.5, color: "#00000081", lineHeight: 1.4, marginBottom: 16, textAlign: "justify" }}>
+              <p style={{ fontFamily: T.sans, fontSize: 15.5, color: "#000000af", lineHeight: 1.4, marginBottom: 16, textAlign: "justify" }}>
                 In 2011, our founder Vikram Anand — after spending over a decade navigating India's complex regulatory maze — saw how countless manufacturers and importers were losing months and lakhs of rupees due to the lack of reliable certification guidance.
               </p>
-              <p style={{ fontFamily: T.sans, fontSize: 15.5, color: "#00000081", lineHeight: 1.4, marginBottom: 32, textAlign: "justify" }}>
+              <p style={{ fontFamily: T.sans, fontSize: 15.5, color: "#000000af", lineHeight: 1.4, marginBottom: 32, textAlign: "justify" }}>
                 He founded SIACC to bridge that gap. What started as a three-person office in Connaught Place has grown into a 100+ strong team of regulatory experts, lawyers, and certification specialists serving clients from startups to Fortune 500 companies.
               </p>
 
@@ -384,7 +474,7 @@ export default function AboutScreen() {
       </section>
 
       {/* ══ VALUES ══ */}
-      <section className="sec" style={{ background: T.white }}>
+      <section className="sec" style={{ background: T.cream }}>
         <div className="inner">
           {/* Section header fades up */}
           <div style={{ textAlign: "center", marginBottom: 35 }} className="reveal" ref={useReveal()}>
@@ -420,7 +510,7 @@ export default function AboutScreen() {
           {/* Section heading fades up */}
           <div style={{ textAlign: "center", marginBottom: 52 }} className="reveal" ref={useReveal({ threshold: 0.1 })}>
             <div style={{ display: "flex", justifyContent: "center", marginBottom: 16 }}>
-              <SectionLabel>Our Journey</SectionLabel>
+              <SectionLabel light>Our Journey</SectionLabel>
             </div>
             <h2 style={{ fontFamily: T.serif, fontSize: "clamp(2rem,3.2vw,2.9rem)", color: "#fff", fontWeight: 700, letterSpacing: "-0.01em" }}>Milestones That Define Us</h2>
           </div>
