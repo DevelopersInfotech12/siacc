@@ -59,7 +59,7 @@ const industries = [
 function SectionLabel({ children }) {
   return (
     <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 14 }}>
-      <div style={{ width: 24, height: 1.5, background: T.teal }} />
+      <div style={{ width: 24, height: 1.5, background: T.teal, flexShrink: 0 }} />
       <span style={{ fontFamily: T.poppins, fontSize: 11, fontWeight: 600, letterSpacing: "0.14em", textTransform: "uppercase", color: T.teal }}>
         {children}
       </span>
@@ -73,27 +73,45 @@ function IndustryCard({ item }) {
       background: T.white,
       border: `1px solid ${T.border}`,
       borderRadius: 10,
-      padding: "16px 14px",
+      padding: "14px 12px",
       display: "flex",
       alignItems: "center",
-      gap: 12,
+      gap: 10,
       cursor: "default",
       transition: "all 0.25s cubic-bezier(0.4,0,0.2,1)",
+      minWidth: 0, // critical: allows flex children to shrink below content size
     }}>
       <div className="ind-icon" style={{
-        width: 36, height: 36, borderRadius: 8,
+        width: 34, height: 34, borderRadius: 8,
         background: T.tealLight,
         display: "flex", alignItems: "center", justifyContent: "center",
-        fontSize: 16, flexShrink: 0,
+        fontSize: 15, flexShrink: 0,
         transition: "all 0.25s cubic-bezier(0.34,1.56,0.64,1)",
       }}>
         {item.icon}
       </div>
-      <div style={{ minWidth: 0 }}>
-        <div style={{ fontFamily: T.poppins, fontSize: 15, fontWeight: 500, color: T.slate, lineHeight: 1.3, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
+      <div style={{ minWidth: 0, flex: 1 }}>
+        {/* FIX: removed whiteSpace:nowrap so text wraps on small screens */}
+        <div style={{
+          fontFamily: T.poppins,
+          fontSize: "clamp(12px, 2.5vw, 15px)",
+          fontWeight: 500,
+          color: T.slate,
+          lineHeight: 1.3,
+          wordBreak: "break-word",
+        }}>
           {item.name}
         </div>
-        <div style={{ fontFamily: T.poppins, fontSize: 13, fontWeight: 400, color: "#000000a4", marginTop: 2, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
+        {/* FIX: removed whiteSpace:nowrap so sub-text wraps on small screens */}
+        <div style={{
+          fontFamily: T.poppins,
+          fontSize: "clamp(11px, 2vw, 13px)",
+          fontWeight: 400,
+          color: "#000000a4",
+          marginTop: 2,
+          lineHeight: 1.4,
+          wordBreak: "break-word",
+        }}>
           {item.sub}
         </div>
       </div>
@@ -110,7 +128,8 @@ export default function IndustriesWeServe() {
       background: T.tealLight,
       borderTop: "1px solid #C8DEDE",
       borderBottom: "1px solid #C8DEDE",
-      padding: "clamp(48px,7vw,96px) clamp(16px,4vw,48px)",
+      // FIX: tighter bottom padding on mobile via clamp
+      padding: "clamp(36px,7vw,96px) clamp(14px,4vw,48px)",
     }}>
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
@@ -134,19 +153,45 @@ export default function IndustriesWeServe() {
         }
         @media(max-width:1000px){ .ind-grid { grid-template-columns: repeat(3, 1fr); } }
         @media(max-width:680px) { .ind-grid { grid-template-columns: repeat(2, 1fr); gap: 8px; } }
-        @media(max-width:380px) { .ind-grid { grid-template-columns: 1fr; } }
+        /* FIX: raised xs breakpoint from 380px → 360px, also tightened card padding */
+        @media(max-width:360px) { .ind-grid { grid-template-columns: 1fr; gap: 6px; } }
 
-        /* ── Header: stacks on mobile ── */
+        /* ── FIX: tighter card padding on small screens ── */
+        @media(max-width:680px) {
+          .ind-card { padding: 12px 10px !important; gap: 8px !important; }
+          .ind-icon { width: 30px !important; height: 30px !important; font-size: 13px !important; }
+        }
+        @media(max-width:360px) {
+          .ind-card { padding: 12px !important; }
+        }
+
+        /* ── Header layout ── */
         .ind-header {
           display: flex;
           justify-content: space-between;
           align-items: flex-end;
-          gap: 20px;
-          margin-bottom: 36px;
+          gap: 16px;
+          margin-bottom: 28px;
           flex-wrap: wrap;
         }
+        /* FIX: on mobile stack header; move link inline below description */
         @media(max-width:600px) {
-          .ind-header { flex-direction: column; align-items: flex-start; }
+          .ind-header {
+            flex-direction: column;
+            align-items: flex-start;
+            margin-bottom: 20px;
+          }
+          .ind-view-all {
+            /* Give the link a touch-friendly tap target */
+            display: inline-block;
+            padding: 6px 0;
+          }
+        }
+
+        /* ── FIX: heading font size slightly smaller on very narrow screens ── */
+        @media(max-width:400px) {
+          .ind-heading { font-size: 1.4rem !important; }
+          .ind-desc    { font-size: 13px !important; }
         }
       `}</style>
 
@@ -154,27 +199,35 @@ export default function IndustriesWeServe() {
 
         {/* ── Header ── */}
         <div className="ind-header reveal" ref={headerRef}>
-          <div>
+          <div style={{ minWidth: 0 }}>
             <SectionLabel>Industries We Serve</SectionLabel>
-            <h2 style={{
-              fontFamily: T.poppins,
-              fontSize: "clamp(1.6rem,3vw,2.4rem)",
-              fontWeight: 700,
-              color: T.titleblue,
-              letterSpacing: "-0.01em",
-              marginBottom: 10,
-              lineHeight: 1.15,
-            }}>
+            <h2
+              className="ind-heading"
+              style={{
+                fontFamily: T.poppins,
+                fontSize: "clamp(1.45rem,3vw,2.4rem)",
+                fontWeight: 700,
+                color: T.titleblue,
+                letterSpacing: "-0.01em",
+                marginBottom: 10,
+                lineHeight: 1.15,
+              }}
+            >
               Trusted Across Every Sector
             </h2>
-            <p style={{
-              fontFamily: T.poppins,
-              fontSize: 14,
-              fontWeight: 500,
-              color: "#0000009d",
-              lineHeight: 1.75,
-              maxWidth: 520,
-            }}>
+            <p
+              className="ind-desc"
+              style={{
+                fontFamily: T.poppins,
+                fontSize: 14,
+                fontWeight: 500,
+                color: "#0000009d",
+                lineHeight: 1.75,
+                maxWidth: 520,
+                // FIX: allow text to wrap naturally, don't clip on mobile
+                wordBreak: "break-word",
+              }}
+            >
               From consumer electronics to medical devices — we navigate India's most complex regulatory frameworks across all major industries.
             </p>
           </div>
@@ -198,7 +251,7 @@ export default function IndustriesWeServe() {
         {/* ── Cards grid ── */}
         <div className="ind-grid" ref={gridRef}>
           {industries.map((item, i) => (
-            <div key={item.name} className={`reveal d${Math.min(i, 8)}`}>
+            <div key={item.name} className={`reveal d${Math.min(i, 8)}`} style={{ minWidth: 0 }}>
               <IndustryCard item={item} />
             </div>
           ))}
