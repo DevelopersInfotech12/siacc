@@ -1,6 +1,32 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
 
+const T = {
+  teal: "#1E88C8",
+  titleblue: "#0a6daa",
+  para: "#080000b0", paradark: "#080000c4",
+  tealDark: "#074D4D",
+  tealMid: "#0E8080",
+  tealLight: "#EBF5F5",
+  tealGhost: "#F4FAFA",
+  amber: "#C8780A",
+  amberLight: "#FEF3DC",
+  amberDark: "#9A5C06",
+  slate: "#0D1B2A",
+  slateMid: "#1C3144",
+  body: "#2D3748",
+  muted: "#718096",
+  subtle: "#A0AEC0",
+  border: "#E8E3DA",
+  borderLight: "#F0ECE5",
+  white: "#FFFFFF",
+  cream: "#FAF8F4",
+  creamMid: "#F3EFE8",
+  serif: "'Cormorant Garamond', 'Georgia', serif",
+  sans: "'Outfit', 'system-ui', sans-serif",
+  poppins: "'Poppins', 'system-ui', sans-serif",
+};
+
 const stats = [
   {
     icon: (
@@ -28,7 +54,7 @@ const stats = [
   {
     icon: (
       <svg width="26" height="26" viewBox="0 0 32 32" fill="none">
-        <path d="M16 4l3.09 6.26L26 11.27l-5 4.87 1.18 6.86L16 19.77l-6.18 3.23L11 16.14 6 11.27l6.91-1.01L16 4z" stroke="#fff" strokeWidth="2" strokeLinejoin="round" fill="none" opacity="0.9"/>
+        <path d="M16 4l3.09 6.26L26 11.27l-5 4.87 1.18 6.86L16 19.77l-6.18 3.23L11 16.14 6 11.27l6.91-1.01L16 4z" stroke="#fff" strokeWidth="2" strokeLinejoin="round" fill="none" opacity="0.9" />
       </svg>
     ),
     value: "0%",
@@ -38,7 +64,7 @@ const stats = [
   {
     icon: (
       <svg width="26" height="26" viewBox="0 0 32 32" fill="none">
-        <path d="M16 3C10 3 6 8 6 13c0 8 10 16 10 16s10-8 10-16c0-5-4-10-10-10z" stroke="#fff" strokeWidth="2" fill="none" opacity="0.85"/>
+        <path d="M16 3C10 3 6 8 6 13c0 8 10 16 10 16s10-8 10-16c0-5-4-10-10-10z" stroke="#fff" strokeWidth="2" fill="none" opacity="0.85" />
         <circle cx="16" cy="13" r="3" fill="#fff" />
       </svg>
     ),
@@ -87,11 +113,11 @@ function StatCard({ stat, active, delay }) {
   );
 }
 
-const serif  = "'Cormorant Garamond', Georgia, serif";
-const sans   = "'Outfit', system-ui, sans-serif";
-const teal   = "#1E88C8";
+const serif = "'Cormorant Garamond', Georgia, serif";
+const sans = "'Outfit', system-ui, sans-serif";
+const teal = "#1E88C8";
 const tealDk = "#1567A0";
-const navy   = "#0D1B2A";
+const navy = "#0D1B2A";
 const orange = "#F97316";
 
 export default function WhyDecisionHome() {
@@ -194,13 +220,13 @@ export default function WhyDecisionHome() {
         .wdh-eyebrow-text { font-size: 10.5px; font-weight: 700; color: ${teal}; letter-spacing: 0.12em; text-transform: uppercase; }
 
         .wdh-main-title {
-          font-family: ${serif};
+          font-family: ${T.poppins};
           font-size: clamp(1.75rem, 3vw, 2.6rem);
           font-weight: 700; color: ${navy};
           line-height: 1.12; margin: 0 0 14px;
           position: relative; z-index: 1;
         }
-        .wdh-main-title span { color: ${teal}; }
+        .wdh-main-title  { color: ${teal}; }
 
         .wdh-underline {
           display: flex; gap: 5px; align-items: center; margin-bottom: 16px;
@@ -209,8 +235,9 @@ export default function WhyDecisionHome() {
         .wdh-desc {
           font-size: 15px; color: T.para;
           line-height: 1.75; font-weight: 400;
-          max-width: 400px; margin-bottom: 20px;
+          max-width: 470px; margin-bottom: 20px;
           position: relative; z-index: 1;
+           font-family: ${T.poppins};
         }
 
         /* Features */
@@ -277,8 +304,8 @@ export default function WhyDecisionHome() {
         }
         .wdh-stat:hover .wdh-stat-value { color: #fbbf7e; }
 
-        .wdh-stat-label { font-size: 13px; font-weight: 600; color: rgba(255,255,255,0.88); margin-bottom: 3px; }
-        .wdh-stat-sub   { font-size: 11px; color: rgba(255,255,255,0.42); font-weight: 400; letter-spacing: 0.03em; }
+        .wdh-stat-label { font-size: 15px; font-weight: 600; color: rgba(255,255,255,0.88); margin-bottom: 3px; }
+        .wdh-stat-sub   { font-size: 13px; color: rgba(255, 255, 255, 0.77); font-weight: 400; letter-spacing: 0.03em; }
       `}</style>
 
       {/* ── Hero ── */}
@@ -322,8 +349,8 @@ export default function WhyDecisionHome() {
 
           <div className="wdh-underline">
             <div style={{ width: 32, height: 3, borderRadius: 99, background: orange }} />
-            <div style={{ width: 9,  height: 3, borderRadius: 99, background: teal }} />
-            <div style={{ width: 4,  height: 3, borderRadius: 99, background: "rgba(30,136,200,0.25)" }} />
+            <div style={{ width: 9, height: 3, borderRadius: 99, background: teal }} />
+            <div style={{ width: 4, height: 3, borderRadius: 99, background: "rgba(30,136,200,0.25)" }} />
           </div>
 
           <p className="wdh-desc">
@@ -333,8 +360,8 @@ export default function WhyDecisionHome() {
           <div className="wdh-features">
             {[
               { t: "End-to-end compliance support", s: "From documentation to approval" },
-              { t: "50+ accredited lab partners",   s: "Fastest turnaround across India" },
-              { t: "Dedicated account managers",    s: "Single point of contact, always" },
+              { t: "50+ accredited lab partners", s: "Fastest turnaround across India" },
+              { t: "Dedicated account managers", s: "Single point of contact, always" },
             ].map((f) => (
               <div key={f.t} className="wdh-feat">
                 <div className="wdh-feat-icon">

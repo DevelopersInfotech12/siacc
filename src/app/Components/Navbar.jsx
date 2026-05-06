@@ -69,7 +69,7 @@ export default function Navbar() {
   const go = (href) => { setDropdown(null); setMobileOpen(false); router.push(href); };
 
   return (
-   <div style={{ fontFamily: C.sans, position: "sticky", top: 0, zIndex: 1000, margin: 0, padding: 0, lineHeight: 0 }}>
+    <div style={{ fontFamily: C.sans, position: "sticky", top: 0, zIndex: 1000, margin: 0, padding: 0, lineHeight: 0 }}>
       <style>{`
         .desktop-top-bar, .desktop-nav, .desktop-cta { }
         .mobile-burger { display: none !important; }
@@ -135,13 +135,53 @@ export default function Navbar() {
         <div style={{ maxWidth: 1280, margin: "0 auto", padding: "0 24px", display: "flex", alignItems: "center", justifyContent: "space-between", height: 68 }}>
 
           {/* Logo */}
-          <button onClick={() => go("/")} style={{ display: "flex", alignItems: "center", gap: 10, background: "none", border: "none", cursor: "pointer", flexShrink: 0 }}>
-            <div style={{ width: 40, height: 40, borderRadius: 10, backgroundColor: C.primary, display: "flex", alignItems: "center", justifyContent: "center" }}>
-              <span style={{ color: "#fff", fontFamily: C.serif, fontWeight: 800, fontSize: 20 }}>S</span>
-            </div>
+          <button
+            onClick={() => go("/")}
+            style={{
+              display: "flex",
+              alignItems: "center",
+              // gap: 10,
+              background: "none",
+              border: "none",
+              cursor: "pointer",
+              flexShrink: 0,
+            }}
+          >
+            <img
+              src="/images/siacclogo.png"
+              alt="SIACC Logo"
+              style={{
+                width: 65,
+                height: 65,
+                objectFit: "cover",
+                marginRight: 0,
+              }}
+            />
+
             <div style={{ textAlign: "left" }}>
-              <div style={{ fontFamily: C.serif, fontWeight: 800, color: C.navy, fontSize: 20, lineHeight: 1.1 }}>SIACC</div>
-              <div style={{ fontSize: 9, color: C.mutedText, letterSpacing: "0.18em", textTransform: "uppercase", lineHeight: 1.2 }}>Star India Accreditation</div>
+              <div
+                style={{
+                  fontFamily: C.serif,
+                  fontWeight: 800,
+                  color: C.navy,
+                  fontSize: 20,
+                  lineHeight: 1.1,
+                }}
+              >
+                SIACC
+              </div>
+
+              <div
+                style={{
+                  fontSize: 9,
+                  color: C.mutedText,
+                  letterSpacing: "0.18em",
+                  textTransform: "uppercase",
+                  lineHeight: 1.2,
+                }}
+              >
+                Star India Accreditation
+              </div>
             </div>
           </button>
 

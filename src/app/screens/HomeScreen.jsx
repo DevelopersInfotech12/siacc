@@ -35,6 +35,7 @@ const T = {
   creamMid: "#F3EFE8",
   serif: "'Cormorant Garamond', 'Georgia', serif",
   sans: "'Outfit', 'system-ui', sans-serif",
+  poppins: "'Poppins', 'system-ui', sans-serif",
 };
 
 function useReveal(opts = {}) {
@@ -246,13 +247,13 @@ export default function HomeScreen() {
 
             <div className="reveal-right" ref={aboutTxtRef}>
               <SectionLabel>About SIACC</SectionLabel>
-              <h2 style={{ fontFamily: T.serif, fontSize: "clamp(2rem,3.2vw,2.9rem)", color: T.titleblue, fontWeight: 700, marginBottom: 20, lineHeight: 1.12, letterSpacing: "-0.01em" }}>
+              <h2 style={{ fontFamily: T.poppins, fontSize:38, color: T.titleblue, fontWeight: 700, marginBottom: 20, lineHeight: 1.22, letterSpacing: "-0.01em" }}>
                 India's Leading<br />Compliance Consultants
               </h2>
-              <p style={{ fontFamily: T.sans, fontSize: 15, color: T.para, lineHeight: 1.9, marginBottom: 14, textAlign: "justify" }}>
+              <p style={{ fontFamily: T.poppins, fontWeight: 500,  fontSize: 15, color: T.para, lineHeight: 1.9, marginBottom: 14, textAlign: "justify" }}>
                 Star India Accreditation (SIACC) is a trusted name with over 12+ years of experience in BIS, EPR, WPC, TEC, BEE and ISO certifications. We deliver fast, reliable, and cost-effective regulatory approvals for Indian and foreign manufacturers and importers.
               </p>
-              <p style={{ fontFamily: T.sans, fontSize: 15, color: T.para, lineHeight: 1.9, marginBottom: 32 }}>
+              <p style={{fontFamily: T.poppins, fontWeight: 500,  fontSize: 15, color: T.para, lineHeight: 1.9, marginBottom: 32, textAlign: "justify" }}>
                 With a deep understanding of Indian regulatory standards, we help businesses achieve full compliance — reducing delays, avoiding penalties, and speeding up market entry.
               </p>
               <div className="mini-stats" ref={miniStatsRef}>

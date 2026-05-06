@@ -17,6 +17,7 @@ const T = {
   cream: "#FAF8F4",
   serif: "'Cormorant Garamond', 'Georgia', serif",
   sans: "'Outfit', 'system-ui', sans-serif",
+  poppins: "'Poppins', 'system-ui', sans-serif",
 };
 
 /* ══════════════════════════════════════════════
@@ -92,6 +93,7 @@ function IndustryCard({ item }) {
         gap: 14,
         cursor: "default",
         transition: "all 0.25s cubic-bezier(0.4,0,0.2,1)",
+        fontFamily: T.poppins
       }}
     >
       <div className="ind-icon" style={{
@@ -104,10 +106,10 @@ function IndustryCard({ item }) {
         {item.icon}
       </div>
       <div>
-        <div style={{ fontFamily: T.sans, fontSize: 15, fontWeight: 600, color: T.paradark, lineHeight: 1.3 }}>
+        <div style={{ fontFamily: T.poppins, fontSize: 16, fontWeight: 300, color: T.para, lineHeight: 1.3 }}>
           {item.name}
         </div>
-        <div style={{ fontFamily: T.sans, fontSize: 11, color: T.para, marginTop: 2 }}>
+        <div style={{ fontFamily: T.poppins, fontSize: 13, color: "#00000085", marginTop: 2 }}>
           {item.sub}
         </div>
       </div>
@@ -163,7 +165,7 @@ export default function IndustriesWeServe() {
           <div>
             <SectionLabel>Industries We Serve</SectionLabel>
             <h2 style={{
-              fontFamily: T.serif,
+              fontFamily: T.poppins,
               fontSize: "clamp(1.8rem,3vw,2.6rem)",
               fontWeight: 700,
               color: T.titleblue,
@@ -174,11 +176,11 @@ export default function IndustriesWeServe() {
               Trusted Across Every Sector
             </h2>
             <p style={{
-              fontFamily: T.sans,
+              fontFamily: T.poppins,
               fontSize: 15,
-              color: T.para,
+              color: "#0000009d",
               lineHeight: 1.7,
-              maxWidth: 500,
+              maxWidth: 550,
             }}>
               From consumer electronics to medical devices — we navigate India's most complex regulatory frameworks across all major industries.
             </p>

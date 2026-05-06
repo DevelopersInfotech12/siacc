@@ -1,6 +1,32 @@
 "use client";
 import { useRef, useEffect, useState } from "react";
 
+const T = {
+  teal: "#1E88C8",
+  titleblue: "#0a6daa",
+  para: "#080000b0", paradark: "#080000c4",
+  tealDark: "#074D4D",
+  tealMid: "#0E8080",
+  tealLight: "#EBF5F5",
+  tealGhost: "#F4FAFA",
+  amber: "#C8780A",
+  amberLight: "#FEF3DC",
+  amberDark: "#9A5C06",
+  slate: "#0D1B2A",
+  slateMid: "#1C3144",
+  body: "#2D3748",
+  muted: "#718096",
+  subtle: "#A0AEC0",
+  border: "#E8E3DA",
+  borderLight: "#F0ECE5",
+  white: "#FFFFFF",
+  cream: "#FAF8F4",
+  creamMid: "#F3EFE8",
+  serif: "'Cormorant Garamond', 'Georgia', serif",
+  sans: "'Outfit', 'system-ui', sans-serif",
+  poppins: "'Poppins', 'system-ui', sans-serif",
+};
+
 const whyUs = [
   {
     icon: "🛡️",
@@ -46,11 +72,11 @@ const whyUs = [
   },
 ];
 
-const serif  = "'Cormorant Garamond', Georgia, serif";
-const sans   = "'Outfit', system-ui, sans-serif";
-const teal   = "#1E88C8";
+const serif = "'Cormorant Garamond', Georgia, serif";
+const sans = "'Outfit', system-ui, sans-serif";
+const teal = "#1E88C8";
 const tealDk = "#1567A0";
-const navy   = "#0D1B2A";
+const navy = "#0D1B2A";
 const orange = "#F97316";
 const titleblue = "#0a6daa";
 
@@ -80,7 +106,7 @@ function useReveal(opts = {}) {
 
 export default function WhyChooseUs() {
   const introRef = useReveal();
-  const gridRef  = useReveal({ stagger: true, baseDelay: 80 });
+  const gridRef = useReveal({ stagger: true, baseDelay: 80 });
 
   return (
     <section style={{ background: "#f4f8fc", fontFamily: sans, overflow: "hidden", position: "relative" }}>
@@ -166,6 +192,7 @@ export default function WhyChooseUs() {
           font-size: 10px; font-weight: 800; letter-spacing: 0.1em;
           text-transform: uppercase; padding: 5px 12px; border-radius: 4px;
           box-shadow: 0 4px 14px rgba(249,115,22,0.35);
+          font-family: ${T.poppins};
         }
 
         /* ── Content side ── */
@@ -183,7 +210,7 @@ export default function WhyChooseUs() {
         }
 
         .wcu-title {
-          font-family: ${serif};
+            font-family: ${T.poppins};
           font-size: clamp(1.9rem,3vw,2.8rem);
           font-weight: 700; color: ${titleblue};
           line-height: 1.1; margin: 0 0 14px;
@@ -273,7 +300,8 @@ export default function WhyChooseUs() {
           text-align: right; flex-shrink: 0;
         }
         .wcu-stat-val {
-          font-family: ${serif}; font-size: 22px; font-weight: 700;
+           font-family: ${T.poppins};
+          font-size: 22px; font-weight: 700;
           color: ${teal}; line-height: 1;
           transition: color 0.2s;
         }
@@ -281,19 +309,22 @@ export default function WhyChooseUs() {
         .wcu-stat-lbl {
           font-size: 10px; color: rgba(0,0,0,0.38); font-weight: 500;
           letter-spacing: 0.04em; margin-top: 2px;
+            font-family: ${T.poppins};
         }
 
         /* Card text */
         .wcu-card-title {
-          font-family: ${serif}; font-size: 21px; font-weight: 700;
-          color: ${navy}; margin: 0 0 8px; line-height: 1.25;
+          font-family: ${T.poppins};
+          font-size: 21px; font-weight: 700;
+          color: ${T.titleblue}; margin: 0 0 8px; line-height: 1.25;
           transition: color 0.2s;
         }
         .wcu-card:hover .wcu-card-title { color: ${tealDk}; }
 
         .wcu-card-desc {
-          font-size: 15px; color: rgba(0, 0, 0, 0.66);
-          line-height: 1.72; font-weight: 400; flex: 1; text-align: justify;
+          font-size: 14px; color: rgba(0, 0, 0, 0.51);
+           font-family: ${T.poppins};
+          line-height: 1.72; font-weight: 100; flex: 1; text-align: justify;
         }
 
         /* Bottom divider + learn more */
@@ -356,17 +387,17 @@ export default function WhyChooseUs() {
         <div>
           <div className="wcu-eyebrow">
             <span className="wcu-eyebrow-dot" />
-            <span className="wcu-eyebrow-text">Why Choose Us</span>
+            <span className="wcu-eyebrow-text">Our Expertise</span>
           </div>
 
           <h2 className="wcu-title">
-            The SIACC<br />Difference
+            The SIACC Difference
           </h2>
 
           <div className="wcu-underline">
             <div style={{ width: 32, height: 3, borderRadius: 99, background: orange }} />
-            <div style={{ width: 9,  height: 3, borderRadius: 99, background: teal }} />
-            <div style={{ width: 4,  height: 3, borderRadius: 99, background: "rgba(30,136,200,0.25)" }} />
+            <div style={{ width: 9, height: 3, borderRadius: 99, background: teal }} />
+            <div style={{ width: 4, height: 3, borderRadius: 99, background: "rgba(30,136,200,0.25)" }} />
           </div>
 
           <p className="wcu-desc">
@@ -403,7 +434,7 @@ export default function WhyChooseUs() {
               </div>
               <div className="wcu-card-arrow">
                 <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
-                  <path d="M2 10L10 2M10 2H4M10 2v6" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/>
+                  <path d="M2 10L10 2M10 2H4M10 2v6" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
               </div>
             </div>

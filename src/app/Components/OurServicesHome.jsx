@@ -2,6 +2,32 @@
 import { useRef, useState, useEffect, useCallback } from "react";
 import { useRouter } from "next/navigation";
 
+const T = {
+  teal: "#1E88C8",
+  titleblue: "#0a6daa",
+  para: "#080000b0", paradark: "#080000c4",
+  tealDark: "#074D4D",
+  tealMid: "#0E8080",
+  tealLight: "#EBF5F5",
+  tealGhost: "#F4FAFA",
+  amber: "#C8780A",
+  amberLight: "#FEF3DC",
+  amberDark: "#9A5C06",
+  slate: "#0D1B2A",
+  slateMid: "#1C3144",
+  body: "#2D3748",
+  muted: "#718096",
+  subtle: "#A0AEC0",
+  border: "#E8E3DA",
+  borderLight: "#F0ECE5",
+  white: "#FFFFFF",
+  cream: "#FAF8F4",
+  creamMid: "#F3EFE8",
+  serif: "'Cormorant Garamond', 'Georgia', serif",
+  sans: "'Outfit', 'system-ui', sans-serif",
+  poppins: "'Poppins', 'system-ui', sans-serif",
+};
+
 const services = [
   { id: "bis-crs-isi", title: "BIS CRS & ISI Certification", desc: "Mandatory certification for 70+ electronics under CRS and 370+ categories under ISI including steel, cement, electrical goods and LPG cylinders.", img: "/images/bis2.png", href: "/bis", tag: "BIS", accent: "#1E88C8" },
   { id: "wpc-eta", title: "WPC-ETA Approval", desc: "Mandatory for all wireless, Bluetooth, Wi-Fi, Zigbee and RF devices imported or sold in India. Filed via the Saralsanchar portal.", img: "/images/WPC.png", href: "/wpc", tag: "WPC", accent: "#1567A0" },
@@ -216,9 +242,9 @@ export default function OurServicesHome() {
         /* Body */
         .oss-card-body{padding:18px 20px 22px;flex:1;display:flex;flex-direction:column;position:relative;}
         .oss-card-body::before{content:'';position:absolute;top:0;left:20px;right:20px;height:1px;background:linear-gradient(90deg,transparent,rgba(30,136,200,0.15),transparent);}
-        .oss-card-title{font-size:17px;font-weight:600;color:#0D1B2A;margin:0 0 8px;font-family:'Outfit',system-ui,sans-serif;line-height:1.35;transition:color 0.2s;}
-        .oss-card:hover .oss-card-title{color:#1E88C8;}
-        .oss-card-desc{font-size:15px;color:##080000b0;line-height:1.7;margin:0 0 18px;flex:1;font-weight:400;}
+        .oss-card-title{font-size:17px;font-weight:600;color:${T.titleblue};margin:0 0 8px;font-family:'Poppins',system-ui,sans-serif;line-height:1.35;transition:color 0.2s;}
+.oss-card:hover .oss-card-title{color:${T.teal};}
+.oss-card-desc{font-family:'Poppins',system-ui,sans-serif;font-size:14px;color:${T.para};line-height:1.7;margin:0 0 18px;flex:1;font-weight:400; text-align: justify;}
         .oss-card-footer{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:auto;}
 
         /* Button */
@@ -276,7 +302,7 @@ export default function OurServicesHome() {
             <span className="oss-eyebrow-text">What We Offer</span>
           </div>
         </div>
-        <h2 style={{ fontFamily: "'Cormorant Garamond',Georgia,serif", fontSize: "clamp(32px,5vw,52px)", fontWeight: 700, color: "#0a6daa", margin: "0 0 6px", letterSpacing: "-0.02em", lineHeight: 1.1 }}>
+        <h2 style={{ fontFamily: T.poppins, fontSize:40,fontWeight: 700, color: "#0a6daa", margin: "0 0 6px", letterSpacing: "-0.02em", lineHeight: 1.1 }}>
           Our Services
         </h2>
         <div style={{ display: "flex", justifyContent: "center", gap: 6, margin: "14px auto 20px" }}>
@@ -284,7 +310,7 @@ export default function OurServicesHome() {
           <div style={{ width: 8,  height: 3, borderRadius: 99, background: "#1E88C8" }} />
           <div style={{ width: 4,  height: 3, borderRadius: 99, background: "rgba(30,136,200,0.3)" }} />
         </div>
-        <p style={{ fontSize: "clamp(14px,1.4vw,16px)", color: "rgba(0,0,0,0.6)", maxWidth: 580, margin: "0 auto", lineHeight: 1.8, fontWeight: 400, fontFamily: "'Outfit',system-ui,sans-serif" }}>
+        <p style={{ fontSize:15, color: "rgba(0,0,0,0.6)", maxWidth: 580, margin: "0 auto", lineHeight: 1.8, fontWeight: 400, fontFamily: T.poppins, }}>
           At Siacc Services, we offer a complete range of certification and compliance services tailored to meet the needs of manufacturers, importers, and brand owners.
         </p>
       </div>

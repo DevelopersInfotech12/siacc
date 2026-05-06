@@ -25,6 +25,7 @@ const T = {
   orange: "#F97316",
   serif: "'Cormorant Garamond', 'Georgia', serif",
   sans: "'Outfit', 'system-ui', sans-serif",
+  poppins: "'Poppins', 'system-ui', sans-serif",
 };
 
 function useReveal(opts = {}) {
@@ -83,114 +84,122 @@ function StepCard({ step, index, isLast, isMobile }) {
       position: "relative",
       zIndex: 1,
       width: "100%",
+      fontFamily: T.poppins 
+     
     }}>
-      {/* Desktop connector line */}
-      {!isLast && !isMobile && (
+  {/* Desktop connector line */ }
+{
+  !isLast && !isMobile && (
+    <div style={{
+      position: "absolute",
+      top: 28,
+      left: "calc(50% + 32px)",
+      right: "calc(-50% + 32px)",
+      height: 2,
+      background: T.border,
+      zIndex: 0,
+    }}>
+      <div style={{
+        width: hov ? "100%" : "0%",
+        height: "100%",
+        background: T.teal,
+        transition: "width 0.5s cubic-bezier(0.4,0,0.2,1)",
+      }} />
+    </div>
+  )
+}
+
+{/* Mobile: left column (icon + vertical line) */ }
+{
+  isMobile && (
+    <div style={{ display: "flex", flexDirection: "column", alignItems: "center", marginRight: 20, flexShrink: 0 }}>
+      <div
+        onMouseEnter={() => setHov(true)}
+        onMouseLeave={() => setHov(false)}
+        style={{
+          width: 52, height: 52, borderRadius: "50%",
+          background: hov ? T.teal : T.tealLight,
+          border: `2px solid ${hov ? T.teal : T.border}`,
+          display: "flex", alignItems: "center", justifyContent: "center",
+          cursor: "default",
+          transition: "all 0.3s cubic-bezier(0.34,1.56,0.64,1)",
+          transform: hov ? "scale(1.08)" : "scale(1)",
+          boxShadow: hov ? "0 8px 20px rgba(30,136,200,0.22)" : "none",
+          position: "relative", flexShrink: 0,
+        }}
+      >
+        <span style={{ fontSize: 20 }}>{step.icon}</span>
         <div style={{
-          position: "absolute",
-          top: 28,
-          left: "calc(50% + 32px)",
-          right: "calc(-50% + 32px)",
-          height: 2,
-          background: T.border,
-          zIndex: 0,
+          position: "absolute", top: -6, right: -6, width: 20, height: 20,
+          borderRadius: "50%", background: T.orange, color: T.white,
+          fontFamily: T.sans, fontSize: 9, fontWeight: 700,
+          display: "flex", alignItems: "center", justifyContent: "center",
+          border: "2px solid #FFFFFF",
         }}>
-          <div style={{
-            width: hov ? "100%" : "0%",
-            height: "100%",
-            background: T.teal,
-            transition: "width 0.5s cubic-bezier(0.4,0,0.2,1)",
-          }} />
+          {index + 1}
         </div>
+      </div>
+      {!isLast && (
+        <div style={{ width: 2, flex: 1, minHeight: 40, background: T.border, marginTop: 8 }} />
       )}
+    </div>
+  )
+}
 
-      {/* Mobile: left column (icon + vertical line) */}
-      {isMobile && (
-        <div style={{ display: "flex", flexDirection: "column", alignItems: "center", marginRight: 20, flexShrink: 0 }}>
-          <div
-            onMouseEnter={() => setHov(true)}
-            onMouseLeave={() => setHov(false)}
-            style={{
-              width: 52, height: 52, borderRadius: "50%",
-              background: hov ? T.teal : T.tealLight,
-              border: `2px solid ${hov ? T.teal : T.border}`,
-              display: "flex", alignItems: "center", justifyContent: "center",
-              cursor: "default",
-              transition: "all 0.3s cubic-bezier(0.34,1.56,0.64,1)",
-              transform: hov ? "scale(1.08)" : "scale(1)",
-              boxShadow: hov ? "0 8px 20px rgba(30,136,200,0.22)" : "none",
-              position: "relative", flexShrink: 0,
-            }}
-          >
-            <span style={{ fontSize: 20 }}>{step.icon}</span>
-            <div style={{
-              position: "absolute", top: -6, right: -6, width: 20, height: 20,
-              borderRadius: "50%", background: T.orange, color: T.white,
-              fontFamily: T.sans, fontSize: 9, fontWeight: 700,
-              display: "flex", alignItems: "center", justifyContent: "center",
-              border: "2px solid #FFFFFF",
-            }}>
-              {index + 1}
-            </div>
-          </div>
-          {!isLast && (
-            <div style={{ width: 2, flex: 1, minHeight: 40, background: T.border, marginTop: 8 }} />
-          )}
-        </div>
-      )}
-
-      {/* Desktop icon circle */}
-      {!isMobile && (
-        <div
-          onMouseEnter={() => setHov(true)}
-          onMouseLeave={() => setHov(false)}
-          style={{
-            width: 56, height: 56, borderRadius: "50%",
-            background: hov ? T.teal : T.tealLight,
-            border: `2px solid ${hov ? T.teal : T.border}`,
-            display: "flex", alignItems: "center", justifyContent: "center",
-            marginBottom: 20, cursor: "default",
-            transition: "all 0.3s cubic-bezier(0.34,1.56,0.64,1)",
-            transform: hov ? "translateY(-4px) scale(1.08)" : "translateY(0) scale(1)",
-            boxShadow: hov ? "0 12px 28px rgba(30,136,200,0.22)" : "none",
-            position: "relative", zIndex: 2,
-          }}
-        >
-          <span style={{ fontSize: 22 }}>{step.icon}</span>
-          <div style={{
-            position: "absolute", top: -6, right: -6, width: 22, height: 22,
-            borderRadius: "50%", background: T.orange, color: T.white,
-            fontFamily: T.sans, fontSize: 10, fontWeight: 700,
-            display: "flex", alignItems: "center", justifyContent: "center",
-            border: "2px solid #FFFFFF",
-          }}>
-            {index + 1}
-          </div>
-        </div>
-      )}
-
-      {/* Text content */}
-      <div style={{ paddingBottom: isMobile && !isLast ? 32 : 0, flex: 1 }}>
-        <div style={{
-          fontFamily: T.sans, fontSize: 10.5, fontWeight: 700, color: T.teal,
-          letterSpacing: "0.14em", textTransform: "uppercase", marginBottom: 6,
-        }}>
-          Step {step.n}
-        </div>
-        <h3 style={{
-          fontFamily: T.serif, fontSize: isMobile ? 18 : 20, color: T.slate,
-          marginBottom: 8, fontWeight: 700, lineHeight: 1.2,
-        }}>
-          {step.title}
-        </h3>
-        <p style={{
-          fontFamily: T.sans, fontSize: 14, color: T.para, lineHeight: 1.75,
-          maxWidth: isMobile ? "100%" : 200, margin: isMobile ? "0" : "0 auto",
-        }}>
-          {step.desc}
-        </p>
+{/* Desktop icon circle */ }
+{
+  !isMobile && (
+    <div
+      onMouseEnter={() => setHov(true)}
+      onMouseLeave={() => setHov(false)}
+      style={{
+        width: 56, height: 56, borderRadius: "50%",
+        background: hov ? T.teal : T.tealLight,
+        border: `2px solid ${hov ? T.teal : T.border}`,
+        display: "flex", alignItems: "center", justifyContent: "center",
+        marginBottom: 20, cursor: "default",
+        transition: "all 0.3s cubic-bezier(0.34,1.56,0.64,1)",
+        transform: hov ? "translateY(-4px) scale(1.08)" : "translateY(0) scale(1)",
+        boxShadow: hov ? "0 12px 28px rgba(30,136,200,0.22)" : "none",
+        position: "relative", zIndex: 2,
+      }}
+    >
+      <span style={{ fontSize: 22 }}>{step.icon}</span>
+      <div style={{
+        position: "absolute", top: -6, right: -6, width: 22, height: 22,
+        borderRadius: "50%", background: T.orange, color: T.white,
+        fontFamily: T.sans, fontSize: 10, fontWeight: 700,
+        display: "flex", alignItems: "center", justifyContent: "center",
+        border: "2px solid #FFFFFF",
+      }}>
+        {index + 1}
       </div>
     </div>
+  )
+}
+
+{/* Text content */ }
+<div style={{ paddingBottom: isMobile && !isLast ? 32 : 0, flex: 1 }}>
+  <div style={{
+    fontFamily: T.sans, fontSize: 10.5, fontWeight: 700, color: T.teal,
+    letterSpacing: "0.14em", textTransform: "uppercase", marginBottom: 6,
+  }}>
+    Step {step.n}
+  </div>
+  <h3 style={{
+    fontFamily: T.poppins, fontSize: isMobile ? 18 : 20, color: T.slate,
+    marginBottom: 8, fontWeight: 500, lineHeight: 1.2,
+  }}>
+    {step.title}
+  </h3>
+  <p style={{
+    fontFamily: T.poppins, fontSize: 13, color: "#00000094", fontWeight: 100,lineHeight: 1.75,
+    maxWidth: isMobile ? "100%" : 200, margin: isMobile ? "0" : "0 auto",
+  }}>
+    {step.desc}
+  </p>
+</div>
+    </div >
   );
 }
 
@@ -237,7 +246,7 @@ export default function HowItWorks() {
             <SectionLabel>Our Process</SectionLabel>
           </div>
           <h2 style={{
-            fontFamily: T.serif, fontSize: "clamp(1.8rem,3.2vw,2.9rem)",
+            fontFamily: T.poppins, fontSize: "clamp(1.8rem,3.2vw,2.9rem)",
             color: T.titleblue, fontWeight: 700, letterSpacing: "-0.01em", marginBottom: 12,
           }}>
             How It Works
@@ -334,7 +343,7 @@ export default function HowItWorks() {
               >
                 Get Free Consultation
               </button>
-              
+
               <a
                 href="tel:+919540190334"
                 onMouseEnter={(e) => { e.currentTarget.style.borderColor = T.teal; }}

@@ -17,8 +17,9 @@ const T = {
   white: "#FFFFFF",
   cream: "#FAF8F4",
   orange: "#F97316",
-  serif: "'Cormorant Garamond', 'Georgia', serif",
+ serif: "'Cormorant Garamond', 'Georgia', serif",
   sans: "'Outfit', 'system-ui', sans-serif",
+  poppins: "'Poppins', 'system-ui', sans-serif",
 };
 
 /* ══════════════════════════════════════════════
@@ -183,9 +184,9 @@ function TestimonialCard({ t }) {
 
       {/* Review text */}
       <p style={{
-        fontFamily: T.sans,
+        fontFamily: T.poppins,
         fontSize: 14.5,
-        color: T.body,
+        color: "#0000009d",
         lineHeight: 1.85,
         marginBottom: 20,
         position: "relative",
@@ -323,8 +324,8 @@ export default function ClientStories() {
         <div className="reveal" ref={headerRef} style={{ textAlign: "center", marginBottom: 52 }}>
           <SectionLabel center>Client Stories</SectionLabel>
           <h2 style={{
-            fontFamily: T.serif,
-            fontSize: "clamp(2rem,3.2vw,2.9rem)",
+            fontFamily: T.poppins,
+            fontSize: 35,
             fontWeight: 700,
             color: T.titleblue,
             letterSpacing: "-0.01em",
@@ -332,7 +333,7 @@ export default function ClientStories() {
           }}>
             Why People Trust SIACC
           </h2>
-          <p style={{ fontFamily: T.sans, color: T.muted, fontSize: 14.5, lineHeight: 1.75, maxWidth: 500, margin: "0 auto" }}>
+          <p style={{ fontFamily: T.sans, color: T.muted, fontSize: 16, lineHeight: 1.75, maxWidth: 500, margin: "0 auto" }}>
             Over 10,000 businesses have achieved compliance with our help. Here's what they say.
           </p>
         </div>
@@ -365,7 +366,7 @@ export default function ClientStories() {
               <div style={{ display: "flex", gap: 4, justifyContent: "center", margin: "6px 0 4px" }}>
                 {[...Array(5)].map((_, i) => <span key={i} style={{ color: T.amber, fontSize: 14 }}>★</span>)}
               </div>
-              <div style={{ fontFamily: T.sans, fontSize: 12, color: T.muted }}>Overall rating</div>
+              <div style={{ fontFamily: T.sans, fontSize: 14, color: T.muted }}>Overall rating</div>
             </div>
 
             {/* Rating bars */}
@@ -380,7 +381,7 @@ export default function ClientStories() {
               {summaryStats.map(s => (
                 <div key={s.l} style={{ textAlign: "center" }}>
                   <div style={{ fontFamily: T.serif, fontSize: 26, fontWeight: 700, color: T.slate }}>{s.n}</div>
-                  <div style={{ fontFamily: T.sans, fontSize: 12, color: T.muted, marginTop: 2 }}>{s.l}</div>
+                  <div style={{ fontFamily: T.sans, fontSize: 15, color: T.muted, marginTop: 2 }}>{s.l}</div>
                 </div>
               ))}
             </div>

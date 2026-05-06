@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 const T = {
   teal: "#1E88C8",
   tealDark: "#1567A0",
+  titleblue: "#0a6daa",
   para: "#080000b0", paradark: "#080000c4",
   tealLight: "#EBF5FB",
   tealBorder: "#B5D4F4",
@@ -18,8 +19,9 @@ const T = {
   borderLight: "#F0ECE5",
   white: "#FFFFFF",
   offWhite: "#F9FAFB",
-  serif: "'Cormorant Garamond', Georgia, serif",
-  sans: "'Outfit', system-ui, sans-serif",
+  serif: "'Cormorant Garamond', 'Georgia', serif",
+  sans: "'Outfit', 'system-ui', sans-serif",
+  poppins: "'Poppins', 'system-ui', sans-serif",
 };
 
 const slides = [
@@ -115,22 +117,14 @@ export default function HeroSlider() {
 
   return (
     <section
-      style={{
-        background: T.white,
-        borderBottom: `1px solid ${T.border}`,
-        fontFamily: T.sans,
-        /* ✅ FIX: Remove any top spacing */
-        margin: 0,
-        padding: 0,
-        display: "block",
-      }}
+      style={{ background: T.white, borderBottom: `1px solid ${T.border}`, fontFamily: T.sans, margin: 0, padding: 0, display: "block" }}
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
     >
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Outfit:wght@300;400;500;600&display=swap');
+        /* Poppins loaded for title + subtitle */
+        @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Outfit:wght@300;400;500;600&family=Poppins:wght@600;700&display=swap');
 
-        /* ✅ FIX: Ensure no default browser margin bleeds in */
         section { margin: 0 !important; }
 
         .hs2-tabs { display:flex; overflow:hidden; background:${T.offWhite}; border-bottom:1px solid ${T.border}; margin:0; padding:0; }
@@ -139,16 +133,35 @@ export default function HeroSlider() {
         .hs2-tab:hover:not(.active) { color:${T.body}; background:${T.white}; }
         .hs2-tab-dot { width:6px; height:6px; border-radius:50%; background:currentColor; opacity:0.5; flex-shrink:0; }
         .hs2-tab.active .hs2-tab-dot { opacity:1; background:${T.teal}; }
-
         @media(max-width:860px) {
           .hs2-tabs { overflow:hidden; }
           .hs2-tab { padding:10px 4px; font-size:10.5px; gap:4px; flex:1; justify-content:center; }
           .hs2-tab-dot { width:5px; height:5px; }
         }
 
-        .hs2-title { font-family:${T.serif}; font-size:clamp(1.5rem,3.5vw,3rem); font-weight:600; color:${T.navy}; line-height:1.1; letter-spacing:-0.01em; margin-bottom:6px; }
-        .hs2-sub   { font-size:11.5px; font-weight:600; color:${T.teal}; letter-spacing:0.09em; text-transform:uppercase; margin-bottom:14px; }
-        .hs2-desc  { font-size:18px; color:#020000d0; line-height:1.85; max-width:540px; }
+        /* ── Title: Poppins 600 ── */
+        .hs2-title {
+          font-family: 'Poppins', 'system-ui', sans-serif;
+          font-size: clamp(1.5rem, 3.5vw, 3rem);
+          font-weight: 600;
+          color: ${T.titleblue};
+          line-height: 1.1;
+          letter-spacing: -0.01em;
+          margin-bottom: 6px;
+        }
+
+        /* ── Subtitle: Poppins 600 ── */
+        .hs2-sub {
+          font-family: 'Poppins', 'system-ui', sans-serif;
+          font-size: 12px;
+          font-weight: 300;
+          color: ${T.teal};
+          letter-spacing: 0.1em;
+          text-transform: uppercase;
+          margin-bottom: 14px;
+        }
+
+        .hs2-desc { font-family: 'Poppins', 'system-ui', sans-serif; font-size:47px; color:"#ffffff00"; line-height:1.85; max-width:540px; }
 
         .hs2-pill      { display:inline-flex; align-items:center; gap:7px; padding:5px 13px; border-radius:999px; border:1px solid ${T.tealBorder}; background:${T.tealLight}; margin-bottom:16px; width:fit-content; }
         .hs2-pill-dot  { width:6px; height:6px; border-radius:50%; background:${T.teal}; flex-shrink:0; }
@@ -161,19 +174,19 @@ export default function HeroSlider() {
         .hs2-trust-row    { display:flex; gap:8px; flex-wrap:wrap; }
         .hs2-trust-badge  { font-family:${T.sans}; font-size:10.5px; font-weight:600; color:${T.teal}; background:${T.tealLight}; border:1px solid ${T.tealBorder}; border-radius:4px; padding:4px 10px; }
 
-        .hs2-btn-outline  { padding:11px 22px; font-family:${T.sans}; font-size:13.5px; font-weight:600; border:none; border-radius:8px; cursor:pointer; color:#fff; background:${T.orange}; transition:background 0.2s; white-space:nowrap; }
+        .hs2-btn-outline       { padding:11px 22px; font-family:${T.sans}; font-size:13.5px; font-weight:600; border:none; border-radius:8px; cursor:pointer; color:#fff; background:${T.orange}; transition:background 0.2s; white-space:nowrap; }
         .hs2-btn-outline:hover { background:${T.orangeDark}; }
 
-        .hs2-img-overlay  { position:absolute; inset:0; background:linear-gradient(to right,rgba(249,250,251,0.18) 0%,transparent 40%); pointer-events:none; }
-        .hs2-counter      { position:absolute; top:14px; right:14px; background:rgba(255,255,255,0.95); border:1px solid ${T.border}; border-radius:8px; padding:6px 12px; font-family:${T.sans}; font-size:12px; font-weight:600; color:${T.navy}; letter-spacing:0.08em; z-index:2; }
+        .hs2-img-overlay { position:absolute; inset:0; background:linear-gradient(to right,rgba(249,250,251,0.18) 0%,transparent 40%); pointer-events:none; }
+        .hs2-counter     { position:absolute; top:14px; right:14px; background:rgba(255,255,255,0.95); border:1px solid ${T.border}; border-radius:8px; padding:6px 12px; font-family:${T.sans}; font-size:12px; font-weight:600; color:${T.navy}; letter-spacing:0.08em; z-index:2; }
 
-        .hs2-nav   { display:flex; align-items:center; gap:14px; padding:12px clamp(14px,4vw,40px); border-top:1px solid ${T.border}; background:${T.offWhite}; }
-        .hs2-dots  { display:flex; gap:5px; flex:1; }
-        .hs2-dot   { height:3px; border-radius:999px; border:none; cursor:pointer; transition:all 0.32s; padding:0; }
+        .hs2-nav        { display:flex; align-items:center; gap:14px; padding:12px clamp(14px,4vw,40px); border-top:1px solid ${T.border}; background:${T.offWhite}; }
+        .hs2-dots       { display:flex; gap:5px; flex:1; }
+        .hs2-dot        { height:3px; border-radius:999px; border:none; cursor:pointer; transition:all 0.32s; padding:0; }
         .hs2-dot.active { background:${T.teal}; }
         .hs2-dot:not(.active) { background:${T.border}; }
-        .hs2-nav-label { font-size:11.5px; color:${T.subtle}; white-space:nowrap; }
-        .hs2-arrow { width:32px; height:32px; border-radius:8px; border:1px solid ${T.border}; background:${T.white}; cursor:pointer; display:flex; align-items:center; justify-content:center; font-size:14px; color:${T.navy}; transition:all 0.18s; flex-shrink:0; }
+        .hs2-nav-label  { font-size:11.5px; color:${T.subtle}; white-space:nowrap; }
+        .hs2-arrow      { width:32px; height:32px; border-radius:8px; border:1px solid ${T.border}; background:${T.white}; cursor:pointer; display:flex; align-items:center; justify-content:center; font-size:14px; color:${T.navy}; transition:all 0.18s; flex-shrink:0; }
         .hs2-arrow:hover { border-color:${T.teal}; color:${T.teal}; background:${T.tealLight}; }
 
         .hs2-progress      { height:2.5px; background:${T.borderLight}; overflow:hidden; }
@@ -189,11 +202,7 @@ export default function HeroSlider() {
       {/* Tabs */}
       <div className="hs2-tabs">
         {slides.map((sl, i) => (
-          <button
-            key={sl.id}
-            className={`hs2-tab${i === active ? " active" : ""}`}
-            onClick={() => goTo(i)}
-          >
+          <button key={sl.id} className={`hs2-tab${i === active ? " active" : ""}`} onClick={() => goTo(i)}>
             <span className="hs2-tab-dot" />
             {isMobile ? sl.shortTag : sl.tag}
           </button>
@@ -206,16 +215,12 @@ export default function HeroSlider() {
         gridTemplateColumns: isMobile ? "1fr" : "1fr 1fr",
         gridTemplateRows: isMobile ? `${IMG_H}px auto` : "auto",
         minHeight: isMobile ? "unset" : "500px",
-        /* ✅ FIX: No gap between rows so image sits flush */
         gap: 0,
       }}>
-
         {/* Content */}
         <div style={{
           order: isMobile ? 2 : 1,
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "flex-start",
+          display: "flex", flexDirection: "column", justifyContent: "flex-start",
           padding: isMobile ? (isXS ? "14px 12px 16px" : "16px 14px 20px") : "28px 28px 24px 28px",
           borderRight: isMobile ? "none" : `1px solid ${T.border}`,
           borderTop: isMobile ? `1px solid ${T.border}` : "none",
@@ -234,17 +239,11 @@ export default function HeroSlider() {
             <div className="hs2-info-panel" style={{ marginTop: isMobile ? 14 : 24, paddingTop: isMobile ? 12 : 20 }}>
               <div className="hs2-service-card" style={{ flexDirection: isMobile ? "column" : "row" }}>
                 <div>
-                  <div style={{ fontFamily: T.sans, fontSize: 10, fontWeight: 700, color: T.subtle, textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: 3 }}>
-                    Current Service
-                  </div>
+                  <div style={{ fontFamily: T.sans, fontSize: 10, fontWeight: 700, color: T.subtle, textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: 3 }}>Current Service</div>
                   <div style={{ fontFamily: T.serif, fontSize: 15, fontWeight: 600, color: T.navy }}>{s.title}</div>
                   <div style={{ fontFamily: T.sans, fontSize: 11, color: T.teal, marginTop: 2, fontWeight: 500 }}>{s.sub}</div>
                 </div>
-                <button
-                  className="hs2-btn-outline"
-                  style={{ width: isMobile ? "100%" : "auto" }}
-                  onClick={() => router.push(s.href)}
-                >
+                <button className="hs2-btn-outline" style={{ width: isMobile ? "100%" : "auto" }} onClick={() => router.push(s.href)}>
                   Learn More →
                 </button>
               </div>
@@ -267,38 +266,20 @@ export default function HeroSlider() {
           </div>
         </div>
 
-        {/* Image — ✅ FIX: lineHeight:0 removes inline gap; margin/padding:0 kills any offset */}
+        {/* Image */}
         <div style={{
           order: isMobile ? 1 : 2,
-          position: "relative",
-          overflow: "hidden",
-          display: "block",
-          visibility: "visible",
+          position: "relative", overflow: "hidden", display: "block", visibility: "visible",
           height: isMobile ? `${IMG_H}px` : "auto",
           minHeight: isMobile ? `${IMG_H}px` : "300px",
-          lineHeight: 0,
-          margin: 0,
-          padding: 0,
-          marginTop: isMobile ? 0 : "-45px", // ✅ ADD THIS LINE ONLY
+          lineHeight: 0, margin: 0, padding: 0,
+          marginTop: isMobile ? 0 : "-45px",
         }}>
           <img
             key={active}
             src={s.img}
             alt={s.title}
-            style={{
-              position: "absolute",
-              top: 0, left: 0,
-              width: "100%",
-              height: "100%",
-              objectFit: "cover",
-              objectPosition: "center",
-              display: "block",
-              maxWidth: "none",
-              margin: 0,
-              padding: 0,
-              opacity: fading ? 0 : 1,
-              transition: "opacity 0.45s ease",
-            }}
+            style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", objectFit: "cover", objectPosition: "center", display: "block", maxWidth: "none", margin: 0, padding: 0, opacity: fading ? 0 : 1, transition: "opacity 0.45s ease" }}
           />
           <div className="hs2-img-overlay" />
           <div className="hs2-counter">
@@ -313,12 +294,7 @@ export default function HeroSlider() {
       <div className="hs2-nav">
         <div className="hs2-dots">
           {slides.map((_, i) => (
-            <button
-              key={i}
-              className={`hs2-dot${i === active ? " active" : ""}`}
-              style={{ width: i === active ? 28 : 12 }}
-              onClick={() => goTo(i)}
-            />
+            <button key={i} className={`hs2-dot${i === active ? " active" : ""}`} style={{ width: i === active ? 28 : 12 }} onClick={() => goTo(i)} />
           ))}
         </div>
         <span className="hs2-nav-label">{s.tag} — {s.sub.split(" ").slice(0, 3).join(" ")}</span>

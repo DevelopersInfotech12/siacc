@@ -22,23 +22,23 @@ const T = {
 };
 
 const footerServices = [
-  { name: "BIS Certification",    href: "/bis" },
-  { name: "EPR Registration",     href: "/epr" },
-  { name: "WPC-ETA Approval",     href: "/wpc" },
-  { name: "TEC / MTCTE",          href: "/tec" },
-  { name: "BEE Registration",     href: "/bee" },
-  { name: "LMPC Registration",    href: "/lmpc" },
-  { name: "ISO Certification",    href: "/iso" },
+  { name: "BIS Certification", href: "/bis" },
+  { name: "EPR Registration", href: "/epr" },
+  { name: "WPC-ETA Approval", href: "/wpc" },
+  { name: "TEC / MTCTE", href: "/tec" },
+  { name: "BEE Registration", href: "/bee" },
+  { name: "LMPC Registration", href: "/lmpc" },
+  { name: "ISO Certification", href: "/iso" },
   { name: "CDSCO / Drug License", href: "/cdsco" },
 ];
 
 const quickLinks = [
-  { name: "Home",         href: "/" },
-  { name: "About Us",     href: "/about" },
+  { name: "Home", href: "/" },
+  { name: "About Us", href: "/about" },
   { name: "All Services", href: "/services" },
-  { name: "Blog",         href: "/blog" },
-  { name: "Careers",      href: "/career" },
-  { name: "Contact",      href: "/contact" },
+  { name: "Blog", href: "/blog" },
+  { name: "Careers", href: "/career" },
+  { name: "Contact", href: "/contact" },
 ];
 
 export default function Footer() {
@@ -134,13 +134,52 @@ export default function Footer() {
 
         {/* Brand column */}
         <div>
-          <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 18 }}>
-            <div style={{ width: 40, height: 40, borderRadius: 8, backgroundColor: T.teal, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
-              <span style={{ color: "#fff", fontFamily: T.serif, fontWeight: 700, fontSize: 20 }}>S</span>
-            </div>
-            <div>
-              <div style={{ fontFamily: T.serif, fontWeight: 700, color: "#fff", fontSize: 20, lineHeight: 1.1 }}>SIACC</div>
-              <div style={{ fontFamily: T.sans, fontSize: 9, color: "rgba(255,255,255,0.45)", letterSpacing: "0.15em", textTransform: "uppercase" }}>Star India Accreditation</div>
+          <div style={{ display: "flex", alignItems: "center", gap: 10,  }}>
+       
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: 6,
+                marginBottom: 18,
+              }}
+            >
+              <img
+                src="/images/siacclogo.png"
+                alt="SIACC Logo"
+                style={{
+                  width: 55,
+                  height: 55,
+                  objectFit: "cover",
+                  flexShrink: 0,
+                }}
+              />
+
+              <div>
+                <div
+                  style={{
+                    fontFamily: T.serif,
+                    fontWeight: 700,
+                    color: "#fff",
+                    fontSize: 20,
+                    lineHeight: 1.1,
+                  }}
+                >
+                  SIACC
+                </div>
+
+                <div
+                  style={{
+                    fontFamily: T.sans,
+                    fontSize: 9,
+                    color: "rgb(255, 255, 255)",
+                    letterSpacing: "0.15em",
+                    textTransform: "uppercase",
+                  }}
+                >
+                  Star India Accreditation
+                </div>
+              </div>
             </div>
           </div>
           <p style={{ fontFamily: T.sans, fontSize: 13, color: "rgba(255,255,255,0.55)", lineHeight: 1.8, marginBottom: 24, maxWidth: 260 }}>

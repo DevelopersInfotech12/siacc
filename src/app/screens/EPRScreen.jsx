@@ -5,17 +5,15 @@ import Navbar from "../Components/Navbar";
 import Footer from "../Components/Footer";
 
 const T = {
-  teal: "#1E88C8", tealDark: "#074D4D", tealMid: "#0E8080", titleblue: "#0a6daa", para:"#080000b0", paradark:"#080000c4",
-  tealLight: "#EBF5F5", tealGhost: "#F4FAFA",
-  amber: "#C8780A", amberLight: "#FEF3DC", amberDark: "#9A5C06",
-  slate: "#0D1B2A", slateMid: "#1C3144",
-  body: "#2D3748", muted: "#718096", subtle: "#A0AEC0",
-  border: "#E8E3DA", borderLight: "#F0ECE5",
-  white: "#FFFFFF", cream: "#FAF8F4", creamMid: "#F3EFE8",
-  ctaBand: "#EBF5FB", ctaBandBorder: "#C8DFF0",
-  orange: "#F97316", orangeDark: "#EA6A0A",
-  serif: "'Cormorant Garamond', 'Georgia', serif",
-  sans: "'Outfit', 'system-ui', sans-serif",
+  teal: "#1E88C8", tealDark: "#074D4D", tealMid: "#0E8080", titleblue: "#0a6daa",
+  para: "#080000b0", paradark: "#080000c4",
+  tealLight: "#EBF5F5", amber: "#C8780A", amberLight: "#FEF3DC", amberDark: "#9A5C06",
+  slate: "#0D1B2A", body: "#2D3748", muted: "#718096", subtle: "#A0AEC0",
+  border: "#E8E3DA", borderLight: "#F0ECE5", white: "#FFFFFF", cream: "#FAF8F4",
+  ctaBand: "#EBF5FB", ctaBandBorder: "#C8DFF0", orange: "#F97316",
+  serif: "'Cormorant Garamond','Georgia',serif",
+  sans: "'Outfit','system-ui',sans-serif",
+  poppins: "'Poppins','system-ui',sans-serif",
 };
 
 function useReveal(opts = {}) {
@@ -119,7 +117,7 @@ export default function EPRScreen() {
   return (
     <div style={{ minHeight: "100vh", backgroundColor: T.white, fontFamily: T.sans, color: T.body }}>
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Outfit:wght@300;400;500;600;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Outfit:wght@300;400;500;600;700&family=Poppins:wght@400;500;600;700;800&display=swap');
         *, *::before, *::after { box-sizing:border-box; margin:0; padding:0; }
         img { max-width:100%; display:block; }
         a { text-decoration:none; color:inherit; }
@@ -130,7 +128,7 @@ export default function EPRScreen() {
 
         @keyframes pulse-dot {
           0%,100% { opacity:1; transform:scale(1); }
-          50%      { opacity:0.6; transform:scale(1.3); }
+          50% { opacity:0.6; transform:scale(1.3); }
         }
 
         .hero-chip {
@@ -184,73 +182,29 @@ export default function EPRScreen() {
 
       <Navbar />
 
-      {/* ══════════════════════════════════════
-          HERO — full-bleed image
-      ══════════════════════════════════════ */}
+      {/* HERO */}
       <section style={{
         position: "relative", overflow: "hidden",
         borderBottom: `1px solid ${T.border}`,
         minHeight: 420,
         display: "flex", flexDirection: "column", justifyContent: "center",
       }}>
-        {/* Left accent bar */}
-        <div style={{
-          position: "absolute", left: 0, top: 0, bottom: 0, width: 4,
-          background: `linear-gradient(to bottom, ${T.orange}, ${T.teal})`,
-          zIndex: 3,
-        }} />
+        <div style={{ position: "absolute", left: 0, top: 0, bottom: 0, width: 4, background: `linear-gradient(to bottom,${T.orange},${T.teal})`, zIndex: 3 }} />
+        <img src="/images/epr.png" alt="EPR Registration" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", objectPosition: "center 40%", zIndex: 0 }} />
+        <div style={{ position: "absolute", inset: 0, zIndex: 1, background: "linear-gradient(to right,rgba(7,18,28,0.88) 0%,rgba(7,18,28,0.60) 50%,rgba(7,18,28,0.10) 100%)" }} />
 
-        {/* Hero image */}
-        <img
-          src="/images/erp.png"
-          alt="EPR Registration"
-          style={{
-            position: "absolute", inset: 0, width: "100%", height: "100%",
-            objectFit: "cover", objectPosition: "center 40%", zIndex: 0,
-          }}
-        />
-
-        {/* Dark overlay */}
-        <div style={{
-          position: "absolute", inset: 0, zIndex: 1,
-          background: "linear-gradient(to right, rgba(7,18,28,0.88) 0%, rgba(7,18,28,0.60) 50%, rgba(7,18,28,0.10) 100%)",
-        }} />
-
-        {/* Content */}
-        <div style={{
-          position: "relative", zIndex: 2,
-          maxWidth: 1280, margin: "0 auto", width: "100%",
-          padding: "clamp(48px,7vw,88px) clamp(20px,4vw,60px)",
-        }}>
+        <div style={{ position: "relative", zIndex: 2, maxWidth: 1280, margin: "0 auto", width: "100%", padding: "clamp(48px,7vw,88px) clamp(20px,4vw,60px)" }}>
           <div ref={heroLeftRef} className="reveal-left">
-
-            {/* Badge pill */}
-            <div style={{
-              display: "inline-flex", alignItems: "center", gap: 8,
-              background: "rgba(255,255,255,0.10)",
-              border: "1px solid rgba(255,255,255,0.20)",
-              backdropFilter: "blur(8px)",
-              borderRadius: 4, padding: "6px 16px", marginBottom: 22,
-            }}>
-              <span style={{
-                width: 7, height: 7, borderRadius: "50%",
-                background: "#4ade80",
-                boxShadow: "0 0 6px rgba(74,222,128,0.8)",
-                display: "inline-block",
-                animation: "pulse-dot 2s ease-in-out infinite",
-              }} />
-              <span style={{
-                fontFamily: T.sans, fontSize: 10.5, fontWeight: 700,
-                color: "#fff", letterSpacing: "0.14em", textTransform: "uppercase",
-              }}>
+            <div style={{ display: "inline-flex", alignItems: "center", gap: 8, background: "rgba(255,255,255,0.10)", border: "1px solid rgba(255,255,255,0.20)", backdropFilter: "blur(8px)", borderRadius: 4, padding: "6px 16px", marginBottom: 22 }}>
+              <span style={{ width: 7, height: 7, borderRadius: "50%", background: "#4ade80", boxShadow: "0 0 6px rgba(74,222,128,0.8)", display: "inline-block", animation: "pulse-dot 2s ease-in-out infinite" }} />
+              <span style={{ fontFamily: T.sans, fontSize: 10.5, fontWeight: 700, color: "#fff", letterSpacing: "0.14em", textTransform: "uppercase" }}>
                 Extended Producer Responsibility — CPCB Certified Consultants
               </span>
             </div>
 
-            {/* Heading */}
             <h1 style={{
-              fontFamily: T.serif,
-              fontSize: "clamp(2.6rem,5.2vw,4.2rem)",
+              fontFamily: T.poppins,
+              fontSize: 56,
               fontWeight: 700, lineHeight: 1.04,
               marginBottom: 20, letterSpacing: "-0.01em",
               color: "#fff", maxWidth: 640,
@@ -260,35 +214,27 @@ export default function EPRScreen() {
               Norms
             </h1>
 
-            {/* Chips */}
             <div style={{ display: "flex", flexWrap: "wrap", gap: 10, marginTop: 32 }}>
               {heroChips.map(chip => (
                 <span key={chip.label} className="hero-chip">
-                  <span style={{ fontSize: 15 }}>{chip.icon}</span>
-                  {chip.label}
+                  <span style={{ fontSize: 15 }}>{chip.icon}</span>{chip.label}
                 </span>
               ))}
             </div>
           </div>
         </div>
 
-        {/* Bottom teal line */}
-        <div style={{
-          position: "absolute", bottom: 0, left: 0, right: 0,
-          height: 3, background: T.teal, opacity: 0.6, zIndex: 2,
-        }} />
+        <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, height: 3, background: T.teal, opacity: 0.6, zIndex: 2 }} />
       </section>
 
-      {/* ══════════════════════════════════════
-          STATS STRIP
-      ══════════════════════════════════════ */}
+      {/* STATS STRIP */}
       <section style={{ background: T.teal }}>
         <div style={{ maxWidth: 1280, margin: "0 auto" }}>
           <div className="stats-strip" ref={statsRef}>
             {statsStrip.map((s, i) => (
               <div key={s.label} className={`reveal d${i}`} style={{ textAlign: "center", padding: "36px 16px", borderRight: i < statsStrip.length - 1 ? "1px solid rgba(255,255,255,0.07)" : "none" }}>
                 <div style={{ fontSize: 20, marginBottom: 6 }}>{s.icon}</div>
-                <div style={{ fontFamily: T.serif, fontSize: "clamp(2rem,2.8vw,2.8rem)", color: "#fff", fontWeight: 700, lineHeight: 1, letterSpacing: "-0.01em" }}>{s.value}</div>
+                <div style={{ fontFamily: T.poppins, fontSize: "clamp(2rem,2.8vw,2.8rem)", color: "#fff", fontWeight: 700, lineHeight: 1, letterSpacing: "-0.01em" }}>{s.value}</div>
                 <div style={{ fontFamily: T.sans, fontSize: 14, color: "rgba(255,255,255,0.80)", marginTop: 8, letterSpacing: "0.04em" }}>{s.label}</div>
               </div>
             ))}
@@ -296,17 +242,13 @@ export default function EPRScreen() {
         </div>
       </section>
 
-      {/* ══════════════════════════════════════
-          OVERVIEW — old hero content moved here
-      ══════════════════════════════════════ */}
+      {/* OVERVIEW */}
       <section className="sec" style={{ background: T.cream }}>
         <div className="inner">
           <div className="overview-grid">
-
-            {/* Left — text + image + CTAs */}
             <div className="reveal-left" ref={overviewRef}>
               <div className="sl-row"><div className="sl-line" /><span className="sl-text">Extended Producer Responsibility</span></div>
-              <h2 style={{ fontFamily: T.serif, fontSize: "clamp(2rem,3.2vw,2.9rem)", color: T.titleblue, fontWeight: 700, lineHeight: 1.1, letterSpacing: "-0.01em", marginBottom: 16 }}>
+              <h2 style={{ fontFamily: T.poppins, fontSize: 40, color: T.titleblue, fontWeight: 700, lineHeight: 1.1, letterSpacing: "-0.01em", marginBottom: 16 }}>
                 Complete EPR Compliance, Handled for You
               </h2>
               <p style={{ fontFamily: T.sans, fontSize: 15.5, color: T.para, lineHeight: 1.9, marginBottom: 16, textAlign: "justify" }}>
@@ -316,17 +258,12 @@ export default function EPRScreen() {
                 Our EPR specialists prepare and file your CPCB registration, connect you with empanelled PROs for waste collection targets, and manage all annual return filings — so you stay compliant without the hassle.
               </p>
 
-              {/* Embedded image banner */}
               <div style={{ position: "relative", borderRadius: 10, overflow: "hidden", marginBottom: 32, height: 220 }}>
-                <img
-                  src="https://images.unsplash.com/photo-1504711434969-e33886168f5c?w=900&q=80&fit=crop"
-                  alt="EPR compliance"
-                  style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center 40%" }}
-                />
+                <img src="https://images.unsplash.com/photo-1504711434969-e33886168f5c?w=900&q=80&fit=crop" alt="EPR compliance" style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center 40%" }} />
                 <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to right, rgba(14,128,128,0.78) 0%, rgba(30,136,200,0.45) 60%, rgba(235,245,251,0.15) 100%)" }} />
                 <div style={{ position: "absolute", inset: 0, display: "flex", alignItems: "center", padding: "0 28px" }}>
                   <div>
-                    <div style={{ fontFamily: T.serif, fontSize: "clamp(1rem,2vw,1.3rem)", color: "#fff", fontWeight: 700, marginBottom: 4 }}>
+                    <div style={{ fontFamily: T.poppins, fontSize: "clamp(1rem,2vw,1.3rem)", color: "#fff", fontWeight: 700, marginBottom: 4 }}>
                       Avoid CPCB Penalties Up to ₹1L / Day
                     </div>
                     <p style={{ fontFamily: T.sans, color: "rgba(255,255,255,0.80)", fontSize: 12.5 }}>
@@ -337,79 +274,64 @@ export default function EPRScreen() {
               </div>
 
               <div style={{ display: "flex", gap: 12, flexWrap: "wrap", marginBottom: 24 }}>
-                <button
-                  onClick={() => router.push("/contact")}
-                  style={{ padding: "13px 32px", fontFamily: T.sans, fontSize: 13.5, fontWeight: 600, border: "none", borderRadius: 6, cursor: "pointer", background: T.orange, color: "#fff", boxShadow: "0 4px 16px rgba(10,104,104,0.22)", transition: "all 0.22s" }}
+                <button onClick={() => router.push("/contact")}
+                  style={{ padding: "13px 32px", fontFamily: T.sans, fontSize: 13.5, fontWeight: 600, letterSpacing: "0.02em", border: "none", borderRadius: 6, cursor: "pointer", background: T.orange, color: "#fff", boxShadow: "0 4px 16px rgba(10,104,104,0.22)", transition: "all 0.22s" }}
                   onMouseEnter={e => { e.currentTarget.style.background = T.teal; e.currentTarget.style.transform = "translateY(-1px)"; }}
                   onMouseLeave={e => { e.currentTarget.style.background = T.orange; e.currentTarget.style.transform = "translateY(0)"; }}>
                   Get Free Consultation
                 </button>
-                <button
-                  onClick={() => router.push("/contact")}
-                  style={{ padding: "12px 28px", fontFamily: T.sans, fontSize: 13.5, fontWeight: 600, borderRadius: 6, cursor: "pointer", border: `1.5px solid ${T.border}`, color: T.white, background: T.orange, transition: "all 0.22s" }}
-                  onMouseEnter={e => { e.currentTarget.style.borderColor = T.teal; e.currentTarget.style.color = T.teal; e.currentTarget.style.background = "transparent"; }}
-                  onMouseLeave={e => { e.currentTarget.style.borderColor = T.border; e.currentTarget.style.color = T.white; e.currentTarget.style.background = T.orange; }}>
+                <button onClick={() => router.push("/contact")}
+                  style={{ padding: "12px 28px", fontFamily: T.sans, fontSize: 13.5, fontWeight: 600, borderRadius: 6, cursor: "pointer", border: `1.5px solid ${T.border}`, color: T.slate, background: "transparent", transition: "all 0.22s" }}
+                  onMouseEnter={e => { e.currentTarget.style.borderColor = T.teal; e.currentTarget.style.color = T.teal; }}
+                  onMouseLeave={e => { e.currentTarget.style.borderColor = T.border; e.currentTarget.style.color = T.slate; }}>
                   Check EPR Applicability →
                 </button>
               </div>
-
-              <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
-                {["✓ Free Consultation", "✓ 3–6 Wk Turnaround", "✓ 98% Success Rate", "✓ Pan-India"].map(b => (
-                  <span key={b} style={{ padding: "6px 14px", border: `1px solid ${T.border}`, borderRadius: 4, fontSize: 12, color: T.muted, background: T.white, fontFamily: T.sans, fontWeight: 500 }}>{b}</span>
-                ))}
-              </div>
             </div>
 
-            {/* Right — sticky info card */}
+            {/* Info Card */}
             <div className="reveal-right" ref={infoCardRef}>
               <div style={{ background: T.white, border: `1px solid ${T.border}`, borderRadius: 10, padding: 28, boxShadow: "0 4px 20px rgba(0,0,0,0.05)", position: "sticky", top: 100 }}>
                 <div className="sl-row"><div className="sl-line" /><span className="sl-text">Quick Info</span></div>
                 {infoItems.map((item, i) => (
                   <div key={item.label} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "12px 0", borderBottom: i < infoItems.length - 1 ? `1px solid ${T.border}` : "none" }}>
                     <span style={{ fontFamily: T.sans, fontSize: 13, color: T.muted }}>{item.label}</span>
-                    <span style={{ fontFamily: T.sans, fontSize: 13, color: T.slate, fontWeight: 600, textAlign: "right", maxWidth: "55%" }}>{item.value}</span>
+                    <span style={{ fontFamily: T.poppins, fontSize: 13, color: T.slate, fontWeight: 600, textAlign: "right", maxWidth: "55%" }}>{item.value}</span>
                   </div>
                 ))}
-                <button
-                  onClick={() => router.push("/contact")}
-                  style={{ width: "100%", marginTop: 22, padding: 13, background: T.orange, color: "#fff", fontWeight: 600, borderRadius: 6, border: "none", fontFamily: T.sans, fontSize: 14, cursor: "pointer", transition: "background 0.2s" }}
+                <button onClick={() => router.push("/contact")}
+                  style={{ width: "100%", marginTop: 22, padding: 13, background: T.orange, color: "#fff", fontWeight: 600, borderRadius: 6, border: "none", fontFamily: T.poppins, fontSize: 14, cursor: "pointer", transition: "background 0.2s" }}
                   onMouseEnter={e => e.currentTarget.style.background = T.teal}
                   onMouseLeave={e => e.currentTarget.style.background = T.orange}>
                   Start EPR Registration →
                 </button>
 
-                {/* Contact strip */}
                 <div style={{ marginTop: 16, paddingTop: 16, borderTop: `1px solid ${T.border}`, display: "flex", flexDirection: "column", gap: 10 }}>
                   {[
-                    { icon: "📞", label: "Call Us",  value: "+91-9540190334", href: "tel:+919540190334" },
-                    { icon: "✉",  label: "Email Us", value: "info@siacc.in",  href: "mailto:info@siacc.in" },
+                    { icon: "📞", label: "Call Us", value: "+91-9540190334", href: "tel:+919540190334" },
+                    { icon: "✉", label: "Email Us", value: "info@siacc.in", href: "mailto:info@siacc.in" },
                   ].map(item => (
                     <a key={item.label} href={item.href} style={{ display: "flex", alignItems: "center", gap: 10, textDecoration: "none" }}>
                       <div style={{ width: 36, height: 36, borderRadius: 7, backgroundColor: T.tealLight, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 15, flexShrink: 0 }}>{item.icon}</div>
                       <div>
                         <div style={{ fontFamily: T.sans, fontSize: 10, color: T.teal, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.08em" }}>{item.label}</div>
-                        <div style={{ fontFamily: T.sans, fontSize: 13, color: T.slate, fontWeight: 500, marginTop: 1 }}>{item.value}</div>
+                        <div style={{ fontFamily: T.poppins, fontSize: 13, color: T.slate, fontWeight: 500, marginTop: 1 }}>{item.value}</div>
                       </div>
                     </a>
                   ))}
                 </div>
               </div>
             </div>
-
           </div>
         </div>
       </section>
 
-      {/* ══════════════════════════════════════
-          EPR TYPES
-      ══════════════════════════════════════ */}
+      {/* TYPES */}
       <section className="sec" style={{ background: T.white }}>
         <div className="inner">
           <div style={{ textAlign: "center", marginBottom: 52 }} className="reveal" ref={typesTtlRef}>
-            <div style={{ display: "flex", justifyContent: "center" }}>
-              <div className="sl-row"><div className="sl-line" /><span className="sl-text">EPR Categories</span></div>
-            </div>
-            <h2 style={{ fontFamily: T.serif, fontSize: "clamp(2rem,3.2vw,2.9rem)", color: T.titleblue, fontWeight: 700, letterSpacing: "-0.01em", marginBottom: 14 }}>Which EPR Registration Do You Need?</h2>
+            <div style={{ display: "flex", justifyContent: "center" }}><div className="sl-row"><div className="sl-line" /><span className="sl-text">EPR Categories</span></div></div>
+            <h2 style={{ fontFamily: T.poppins, fontSize: "clamp(2rem,3.2vw,2.9rem)", color: T.titleblue, fontWeight: 700, letterSpacing: "-0.01em", marginBottom: 14 }}>Which EPR Registration Do You Need?</h2>
             <p style={{ fontFamily: T.sans, color: T.para, maxWidth: 480, margin: "0 auto", lineHeight: 1.75, fontSize: 16 }}>Different waste categories require different EPR registrations. Here's what applies to your product.</p>
           </div>
           <div className="types-grid" ref={typesRef}>
@@ -422,24 +344,20 @@ export default function EPRScreen() {
                     <span style={{ fontFamily: T.sans, fontSize: 10, color: T.subtle, fontWeight: 600 }}>{t.authority}</span>
                   </div>
                 </div>
-                <h3 style={{ fontFamily: T.serif, fontSize: 19, color: T.paradark, marginBottom: 10, fontWeight: 600 }}>{t.title}</h3>
-                <p style={{ fontFamily: T.sans, fontSize: 15, color: T.para, lineHeight: 1.6, margin: 0, textAlign: "justify" }}>{t.desc}</p>
+                <h3 style={{ fontFamily: T.poppins, fontSize: 17, color: T.titleblue, marginBottom: 10, fontWeight: 600 }}>{t.title}</h3>
+                <p style={{ fontSize: 15, color: T.para, margin: 0, fontWeight: 500, textAlign: "justify" }}>{t.desc}</p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* ══════════════════════════════════════
-          PROCESS
-      ══════════════════════════════════════ */}
+      {/* PROCESS */}
       <section className="sec" style={{ background: T.cream }}>
         <div className="inner">
           <div style={{ textAlign: "center", marginBottom: 52 }} className="reveal" ref={procTtlRef}>
-            <div style={{ display: "flex", justifyContent: "center" }}>
-              <div className="sl-row"><div className="sl-line" /><span className="sl-text">Step by Step</span></div>
-            </div>
-            <h2 style={{ fontFamily: T.serif, fontSize: "clamp(2rem,3.2vw,2.9rem)", color: T.titleblue, fontWeight: 700, letterSpacing: "-0.01em", marginBottom: 14 }}>EPR Registration Process</h2>
+            <div style={{ display: "flex", justifyContent: "center" }}><div className="sl-row"><div className="sl-line" /><span className="sl-text">Step by Step</span></div></div>
+            <h2 style={{ fontFamily: T.poppins, fontSize: "clamp(2rem,3.2vw,2.9rem)", color: T.titleblue, fontWeight: 700, letterSpacing: "-0.01em", marginBottom: 14 }}>EPR Registration Process</h2>
           </div>
 
           <div className="reveal-scale" ref={bannerRef} style={{ position: "relative", borderRadius: 10, overflow: "hidden", marginBottom: 36, height: 170 }}>
@@ -447,7 +365,7 @@ export default function EPRScreen() {
             <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to right, rgba(14,128,128,0.88) 0%, rgba(30,136,200,0.60) 55%, rgba(235,245,251,0.25) 100%)" }} />
             <div style={{ position: "absolute", inset: 0, display: "flex", alignItems: "center", padding: "0 40px" }}>
               <div>
-                <div style={{ fontFamily: T.serif, fontSize: "clamp(1.1rem,2vw,1.4rem)", color: "#fff", fontWeight: 700, marginBottom: 6 }}>End-to-End EPR Compliance</div>
+                <div style={{ fontFamily: T.poppins, fontSize: "clamp(1.1rem,2vw,1.4rem)", color: "#fff", fontWeight: 700, marginBottom: 6 }}>End-to-End EPR Compliance</div>
                 <p style={{ fontFamily: T.sans, color: "rgba(255,255,255,0.78)", fontSize: 13 }}>From eligibility check to annual returns — we manage every step.</p>
               </div>
             </div>
@@ -461,8 +379,8 @@ export default function EPRScreen() {
                 <div style={{ width: 48, height: 48, borderRadius: 9, background: T.tealLight, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, fontSize: 20 }}>{s.icon}</div>
                 <div>
                   <div style={{ fontFamily: T.sans, fontSize: 10.5, fontWeight: 700, color: T.teal, letterSpacing: "0.12em", textTransform: "uppercase", marginBottom: 4 }}>Step {s.step}</div>
-                  <h3 style={{ fontFamily: T.serif, fontSize: 19, color: T.paradark, marginBottom: 6, fontWeight: 600 }}>{s.title}</h3>
-                  <p style={{ fontFamily: T.sans, fontSize: 15, color: T.para, lineHeight: 1.7, margin: 0 }}>{s.desc}</p>
+                  <h3 style={{ fontFamily: T.poppins, fontSize: 18, color: T.para, marginBottom: 6, fontWeight: 600 }}>{s.title}</h3>
+                  <p style={{ fontFamily: T.sans, fontSize: 15, color: T.paradark, lineHeight: 1.7, margin: 0, textAlign: "justify" }}>{s.desc}</p>
                 </div>
               </div>
             ))}
@@ -470,9 +388,7 @@ export default function EPRScreen() {
         </div>
       </section>
 
-      {/* ══════════════════════════════════════
-          DOCUMENTS
-      ══════════════════════════════════════ */}
+      {/* DOCUMENTS */}
       <section style={{ position: "relative", overflow: "hidden" }} className="sec">
         <img src="https://images.unsplash.com/photo-1607462109225-6b64ae2dd3cb?w=1600&q=80&fit=crop" alt="Documents" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }} />
         <div style={{ position: "absolute", inset: 0, background: "linear-gradient(135deg, rgba(13,27,42,0.96) 0%, rgba(14,128,128,0.88) 100%)" }} />
@@ -481,7 +397,7 @@ export default function EPRScreen() {
             <div style={{ display: "flex", justifyContent: "center" }}>
               <div className="sl-row"><div className="sl-line" style={{ background: "rgba(255,255,255,0.5)" }} /><span className="sl-text" style={{ color: "rgba(255,255,255,0.75)" }}>What You Need</span></div>
             </div>
-            <h2 style={{ fontFamily: T.serif, fontSize: "clamp(2rem,3.2vw,2.9rem)", color: "#fff", fontWeight: 700, letterSpacing: "-0.01em" }}>Documents Required</h2>
+            <h2 style={{ fontFamily: T.poppins, fontSize: "clamp(2rem,3.2vw,2.9rem)", color: "#fff", fontWeight: 700, letterSpacing: "-0.01em" }}>Documents Required</h2>
           </div>
           <div className="docs-grid" ref={docsRef}>
             {documents.map((doc, i) => (
@@ -497,34 +413,30 @@ export default function EPRScreen() {
           </div>
           <p style={{ textAlign: "center", marginTop: 24, fontFamily: T.sans, fontSize: 13, color: "rgba(255,255,255,0.50)" }}>
             Not sure if you have everything?{" "}
-            <button onClick={() => router.push("/contact")} style={{ color: T.teal, fontWeight: 600, background: "none", border: "none", cursor: "pointer", fontFamily: T.sans, fontSize: 13 }}>
+            <button onClick={() => router.push("/contact")} style={{ color: T.teal, fontWeight: 600, background: "none", border: "none", cursor: "pointer", fontFamily: T.poppins, fontSize: 13 }}>
               Contact us for a free document checklist →
             </button>
           </p>
         </div>
       </section>
 
-      {/* ══════════════════════════════════════
-          FAQs
-      ══════════════════════════════════════ */}
+      {/* FAQS */}
       <section className="sec" style={{ background: T.cream }}>
         <div style={{ maxWidth: 800, margin: "0 auto" }}>
           <div style={{ textAlign: "center", marginBottom: 48 }} className="reveal" ref={faqTtlRef}>
-            <div style={{ display: "flex", justifyContent: "center" }}>
-              <div className="sl-row"><div className="sl-line" /><span className="sl-text">Common Questions</span></div>
-            </div>
-            <h2 style={{ fontFamily: T.serif, fontSize: "clamp(2rem,3.2vw,2.9rem)", color: T.titleblue, fontWeight: 700, letterSpacing: "-0.01em" }}>EPR Registration FAQs</h2>
+            <div style={{ display: "flex", justifyContent: "center" }}><div className="sl-row"><div className="sl-line" /><span className="sl-text">Common Questions</span></div></div>
+            <h2 style={{ fontFamily: T.poppins, fontSize: "clamp(2rem,3.2vw,2.9rem)", color: T.titleblue, fontWeight: 700, letterSpacing: "-0.01em" }}>EPR Registration FAQs</h2>
           </div>
           <div ref={faqRef}>
             {faqs.map((faq, i) => (
               <div key={faq.q} className={`faq-card reveal d${i}`}>
                 <div style={{ display: "flex", gap: 14, marginBottom: 10 }}>
                   <div style={{ width: 28, height: 28, borderRadius: "50%", background: T.tealLight, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, fontWeight: 700, fontSize: 12, color: T.teal }}>Q</div>
-                  <div style={{ fontFamily: T.serif, fontSize: 20, color: T.paradark, fontWeight: 600, paddingTop: 4 }}>{faq.q}</div>
+                  <div style={{ fontFamily: T.poppins, fontSize: 17, color: "#000000af", fontWeight: 600, paddingTop: 4 }}>{faq.q}</div>
                 </div>
                 <div style={{ display: "flex", gap: 14 }}>
                   <div style={{ width: 28, height: 28, borderRadius: "50%", background: T.amberLight, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, fontWeight: 700, fontSize: 12, color: T.amber }}>A</div>
-                  <div style={{ fontFamily: T.sans, fontSize: 15, color: T.para, lineHeight: 1.8, paddingTop: 4 }}>{faq.a}</div>
+                  <div style={{ fontFamily: T.sans, fontSize: 15, color: T.paradark, lineHeight: 1.8, paddingTop: 4 }}>{faq.a}</div>
                 </div>
               </div>
             ))}
@@ -532,30 +444,27 @@ export default function EPRScreen() {
         </div>
       </section>
 
-      {/* ══════════════════════════════════════
-          CTA BAND
-      ══════════════════════════════════════ */}
+      {/* CTA */}
       <section className="reveal" ref={ctaRef} style={{ background: T.ctaBand, borderTop: `1px solid ${T.ctaBandBorder}`, borderBottom: `1px solid ${T.ctaBandBorder}`, padding: "80px clamp(16px,5vw,56px)" }}>
         <div style={{ maxWidth: 1100, margin: "0 auto" }}>
           <div className="cta-split">
             <div>
               <div className="sl-row" style={{ marginBottom: 20 }}><div className="sl-line" /><span className="sl-text">Start Today</span></div>
-              <h2 style={{ fontFamily: T.serif, fontSize: "clamp(1.9rem,3.2vw,2.9rem)", color: T.titleblue, fontWeight: 700, lineHeight: 1.1, letterSpacing: "-0.01em", marginBottom: 14 }}>
-                Stay Compliant<br />with EPR Norms
+              <h2 style={{ fontFamily: T.poppins, fontSize: "clamp(1.9rem,3.2vw,2.9rem)", color: T.titleblue, fontWeight: 700, lineHeight: 1.1, letterSpacing: "-0.01em", marginBottom: 14 }}>
+                Stay Compliant with EPR Norms
               </h2>
-              <p style={{ fontFamily: T.sans, color: T.para, fontSize: 14.5, lineHeight: 1.8 }}>
+              <p style={{ fontFamily: T.sans, color: T.paradark, fontSize: 14.5, lineHeight: 1.8 }}>
                 Get your EPR registration done before facing CPCB penalties. Talk to our experts for free.<br />Clear timeline. Transparent pricing.
               </p>
             </div>
             <div style={{ display: "flex", flexDirection: "column", gap: 12, flexShrink: 0 }}>
-              <button
-                onClick={() => router.push("/contact")}
-                style={{ padding: "14px 36px", fontFamily: T.sans, fontSize: 14, fontWeight: 600, border: "none", borderRadius: 6, cursor: "pointer", background: T.orange, color: "#fff", whiteSpace: "nowrap", transition: "all 0.22s" }}
+              <button onClick={() => router.push("/contact")}
+                style={{ padding: "14px 36px", fontFamily: T.poppins, fontSize: 14, fontWeight: 600, border: "none", borderRadius: 6, cursor: "pointer", background: T.orange, color: "#fff", whiteSpace: "nowrap", transition: "all 0.22s" }}
                 onMouseEnter={e => { e.currentTarget.style.background = T.teal; e.currentTarget.style.transform = "translateY(-1px)"; }}
                 onMouseLeave={e => { e.currentTarget.style.background = T.orange; e.currentTarget.style.transform = "translateY(0)"; }}>
                 Get Free Consultation
               </button>
-              <a href="tel:+919540190334" style={{ padding: "13px 28px", border: `1.5px solid ${T.border}`, borderRadius: 6, fontFamily: T.sans, fontSize: 14, fontWeight: 500, color: T.slate, display: "flex", alignItems: "center", justifyContent: "center", gap: 8, whiteSpace: "nowrap", background: T.white, transition: "border-color 0.2s" }}
+              <a href="tel:+919540190334" style={{ padding: "13px 28px", border: `1.5px solid ${T.border}`, borderRadius: 6, fontFamily: T.poppins, fontSize: 14, fontWeight: 500, color: T.slate, display: "flex", alignItems: "center", justifyContent: "center", gap: 8, background: T.white, transition: "border-color 0.2s" }}
                 onMouseEnter={e => e.currentTarget.style.borderColor = T.teal}
                 onMouseLeave={e => e.currentTarget.style.borderColor = T.border}>
                 📞 +91-9540190334

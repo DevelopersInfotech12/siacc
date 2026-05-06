@@ -8,8 +8,8 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
+        sans: ["var(--font-dm)", "system-ui", "sans-serif"], // default
         playfair: ["var(--font-playfair)", "Georgia", "serif"],
-        dm: ["var(--font-dm)", "system-ui", "sans-serif"],
       },
       colors: {
         forest: {
