@@ -161,26 +161,15 @@ export default function Navbar() {
             <div style={{ textAlign: "left" }}>
               <div
                 style={{
-                  fontFamily: C.serif,
-                  fontWeight: 800,
-                  color: C.navy,
-                  fontSize: 20,
-                  lineHeight: 1.1,
-                }}
-              >
-                SIACC
-              </div>
-
-              <div
-                style={{
-                  fontSize: 9,
-                  color: C.mutedText,
+                  fontSize:13,
+                  color: C.titleblue,
                   letterSpacing: "0.18em",
                   textTransform: "uppercase",
                   lineHeight: 1.2,
+                  fontWeight: 700,
                 }}
               >
-                Star India Accreditation
+                Star India <br/> Accreditation
               </div>
             </div>
           </button>

@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import Navbar from "../Components/Navbar";
 import Footer from "../Components/Footer";
@@ -14,6 +14,32 @@ const T = {
   serif:"'Cormorant Garamond','Georgia',serif",sans:"'Outfit','system-ui',sans-serif",
   poppins:"'Poppins','system-ui',sans-serif",
 };
+
+function FaqItem({ faq }) {
+  const [open, setOpen] = useState(false);
+  return (
+    <div style={{
+      border: `1px solid ${open ? "rgba(30,136,200,0.45)" : T.border}`,
+      borderRadius: 10, marginBottom: 10, overflow: "hidden", transition: "border-color 0.2s",
+    }}>
+      <button onClick={() => setOpen(!open)} style={{
+        display: "flex", alignItems: "flex-start", gap: 10, padding: "13px 16px",
+        background: open ? "rgba(30,136,200,0.04)" : "transparent",
+        border: "none", width: "100%", textAlign: "left", cursor: "pointer", transition: "background 0.18s",
+      }}>
+        <div style={{ width: 26, height: 26, borderRadius: "50%", background: open ? T.teal : T.tealLight, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 11, fontWeight: 700, color: open ? "#fff" : T.teal, flexShrink: 0, fontFamily: T.poppins, transition: "background 0.2s, color 0.2s" }}>Q</div>
+        <span style={{ fontFamily: T.poppins, fontSize: 13, fontWeight: 600, color: T.slate, lineHeight: 1.45, flex: 1 }}>{faq.q}</span>
+        <span style={{ fontSize: 14, color: open ? T.teal : T.muted, flexShrink: 0, marginTop: 4, transition: "transform 0.25s, color 0.2s", transform: open ? "rotate(180deg)" : "rotate(0deg)", display: "inline-block" }}>▾</span>
+      </button>
+      {open && (
+        <div style={{ display: "flex", gap: 10, padding: "0 16px 14px" }}>
+          <div style={{ width: 26, height: 26, borderRadius: "50%", background: T.amberLight, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 11, fontWeight: 700, color: T.amber, flexShrink: 0, fontFamily: T.poppins }}>A</div>
+          <p style={{ fontFamily: T.poppins, fontSize: 12.5, fontWeight: 300, color: T.paradark, lineHeight: 1.75, margin: 0 }}>{faq.a}</p>
+        </div>
+      )}
+    </div>
+  );
+}
 
 function useReveal(opts={}) {
   const {threshold=0.15,stagger=false,baseDelay=90,once=true}=opts;
@@ -54,12 +80,12 @@ const docs=["Energy test report from BEE-accredited lab","Product technical spec
 const faqs=[
   {q:"Which appliances need mandatory BEE star labels?",a:"Air conditioners, refrigerators, ceiling fans, washing machines, LED lamps, distribution transformers, water heaters, and several other categories are under mandatory BEE labelling."},
   {q:"Can I sell appliances without BEE star rating?",a:"For mandatory categories, selling without a BEE star label is illegal and can result in seizure and penalties under the Energy Conservation Act."},
-  {q:"How often must BEE registration be renewed?",a:"BEE registrations must be renewed annually. The star rating may change as energy efficiency norms are upgraded periodically."},
-  {q:"Does BEE apply to imported products?",a:"Yes, imported products in mandatory categories must also carry the BEE star label before being sold in India."}
+  {q:"How often must BEE registration be renewed?",a:"BEE registrations must be renewed annually. The star rating may change as energy efficiency norms are upgraded periodically by the Bureau of Energy Efficiency."},
+  {q:"Does BEE apply to imported products?",a:"Yes, imported products in mandatory categories must also carry the BEE star label before being sold in India. We handle BEE compliance for both manufacturers and importers."},
+  {q:"What is the timeline for getting BEE registration?",a:"Typically 4–8 weeks from the time lab testing is complete and all documents are in order. We actively track and follow up with BEE to avoid unnecessary delays."},
 ];
 const infoItems=[{label:"Governing Body",value:"Bureau of Energy Efficiency"},{label:"Ministry",value:"Power, Govt. of India"},{label:"Validity",value:"Annual"},{label:"Processing Time",value:"4–8 Weeks"},{label:"Applicable To",value:"Home & Commercial Appliances"}];
 const statsStrip=[{value:"20+",label:"Product Categories",icon:"📋"},{value:"4–8",label:"Weeks Timeline",icon:"⚡"},{value:"Free",label:"Initial Consultation",icon:"🆓"},{value:"98%",label:"Success Rate",icon:"✅"}];
-
 const heroChips=[
   {icon:"⭐",label:"Mandatory Star Rating"},
   {icon:"🌟",label:"Voluntary Star Rating"},
@@ -75,31 +101,11 @@ const css=`
   .sl-row{display:flex;align-items:center;gap:12px;margin-bottom:16px;}
   .sl-line{width:28px;height:1.5px;background:#1E88C8;flex-shrink:0;}
   .sl-text{font-family:'Outfit','system-ui',sans-serif;font-size:11px;font-weight:600;letter-spacing:0.15em;text-transform:uppercase;color:#1E88C8;}
-
-  @keyframes pulse-dot {
-    0%,100%{opacity:1;transform:scale(1);}
-    50%{opacity:0.6;transform:scale(1.3);}
-  }
-
-  .hero-chip{
-    display:inline-flex;align-items:center;gap:8px;
-    background:rgba(255,255,255,0.09);
-    border:1px solid rgba(255,255,255,0.16);
-    backdrop-filter:blur(6px);
-    border-radius:6px;padding:9px 16px;
-    font-family:'Outfit','system-ui',sans-serif;font-size:12.5px;font-weight:500;
-    color:rgba(255,255,255,0.90);
-    transition:background 0.2s,border-color 0.2s,transform 0.2s;
-  }
-  .hero-chip:hover{
-    background:rgba(255,255,255,0.18);
-    border-color:rgba(255,255,255,0.35);
-    transform:translateY(-2px);
-  }
-
+  @keyframes pulse-dot{0%,100%{opacity:1;transform:scale(1);}50%{opacity:0.6;transform:scale(1.3);}}
+  .hero-chip{display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,0.09);border:1px solid rgba(255,255,255,0.16);backdrop-filter:blur(6px);border-radius:6px;padding:9px 16px;font-family:'Outfit','system-ui',sans-serif;font-size:12.5px;font-weight:500;color:rgba(255,255,255,0.90);transition:background 0.2s,border-color 0.2s,transform 0.2s;}
+  .hero-chip:hover{background:rgba(255,255,255,0.18);border-color:rgba(255,255,255,0.35);transform:translateY(-2px);}
   .overview-grid{display:grid;grid-template-columns:1fr 360px;gap:48px;align-items:flex-start;}
   @media(max-width:960px){.overview-grid{grid-template-columns:1fr;}}
-
   .stats-strip{display:grid;grid-template-columns:repeat(4,1fr);}
   @media(max-width:640px){.stats-strip{grid-template-columns:repeat(2,1fr);}}
   .types-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px;}
@@ -112,12 +118,12 @@ const css=`
   .step-card:hover{border-color:#1E88C8;box-shadow:0 8px 24px rgba(30,136,200,0.08);}
   .docs-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
   @media(max-width:640px){.docs-grid{grid-template-columns:1fr;}}
-  .faq-card{background:#fff;border-radius:10px;padding:22px 24px;border:1px solid #E8E3DA;transition:all 0.22s;margin-bottom:12px;}
-  .faq-card:hover{border-color:#1E88C8;box-shadow:0 6px 20px rgba(30,136,200,0.08);transform:translateY(-2px);}
   .cta-split{display:grid;grid-template-columns:1fr auto;gap:40px;align-items:center;}
   @media(max-width:720px){.cta-split{grid-template-columns:1fr;gap:28px;}}
   .sec{padding:clamp(64px,8vw,104px) clamp(16px,5vw,56px);}
   .inner{max-width:1280px;margin:0 auto;}
+  .faq-grid{}
+  @media(max-width:760px){.faq-grid{grid-template-columns:1fr !important;}}
 `;
 
 export default function BEEScreen() {
@@ -133,7 +139,6 @@ export default function BEEScreen() {
   const stepsRef    =useReveal({stagger:true,baseDelay:80});
   const docsTtlRef  =useReveal();
   const docsRef     =useReveal({stagger:true,baseDelay:70});
-  const faqTtlRef   =useReveal();
   const faqRef      =useReveal({stagger:true,baseDelay:80});
   const ctaRef      =useReveal();
 
@@ -143,12 +148,7 @@ export default function BEEScreen() {
       <Navbar />
 
       {/* ══ HERO ══ */}
-      <section style={{
-        position:"relative",overflow:"hidden",
-        borderBottom:`1px solid ${T.border}`,
-        minHeight:420,
-        display:"flex",flexDirection:"column",justifyContent:"center",
-      }}>
+      <section style={{position:"relative",overflow:"hidden",borderBottom:`1px solid ${T.border}`,minHeight:420,display:"flex",flexDirection:"column",justifyContent:"center"}}>
         <div style={{position:"absolute",left:0,top:0,bottom:0,width:4,background:`linear-gradient(to bottom,${T.orange},${T.teal})`,zIndex:3}}/>
         <img src="/images/bee1.png" alt="BEE Star Rating" style={{position:"absolute",inset:0,width:"100%",height:"100%",objectFit:"cover",objectPosition:"center 40%",zIndex:0}}/>
         <div style={{position:"absolute",inset:0,zIndex:1,background:"linear-gradient(to right,rgba(7,18,28,0.88) 0%,rgba(7,18,28,0.60) 50%,rgba(7,18,28,0.10) 100%)"}}/>
@@ -156,26 +156,13 @@ export default function BEEScreen() {
           <div ref={heroLeftRef} className="reveal-left">
             <div style={{display:"inline-flex",alignItems:"center",gap:8,background:"rgba(255,255,255,0.10)",border:"1px solid rgba(255,255,255,0.20)",backdropFilter:"blur(8px)",borderRadius:4,padding:"6px 16px",marginBottom:22}}>
               <span style={{width:7,height:7,borderRadius:"50%",background:"#4ade80",boxShadow:"0 0 6px rgba(74,222,128,0.8)",display:"inline-block",animation:"pulse-dot 2s ease-in-out infinite"}}/>
-              <span style={{fontFamily:T.sans,fontSize:10.5,fontWeight:700,color:"#fff",letterSpacing:"0.14em",textTransform:"uppercase"}}>
-                Bureau of Energy Efficiency — Certified Consultants
-              </span>
+              <span style={{fontFamily:T.sans,fontSize:10.5,fontWeight:700,color:"#fff",letterSpacing:"0.14em",textTransform:"uppercase"}}>Bureau of Energy Efficiency — Certified Consultants</span>
             </div>
-            <h1 style={{
-              fontFamily:T.poppins,
-              fontSize:56,
-              fontWeight:700,lineHeight:1.04,
-              marginBottom:20,letterSpacing:"-0.01em",
-              color:"#fff",maxWidth:640,
-            }}>
-              BEE Star Rating &amp;{" "}
-              <span style={{color:T.orange}}>Energy Labelling</span>
+            <h1 style={{fontFamily:T.poppins,fontSize:56,fontWeight:700,lineHeight:1.04,marginBottom:20,letterSpacing:"-0.01em",color:"#fff",maxWidth:640}}>
+              BEE Star Rating &amp;{" "}<span style={{color:T.orange}}>Energy Labelling</span>
             </h1>
             <div style={{display:"flex",flexWrap:"wrap",gap:10,marginTop:32}}>
-              {heroChips.map(chip=>(
-                <span key={chip.label} className="hero-chip">
-                  <span style={{fontSize:15}}>{chip.icon}</span>{chip.label}
-                </span>
-              ))}
+              {heroChips.map(chip=>(<span key={chip.label} className="hero-chip"><span style={{fontSize:15}}>{chip.icon}</span>{chip.label}</span>))}
             </div>
           </div>
         </div>
@@ -201,29 +188,15 @@ export default function BEEScreen() {
       <section className="sec" style={{background:T.cream}}>
         <div className="inner">
           <div className="overview-grid">
-
-            {/* Left */}
             <div className="reveal-left" ref={overviewRef}>
               <div className="sl-row"><div className="sl-line"/><span className="sl-text">Bureau of Energy Efficiency</span></div>
-              <h2 style={{fontFamily:T.poppins,fontSize:40,color:T.titleblue,fontWeight:700,lineHeight:1.1,letterSpacing:"-0.01em",marginBottom:16}}>
-                End-to-End BEE Compliance, Handled for You
-              </h2>
+              <h2 style={{fontFamily:T.poppins,fontSize:40,color:T.titleblue,fontWeight:700,lineHeight:1.1,letterSpacing:"-0.01em",marginBottom:16}}>End-to-End BEE Compliance, Handled for You</h2>
               <p style={{fontFamily:T.sans,fontSize:12,fontWeight:600,color:T.tealMid,marginBottom:16,letterSpacing:"0.05em",textTransform:"uppercase"}}>Mandatory &amp; Voluntary · Annual Renewal · Lab Coordination</p>
-              <p style={{fontFamily:T.sans,fontSize:15.5,color:T.para,lineHeight:1.9,marginBottom:16,textAlign:"justify"}}>
-                Mandatory energy efficiency star labelling for appliances sold in India. We handle BEE registration, lab coordination, and annual compliance end-to-end.
-              </p>
-              <p style={{fontFamily:T.sans,fontSize:15.5,color:T.para,lineHeight:1.9,marginBottom:32,textAlign:"justify"}}>
-                Our BEE specialists coordinate with BEE-accredited labs, prepare your complete application and label artwork, and follow up until your registration number is issued.
-              </p>
+              <p style={{fontFamily:T.sans,fontSize:15.5,color:T.para,lineHeight:1.9,marginBottom:16,textAlign:"justify"}}>Mandatory energy efficiency star labelling for appliances sold in India. We handle BEE registration, lab coordination, and annual compliance end-to-end.</p>
+              <p style={{fontFamily:T.sans,fontSize:15.5,color:T.para,lineHeight:1.9,marginBottom:32,textAlign:"justify"}}>Our BEE specialists coordinate with BEE-accredited labs, prepare your complete application and label artwork, and follow up until your registration number is issued.</p>
               <div style={{display:"flex",gap:12,flexWrap:"wrap",marginBottom:28}}>
-                <button onClick={()=>router.push("/contact")}
-                  style={{padding:"13px 32px",fontFamily:T.sans,fontSize:13.5,fontWeight:600,letterSpacing:"0.02em",border:"none",borderRadius:6,cursor:"pointer",background:T.orange,color:"#fff",boxShadow:"0 4px 16px rgba(10,104,104,0.22)",transition:"all 0.22s"}}
-                  onMouseEnter={e=>{e.currentTarget.style.background=T.teal;e.currentTarget.style.transform="translateY(-1px)";}}
-                  onMouseLeave={e=>{e.currentTarget.style.background=T.orange;e.currentTarget.style.transform="translateY(0)";}}>Get Free Consultation</button>
-                <button onClick={()=>router.push("/contact")}
-                  style={{padding:"12px 28px",fontFamily:T.sans,fontSize:13.5,fontWeight:600,borderRadius:6,cursor:"pointer",border:`1.5px solid ${T.border}`,color:T.slate,background:"transparent",transition:"all 0.22s"}}
-                  onMouseEnter={e=>{e.currentTarget.style.borderColor=T.teal;e.currentTarget.style.color=T.teal;}}
-                  onMouseLeave={e=>{e.currentTarget.style.borderColor=T.border;e.currentTarget.style.color=T.slate;}}>Check If Mandatory →</button>
+                <button onClick={()=>router.push("/contact")} style={{padding:"13px 32px",fontFamily:T.sans,fontSize:13.5,fontWeight:600,letterSpacing:"0.02em",border:"none",borderRadius:6,cursor:"pointer",background:T.orange,color:"#fff",boxShadow:"0 4px 16px rgba(10,104,104,0.22)",transition:"all 0.22s"}} onMouseEnter={e=>{e.currentTarget.style.background=T.teal;e.currentTarget.style.transform="translateY(-1px)";}} onMouseLeave={e=>{e.currentTarget.style.background=T.orange;e.currentTarget.style.transform="translateY(0)";}}>Get Free Consultation</button>
+                <button onClick={()=>router.push("/contact")} style={{padding:"12px 28px",fontFamily:T.sans,fontSize:13.5,fontWeight:600,borderRadius:6,cursor:"pointer",border:`1.5px solid ${T.border}`,color:T.slate,background:"transparent",transition:"all 0.22s"}} onMouseEnter={e=>{e.currentTarget.style.borderColor=T.teal;e.currentTarget.style.color=T.teal;}} onMouseLeave={e=>{e.currentTarget.style.borderColor=T.border;e.currentTarget.style.color=T.slate;}}>Check If Mandatory →</button>
               </div>
               <div style={{position:"relative",borderRadius:10,overflow:"hidden",height:220}}>
                 <img src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=900&q=80&fit=crop" alt="BEE compliance team" style={{width:"100%",height:"100%",objectFit:"cover",objectPosition:"center 40%"}}/>
@@ -236,39 +209,16 @@ export default function BEEScreen() {
                 </div>
               </div>
             </div>
-
-            {/* Right — info card */}
             <div className="reveal-right" ref={infoCardRef}>
               <div style={{background:T.white,border:`1px solid ${T.border}`,borderRadius:10,padding:28,boxShadow:"0 4px 20px rgba(0,0,0,0.05)",position:"sticky",top:100}}>
                 <div className="sl-row"><div className="sl-line"/><span className="sl-text">Quick Info</span></div>
-                {infoItems.map((item,i)=>(
-                  <div key={item.label} style={{display:"flex",justifyContent:"space-between",alignItems:"center",padding:"12px 0",borderBottom:i<infoItems.length-1?`1px solid ${T.border}`:"none"}}>
-                    <span style={{fontFamily:T.sans,fontSize:13,color:T.muted}}>{item.label}</span>
-                    <span style={{fontFamily:T.poppins,fontSize:13,color:T.slate,fontWeight:600,textAlign:"right",maxWidth:"55%"}}>{item.value}</span>
-                  </div>
-                ))}
-                <button
-                  onClick={()=>router.push("/contact")}
-                  style={{width:"100%",marginTop:22,padding:13,background:T.orange,color:"#fff",fontWeight:600,borderRadius:6,border:"none",fontFamily:T.poppins,fontSize:14,cursor:"pointer",transition:"background 0.2s"}}
-                  onMouseEnter={e=>e.currentTarget.style.background=T.teal}
-                  onMouseLeave={e=>e.currentTarget.style.background=T.orange}>Start Application →</button>
+                {infoItems.map((item,i)=>(<div key={item.label} style={{display:"flex",justifyContent:"space-between",alignItems:"center",padding:"12px 0",borderBottom:i<infoItems.length-1?`1px solid ${T.border}`:"none"}}><span style={{fontFamily:T.sans,fontSize:13,color:T.muted}}>{item.label}</span><span style={{fontFamily:T.poppins,fontSize:13,color:T.slate,fontWeight:600,textAlign:"right",maxWidth:"55%"}}>{item.value}</span></div>))}
+                <button onClick={()=>router.push("/contact")} style={{width:"100%",marginTop:22,padding:13,background:T.orange,color:"#fff",fontWeight:600,borderRadius:6,border:"none",fontFamily:T.poppins,fontSize:14,cursor:"pointer",transition:"background 0.2s"}} onMouseEnter={e=>e.currentTarget.style.background=T.teal} onMouseLeave={e=>e.currentTarget.style.background=T.orange}>Start Application →</button>
                 <div style={{marginTop:16,paddingTop:16,borderTop:`1px solid ${T.border}`,display:"flex",flexDirection:"column",gap:10}}>
-                  {[
-                    {icon:"📞",label:"Call Us",value:"+91-9540190334",href:"tel:+919540190334"},
-                    {icon:"✉",label:"Email Us",value:"info@siacc.in",href:"mailto:info@siacc.in"},
-                  ].map(item=>(
-                    <a key={item.label} href={item.href} style={{display:"flex",alignItems:"center",gap:10,textDecoration:"none"}}>
-                      <div style={{width:36,height:36,borderRadius:7,backgroundColor:T.tealLight,display:"flex",alignItems:"center",justifyContent:"center",fontSize:15,flexShrink:0}}>{item.icon}</div>
-                      <div>
-                        <div style={{fontFamily:T.sans,fontSize:10,color:T.teal,fontWeight:700,textTransform:"uppercase",letterSpacing:"0.08em"}}>{item.label}</div>
-                        <div style={{fontFamily:T.poppins,fontSize:13,color:T.slate,fontWeight:500,marginTop:1}}>{item.value}</div>
-                      </div>
-                    </a>
-                  ))}
+                  {[{icon:"📞",label:"Call Us",value:"+91-9540190334",href:"tel:+919540190334"},{icon:"✉",label:"Email Us",value:"info@siacc.in",href:"mailto:info@siacc.in"}].map(item=>(<a key={item.label} href={item.href} style={{display:"flex",alignItems:"center",gap:10,textDecoration:"none"}}><div style={{width:36,height:36,borderRadius:7,backgroundColor:T.tealLight,display:"flex",alignItems:"center",justifyContent:"center",fontSize:15,flexShrink:0}}>{item.icon}</div><div><div style={{fontFamily:T.sans,fontSize:10,color:T.teal,fontWeight:700,textTransform:"uppercase",letterSpacing:"0.08em"}}>{item.label}</div><div style={{fontFamily:T.poppins,fontSize:13,color:T.slate,fontWeight:500,marginTop:1}}>{item.value}</div></div></a>))}
                 </div>
               </div>
             </div>
-
           </div>
         </div>
       </section>
@@ -282,16 +232,7 @@ export default function BEEScreen() {
             <p style={{fontFamily:T.sans,color:T.para,maxWidth:480,margin:"0 auto",lineHeight:1.75,fontSize:16}}>Different appliances fall under different BEE schemes. Here's what applies to your product.</p>
           </div>
           <div className="types-grid" ref={typesRef}>
-            {types.map((t,i)=>(
-              <div key={t.title} className={`type-card reveal d${i%6}`}>
-                <div style={{display:"flex",alignItems:"flex-start",justifyContent:"space-between",marginBottom:16}}>
-                  <div style={{width:52,height:52,background:T.tealLight,borderRadius:10,display:"flex",alignItems:"center",justifyContent:"center",fontSize:24}}>{t.icon}</div>
-                  <span style={{fontFamily:T.sans,fontSize:10,fontWeight:700,background:i%2===0?T.tealLight:T.amberLight,color:i%2===0?T.tealMid:T.amberDark,padding:"3px 10px",borderRadius:3,letterSpacing:"0.06em"}}>{t.tag}</span>
-                </div>
-                <h3 style={{fontFamily:T.poppins,fontSize:17,color:T.titleblue,marginBottom:10,fontWeight:600}}>{t.title}</h3>
-                <p style={{fontSize:15,color:T.para,margin:0,fontWeight:500,textAlign:"justify"}}>{t.desc}</p>
-              </div>
-            ))}
+            {types.map((t,i)=>(<div key={t.title} className={`type-card reveal d${i%6}`}><div style={{display:"flex",alignItems:"flex-start",justifyContent:"space-between",marginBottom:16}}><div style={{width:52,height:52,background:T.tealLight,borderRadius:10,display:"flex",alignItems:"center",justifyContent:"center",fontSize:24}}>{t.icon}</div><span style={{fontFamily:T.sans,fontSize:10,fontWeight:700,background:i%2===0?T.tealLight:T.amberLight,color:i%2===0?T.tealMid:T.amberDark,padding:"3px 10px",borderRadius:3,letterSpacing:"0.06em"}}>{t.tag}</span></div><h3 style={{fontFamily:T.poppins,fontSize:17,color:T.titleblue,marginBottom:10,fontWeight:600}}>{t.title}</h3><p style={{fontSize:15,color:T.para,margin:0,fontWeight:500,textAlign:"justify"}}>{t.desc}</p></div>))}
           </div>
         </div>
       </section>
@@ -306,24 +247,10 @@ export default function BEEScreen() {
           <div className="reveal-scale" ref={bannerRef} style={{position:"relative",borderRadius:10,overflow:"hidden",marginBottom:36,height:170}}>
             <img src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=1400&q=80&fit=crop" alt="process" style={{width:"100%",height:"100%",objectFit:"cover",objectPosition:"center 40%"}}/>
             <div style={{position:"absolute",inset:0,background:"linear-gradient(to right,rgba(14,128,128,0.88) 0%,rgba(30,136,200,0.60) 55%,rgba(235,245,251,0.25) 100%)"}}/>
-            <div style={{position:"absolute",inset:0,display:"flex",alignItems:"center",padding:"0 40px"}}>
-              <div>
-                <div style={{fontFamily:T.poppins,fontSize:"clamp(1.1rem,2vw,1.4rem)",color:"#fff",fontWeight:700,marginBottom:6}}>End-to-End BEE Compliance</div>
-                <p style={{fontFamily:T.sans,color:"rgba(255,255,255,0.78)",fontSize:13}}>Lab coordination, application filing, label design, and annual renewals — all handled by our experts.</p>
-              </div>
-            </div>
+            <div style={{position:"absolute",inset:0,display:"flex",alignItems:"center",padding:"0 40px"}}><div><div style={{fontFamily:T.poppins,fontSize:"clamp(1.1rem,2vw,1.4rem)",color:"#fff",fontWeight:700,marginBottom:6}}>End-to-End BEE Compliance</div><p style={{fontFamily:T.sans,color:"rgba(255,255,255,0.78)",fontSize:13}}>Lab coordination, application filing, label design, and annual renewals — all handled by our experts.</p></div></div>
           </div>
           <div className="steps-grid" ref={stepsRef}>
-            {steps.map((s,i)=>(
-              <div key={s.step} className={`step-card reveal d${i%6}`}>
-                <div style={{width:48,height:48,borderRadius:9,background:T.tealLight,display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0,fontSize:20}}>{s.icon}</div>
-                <div>
-                  <div style={{fontFamily:T.sans,fontSize:10.5,fontWeight:700,color:T.teal,letterSpacing:"0.12em",textTransform:"uppercase",marginBottom:4}}>Step {s.step}</div>
-                  <h3 style={{fontFamily:T.poppins,fontSize:18,color:T.para,marginBottom:6,fontWeight:600}}>{s.title}</h3>
-                  <p style={{fontFamily:T.sans,fontSize:15,color:T.paradark,lineHeight:1.7,margin:0,textAlign:"justify"}}>{s.desc}</p>
-                </div>
-              </div>
-            ))}
+            {steps.map((s,i)=>(<div key={s.step} className={`step-card reveal d${i%6}`}><div style={{width:48,height:48,borderRadius:9,background:T.tealLight,display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0,fontSize:20}}>{s.icon}</div><div><div style={{fontFamily:T.sans,fontSize:10.5,fontWeight:700,color:T.teal,letterSpacing:"0.12em",textTransform:"uppercase",marginBottom:4}}>Step {s.step}</div><h3 style={{fontFamily:T.poppins,fontSize:18,color:T.para,marginBottom:6,fontWeight:600}}>{s.title}</h3><p style={{fontFamily:T.sans,fontSize:15,color:T.paradark,lineHeight:1.7,margin:0,textAlign:"justify"}}>{s.desc}</p></div></div>))}
           </div>
         </div>
       </section>
@@ -338,14 +265,7 @@ export default function BEEScreen() {
             <h2 style={{fontFamily:T.poppins,fontSize:"clamp(2rem,3.2vw,2.9rem)",color:"#fff",fontWeight:700,letterSpacing:"-0.01em"}}>Documents Required</h2>
           </div>
           <div className="docs-grid" ref={docsRef}>
-            {docs.map((doc,i)=>(
-              <div key={i} className={`reveal d${i%4}`} style={{background:"rgba(255,255,255,0.07)",borderRadius:8,padding:"16px 20px",border:"1px solid rgba(255,255,255,0.12)",display:"flex",alignItems:"center",gap:12,backdropFilter:"blur(4px)",transition:"background 0.2s"}}
-                onMouseEnter={e=>e.currentTarget.style.background="rgba(255,255,255,0.12)"}
-                onMouseLeave={e=>e.currentTarget.style.background="rgba(255,255,255,0.07)"}>
-                <div style={{width:28,height:28,borderRadius:"50%",background:T.teal,display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}><span style={{color:"#fff",fontSize:12,fontWeight:800}}>✓</span></div>
-                <span style={{fontFamily:T.sans,fontSize:15,color:"rgba(255,255,255,0.85)"}}>{doc}</span>
-              </div>
-            ))}
+            {docs.map((doc,i)=>(<div key={i} className={`reveal d${i%4}`} style={{background:"rgba(255,255,255,0.07)",borderRadius:8,padding:"16px 20px",border:"1px solid rgba(255,255,255,0.12)",display:"flex",alignItems:"center",gap:12,backdropFilter:"blur(4px)",transition:"background 0.2s"}} onMouseEnter={e=>e.currentTarget.style.background="rgba(255,255,255,0.12)"} onMouseLeave={e=>e.currentTarget.style.background="rgba(255,255,255,0.07)"}><div style={{width:28,height:28,borderRadius:"50%",background:T.teal,display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}><span style={{color:"#fff",fontSize:12,fontWeight:800}}>✓</span></div><span style={{fontFamily:T.sans,fontSize:15,color:"rgba(255,255,255,0.85)"}}>{doc}</span></div>))}
           </div>
           <p style={{textAlign:"center",marginTop:24,fontFamily:T.sans,fontSize:13,color:"rgba(255,255,255,0.50)"}}>Not sure if you have everything?{" "}<button onClick={()=>router.push("/contact")} style={{color:T.teal,fontWeight:600,background:"none",border:"none",cursor:"pointer",fontFamily:T.poppins,fontSize:13}}>Contact us for a free checklist →</button></p>
         </div>
@@ -353,24 +273,21 @@ export default function BEEScreen() {
 
       {/* ══ FAQS ══ */}
       <section className="sec" style={{background:T.cream}}>
-        <div style={{maxWidth:800,margin:"0 auto"}}>
-          <div style={{textAlign:"center",marginBottom:48}} className="reveal" ref={faqTtlRef}>
-            <div style={{display:"flex",justifyContent:"center"}}><div className="sl-row"><div className="sl-line"/><span className="sl-text">Common Questions</span></div></div>
-            <h2 style={{fontFamily:T.poppins,fontSize:"clamp(2rem,3.2vw,2.9rem)",color:T.titleblue,fontWeight:700,letterSpacing:"-0.01em"}}>BEE Certification FAQs</h2>
-          </div>
-          <div ref={faqRef}>
-            {faqs.map((faq,i)=>(
-              <div key={faq.q} className={`faq-card reveal d${i}`}>
-                <div style={{display:"flex",gap:14,marginBottom:10}}>
-                  <div style={{width:28,height:28,borderRadius:"50%",background:T.tealLight,display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0,fontWeight:700,fontSize:12,color:T.teal}}>Q</div>
-                  <div style={{fontFamily:T.poppins,fontSize:17,color:"#000000af",fontWeight:600,paddingTop:4}}>{faq.q}</div>
-                </div>
-                <div style={{display:"flex",gap:14}}>
-                  <div style={{width:28,height:28,borderRadius:"50%",background:T.amberLight,display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0,fontWeight:700,fontSize:12,color:T.amber}}>A</div>
-                  <div style={{fontFamily:T.sans,fontSize:15,color:T.paradark,lineHeight:1.8,paddingTop:4}}>{faq.a}</div>
-                </div>
+        <div className="inner">
+          <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",borderRadius:14,overflow:"hidden",border:`1px solid ${T.border}`,minHeight:440}} className="faq-grid">
+            <div style={{position:"relative",minHeight:250,overflow:"hidden"}}>
+              <img src="https://images.unsplash.com/photo-1509391366360-2e959784a276?w=900&q=80&fit=crop" alt="BEE FAQ" style={{position:"absolute",inset:0,width:"100%",height:"100%",objectFit:"cover",objectPosition:"center 30%"}}/>
+            </div>
+            <div style={{background:T.white,padding:"28px 24px",borderLeft:`1px solid ${T.border}`}}>
+              <div style={{display:"flex",alignItems:"center",gap:8,marginBottom:10}}>
+                <div style={{width:22,height:1.5,background:T.teal}}/>
+                <span style={{fontFamily:T.poppins,fontSize:10.5,fontWeight:600,color:T.teal,letterSpacing:"0.13em",textTransform:"uppercase"}}>Frequently Asked</span>
               </div>
-            ))}
+              <h3 style={{fontFamily:T.poppins,fontSize:35,fontWeight:600,color:T.titleblue,marginBottom:20}}>BEE Certification FAQs</h3>
+              <div ref={faqRef}>
+                {faqs.map((faq)=>(<FaqItem key={faq.q} faq={faq}/>))}
+              </div>
+            </div>
           </div>
         </div>
       </section>
@@ -385,14 +302,8 @@ export default function BEEScreen() {
               <p style={{fontFamily:T.sans,color:T.paradark,fontSize:14.5,lineHeight:1.8}}>Our energy compliance team will handle your BEE registration from start to finish.<br/>Free consultation. Clear timeline. Transparent pricing.</p>
             </div>
             <div style={{display:"flex",flexDirection:"column",gap:12,flexShrink:0}}>
-              <button onClick={()=>router.push("/contact")}
-                style={{padding:"14px 36px",fontFamily:T.poppins,fontSize:14,fontWeight:600,border:"none",borderRadius:6,cursor:"pointer",background:T.orange,color:"#fff",whiteSpace:"nowrap",transition:"all 0.22s"}}
-                onMouseEnter={e=>{e.currentTarget.style.background=T.teal;e.currentTarget.style.transform="translateY(-1px)";}}
-                onMouseLeave={e=>{e.currentTarget.style.background=T.orange;e.currentTarget.style.transform="translateY(0)";}}>Get Free Consultation</button>
-              <a href="tel:+919540190334"
-                style={{padding:"13px 28px",border:`1.5px solid ${T.border}`,borderRadius:6,fontFamily:T.poppins,fontSize:14,fontWeight:500,color:T.slate,display:"flex",alignItems:"center",justifyContent:"center",gap:8,background:T.white,transition:"border-color 0.2s"}}
-                onMouseEnter={e=>e.currentTarget.style.borderColor=T.teal}
-                onMouseLeave={e=>e.currentTarget.style.borderColor=T.border}>📞 +91-9540190334</a>
+              <button onClick={()=>router.push("/contact")} style={{padding:"14px 36px",fontFamily:T.poppins,fontSize:14,fontWeight:600,border:"none",borderRadius:6,cursor:"pointer",background:T.orange,color:"#fff",whiteSpace:"nowrap",transition:"all 0.22s"}} onMouseEnter={e=>{e.currentTarget.style.background=T.teal;e.currentTarget.style.transform="translateY(-1px)";}} onMouseLeave={e=>{e.currentTarget.style.background=T.orange;e.currentTarget.style.transform="translateY(0)";}}>Get Free Consultation</button>
+              <a href="tel:+919540190334" style={{padding:"13px 28px",border:`1.5px solid ${T.border}`,borderRadius:6,fontFamily:T.poppins,fontSize:14,fontWeight:500,color:T.slate,display:"flex",alignItems:"center",justifyContent:"center",gap:8,background:T.white,transition:"border-color 0.2s"}} onMouseEnter={e=>e.currentTarget.style.borderColor=T.teal} onMouseLeave={e=>e.currentTarget.style.borderColor=T.border}>📞 +91-9540190334</a>
             </div>
           </div>
         </div>

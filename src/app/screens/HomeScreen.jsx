@@ -11,6 +11,7 @@ import IndustriesWeServe from "../Components/IndustriesWeServe";
 import ClientStories from "../Components/ClientStories";
 import "../animations.css";
 import WhyChooseUs from "../Components/WhyChooseUs";
+import BlogHome from "../Components/BlogHome";
 
 const T = {
   teal: "#1E88C8",
@@ -74,7 +75,7 @@ const stats = [
   { v: "12+", l: "Years of Excellence" },
   { v: "10,000+", l: "Certifications Issued" },
   { v: "50+", l: "Services & Domains" },
-  { v: "98%", l: "First-Attempt Success" },
+  { v: "0%", l: "Failure Rate" },
 ];
 
 function SectionLabel({ children }) {
@@ -210,10 +211,10 @@ export default function HomeScreen() {
                 textAlign: "center", padding: "36px 16px",
                 borderRight: i < stats.length - 1 ? "1px solid rgba(255,255,255,0.07)" : "none",
               }}>
-                <div className="anim-count-up" style={{ fontFamily: T.serif, fontSize: "clamp(2rem,2.8vw,2.8rem)", color: "#fff", fontWeight: 700, lineHeight: 1, letterSpacing: "-0.01em" }}>
+                <div className="anim-count-up" style={{ fontFamily: T.poppins, fontSize: "clamp(2rem,2.8vw,2.8rem)", color: "#fff", fontWeight: 700, lineHeight: 1, letterSpacing: "-0.01em" }}>
                   {s.v}
                 </div>
-                <div style={{ fontFamily: T.sans, fontSize: 14, color: "rgba(255,255,255,0.8)", marginTop: 8, letterSpacing: "0.04em" }}>
+                <div style={{ fontFamily: T.poppins, fontSize: 14, color: "rgba(255,255,255,0.8)", marginTop: 8, letterSpacing: "0.04em" }}>
                   {s.l}
                 </div>
               </div>
@@ -237,11 +238,11 @@ export default function HomeScreen() {
                 background: T.white, borderRadius: 8, padding: "20px 26px",
                 boxShadow: "0 16px 48px rgba(0,0,0,0.11)", border: `1px solid ${T.tealLight}`,
               }}>
-                <div style={{ fontFamily: T.serif, fontSize: 36, color: T.teal, fontWeight: 700, lineHeight: 1 }}>10K+</div>
-                <div style={{ fontFamily: T.sans, fontSize: 13, color: "#000000d7", marginTop: 4 }}>Clients Served</div>
+                <div style={{ fontFamily: T.poppins, fontSize: 30, color: T.teal, fontWeight: 700, lineHeight: 1 }}>10K+</div>
+                <div style={{ fontFamily: T.poppins, fontSize: 13, color: "#000000d7", marginTop: 4 }}>Clients Served</div>
               </div>
               <div style={{ position: "absolute", top: 20, left: 20, background: T.teal, borderRadius: 4, padding: "7px 16px" }}>
-                <span style={{ fontFamily: T.sans, fontWeight: 700, fontSize: 13, color: "#000000d7", letterSpacing: "0.1em" }}>SINCE 2011</span>
+                <span style={{ fontFamily: T.poppins, fontWeight: 700, fontSize: 13, color: "#000000d7", letterSpacing: "0.1em" }}>SINCE 2011</span>
               </div>
             </div>
 
@@ -264,8 +265,8 @@ export default function HomeScreen() {
                   { n: "50+", l: "Services Covered" },
                 ].map((s, i) => (
                   <div key={s.l} className={`reveal d${i}`} style={{ padding: "16px 20px", background: T.white, borderRadius: 8, border: `1px solid ${T.border}`, borderLeft: `3px solid ${T.teal}` }}>
-                    <div style={{ fontFamily: T.serif, fontSize: 26, color: T.teal, fontWeight: 700, lineHeight: 1 }}>{s.n}</div>
-                    <div style={{ fontFamily: T.sans, fontSize: 14, color: T.para, marginTop: 4 }}>{s.l}</div>
+                    <div style={{ fontFamily: T.poppins, fontSize: 26, color: T.teal, fontWeight: 700, lineHeight: 1 }}>{s.n}</div>
+                    <div style={{ fontFamily: T.poppins, fontSize: 14, color: T.para, marginTop: 4 }}>{s.l}</div>
                   </div>
                 ))}
               </div>
@@ -296,6 +297,9 @@ export default function HomeScreen() {
       {/* ══ CLIENT STORIES ══ */}
       <ClientStories />
 
+       {/* ══ BLOG ══ */}
+       <BlogHome/>
+       
       {/* ══ CTA BAND ══ */}
       <section
         className="reveal"
@@ -309,7 +313,7 @@ export default function HomeScreen() {
                 <div style={{ width: 28, height: 1.5, background: T.teal }} />
                 <span style={{ fontFamily: T.sans, fontSize: 11, fontWeight: 600, letterSpacing: "0.14em", textTransform: "uppercase", color: T.teal }}>Start Today</span>
               </div>
-              <h2 style={{ fontFamily: T.serif, fontSize: "clamp(1.9rem,3.2vw,2.9rem)", color: T.titleblue, fontWeight: 700, lineHeight: 1.1, letterSpacing: "-0.01em", marginBottom: 14 }}>
+              <h2 style={{ fontFamily: T.poppins, fontSize: "clamp(1.9rem,3.2vw,2.9rem)", color: T.titleblue, fontWeight: 700, lineHeight: 1.1, letterSpacing: "-0.01em", marginBottom: 14 }}>
                 Begin Your Certification<br />Journey with SIACC
               </h2>
               <p style={{ fontFamily: T.sans, color: T.para, fontSize: 16, lineHeight: 1.8 }}>

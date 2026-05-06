@@ -187,13 +187,13 @@ function StepCard({ step, index, isLast, isMobile }) {
     Step {step.n}
   </div>
   <h3 style={{
-    fontFamily: T.poppins, fontSize: isMobile ? 18 : 20, color: T.slate,
-    marginBottom: 8, fontWeight: 500, lineHeight: 1.2,
+    fontFamily: T.poppins, fontSize: isMobile ? 18 : 20, color: T.titleblue,
+    marginBottom: 8, fontWeight: 600, lineHeight: 1.2,
   }}>
     {step.title}
   </h3>
   <p style={{
-    fontFamily: T.poppins, fontSize: 13, color: "#00000094", fontWeight: 100,lineHeight: 1.75,
+    fontFamily: T.poppins, fontSize: 14, color: "#000000c2", fontWeight: 400,lineHeight: 1.75,
     maxWidth: isMobile ? "100%" : 200, margin: isMobile ? "0" : "0 auto",
   }}>
     {step.desc}
@@ -252,8 +252,8 @@ export default function HowItWorks() {
             How It Works
           </h2>
           <p style={{
-            fontFamily: T.sans, color: T.para, maxWidth: 520,
-            margin: "0 auto", lineHeight: 1.75, fontSize: 14.5,
+            fontFamily: T.sans, color: T.poppins, maxWidth: 520,
+            margin: "0 auto", lineHeight: 1.75, fontSize: 16,
           }}>
             A simple, transparent 4-step process — from first enquiry to certificate in hand.
           </p>
@@ -309,10 +309,10 @@ export default function HowItWorks() {
                 ✅
               </div>
               <div>
-                <div style={{ fontFamily: T.sans, fontSize: 14.5, fontWeight: 600, color: T.slate, marginBottom: 3 }}>
+                <div style={{ fontFamily: T.sans, fontSize: 16, fontWeight: 600, color: T.slate, marginBottom: 3 }}>
                   Most certifications completed in 15–30 days
                 </div>
-                <div style={{ fontFamily: T.sans, fontSize: 13.5, color: T.muted, lineHeight: 1.6 }}>
+                <div style={{ fontFamily: T.sans, fontSize: 15, color: T.muted, lineHeight: 1.6 }}>
                   Dedicated manager assigned from day one. 98% first-attempt success rate.
                 </div>
               </div>

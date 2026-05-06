@@ -249,8 +249,8 @@ export default function WhyDecisionHome() {
           display: flex; align-items: center; justify-content: center;
           flex-shrink: 0; margin-top: 1px;
         }
-        .wdh-feat-text { font-size: 15px; color: #374151; font-weight: 600; }
-        .wdh-feat-sub  { font-size: 13px; color: T.para; font-weight: 400; }
+        .wdh-feat-text { font-size: 15px; color: #374151; font-weight: 600; font-family: ${T.poppins}; }
+        .wdh-feat-sub  { font-size: 13px; color: T.para; font-weight: 400; font-family: ${T.poppins} }
 
         /* ── Stats bar ── */
         .wdh-stats-bar {
@@ -296,7 +296,7 @@ export default function WhyDecisionHome() {
         .wdh-stat:hover .wdh-stat-icon { background: rgba(255,255,255,0.18); transform: scale(1.08); }
 
         .wdh-stat-value {
-          font-family: ${serif};
+          font-family: ${T.poppins};
           font-size: clamp(1.8rem, 2.6vw, 2.5rem);
           font-weight: 700; color: #fff;
           line-height: 1; margin-bottom: 7px; letter-spacing: -0.02em;

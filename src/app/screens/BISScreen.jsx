@@ -1,8 +1,34 @@
 "use client";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef , useState} from "react";
 import Navbar from "../Components/Navbar";
 import Footer from "../Components/Footer";
 import "../animations.css";
+
+function FaqItem({ faq, index }) {
+  const [open, setOpen] = useState(false);
+  return (
+    <div style={{
+      border: `1px solid ${open ? "rgba(30,136,200,0.45)" : T.border}`,
+      borderRadius: 10, marginBottom: 10, overflow: "hidden", transition: "border-color 0.2s",
+    }}>
+      <button onClick={() => setOpen(!open)} style={{
+        display: "flex", alignItems: "flex-start", gap: 10, padding: "13px 16px",
+        background: open ? "rgba(30,136,200,0.04)" : "transparent",
+        border: "none", width: "100%", textAlign: "left", cursor: "pointer", transition: "background 0.18s",
+      }}>
+        <div style={{ width: 26, height: 26, borderRadius: "50%", background: open ? T.teal : T.tealLight, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 11, fontWeight: 700, color: open ? "#fff" : T.teal, flexShrink: 0, fontFamily: T.poppins, transition: "background 0.2s, color 0.2s" }}>Q</div>
+        <span style={{ fontFamily: T.poppins, fontSize: 13, fontWeight: 600, color: T.slate, lineHeight: 1.45, flex: 1 }}>{faq.q}</span>
+        <span style={{ fontSize: 14, color: open ? T.teal : T.muted, flexShrink: 0, marginTop: 4, transition: "transform 0.25s, color 0.2s", transform: open ? "rotate(180deg)" : "rotate(0deg)", display: "inline-block" }}>▾</span>
+      </button>
+      {open && (
+        <div style={{ display: "flex", gap: 10, padding: "0 16px 14px" }}>
+          <div style={{ width: 26, height: 26, borderRadius: "50%", background: T.amberLight, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 11, fontWeight: 700, color: T.amber, flexShrink: 0, fontFamily: T.poppins }}>A</div>
+          <p style={{ fontFamily: T.poppins, fontSize: 12.5, fontWeight: 300, color: T.paradark, lineHeight: 1.75, margin: 0 }}>{faq.a}</p>
+        </div>
+      )}
+    </div>
+  );
+}
 
 const T = {
   teal: "#1E88C8", tealDark: "#074D4D", tealMid: "#0E8080", titleblue: "#0a6daa", para: "#080000b0", paradark: "#080000c4",
@@ -333,7 +359,7 @@ export default function BISScreen() {
                 <div style={{ width: 48, height: 48, borderRadius: 9, background: T.tealLight, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, fontSize: 20 }}>{s.icon}</div>
                 <div>
                   <div style={{ fontFamily: T.sans, fontSize: 10.5, fontWeight: 700, color: T.teal, letterSpacing: "0.12em", textTransform: "uppercase", marginBottom: 4 }}>Step {s.step}</div>
-                  <h3 style={{ fontFamily: T.poppins, fontSize: 19, color: T.slate, marginBottom: 6, fontWeight: 600 }}>{s.title}</h3>
+                  <h3 style={{ fontFamily: T.poppins, fontSize: 19, color: T.titleblue, marginBottom: 6, fontWeight: 600 }}>{s.title}</h3>
                   <p style={{ fontFamily: T.sans, fontSize: 15, color: T.paradark, lineHeight: 1.7, margin: 0 }}>{s.desc}</p>
                 </div>
               </div>
@@ -365,29 +391,53 @@ export default function BISScreen() {
         </div>
       </section>
 
-      {/* ══ FAQS ══ */}
-      <section className="sec" style={{ background: T.cream }}>
-        <div style={{ maxWidth: 800, margin: "0 auto" }}>
-          <div style={{ textAlign: "center", marginBottom: 48 }} className="reveal" ref={faqTtlRef}>
-            <div style={{ display: "flex", justifyContent: "center" }}><div className="sl-row"><div className="sl-line" /><span className="sl-text">Common Questions</span></div></div>
-            <h2 style={{ fontFamily: T.poppins, fontSize: "clamp(2rem,3.2vw,2.9rem)", color: T.titleblue, fontWeight: 700, letterSpacing: "-0.01em" }}>BIS Certification FAQs</h2>
-          </div>
-          <div ref={faqRef}>
-            {faqs.map((faq, i) => (
-              <div key={faq.q} className={`faq-card reveal d${i}`}>
-                <div style={{ display: "flex", gap: 14, marginBottom: 10 }}>
-                  <div style={{ width: 28, height: 28, borderRadius: "50%", background: T.tealLight, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, fontWeight: 700, fontSize: 12, color: T.teal }}>Q</div>
-                  <div style={{ fontFamily: T.poppins, fontSize: 17, color: "#000000", fontWeight: 600, paddingTop: 4 }}>{faq.q}</div>
-                </div>
-                <div style={{ display: "flex", gap: 14 }}>
-                  <div style={{ width: 28, height: 28, borderRadius: "50%", background: T.amberLight, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, fontWeight: 700, fontSize: 12, color: T.amber }}>A</div>
-                  <div style={{ fontFamily: T.sans, fontSize: 15, color: T.paradark, lineHeight: 1.8, paddingTop: 4 }}>{faq.a}</div>
-                </div>
-              </div>
-            ))}
-          </div>
+  {/* ══ FAQS ══ */}
+<section className="sec" style={{ background: T.cream }}>
+  <div className="inner">
+    <div style={{
+      display: "grid",
+      gridTemplateColumns: "1fr 1fr",
+      borderRadius: 14,
+      overflow: "hidden",
+      border: `1px solid ${T.border}`,
+      minHeight: 440,
+    }} className="faq-grid">
+
+   {/* Left — image only, no overlay, no content */}
+<div style={{ position: "relative", minHeight: 250, overflow: "hidden" }}>
+  <img
+    src="https://images.unsplash.com/photo-1568219557405-376e23e4f7cf?w=900&q=80&fit=crop"
+    alt="BIS FAQ"
+    style={{
+      position: "absolute", inset: 0,
+      width: "100%", height: "100%",
+      objectFit: "cover", objectPosition: "center 30%",
+    }}
+  />
+</div>
+
+      {/* Right — accordion */}
+      <div style={{ background: T.white, padding: "28px 24px", borderLeft: `1px solid ${T.border}` }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 10 }}>
+          <div style={{ width: 22, height: 1.5, background: T.teal }} />
+          <span style={{ fontFamily: T.poppins, fontSize: 10.5, fontWeight: 600, color: T.teal, letterSpacing: "0.13em", textTransform: "uppercase" }}>Frequently Asked</span>
         </div>
-      </section>
+        <h3 style={{ fontFamily: T.poppins, fontSize: 35, fontWeight: 600, color: T.titleblue, marginBottom: 20 }}>BIS Certification FAQs</h3>
+
+        <div ref={faqRef}>
+          {faqs.map((faq, i) => (
+            <FaqItem key={faq.q} faq={faq} index={i} />
+          ))}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <style>{`
+    .faq-grid { }
+    @media(max-width:760px){ .faq-grid { grid-template-columns: 1fr !important; } }
+  `}</style>
+</section>
 
       {/* ══ CTA ══ */}
       <section className="reveal" ref={ctaRef} style={{ background: T.ctaBand, borderTop: `1px solid ${T.ctaBandBorder}`, borderBottom: `1px solid ${T.ctaBandBorder}`, padding: "80px clamp(16px,5vw,56px)" }}>

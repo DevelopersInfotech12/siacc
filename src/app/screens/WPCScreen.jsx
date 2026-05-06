@@ -1,12 +1,13 @@
 "use client";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import Navbar from "../Components/Navbar";
 import Footer from "../Components/Footer";
 import "../animations.css";
 
 const T = {
-  teal:"#1E88C8",tealDark:"#074D4D",tealMid:"#0E8080",titleblue:"#0a6daa",para:"#080000b0", paradark:"#080000c4",
+  teal:"#1E88C8",tealDark:"#074D4D",tealMid:"#0E8080",titleblue:"#0a6daa",
+  para:"#080000b0", paradark:"#080000c4",
   tealLight:"#EBF5F5",amber:"#C8780A",amberLight:"#FEF3DC",amberDark:"#9A5C06",
   slate:"#0D1B2A",body:"#2D3748",muted:"#718096",subtle:"#A0AEC0",
   border:"#E8E3DA",borderLight:"#F0ECE5",white:"#FFFFFF",cream:"#FAF8F4",
@@ -15,6 +16,32 @@ const T = {
   sans:"'Outfit','system-ui',sans-serif",
   poppins:"'Poppins','system-ui',sans-serif",
 };
+
+function FaqItem({ faq }) {
+  const [open, setOpen] = useState(false);
+  return (
+    <div style={{
+      border: `1px solid ${open ? "rgba(30,136,200,0.45)" : T.border}`,
+      borderRadius: 10, marginBottom: 10, overflow: "hidden", transition: "border-color 0.2s",
+    }}>
+      <button onClick={() => setOpen(!open)} style={{
+        display: "flex", alignItems: "flex-start", gap: 10, padding: "13px 16px",
+        background: open ? "rgba(30,136,200,0.04)" : "transparent",
+        border: "none", width: "100%", textAlign: "left", cursor: "pointer", transition: "background 0.18s",
+      }}>
+        <div style={{ width: 26, height: 26, borderRadius: "50%", background: open ? T.teal : T.tealLight, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 11, fontWeight: 700, color: open ? "#fff" : T.teal, flexShrink: 0, fontFamily: T.poppins, transition: "background 0.2s, color 0.2s" }}>Q</div>
+        <span style={{ fontFamily: T.poppins, fontSize: 13, fontWeight: 600, color: T.slate, lineHeight: 1.45, flex: 1 }}>{faq.q}</span>
+        <span style={{ fontSize: 14, color: open ? T.teal : T.muted, flexShrink: 0, marginTop: 4, transition: "transform 0.25s, color 0.2s", transform: open ? "rotate(180deg)" : "rotate(0deg)", display: "inline-block" }}>▾</span>
+      </button>
+      {open && (
+        <div style={{ display: "flex", gap: 10, padding: "0 16px 14px" }}>
+          <div style={{ width: 26, height: 26, borderRadius: "50%", background: T.amberLight, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 11, fontWeight: 700, color: T.amber, flexShrink: 0, fontFamily: T.poppins }}>A</div>
+          <p style={{ fontFamily: T.poppins, fontSize: 12.5, fontWeight: 300, color: T.paradark, lineHeight: 1.75, margin: 0 }}>{faq.a}</p>
+        </div>
+      )}
+    </div>
+  );
+}
 
 function useReveal(opts={}) {
   const {threshold=0.15,stagger=false,baseDelay=90,once=true}=opts;
@@ -54,9 +81,10 @@ const steps=[
 const docs=["Product technical specifications","RF test report from recognized lab","Product photographs (all sides)","User manual / product brochure","Company registration documents","Authorized representative letter","Import-Export Code (IEC)","Declaration of conformity"];
 const faqs=[
   {q:"Which devices need WPC-ETA approval?",a:"Any device using unlicensed radio frequency spectrum — including Wi-Fi, Bluetooth, Zigbee, Z-Wave, RFID, GPS modules, and wireless IoT devices — requires WPC-ETA approval before import."},
-  {q:"Can I import wireless devices without WPC approval?",a:"No. Importing wireless devices without WPC-ETA is illegal and the shipment will be detained at customs. The importer can also face penalties."},
-  {q:"How long is WPC-ETA approval valid?",a:"WPC-ETA approvals are typically valid for 5 years from the date of issue and can be renewed."},
-  {q:"Do Indian-manufactured wireless devices also need WPC?",a:"WPC-ETA is primarily for imports. Indian manufacturers need a manufacturing license under WPC rules for licensed spectrum devices."}
+  {q:"Can I import wireless devices without WPC approval?",a:"No. Importing wireless devices without WPC-ETA is illegal and the shipment will be detained at customs. The importer can also face penalties under the Indian Wireless Telegraphy Act."},
+  {q:"How long is WPC-ETA approval valid?",a:"WPC-ETA approvals are typically valid for 5 years from the date of issue and can be renewed before expiry to ensure continued compliance."},
+  {q:"Do Indian-manufactured wireless devices also need WPC?",a:"WPC-ETA is primarily for imports. Indian manufacturers need a manufacturing license under WPC rules for licensed spectrum devices. We assist with both scenarios."},
+  {q:"What happens if my product fails RF testing?",a:"We help identify the root cause — antenna design, power levels, or shielding issues — coordinate with your engineering team for fixes, and arrange re-testing at the earliest opportunity."},
 ];
 const infoItems=[{label:"Governing Body",value:"WPC Wing, DoT"},{label:"Portal",value:"Saralsanchar.gov.in"},{label:"Validity",value:"5 Years"},{label:"Processing Time",value:"4–8 Weeks"},{label:"Applicable To",value:"Wi-Fi, BT, RF Devices"}];
 const statsStrip=[{value:"5 yrs",label:"Approval Validity",icon:"📅"},{value:"4–8",label:"Weeks Timeline",icon:"⚡"},{value:"Free",label:"Initial Consultation",icon:"🆓"},{value:"98%",label:"Success Rate",icon:"✅"}];
@@ -112,12 +140,12 @@ const css=`
   .step-card:hover{border-color:#1E88C8;box-shadow:0 8px 24px rgba(30,136,200,0.08);}
   .docs-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
   @media(max-width:640px){.docs-grid{grid-template-columns:1fr;}}
-  .faq-card{background:#fff;border-radius:10px;padding:22px 24px;border:1px solid #E8E3DA;transition:all 0.22s;margin-bottom:12px;}
-  .faq-card:hover{border-color:#1E88C8;box-shadow:0 6px 20px rgba(30,136,200,0.08);transform:translateY(-2px);}
   .cta-split{display:grid;grid-template-columns:1fr auto;gap:40px;align-items:center;}
   @media(max-width:720px){.cta-split{grid-template-columns:1fr;gap:28px;}}
   .sec{padding:clamp(64px,8vw,104px) clamp(16px,5vw,56px);}
   .inner{max-width:1280px;margin:0 auto;}
+  .faq-grid{}
+  @media(max-width:760px){.faq-grid{grid-template-columns:1fr !important;}}
 `;
 
 export default function WPCScreen() {
@@ -133,7 +161,6 @@ export default function WPCScreen() {
   const stepsRef    =useReveal({stagger:true,baseDelay:80});
   const docsTtlRef  =useReveal();
   const docsRef     =useReveal({stagger:true,baseDelay:70});
-  const faqTtlRef   =useReveal();
   const faqRef      =useReveal({stagger:true,baseDelay:80});
   const ctaRef      =useReveal();
 
@@ -155,13 +182,7 @@ export default function WPCScreen() {
                 Wireless Planning &amp; Coordination Wing — Certified Consultants
               </span>
             </div>
-            <h1 style={{
-              fontFamily:T.poppins,
-              fontSize:"clamp(2.6rem,5.2vw,4.2rem)",
-              fontWeight:700,lineHeight:1.04,
-              marginBottom:20,letterSpacing:"-0.01em",
-              color:"#fff",maxWidth:640,
-            }}>
+            <h1 style={{fontFamily:T.poppins,fontSize:"clamp(2.6rem,5.2vw,4.2rem)",fontWeight:700,lineHeight:1.04,marginBottom:20,letterSpacing:"-0.01em",color:"#fff",maxWidth:640}}>
               WPC-ETA Approval for{" "}
               <span style={{color:T.orange}}>Wireless Devices</span>
             </h1>
@@ -196,8 +217,6 @@ export default function WPCScreen() {
       <section className="sec" style={{background:T.cream}}>
         <div className="inner">
           <div className="overview-grid">
-
-            {/* Left */}
             <div className="reveal-left" ref={overviewRef}>
               <div className="sl-row"><div className="sl-line"/><span className="sl-text">Wireless Planning &amp; Coordination Wing</span></div>
               <h2 style={{fontFamily:T.poppins,fontSize:"clamp(2rem,3.2vw,2.9rem)",color:T.titleblue,fontWeight:700,lineHeight:1.1,letterSpacing:"-0.01em",marginBottom:16}}>
@@ -232,7 +251,6 @@ export default function WPCScreen() {
               </div>
             </div>
 
-            {/* Right — info card */}
             <div className="reveal-right" ref={infoCardRef}>
               <div style={{background:T.white,border:`1px solid ${T.border}`,borderRadius:10,padding:28,boxShadow:"0 4px 20px rgba(0,0,0,0.05)",position:"sticky",top:100}}>
                 <div className="sl-row"><div className="sl-line"/><span className="sl-text">Quick Info</span></div>
@@ -263,7 +281,6 @@ export default function WPCScreen() {
                 </div>
               </div>
             </div>
-
           </div>
         </div>
       </section>
@@ -348,24 +365,38 @@ export default function WPCScreen() {
 
       {/* ══ FAQS ══ */}
       <section className="sec" style={{background:T.cream}}>
-        <div style={{maxWidth:800,margin:"0 auto"}}>
-          <div style={{textAlign:"center",marginBottom:48}} className="reveal" ref={faqTtlRef}>
-            <div style={{display:"flex",justifyContent:"center"}}><div className="sl-row"><div className="sl-line"/><span className="sl-text">Common Questions</span></div></div>
-            <h2 style={{fontFamily:T.poppins,fontSize:"clamp(2rem,3.2vw,2.9rem)",color:T.titleblue,fontWeight:700,letterSpacing:"-0.01em"}}>WPC Approval FAQs</h2>
-          </div>
-          <div ref={faqRef}>
-            {faqs.map((faq,i)=>(
-              <div key={faq.q} className={`faq-card reveal d${i}`}>
-                <div style={{display:"flex",gap:14,marginBottom:10}}>
-                  <div style={{width:28,height:28,borderRadius:"50%",background:T.tealLight,display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0,fontWeight:700,fontSize:12,color:T.teal}}>Q</div>
-                  <div style={{fontFamily:T.poppins,fontSize:17,color:T.paradark,fontWeight:600,paddingTop:4}}>{faq.q}</div>
-                </div>
-                <div style={{display:"flex",gap:14}}>
-                  <div style={{width:28,height:28,borderRadius:"50%",background:T.amberLight,display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0,fontWeight:700,fontSize:12,color:T.amber}}>A</div>
-                  <div style={{fontFamily:T.sans,fontSize:15,color:T.para,lineHeight:1.8,paddingTop:4}}>{faq.a}</div>
-                </div>
+        <div className="inner">
+          <div style={{
+            display:"grid",
+            gridTemplateColumns:"1fr 1fr",
+            borderRadius:14,
+            overflow:"hidden",
+            border:`1px solid ${T.border}`,
+            minHeight:440,
+          }} className="faq-grid">
+
+            {/* Left — image only */}
+            <div style={{position:"relative",minHeight:250,overflow:"hidden"}}>
+              <img
+                src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=900&q=80&fit=crop"
+                alt="WPC FAQ"
+                style={{position:"absolute",inset:0,width:"100%",height:"100%",objectFit:"cover",objectPosition:"center 30%"}}
+              />
+            </div>
+
+            {/* Right — accordion */}
+            <div style={{background:T.white,padding:"28px 24px",borderLeft:`1px solid ${T.border}`}}>
+              <div style={{display:"flex",alignItems:"center",gap:8,marginBottom:10}}>
+                <div style={{width:22,height:1.5,background:T.teal}}/>
+                <span style={{fontFamily:T.poppins,fontSize:10.5,fontWeight:600,color:T.teal,letterSpacing:"0.13em",textTransform:"uppercase"}}>Frequently Asked</span>
               </div>
-            ))}
+              <h3 style={{fontFamily:T.poppins,fontSize:35,fontWeight:600,color:T.titleblue,marginBottom:20}}>WPC Approval FAQs</h3>
+              <div ref={faqRef}>
+                {faqs.map((faq)=>(
+                  <FaqItem key={faq.q} faq={faq}/>
+                ))}
+              </div>
+            </div>
           </div>
         </div>
       </section>

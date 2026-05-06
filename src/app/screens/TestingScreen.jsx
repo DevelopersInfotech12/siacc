@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import Navbar from "../Components/Navbar";
 import Footer from "../Components/Footer";
@@ -14,6 +14,32 @@ const T = {
   serif:"'Cormorant Garamond','Georgia',serif",sans:"'Outfit','system-ui',sans-serif",
   poppins:"'Poppins','system-ui',sans-serif",
 };
+
+function FaqItem({ faq }) {
+  const [open, setOpen] = useState(false);
+  return (
+    <div style={{
+      border: `1px solid ${open ? "rgba(30,136,200,0.45)" : T.border}`,
+      borderRadius: 10, marginBottom: 10, overflow: "hidden", transition: "border-color 0.2s",
+    }}>
+      <button onClick={() => setOpen(!open)} style={{
+        display: "flex", alignItems: "flex-start", gap: 10, padding: "13px 16px",
+        background: open ? "rgba(30,136,200,0.04)" : "transparent",
+        border: "none", width: "100%", textAlign: "left", cursor: "pointer", transition: "background 0.18s",
+      }}>
+        <div style={{ width: 26, height: 26, borderRadius: "50%", background: open ? T.teal : T.tealLight, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 11, fontWeight: 700, color: open ? "#fff" : T.teal, flexShrink: 0, fontFamily: T.poppins, transition: "background 0.2s, color 0.2s" }}>Q</div>
+        <span style={{ fontFamily: T.poppins, fontSize: 13, fontWeight: 600, color: T.slate, lineHeight: 1.45, flex: 1 }}>{faq.q}</span>
+        <span style={{ fontSize: 14, color: open ? T.teal : T.muted, flexShrink: 0, marginTop: 4, transition: "transform 0.25s, color 0.2s", transform: open ? "rotate(180deg)" : "rotate(0deg)", display: "inline-block" }}>▾</span>
+      </button>
+      {open && (
+        <div style={{ display: "flex", gap: 10, padding: "0 16px 14px" }}>
+          <div style={{ width: 26, height: 26, borderRadius: "50%", background: T.amberLight, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 11, fontWeight: 700, color: T.amber, flexShrink: 0, fontFamily: T.poppins }}>A</div>
+          <p style={{ fontFamily: T.poppins, fontSize: 12.5, fontWeight: 300, color: T.paradark, lineHeight: 1.75, margin: 0 }}>{faq.a}</p>
+        </div>
+      )}
+    </div>
+  );
+}
 
 function useReveal(opts={}) {
   const {threshold=0.15,stagger=false,baseDelay=90,once=true}=opts;
@@ -54,11 +80,11 @@ const steps=[
 ];
 const docs=["Product technical datasheet / specifications","Product samples (as per lab requirements)","User manual / product brochure","Circuit diagram / block diagram (if applicable)","Company registration & KYC documents","Previous test reports (if any)","Applicable Indian Standard (IS) number","Authorized signatory letter"];
 const faqs=[
-  {q:"Which lab should I use for BIS CRS certification?",a:"You must use a BIS-recognized lab for CRS registration. We maintain partnerships with multiple BIS-recognized labs across India and help coordinate the fastest turnaround."},
-  {q:"How many product samples are needed for testing?",a:"The number of samples varies by product and standard — typically 3 to 10 units. We advise you on exact requirements based on your specific product and applicable standard."},
-  {q:"Can I use a foreign test report for Indian certifications?",a:"In some cases, yes. BIS CRS and certain TEC/WPC approvals accept test reports from internationally accredited labs (ILAC-MRA members). We can assess if your existing report qualifies."},
-  {q:"How long does product testing take?",a:"Testing timelines vary: 1-2 weeks for simple consumer products, 3-6 weeks for electronics with EMC testing, and up to 8-12 weeks for complex telecom equipment."},
-  {q:"What happens if my product fails the test?",a:"We help you identify the root cause of failure, recommend design or compliance fixes, and coordinate re-testing. Our team has experience guiding products through failure remediation."}
+  {q:"Which lab should I use for BIS CRS certification?",a:"You must use a BIS-recognized lab for CRS registration. We maintain partnerships with multiple BIS-recognized labs across India and help coordinate the fastest turnaround for your product category."},
+  {q:"How many product samples are needed for testing?",a:"The number of samples varies by product and standard — typically 3 to 10 units. We advise you on exact requirements based on your specific product and applicable Indian Standard."},
+  {q:"Can I use a foreign test report for Indian certifications?",a:"In some cases, yes. BIS CRS and certain TEC/WPC approvals accept test reports from internationally accredited labs (ILAC-MRA members). We can assess if your existing report qualifies and saves you retesting costs."},
+  {q:"How long does product testing take?",a:"Testing timelines vary: 1–2 weeks for simple consumer products, 3–6 weeks for electronics with EMC testing, and up to 8–12 weeks for complex telecom equipment. We work to minimize delays at every step."},
+  {q:"What happens if my product fails the test?",a:"We help identify the root cause of failure, recommend design or compliance fixes, and coordinate re-testing. Our team has extensive experience guiding products through failure remediation efficiently."},
 ];
 const infoItems=[{label:"Lab Type",value:"NABL / BIS / TEC / WPC"},{label:"Standards",value:"IS, IEC, EN, IEEE & more"},{label:"Turnaround",value:"1–12 Weeks (product-based)"},{label:"Reports Valid For",value:"BIS, WPC, TEC, BEE filings"},{label:"Our Success Rate",value:"98%"}];
 const statsStrip=[{value:"50+",label:"Accredited Labs",icon:"🏛️"},{value:"1–12",label:"Weeks Turnaround",icon:"⚡"},{value:"Free",label:"Initial Consultation",icon:"🆓"},{value:"98%",label:"Success Rate",icon:"✅"}];
@@ -115,12 +141,12 @@ const css=`
   .step-card:hover{border-color:#1E88C8;box-shadow:0 8px 24px rgba(30,136,200,0.08);}
   .docs-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
   @media(max-width:640px){.docs-grid{grid-template-columns:1fr;}}
-  .faq-card{background:#fff;border-radius:10px;padding:22px 24px;border:1px solid #E8E3DA;transition:all 0.22s;margin-bottom:12px;}
-  .faq-card:hover{border-color:#1E88C8;box-shadow:0 6px 20px rgba(30,136,200,0.08);transform:translateY(-2px);}
   .cta-split{display:grid;grid-template-columns:1fr auto;gap:40px;align-items:center;}
   @media(max-width:720px){.cta-split{grid-template-columns:1fr;gap:28px;}}
   .sec{padding:clamp(64px,8vw,104px) clamp(16px,5vw,56px);}
   .inner{max-width:1280px;margin:0 auto;}
+  .faq-grid{}
+  @media(max-width:760px){.faq-grid{grid-template-columns:1fr !important;}}
 `;
 
 export default function TestingScreen() {
@@ -136,7 +162,6 @@ export default function TestingScreen() {
   const stepsRef    =useReveal({stagger:true,baseDelay:80});
   const docsTtlRef  =useReveal();
   const docsRef     =useReveal({stagger:true,baseDelay:70});
-  const faqTtlRef   =useReveal();
   const faqRef      =useReveal({stagger:true,baseDelay:80});
   const ctaRef      =useReveal();
 
@@ -204,8 +229,6 @@ export default function TestingScreen() {
       <section className="sec" style={{background:T.cream}}>
         <div className="inner">
           <div className="overview-grid">
-
-            {/* Left */}
             <div className="reveal-left" ref={overviewRef}>
               <div className="sl-row"><div className="sl-line"/><span className="sl-text">NABL / BIS / TEC / WPC Accredited Labs</span></div>
               <h2 style={{fontFamily:T.poppins,fontSize:40,color:T.titleblue,fontWeight:700,lineHeight:1.1,letterSpacing:"-0.01em",marginBottom:16}}>
@@ -240,7 +263,6 @@ export default function TestingScreen() {
               </div>
             </div>
 
-            {/* Right — info card */}
             <div className="reveal-right" ref={infoCardRef}>
               <div style={{background:T.white,border:`1px solid ${T.border}`,borderRadius:10,padding:28,boxShadow:"0 4px 20px rgba(0,0,0,0.05)",position:"sticky",top:100}}>
                 <div className="sl-row"><div className="sl-line"/><span className="sl-text">Quick Info</span></div>
@@ -271,7 +293,6 @@ export default function TestingScreen() {
                 </div>
               </div>
             </div>
-
           </div>
         </div>
       </section>
@@ -356,24 +377,38 @@ export default function TestingScreen() {
 
       {/* ══ FAQS ══ */}
       <section className="sec" style={{background:T.cream}}>
-        <div style={{maxWidth:800,margin:"0 auto"}}>
-          <div style={{textAlign:"center",marginBottom:48}} className="reveal" ref={faqTtlRef}>
-            <div style={{display:"flex",justifyContent:"center"}}><div className="sl-row"><div className="sl-line"/><span className="sl-text">Common Questions</span></div></div>
-            <h2 style={{fontFamily:T.poppins,fontSize:"clamp(2rem,3.2vw,2.9rem)",color:T.titleblue,fontWeight:700,letterSpacing:"-0.01em"}}>Testing FAQs</h2>
-          </div>
-          <div ref={faqRef}>
-            {faqs.map((faq,i)=>(
-              <div key={faq.q} className={`faq-card reveal d${i}`}>
-                <div style={{display:"flex",gap:14,marginBottom:10}}>
-                  <div style={{width:28,height:28,borderRadius:"50%",background:T.tealLight,display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0,fontWeight:700,fontSize:12,color:T.teal}}>Q</div>
-                  <div style={{fontFamily:T.poppins,fontSize:17,color:"#000000",fontWeight:600,paddingTop:4}}>{faq.q}</div>
-                </div>
-                <div style={{display:"flex",gap:14}}>
-                  <div style={{width:28,height:28,borderRadius:"50%",background:T.amberLight,display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0,fontWeight:700,fontSize:12,color:T.amber}}>A</div>
-                  <div style={{fontFamily:T.sans,fontSize:15,color:T.paradark,lineHeight:1.8,paddingTop:4}}>{faq.a}</div>
-                </div>
+        <div className="inner">
+          <div style={{
+            display:"grid",
+            gridTemplateColumns:"1fr 1fr",
+            borderRadius:14,
+            overflow:"hidden",
+            border:`1px solid ${T.border}`,
+            minHeight:440,
+          }} className="faq-grid">
+
+            {/* Left — image only */}
+            <div style={{position:"relative",minHeight:250,overflow:"hidden"}}>
+              <img
+                src="https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=900&q=80&fit=crop"
+                alt="Testing FAQ"
+                style={{position:"absolute",inset:0,width:"100%",height:"100%",objectFit:"cover",objectPosition:"center 30%"}}
+              />
+            </div>
+
+            {/* Right — accordion */}
+            <div style={{background:T.white,padding:"28px 24px",borderLeft:`1px solid ${T.border}`}}>
+              <div style={{display:"flex",alignItems:"center",gap:8,marginBottom:10}}>
+                <div style={{width:22,height:1.5,background:T.teal}}/>
+                <span style={{fontFamily:T.poppins,fontSize:10.5,fontWeight:600,color:T.teal,letterSpacing:"0.13em",textTransform:"uppercase"}}>Frequently Asked</span>
               </div>
-            ))}
+              <h3 style={{fontFamily:T.poppins,fontSize:35,fontWeight:600,color:T.titleblue,marginBottom:20}}>Testing FAQs</h3>
+              <div ref={faqRef}>
+                {faqs.map((faq)=>(
+                  <FaqItem key={faq.q} faq={faq}/>
+                ))}
+              </div>
+            </div>
           </div>
         </div>
       </section>

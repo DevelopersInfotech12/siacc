@@ -158,26 +158,14 @@ export default function Footer() {
               <div>
                 <div
                   style={{
-                    fontFamily: T.serif,
-                    fontWeight: 700,
-                    color: "#fff",
-                    fontSize: 20,
-                    lineHeight: 1.1,
-                  }}
-                >
-                  SIACC
-                </div>
-
-                <div
-                  style={{
                     fontFamily: T.sans,
-                    fontSize: 9,
+                    fontSize: 15,
                     color: "rgb(255, 255, 255)",
                     letterSpacing: "0.15em",
                     textTransform: "uppercase",
                   }}
                 >
-                  Star India Accreditation
+                  Star India <br/> Accreditation
                 </div>
               </div>
             </div>

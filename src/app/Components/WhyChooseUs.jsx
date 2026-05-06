@@ -322,9 +322,9 @@ export default function WhyChooseUs() {
         .wcu-card:hover .wcu-card-title { color: ${tealDk}; }
 
         .wcu-card-desc {
-          font-size: 14px; color: rgba(0, 0, 0, 0.51);
+          font-size: 14px; color: rgba(0, 0, 0, 0.72);
            font-family: ${T.poppins};
-          line-height: 1.72; font-weight: 100; flex: 1; text-align: justify;
+          line-height: 1.72; font-weight: 400; flex: 1; text-align: justify;
         }
 
         /* Bottom divider + learn more */

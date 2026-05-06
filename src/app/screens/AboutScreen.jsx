@@ -326,7 +326,7 @@ export default function AboutScreen() {
             {values.map((v, i) => (
               <div key={v.title} className={`value-card reveal d${i}`}>
                 <div className="value-icon">{v.icon}</div>
-                <h3 style={{ fontFamily:T.poppins, fontSize:19, color:T.slate, marginBottom:8, fontWeight:600 }}>{v.title}</h3>
+                <h3 style={{ fontFamily:T.poppins, fontSize:19, color:T.titleblue, marginBottom:8, fontWeight:600 }}>{v.title}</h3>
                 <p style={{ fontFamily:T.sans, fontSize:15, color:T.para, lineHeight:1.75, margin:0, textAlign:"justify" }}>{v.desc}</p>
               </div>
             ))}

@@ -362,7 +362,7 @@ export default function ClientStories() {
 
             {/* Overall score */}
             <div style={{ textAlign: "center", flexShrink: 0 }}>
-              <div style={{ fontFamily: T.serif, fontSize: 52, fontWeight: 700, color: T.teal, lineHeight: 1 }}>4.9</div>
+              <div style={{ fontFamily: T.poppins, fontSize: 52, fontWeight: 700, color: T.teal, lineHeight: 1 }}>4.9</div>
               <div style={{ display: "flex", gap: 4, justifyContent: "center", margin: "6px 0 4px" }}>
                 {[...Array(5)].map((_, i) => <span key={i} style={{ color: T.amber, fontSize: 14 }}>★</span>)}
               </div>
@@ -380,8 +380,8 @@ export default function ClientStories() {
             <div className="cs-summary-stats">
               {summaryStats.map(s => (
                 <div key={s.l} style={{ textAlign: "center" }}>
-                  <div style={{ fontFamily: T.serif, fontSize: 26, fontWeight: 700, color: T.slate }}>{s.n}</div>
-                  <div style={{ fontFamily: T.sans, fontSize: 15, color: T.muted, marginTop: 2 }}>{s.l}</div>
+                  <div style={{ fontFamily: T.poppins, fontSize: 26, fontWeight: 700, color: "#000000ab" }}>{s.n}</div>
+                  <div style={{ fontFamily: T.poppins, fontSize: 15, color: T.muted, marginTop: 2 }}>{s.l}</div>
                 </div>
               ))}
             </div>
