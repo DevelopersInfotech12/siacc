@@ -63,7 +63,7 @@ const slides = [
     sub: "International Organization for Standardization",
     desc: "ISO 9001, 14001, 45001, 27001, 22000 and more. Globally recognized standards required for government tenders, exports and enterprise contracts. We handle gap analysis, documentation, audits and certificate issuance.",
     s1: { v: "3 yrs", l: "Certificate validity" }, s2: { v: "2–4 mo", l: "Typical timeline" },
-    href: "/iso", img: "/images/Iso.png",
+    href: "/iso", img: "/finalimages/siacciso.png",
   },
   {
     id: "epr", tag: "EPR", shortTag: "EPR",
