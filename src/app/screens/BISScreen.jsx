@@ -406,7 +406,7 @@ export default function BISScreen() {
    {/* Left — image only, no overlay, no content */}
 <div style={{ position: "relative", minHeight: 250, overflow: "hidden" }}>
   <img
-    src="https://images.unsplash.com/photo-1568219557405-376e23e4f7cf?w=900&q=80&fit=crop"
+    src="/finalimages/faq10.jpg"
     alt="BIS FAQ"
     style={{
       position: "absolute", inset: 0,

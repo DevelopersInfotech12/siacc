@@ -134,44 +134,42 @@ export default function Navbar() {
       <nav style={{ backgroundColor: C.white, borderBottom: `1px solid ${C.border}`, boxShadow: scrolled ? "0 4px 20px rgba(0,0,0,0.08)" : "none", transition: "box-shadow 0.3s ease" }}>
         <div style={{ maxWidth: 1280, margin: "0 auto", padding: "0 24px", display: "flex", alignItems: "center", justifyContent: "space-between", height: 68 }}>
 
-          {/* Logo */}
+          {/* logo */}
           <button
             onClick={() => go("/")}
             style={{
               display: "flex",
               alignItems: "center",
-              // gap: 10,
+              gap: 0,
               background: "none",
               border: "none",
               cursor: "pointer",
               flexShrink: 0,
+              padding: 0,
             }}
           >
             <img
-              src="/images/siacclogo.png"
+              src="/finalimages/starlogo.png"
               alt="SIACC Logo"
               style={{
-                width: 65,
-                height: 65,
-                objectFit: "cover",
-                marginRight: 0,
+                height: 50,
+                width: "auto",
+                objectFit: "contain",
+                display: "block",
+                marginRight: -100,   // ← pulls title closer, adjust this value
               }}
             />
-
-            <div style={{ textAlign: "left" }}>
-              <div
-                style={{
-                  fontSize:13,
-                  color: C.titleblue,
-                  letterSpacing: "0.18em",
-                  textTransform: "uppercase",
-                  lineHeight: 1.2,
-                  fontWeight: 700,
-                }}
-              >
-                Star India <br/> Accreditation
-              </div>
-            </div>
+            <img
+              src="/finalimages/starlogotitle.png"
+              alt="Star India Accreditation"
+              style={{
+                height: 20,
+                width: "auto",
+                objectFit: "contain",
+                display: "block",
+                marginLeft: 0,
+              }}
+            />
           </button>
 
           {/* Desktop nav */}

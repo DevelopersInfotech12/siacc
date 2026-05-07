@@ -268,7 +268,7 @@ export default function ContactScreen() {
               </span>
             </div>
             <h1 style={{
-              fontFamily: T.serif,
+              fontFamily: T.poppins,
               fontSize: "clamp(2.6rem,5.2vw,4.2rem)",
               fontWeight: 700, lineHeight: 1.04,
               marginBottom: 20, letterSpacing: "-0.01em",
@@ -295,8 +295,8 @@ export default function ContactScreen() {
                 borderRight: i < contactStats.length - 1 ? "1px solid rgba(255,255,255,0.07)" : "none",
               }}>
                 <div style={{ fontSize: 20, marginBottom: 6 }}>{s.icon}</div>
-                <div style={{ fontFamily: T.serif, fontSize: "clamp(2rem,2.8vw,2.8rem)", color: "#fff", fontWeight: 700, lineHeight: 1, letterSpacing: "-0.01em" }}>{s.value}</div>
-                <div style={{ fontFamily: T.sans, fontSize: 12, color: "rgba(255,255,255,0.80)", marginTop: 8, letterSpacing: "0.04em" }}>{s.label}</div>
+                <div style={{ fontFamily: T.poppins, fontSize: "clamp(2rem,2.8vw,2.8rem)", color: "#fff", fontWeight: 700, lineHeight: 1, letterSpacing: "-0.01em" }}>{s.value}</div>
+                <div style={{ fontFamily: T.poppins, fontSize: 12, color: "rgba(255,255,255,0.80)", marginTop: 8, letterSpacing: "0.04em" }}>{s.label}</div>
               </div>
             ))}
           </div>
@@ -321,10 +321,10 @@ export default function ContactScreen() {
                 <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to right, rgba(14,128,128,0.88) 0%, rgba(30,136,200,0.60) 60%, rgba(235,245,251,0.25) 100%)" }} />
                 <div style={{ position: "absolute", inset: 0, display: "flex", alignItems: "center", padding: "0 24px" }}>
                   <div>
-                    <div style={{ fontFamily: T.serif, fontSize: "clamp(1rem,2vw,1.3rem)", color: "#fff", fontWeight: 700, marginBottom: 4 }}>
+                    <div style={{ fontFamily: T.poppins, fontSize: "clamp(1rem,2vw,1.3rem)", color: "#fff", fontWeight: 700, marginBottom: 4 }}>
                       Talk to a Regulatory Expert
                     </div>
-                    <p style={{ fontFamily: T.sans, color: "rgba(255,255,255,0.78)", fontSize: 12 }}>
+                    <p style={{ fontFamily: T.poppins, color: "rgba(255,255,255,0.78)", fontSize: 12 }}>
                       We respond within 2 business hours. No spam, ever.
                     </p>
                   </div>
@@ -338,7 +338,7 @@ export default function ContactScreen() {
                   { label: "Company Name", type: "text", placeholder: "Enter Your Company Name" },
                 ].map(f => (
                   <div key={f.label}>
-                    <label style={{ display: "block", fontFamily: T.sans, fontSize: 13, fontWeight: 600, color: T.slate, marginBottom: 6 }}>{f.label}</label>
+                    <label style={{ display: "block", fontFamily: T.poppins, fontSize: 13, fontWeight: 600, color: T.slate, marginBottom: 6 }}>{f.label}</label>
                     <input type={f.type} placeholder={f.placeholder} className="input-field" />
                   </div>
                 ))}
@@ -351,7 +351,7 @@ export default function ContactScreen() {
                   { label: "Email Address *", type: "email", placeholder: "Enter Your Email Address" },
                 ].map(f => (
                   <div key={f.label}>
-                    <label style={{ display: "block", fontFamily: T.sans, fontSize: 13, fontWeight: 600, color: T.slate, marginBottom: 6 }}>{f.label}</label>
+                    <label style={{ display: "block", fontFamily: T.poppins, fontSize: 13, fontWeight: 600, color: T.slate, marginBottom: 6 }}>{f.label}</label>
                     <input type={f.type} placeholder={f.placeholder} className="input-field" />
                   </div>
                 ))}
@@ -359,7 +359,7 @@ export default function ContactScreen() {
 
               {/* Service */}
               <div style={{ marginBottom: 16 }}>
-                <label style={{ display: "block", fontFamily: T.sans, fontSize: 13, fontWeight: 600, color: T.slate, marginBottom: 6 }}>Service Required *</label>
+                <label style={{ display: "block", fontFamily: T.poppins, fontSize: 13, fontWeight: 600, color: T.slate, marginBottom: 6 }}>Service Required *</label>
                 <select className="input-field">
                   <option value="">Select a service</option>
                   {services.map(s => <option key={s}>{s}</option>)}
@@ -368,13 +368,13 @@ export default function ContactScreen() {
 
               {/* Description */}
               <div style={{ marginBottom: 16 }}>
-                <label style={{ display: "block", fontFamily: T.sans, fontSize: 13, fontWeight: 600, color: T.slate, marginBottom: 6 }}>Product / Business Description *</label>
+                <label style={{ display: "block", fontFamily: T.poppins, fontSize: 13, fontWeight: 600, color: T.slate, marginBottom: 6 }}>Product / Business Description *</label>
                 <textarea rows={4} placeholder="Briefly describe your product and what certification you're looking for..." className="input-field" style={{ resize: "vertical" }} />
               </div>
 
               {/* Source */}
               <div style={{ marginBottom: 28 }}>
-                <label style={{ display: "block", fontFamily: T.sans, fontSize: 13, fontWeight: 600, color: T.slate, marginBottom: 6 }}>How did you hear about us?</label>
+                <label style={{ display: "block", fontFamily: T.poppins, fontSize: 13, fontWeight: 600, color: T.slate, marginBottom: 6 }}>How did you hear about us?</label>
                 <select className="input-field">
                   <option value="">Select an option</option>
                   {["Google Search", "LinkedIn", "Referral", "Trade Show", "Other"].map(o => <option key={o}>{o}</option>)}
@@ -394,7 +394,7 @@ export default function ContactScreen() {
               >
                 Submit Enquiry →
               </button>
-              <p style={{ fontFamily: T.sans, fontSize: 12, color: T.subtle, textAlign: "center", marginTop: 10 }}>
+              <p style={{ fontFamily: T.poppins, fontSize: 12, color: T.subtle, textAlign: "center", marginTop: 10 }}>
                 We respond within 2 business hours. No spam, ever.
               </p>
             </div>
@@ -406,8 +406,24 @@ export default function ContactScreen() {
               <div className="reveal d0" style={{ background: T.ctaBand, border: `1px solid ${T.ctaBandBorder}`, borderRadius: 10, padding: 28 }}>
                 <div className="sl-row" style={{ marginBottom: 20 }}><div className="sl-line" /><span className="sl-text">Quick Contact</span></div>
                 <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+                  {/* Call Us — two numbers stacked */}
+                  <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
+                    <div style={{
+                      width: 44, height: 44, borderRadius: 8,
+                      backgroundColor: T.tealLight, border: `1px solid ${T.ctaBandBorder}`,
+                      display: "flex", alignItems: "center", justifyContent: "center",
+                      fontSize: 18, flexShrink: 0,
+                    }}>📞</div>
+                    <div>
+                      <div style={{ fontFamily: T.poppins, fontSize: 10.5, color: T.teal, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.08em" }}>Call Us</div>
+                      <a href="tel:+919891229135" style={{ display: "block", fontFamily: T.poppins, fontSize: 15, color: T.slate, fontWeight: 500, marginTop: 2, textDecoration: "none" }}>+91-9891229135</a>
+                      <a href="tel:+919540190334" style={{ display: "block", fontFamily: T.poppins, fontSize: 15, color: T.slate, fontWeight: 500, marginTop: 2, textDecoration: "none" }}>+91-9540190334</a>
+
+                    </div>
+                  </div>
+
+                  {/* Email & WhatsApp */}
                   {[
-                    { icon: "📞", label: "Call Us", value: "+91-9540190334", href: "tel:+919540190334" },
                     { icon: "✉", label: "Email Us", value: "info@siacc.in", href: "mailto:info@siacc.in" },
                     { icon: "💬", label: "WhatsApp", value: "+91-9540190334", href: "https://wa.me/919540190334" },
                   ].map(item => (
@@ -419,8 +435,8 @@ export default function ContactScreen() {
                         fontSize: 18, flexShrink: 0,
                       }}>{item.icon}</div>
                       <div>
-                        <div style={{ fontFamily: T.sans, fontSize: 10.5, color: T.teal, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.08em" }}>{item.label}</div>
-                        <div style={{ fontFamily: T.sans, fontSize: 14, color: T.slate, fontWeight: 500, marginTop: 2 }}>{item.value}</div>
+                        <div style={{ fontFamily: T.poppins, fontSize: 10.5, color: T.teal, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.08em" }}>{item.label}</div>
+                        <div style={{ fontFamily: T.poppins, fontSize: 14, color: T.slate, fontWeight: 500, marginTop: 2 }}>{item.value}</div>
                       </div>
                     </a>
                   ))}
@@ -437,7 +453,7 @@ export default function ContactScreen() {
                 ].map((h, i, arr) => (
                   <div key={h.day} style={{
                     display: "flex", justifyContent: "space-between",
-                    fontFamily: T.sans, fontSize: 13, padding: "10px 0",
+                    fontFamily: T.poppins, fontSize: 13, padding: "10px 0",
                     borderBottom: i < arr.length - 1 ? `1px solid ${T.border}` : "none",
                   }}>
                     <span style={{ color: T.muted }}>{h.day}</span>
@@ -456,15 +472,15 @@ export default function ContactScreen() {
                 <div style={{ position: "absolute", inset: 0, background: `linear-gradient(135deg, rgba(14,128,128,0.94) 0%, rgba(30,136,200,0.90) 100%)` }} />
                 <div style={{ position: "relative", zIndex: 1, padding: 24 }}>
                   <div style={{ fontSize: 22, marginBottom: 10 }}>⚡</div>
-                  <h3 style={{ fontFamily: T.serif, fontSize: 16, color: T.white, marginBottom: 8, fontWeight: 700 }}>Urgent Compliance Need?</h3>
-                  <p style={{ fontFamily: T.sans, fontSize: 13, color: "rgba(255,255,255,0.88)", lineHeight: 1.65, marginBottom: 16 }}>
+                  <h3 style={{ fontFamily: T.poppins, fontSize: 16, color: T.white, marginBottom: 8, fontWeight: 700 }}>Urgent Compliance Need?</h3>
+                  <p style={{ fontFamily: T.poppins, fontSize: 13, color: "rgba(255,255,255,0.88)", lineHeight: 1.65, marginBottom: 16 }}>
                     Facing a regulatory deadline or port hold? We have an emergency response team available 24/7.
                   </p>
-                  <a href="tel:+919540190334" style={{
+                  <a href="tel:+919891229135" style={{
                     display: "block", textAlign: "center", padding: "11px",
                     backgroundColor: T.white, color: T.teal,
                     borderRadius: 6, fontSize: 13, fontWeight: 700,
-                    fontFamily: T.sans,
+                    fontFamily: T.poppins,
                   }}>Call Emergency Line →</a>
                 </div>
               </div>
@@ -505,7 +521,7 @@ export default function ContactScreen() {
                 <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
                   {[
                     { icon: "📍", val: "House no. 211, Ground Floor, Pocket 9, North West New Delhi – 110086" },
-                    { icon: "📞", val: "+91-9540190334" },
+                    { icon: "📞", val: "+91-9891229135" },
                     { icon: "✉", val: "info@siacc.in" },
                     { icon: "🕐", val: "Mon–Sat: 9AM – 6PM" },
                   ].map((item, i) => (
@@ -521,10 +537,10 @@ export default function ContactScreen() {
                 </div>
               </div>
               <div style={{ marginTop: 28, paddingTop: 22, borderTop: `1px solid ${T.border}` }}>
-                <a href="tel:+919540190334" style={{
+                <a href="tel:+919891229135" style={{
                   display: "block", textAlign: "center", padding: "12px",
                   background: T.orange, color: "#fff", borderRadius: 6,
-                  fontFamily: T.sans, fontSize: 14, fontWeight: 600,
+                  fontFamily: T.poppins, fontSize: 14, fontWeight: 600,
                   boxShadow: "0 4px 14px rgba(249,115,22,0.28)", marginBottom: 10,
                   transition: "background 0.2s",
                 }}
@@ -537,7 +553,7 @@ export default function ContactScreen() {
                   style={{
                     display: "block", textAlign: "center", padding: "12px",
                     border: `1.5px solid ${T.border}`, color: T.slate, borderRadius: 6,
-                    fontFamily: T.sans, fontSize: 14, fontWeight: 600,
+                    fontFamily: T.poppins, fontSize: 14, fontWeight: 600,
                     transition: "border-color 0.2s",
                   }}
                   onMouseEnter={e => e.currentTarget.style.borderColor = T.teal}
@@ -601,7 +617,7 @@ export default function ContactScreen() {
             {/* Left — image panel (no overlay, no content, same as BIS) */}
             <div style={{ position: "relative", minHeight: 250, overflow: "hidden" }}>
               <img
-                src="https://images.unsplash.com/photo-1596524430615-b46475ddff6e?w=900&q=80&fit=crop"
+                src="/finalimages/faq10.jpg"
                 alt="Contact FAQ"
                 style={{
                   position: "absolute", inset: 0,
@@ -650,7 +666,7 @@ export default function ContactScreen() {
               <h2 style={{ fontFamily: T.poppins, fontSize: "clamp(1.9rem,3.2vw,2.9rem)", color: T.titleblue, fontWeight: 700, lineHeight: 1.1, letterSpacing: "-0.01em", marginBottom: 14 }}>
                 Ready to Get Certified?
               </h2>
-              <p style={{ fontFamily: T.sans, color: T.muted, fontSize: 16, lineHeight: 1.8 }}>
+              <p style={{ fontFamily: T.poppins, color: T.para, fontSize: 16, lineHeight: 1.8 }}>
                 Free consultation. Clear timeline. Transparent pricing.<br />Our experts respond within 2 hours.
               </p>
             </div>
@@ -677,7 +693,7 @@ export default function ContactScreen() {
                 }}
                 onMouseEnter={e => e.currentTarget.style.borderColor = T.teal}
                 onMouseLeave={e => e.currentTarget.style.borderColor = T.border}
-              >📞 +91-9540190334</a>
+              >📞 +91-9891229135</a>
             </div>
           </div>
         </div>

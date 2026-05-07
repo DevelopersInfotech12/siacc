@@ -390,7 +390,7 @@ export default function TestingScreen() {
             {/* Left — image only */}
             <div style={{position:"relative",minHeight:250,overflow:"hidden"}}>
               <img
-                src="https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=900&q=80&fit=crop"
+                src="/finalimages/faq10.jpg"
                 alt="Testing FAQ"
                 style={{position:"absolute",inset:0,width:"100%",height:"100%",objectFit:"cover",objectPosition:"center 30%"}}
               />

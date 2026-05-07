@@ -302,7 +302,7 @@ export default function TECScreen() {
         <div className="inner">
           <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", borderRadius: 14, overflow: "hidden", border: `1px solid ${T.border}`, minHeight: 440 }} className="faq-grid">
             <div style={{ position: "relative", minHeight: 250, overflow: "hidden" }}>
-              <img src="https://images.unsplash.com/photo-1518770660439-4636190af475?w=900&q=80&fit=crop" alt="TEC FAQ" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", objectPosition: "center 30%" }} />
+              <img src="/finalimages/faq10.jpg" alt="TEC FAQ" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", objectPosition: "center 30%" }} />
             </div>
             <div style={{ background: T.white, padding: "28px 24px", borderLeft: `1px solid ${T.border}` }}>
               <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 10 }}>

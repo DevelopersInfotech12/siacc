@@ -134,41 +134,45 @@ export default function Footer() {
 
         {/* Brand column */}
         <div>
-          <div style={{ display: "flex", alignItems: "center", gap: 10,  }}>
-       
-            <div
+          <div style={{ display: "flex", alignItems: "center", gap: 10, }}>
+
+            {/* logo */}
+            <button
+              onClick={() => go("/")}
               style={{
                 display: "flex",
                 alignItems: "center",
-                gap: 6,
-                marginBottom: 18,
+                gap: 0,
+                background: "none",
+                border: "none",
+                cursor: "pointer",
+                flexShrink: 0,
+                padding: 0,
               }}
             >
               <img
-                src="/images/siacclogo.png"
+                src="/finalimages/starlogo.png"
                 alt="SIACC Logo"
                 style={{
-                  width: 55,
-                  height: 55,
-                  objectFit: "cover",
-                  flexShrink: 0,
+                  height: 50,
+                  width: "auto",
+                  objectFit: "contain",
+                  display: "block",
+                  marginRight: -100,   // ← pulls title closer, adjust this value
                 }}
               />
-
-              <div>
-                <div
-                  style={{
-                    fontFamily: T.sans,
-                    fontSize: 15,
-                    color: "rgb(255, 255, 255)",
-                    letterSpacing: "0.15em",
-                    textTransform: "uppercase",
-                  }}
-                >
-                  Star India <br/> Accreditation
-                </div>
-              </div>
-            </div>
+              <img
+                src="/finalimages/starlogotitle.png"
+                alt="Star India Accreditation"
+                style={{
+                  height: 20,
+                  width: "auto",
+                  objectFit: "contain",
+                  display: "block",
+                  marginLeft: 0,
+                }}
+              />
+            </button>
           </div>
           <p style={{ fontFamily: T.sans, fontSize: 13, color: "rgba(255,255,255,0.55)", lineHeight: 1.8, marginBottom: 24, maxWidth: 260 }}>
             India's trusted compliance &amp; certification consultancy. 12+ years, 10,000+ clients, 0% failure rate.
@@ -177,6 +181,7 @@ export default function Footer() {
             <a href="tel:+91-9540190334" className="f-link"
               style={{ display: "flex", alignItems: "center", gap: 10, fontFamily: T.sans, fontSize: 13, color: "rgba(255,255,255,0.60)", textDecoration: "none" }}>
               <span>📞</span><span>+91-9540190334</span>
+              <span>📞</span><span>+91-9540190335</span>
             </a>
             <a href="mailto:info@siacc.co.in" className="f-link"
               style={{ display: "flex", alignItems: "center", gap: 10, fontFamily: T.sans, fontSize: 13, color: "rgba(255,255,255,0.60)", textDecoration: "none" }}>
