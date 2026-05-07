@@ -112,7 +112,7 @@ const statsStrip = [
   { value: "Annual", label: "Renewal Cycle", icon: "📅" },
   { value: "3–6", label: "Weeks Timeline", icon: "⚡" },
   { value: "Free", label: "Initial Consultation", icon: "🆓" },
-  { value: "98%", label: "Success Rate", icon: "✅" },
+  { value: "0%", label: "Failure Rate", icon: "❌" },
 ];
 
 const heroChips = [
@@ -120,7 +120,7 @@ const heroChips = [
   { icon: "🧴", label: "Plastic Waste" },
   { icon: "🔋", label: "Battery Waste" },
   { icon: "🚗", label: "Tyre Waste" },
-  { icon: "✅", label: "98% Success Rate" },
+  { icon: "✅", label: "0% Failure Rate" },
 ];
 
 export default function EPRScreen() {

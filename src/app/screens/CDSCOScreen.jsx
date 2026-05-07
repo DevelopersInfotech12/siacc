@@ -70,7 +70,7 @@ const heroChips = [
   { icon: "💄", label: "Cosmetic License" },
   { icon: "🔬", label: "Medical Devices" },
   { icon: "🏥", label: "DCGI Approval" },
-  { icon: "✅", label: "98% Success Rate" },
+  { icon: "✅", label: "0% Failure Rate" },
 ];
 
 const types = [
@@ -121,7 +121,7 @@ const statsStrip = [
   { value: "30d–6m", label: "Processing Time", icon: "⚡" },
   { value: "3", label: "Device Classes (B–D)", icon: "🔬" },
   { value: "Free", label: "Initial Consultation", icon: "🆓" },
-  { value: "98%", label: "Success Rate", icon: "✅" },
+  { value: "0%", label: "Failure Rate", icon: "❌" },
 ];
 
 export default function CDSCOScreen() {

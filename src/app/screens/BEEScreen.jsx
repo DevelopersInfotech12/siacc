@@ -85,13 +85,13 @@ const faqs=[
   {q:"What is the timeline for getting BEE registration?",a:"Typically 4–8 weeks from the time lab testing is complete and all documents are in order. We actively track and follow up with BEE to avoid unnecessary delays."},
 ];
 const infoItems=[{label:"Governing Body",value:"Bureau of Energy Efficiency"},{label:"Ministry",value:"Power, Govt. of India"},{label:"Validity",value:"Annual"},{label:"Processing Time",value:"4–8 Weeks"},{label:"Applicable To",value:"Home & Commercial Appliances"}];
-const statsStrip=[{value:"20+",label:"Product Categories",icon:"📋"},{value:"4–8",label:"Weeks Timeline",icon:"⚡"},{value:"Free",label:"Initial Consultation",icon:"🆓"},{value:"98%",label:"Success Rate",icon:"✅"}];
+const statsStrip=[{value:"20+",label:"Product Categories",icon:"📋"},{value:"4–8",label:"Weeks Timeline",icon:"⚡"},{value:"Free",label:"Initial Consultation",icon:"🆓"},{value:"0%",label:"Failure Rate",icon:"❌"}];
 const heroChips=[
   {icon:"⭐",label:"Mandatory Star Rating"},
   {icon:"🌟",label:"Voluntary Star Rating"},
   {icon:"🔌",label:"Energy Certification"},
   {icon:"🏭",label:"BEE Act Compliance"},
-  {icon:"✅",label:"98% Success Rate"},
+  {icon:"✅",label:"0% Failure Rate"},
 ];
 
 const css=`

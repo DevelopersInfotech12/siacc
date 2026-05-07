@@ -259,7 +259,7 @@ export default function CareerScreen() {
                   { n: "12+", l: "Years in Business" },
                   { n: "50+", l: "Regulatory Domains" },
                   { n: "4", l: "Office Locations" },
-                  { n: "98%", l: "Client Success Rate" },
+                  { n: "0%", l: "Client Failure Rate" },
                 ].map((s, i) => (
                   <div key={s.l} className={`reveal d${i}`} style={{ padding: "16px 20px", background: T.white, borderRadius: 8, border: `1px solid ${T.border}`, borderLeft: `3px solid ${i % 2 === 0 ? T.teal : T.amber}` }}>
                     <div style={{ fontFamily: T.poppins, fontSize: 26, color: i % 2 === 0 ? T.teal : T.amber, fontWeight: 700, lineHeight: 1 }}>{s.n}</div>

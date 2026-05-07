@@ -87,13 +87,13 @@ const faqs=[
   {q:"What happens if my product fails RF testing?",a:"We help identify the root cause — antenna design, power levels, or shielding issues — coordinate with your engineering team for fixes, and arrange re-testing at the earliest opportunity."},
 ];
 const infoItems=[{label:"Governing Body",value:"WPC Wing, DoT"},{label:"Portal",value:"Saralsanchar.gov.in"},{label:"Validity",value:"5 Years"},{label:"Processing Time",value:"4–8 Weeks"},{label:"Applicable To",value:"Wi-Fi, BT, RF Devices"}];
-const statsStrip=[{value:"5 yrs",label:"Approval Validity",icon:"📅"},{value:"4–8",label:"Weeks Timeline",icon:"⚡"},{value:"Free",label:"Initial Consultation",icon:"🆓"},{value:"98%",label:"Success Rate",icon:"✅"}];
+const statsStrip=[{value:"5 yrs",label:"Approval Validity",icon:"📅"},{value:"4–8",label:"Weeks Timeline",icon:"⚡"},{value:"Free",label:"Initial Consultation",icon:"🆓"},{value:"0%",label:"Failure Rate",icon:"❌"}];
 const heroChips=[
   {icon:"📡",label:"WPC-ETA Approval"},
   {icon:"📋",label:"Import License"},
   {icon:"📻",label:"DPL / NDPL"},
   {icon:"🔬",label:"Equipment Type Approval"},
-  {icon:"✅",label:"98% Success Rate"},
+  {icon:"✅",label:"0% Failure Rate"},
 ];
 
 const css=`

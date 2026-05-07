@@ -101,7 +101,7 @@ const contactStats = [
   { value: "2 hrs", label: "Response Time", icon: "⚡" },
   { value: "Free", label: "Initial Consultation", icon: "🆓" },
   { value: "Pan", label: "India Coverage", icon: "🇮🇳" },
-  { value: "98%", label: "Success Rate", icon: "✅" },
+  { value: "0%", label: "Failure Rate", icon: "❌" },
 ];
 
 export default function ContactScreen() {
@@ -574,7 +574,7 @@ export default function ContactScreen() {
                   {[
                     { value: "10,000+", label: "Certifications Filed" },
                     { value: "15+ yrs", label: "Industry Experience" },
-                    { value: "98%", label: "Success Rate" },
+                    { value: "0%", label: "Failure Rate" },
                   ].map(s => (
                     <div key={s.label} style={{
                       background: "rgba(255,255,255,0.13)", border: "1px solid rgba(255,255,255,0.20)",

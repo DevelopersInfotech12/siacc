@@ -70,7 +70,7 @@ const heroChips = [
   { icon: "🏭", label: "Manufacturer Reg." },
   { icon: "🏷️", label: "Label Compliance" },
   { icon: "⚖️", label: "Weights & Measures" },
-  { icon: "✅", label: "98% Success Rate" },
+  { icon: "✅", label: "0% Failure Rate" },
 ];
 
 const types = [
@@ -119,7 +119,7 @@ const statsStrip = [
   { value: "Annual", label: "Renewal Cycle", icon: "📅" },
   { value: "2–4", label: "Weeks Timeline", icon: "⚡" },
   { value: "Free", label: "Initial Consultation", icon: "🆓" },
-  { value: "98%", label: "Success Rate", icon: "✅" },
+  { value: "0%", label: "Failure Rate", icon: "❌" },
 ];
 
 export default function LMPCScreen() {

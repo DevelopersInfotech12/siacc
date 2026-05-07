@@ -97,7 +97,7 @@ const ratingBars = [
 
 const summaryStats = [
   { n: "10K+", l: "Clients served" },
-  { n: "98%",  l: "Success rate" },
+  { n: "0%",  l: "Failure rate" },
   { n: "12+",  l: "Years active" },
 ];
 

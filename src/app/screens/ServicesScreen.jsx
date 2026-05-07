@@ -139,7 +139,7 @@ const stats = [
   { v: "9+", l: "Services Offered" },
   { v: "15+", l: "Regulatory Bodies" },
   { v: "10K+", l: "Clients Served" },
-  { v: "98%", l: "Success Rate" },
+  { v: "0%", l: "Failure Rate" },
 ];
 
 export default function ServicesScreen() {
@@ -212,7 +212,7 @@ export default function ServicesScreen() {
                 { label: "Services Offered", value: "50+" },
                 { label: "Regulatory Bodies", value: "15+" },
                 { label: "Clients Served", value: "10,000+" },
-                { label: "Success Rate", value: "98%" },
+                { label: "Failure Rate", value: "0%" },
                 { label: "Years of Experience", value: "12+" },
               ].map((item, i, arr) => (
                 <div key={item.label} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "12px 0", borderBottom: i < arr.length - 1 ? "1px solid rgba(255,255,255,0.1)" : "none" }}>

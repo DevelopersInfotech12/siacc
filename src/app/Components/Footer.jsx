@@ -171,7 +171,7 @@ export default function Footer() {
             </div>
           </div>
           <p style={{ fontFamily: T.sans, fontSize: 13, color: "rgba(255,255,255,0.55)", lineHeight: 1.8, marginBottom: 24, maxWidth: 260 }}>
-            India's trusted compliance &amp; certification consultancy. 12+ years, 10,000+ clients, 98% success rate.
+            India's trusted compliance &amp; certification consultancy. 12+ years, 10,000+ clients, 0% failure rate.
           </p>
           <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
             <a href="tel:+91-9540190334" className="f-link"

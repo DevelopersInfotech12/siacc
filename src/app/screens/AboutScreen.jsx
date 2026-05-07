@@ -48,7 +48,7 @@ const stats = [
   { value: "2011",    label: "Year Founded",       icon: "📅" },
   { value: "12+",     label: "Years of Experience", icon: "🏆" },
   { value: "10,000+", label: "Clients Served",      icon: "🤝" },
-  { value: "98%",     label: "Success Rate",        icon: "✅" },
+  { value: "0%",     label: "Failure Rate",        icon: "✅" },
 ];
 
 const timeline = [
@@ -70,7 +70,7 @@ const heroChips = [
   { icon: "🏆", label: "Est. 2011" },
   { icon: "🤝", label: "10,000+ Clients" },
   { icon: "🌍", label: "25+ Countries" },
-  { icon: "✅", label: "98% Success Rate" },
+  { icon: "✅", label: "0% Failure Rate" },
   { icon: "🔖", label: "BIS · WPC · ISO · EPR" },
 ];
 
@@ -236,7 +236,7 @@ export default function AboutScreen() {
                   { label:"Team Size",         value:"100+ Experts" },
                   { label:"Clients Served",    value:"10,000+" },
                   { label:"Countries Covered", value:"25+ Countries" },
-                  { label:"Our Success Rate",  value:"98%" },
+                  { label:"Our Failure Rate",  value:"0%" },
                 ].map((item, i, arr) => (
                   <div key={item.label} style={{ display:"flex", justifyContent:"space-between", alignItems:"center", padding:"12px 0", borderBottom: i < arr.length-1 ? `1px solid ${T.border}` : "none" }}>
                     <span style={{ fontFamily:T.sans, fontSize:13, color:T.muted }}>{item.label}</span>

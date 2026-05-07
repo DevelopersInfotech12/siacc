@@ -86,15 +86,15 @@ const faqs=[
   {q:"How long does product testing take?",a:"Testing timelines vary: 1–2 weeks for simple consumer products, 3–6 weeks for electronics with EMC testing, and up to 8–12 weeks for complex telecom equipment. We work to minimize delays at every step."},
   {q:"What happens if my product fails the test?",a:"We help identify the root cause of failure, recommend design or compliance fixes, and coordinate re-testing. Our team has extensive experience guiding products through failure remediation efficiently."},
 ];
-const infoItems=[{label:"Lab Type",value:"NABL / BIS / TEC / WPC"},{label:"Standards",value:"IS, IEC, EN, IEEE & more"},{label:"Turnaround",value:"1–12 Weeks (product-based)"},{label:"Reports Valid For",value:"BIS, WPC, TEC, BEE filings"},{label:"Our Success Rate",value:"98%"}];
-const statsStrip=[{value:"50+",label:"Accredited Labs",icon:"🏛️"},{value:"1–12",label:"Weeks Turnaround",icon:"⚡"},{value:"Free",label:"Initial Consultation",icon:"🆓"},{value:"98%",label:"Success Rate",icon:"✅"}];
+const infoItems=[{label:"Lab Type",value:"NABL / BIS / TEC / WPC"},{label:"Standards",value:"IS, IEC, EN, IEEE & more"},{label:"Turnaround",value:"1–12 Weeks (product-based)"},{label:"Reports Valid For",value:"BIS, WPC, TEC, BEE filings"},{label:"Our Failure Rate",value:"0%"}];
+const statsStrip=[{value:"50+",label:"Accredited Labs",icon:"🏛️"},{value:"1–12",label:"Weeks Turnaround",icon:"⚡"},{value:"Free",label:"Initial Consultation",icon:"🆓"},{value:"0%",label:"Failure Rate",icon:"✅"}];
 
 const heroChips=[
   {icon:"🔬",label:"Product Safety Testing"},
   {icon:"📡",label:"EMC / RF Testing"},
   {icon:"⚗️",label:"Chemical Testing"},
   {icon:"🌿",label:"Environmental Testing"},
-  {icon:"✅",label:"98% Success Rate"},
+  {icon:"✅",label:"0% Failure Rate"},
 ];
 
 const css=`

@@ -32,7 +32,7 @@ const stats = [
   { value: 10000, suffix: '+', label: 'Clients Served', icon: '👥' },
   { value: 12, suffix: '+', label: 'Years Experience', icon: '🏆' },
   { value: 500, suffix: '+', label: 'Products Certified', icon: '✅' },
-  { value: 98, suffix: '%', label: 'Success Rate', icon: '⭐' },
+  { value: 0, suffix: '%', label: 'Failure Rate', icon: '❌' },
   { value: 20, suffix: '+', label: 'Expert Consultants', icon: '👨‍💼' },
 ];
 

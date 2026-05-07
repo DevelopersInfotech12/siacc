@@ -65,10 +65,10 @@ const whyUs = [
   },
   {
     icon: "🏆",
-    title: "98% Success Rate",
+    title: "0% Failure Rate",
     desc: "Meticulous preparation and regulatory expertise means your application succeeds first time.",
-    stat: "98%",
-    statLabel: "Success",
+    stat: "0%",
+    statLabel: "Failure",
   },
 ];
 

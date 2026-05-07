@@ -313,7 +313,7 @@ export default function HowItWorks() {
                   Most certifications completed in 15–30 days
                 </div>
                 <div style={{ fontFamily: T.sans, fontSize: 15, color: T.muted, lineHeight: 1.6 }}>
-                  Dedicated manager assigned from day one. 98% first-attempt success rate.
+                  Dedicated manager assigned from day one. 0% first-attempt failure rate.
                 </div>
               </div>
             </div>

@@ -100,7 +100,7 @@ const statsStrip = [
   { value: "3 yrs", label: "Certificate Validity", icon: "📅" },
   { value: "2–4", label: "Months Timeline", icon: "⚡" },
   { value: "Free", label: "Initial Consultation", icon: "🆓" },
-  { value: "98%", label: "Success Rate", icon: "✅" },
+  { value: "0%", label: "Failure Rate", icon: "❌" },
 ];
 
 const heroChips = [
@@ -108,7 +108,7 @@ const heroChips = [
   { icon: "🌿", label: "ISO 14001" },
   { icon: "🦺", label: "ISO 45001" },
   { icon: "🔒", label: "ISO 27001" },
-  { icon: "✅", label: "98% Success Rate" },
+  { icon: "✅", label: "0% Failure Rate" },
 ];
 
 export default function ISOScreen() {

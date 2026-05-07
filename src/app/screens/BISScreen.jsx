@@ -91,20 +91,20 @@ const infoItems = [
   { label: "Governing Body", value: "Bureau of Indian Standards" },
   { label: "Validity", value: "1–2 Years (Renewable)" },
   { label: "Typical Timeline", value: "4–12 Weeks" },
-  { label: "Our Success Rate", value: "98%" },
+  { label: "Our Failure Rate", value: "0%" },
 ];
 const statsStrip = [
   { value: "370+", label: "Product Categories", icon: "📋" },
   { value: "4–12", label: "Weeks Timeline", icon: "⚡" },
   { value: "Free", label: "Initial Consultation", icon: "🆓" },
-  { value: "98%", label: "Success Rate", icon: "✅" },
+  { value: "0%", label: "Failure Rate", icon: "❌" },
 ];
 const heroChips = [
   { icon: "🔖", label: "ISI Mark" },
   { icon: "📱", label: "CRS Registration" },
   { icon: "🌍", label: "Scheme-X" },
   { icon: "💍", label: "Hallmarking" },
-  { icon: "✅", label: "98% Success Rate" },
+  { icon: "✅", label: "0% Failure Rate" },
 ];
 
 const css = `

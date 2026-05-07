@@ -105,7 +105,7 @@ const statsStrip = [
   { value: "3 yrs", label: "Certificate Validity", icon: "📅" },
   { value: "6–12", label: "Weeks Timeline", icon: "⚡" },
   { value: "Free", label: "Initial Consultation", icon: "🆓" },
-  { value: "98%", label: "Success Rate", icon: "✅" },
+  { value: "0%", label: "Failure Rate", icon: "❌" },
 ];
 
 const heroChips = [
@@ -113,7 +113,7 @@ const heroChips = [
   { icon: "📱", label: "TAC & IMEI" },
   { icon: "🌐", label: "IoT Devices" },
   { icon: "📡", label: "Telecom Equipment" },
-  { icon: "✅", label: "98% Success Rate" },
+  { icon: "✅", label: "0% Failure Rate" },
 ];
 
 export default function TECScreen() {
