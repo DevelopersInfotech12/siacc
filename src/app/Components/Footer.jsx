@@ -180,7 +180,7 @@ export default function Footer() {
           <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
             <a href="tel:+91-9540190334" className="f-link"
               style={{ display: "flex", alignItems: "center", gap: 10, fontFamily: T.sans, fontSize: 13, color: "rgba(255,255,255,0.60)", textDecoration: "none" }}>
-              <span>📞</span><span>+91-9540190334</span>
+              <span>📞</span><span>+91-9891229135</span>
               <span>📞</span><span>+91-9540190335</span>
             </a>
             <a href="mailto:info@siacc.co.in" className="f-link"

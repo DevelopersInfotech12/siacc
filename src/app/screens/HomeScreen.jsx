@@ -64,11 +64,11 @@ function useReveal(opts = {}) {
 }
 
 const ticker = [
-  "BIS Conformity Assessment Amendment Regulations 2026 — Major Update",
-  "BIS CRS Registration now mandatory for AR/VR/MR Devices",
-  "TEC Launches Reimbursement Scheme for Start-ups & MSMEs",
-  "BIS Certification for Furniture Products mandatory from Feb 2026",
-  "EPR Registration deadline extended — Check your category now",
+  "Guidelines for Implementation of Revised Standards for LED Luminaires",
+  "Guidelines for Implementation of Extended Reality Products (Augmented Reality, Virtual Reality, Mixed Reality etc.) as per IS/IEC 62368-1:2023",
+  "Guidelines for Implementation of Migration to IS/IEC 62368-1:2023",
+  "Guidelines for implementation of IS 16102 (Part 1):2026",
+  "Guidelines for verification of rated capacity for portable sealed secondary Lithium Cells and Batteries",
 ];
 
 const stats = [
@@ -248,13 +248,13 @@ export default function HomeScreen() {
 
             <div className="reveal-right" ref={aboutTxtRef}>
               <SectionLabel>About SIACC</SectionLabel>
-              <h2 style={{ fontFamily: T.poppins, fontSize:38, color: T.titleblue, fontWeight: 700, marginBottom: 20, lineHeight: 1.22, letterSpacing: "-0.01em" }}>
+              <h2 style={{ fontFamily: T.poppins, fontSize: 38, color: T.titleblue, fontWeight: 700, marginBottom: 20, lineHeight: 1.22, letterSpacing: "-0.01em" }}>
                 India's Leading<br />Compliance Consultants
               </h2>
-              <p style={{ fontFamily: T.poppins, fontWeight: 500,  fontSize: 15, color: T.para, lineHeight: 1.9, marginBottom: 14, textAlign: "justify" }}>
+              <p style={{ fontFamily: T.poppins, fontWeight: 500, fontSize: 15, color: T.para, lineHeight: 1.9, marginBottom: 14, textAlign: "justify" }}>
                 Star India Accreditation (SIACC) is a trusted name with over 12+ years of experience in BIS, EPR, WPC, TEC, BEE and ISO certifications. We deliver fast, reliable, and cost-effective regulatory approvals for Indian and foreign manufacturers and importers.
               </p>
-              <p style={{fontFamily: T.poppins, fontWeight: 500,  fontSize: 15, color: T.para, lineHeight: 1.9, marginBottom: 32, textAlign: "justify" }}>
+              <p style={{ fontFamily: T.poppins, fontWeight: 500, fontSize: 15, color: T.para, lineHeight: 1.9, marginBottom: 32, textAlign: "justify" }}>
                 With a deep understanding of Indian regulatory standards, we help businesses achieve full compliance — reducing delays, avoiding penalties, and speeding up market entry.
               </p>
               <div className="mini-stats" ref={miniStatsRef}>
@@ -297,9 +297,9 @@ export default function HomeScreen() {
       {/* ══ CLIENT STORIES ══ */}
       <ClientStories />
 
-       {/* ══ BLOG ══ */}
-       <BlogHome/>
-       
+      {/* ══ BLOG ══ */}
+      <BlogHome />
+
       {/* ══ CTA BAND ══ */}
       <section
         className="reveal"

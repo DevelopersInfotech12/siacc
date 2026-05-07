@@ -89,7 +89,7 @@ export default function Navbar() {
         style={{
           backgroundColor: "#EBF4FF",
           borderBottom: "1px solid #BFD7F5",
-          fontSize: 12,
+          fontSize: 13,
           padding: "7px 24px",
           display: "flex",
           justifyContent: "space-between",
@@ -97,7 +97,7 @@ export default function Navbar() {
         }}
       >
         <div style={{ display: "flex", gap: 24 }}>
-          <span style={{ color: "#1E3A5F" }}>📞 +91- 9540190334</span>
+          <span style={{ color: "#1E3A5F" }}>📞 +91- 9891229135</span>
           <span style={{ color: "#1E3A5F" }}>✉ starindia.acc@gmail.com</span>
         </div>
         <div style={{ display: "flex", gap: 24, alignItems: "center" }}>
