@@ -267,7 +267,7 @@ export default function WPCScreen() {
                   onMouseLeave={e => e.currentTarget.style.background = T.orange}>Start Application →</button>
                 <div style={{ marginTop: 16, paddingTop: 16, borderTop: `1px solid ${T.border}`, display: "flex", flexDirection: "column", gap: 10 }}>
                   {[
-                    { icon: "📞", label: "Call Us", value: "+91-9540190334", href: "tel:+919540190334" },
+                    { icon: "📞", label: "Call Us", value: "+91-9891229135", href: "tel:+919891229135" },
                     { icon: "✉", label: "Email Us", value: "info@siacc.in", href: "mailto:info@siacc.in" },
                   ].map(item => (
                     <a key={item.label} href={item.href} style={{ display: "flex", alignItems: "center", gap: 10, textDecoration: "none" }}>
@@ -415,10 +415,10 @@ export default function WPCScreen() {
                 style={{ padding: "14px 36px", fontFamily: T.poppins, fontSize: 14, fontWeight: 600, border: "none", borderRadius: 6, cursor: "pointer", background: T.orange, color: "#fff", whiteSpace: "nowrap", transition: "all 0.22s" }}
                 onMouseEnter={e => { e.currentTarget.style.background = T.teal; e.currentTarget.style.transform = "translateY(-1px)"; }}
                 onMouseLeave={e => { e.currentTarget.style.background = T.orange; e.currentTarget.style.transform = "translateY(0)"; }}>Get Free Consultation</button>
-              <a href="tel:+919540190334"
+              <a href="tel:+919891229135"
                 style={{ padding: "13px 28px", border: `1.5px solid ${T.border}`, borderRadius: 6, fontFamily: T.poppins, fontSize: 14, fontWeight: 500, color: T.slate, display: "flex", alignItems: "center", justifyContent: "center", gap: 8, whiteSpace: "nowrap", background: T.white, transition: "border-color 0.2s" }}
                 onMouseEnter={e => e.currentTarget.style.borderColor = T.teal}
-                onMouseLeave={e => e.currentTarget.style.borderColor = T.border}>📞 +91-9540190334</a>
+                onMouseLeave={e => e.currentTarget.style.borderColor = T.border}>📞 +91-9891229135</a>
             </div>
           </div>
         </div>

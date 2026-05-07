@@ -1,4 +1,7 @@
 import Link from "next/link";
+import { Phone, Mail, MapPin } from "lucide-react";
+
+const iconStyle = { width: 14, height: 14, flexShrink: 0, color: "rgba(255,255,255,0.60)" };
 
 const T = {
   teal: "#1E88C8",
@@ -178,17 +181,20 @@ export default function Footer() {
             India's trusted compliance &amp; certification consultancy. 12+ years, 10,000+ clients, 0% failure rate.
           </p>
           <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-            <a href="tel:+91-9540190334" className="f-link"
+            <a href="tel:+91-9891229135" className="f-link"
               style={{ display: "flex", alignItems: "center", gap: 10, fontFamily: T.sans, fontSize: 13, color: "rgba(255,255,255,0.60)", textDecoration: "none" }}>
-              <span>📞</span><span>+91-9891229135</span>
-              <span>📞</span><span>+91-9540190335</span>
+              <Phone style={iconStyle} />
+              <span>+91-9891229135</span>
+              <span style={{ opacity: 0.4 }}>|</span>
+              <span>+91-9540190335</span>
             </a>
             <a href="mailto:info@siacc.co.in" className="f-link"
               style={{ display: "flex", alignItems: "center", gap: 10, fontFamily: T.sans, fontSize: 13, color: "rgba(255,255,255,0.60)", textDecoration: "none" }}>
-              <span>✉</span><span>info@siacc.co.in</span>
+              <Mail style={iconStyle} />
+              <span>info@siacc.co.in</span>
             </a>
             <div style={{ display: "flex", alignItems: "flex-start", gap: 10, fontFamily: T.sans, fontSize: 13, color: "rgba(255,255,255,0.55)" }}>
-              <span style={{ flexShrink: 0 }}>📍</span>
+              <MapPin style={{ ...iconStyle, marginTop: 1 }} />
               <span>House No. 211, Ground Floor, Pocket 9,<br />North West New Delhi – 110086</span>
             </div>
           </div>

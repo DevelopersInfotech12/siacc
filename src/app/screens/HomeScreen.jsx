@@ -330,12 +330,12 @@ export default function HomeScreen() {
                 Get Free Consultation
               </button>
               <a
-                href="tel:+919540190334"
+                href="tel:+919891229135"
                 style={{ padding: "13px 28px", border: `1.5px solid ${T.border}`, borderRadius: 6, fontFamily: T.sans, fontSize: 14, fontWeight: 500, color: T.slate, textDecoration: "none", display: "flex", alignItems: "center", justifyContent: "center", gap: 8, whiteSpace: "nowrap", background: T.white, transition: "border-color 0.2s" }}
                 onMouseEnter={(e) => { e.currentTarget.style.borderColor = T.teal; }}
                 onMouseLeave={(e) => { e.currentTarget.style.borderColor = T.border; }}
               >
-                📞 +91-9540190334
+                📞 +91-9891229135
               </a>
             </div>
           </div>

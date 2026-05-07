@@ -345,7 +345,7 @@ export default function HowItWorks() {
               </button>
 
               <a
-                href="tel:+919540190334"
+                href="tel:+919891229135"
                 onMouseEnter={(e) => { e.currentTarget.style.borderColor = T.teal; }}
                 onMouseLeave={(e) => { e.currentTarget.style.borderColor = T.border; }}
                 style={{
@@ -360,7 +360,7 @@ export default function HowItWorks() {
                   minWidth: 160,
                 }}
               >
-                📞 +91-9540190334
+                📞 +91-9891229135
               </a>
             </div>
           </div>
