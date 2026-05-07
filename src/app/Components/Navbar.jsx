@@ -98,7 +98,7 @@ export default function Navbar() {
       >
         <div style={{ display: "flex", gap: 24 }}>
           <span style={{ color: "#1E3A5F" }}>📞 +91- 9540190334</span>
-          <span style={{ color: "#1E3A5F" }}>✉ info@siacc.co.in</span>
+          <span style={{ color: "#1E3A5F" }}>✉ starindia.acc@gmail.com</span>
         </div>
         <div style={{ display: "flex", gap: 24, alignItems: "center" }}>
           <span style={{ color: "#4A6FA5" }}>Mon–Sat: 9:00 AM – 6:00 PM</span>

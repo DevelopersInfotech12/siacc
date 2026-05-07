@@ -425,9 +425,10 @@ export default function ContactScreen() {
                   {/* Email & WhatsApp */}
                   {[
                     { icon: "✉", label: "Email Us", value: "info@siacc.in", href: "mailto:info@siacc.in" },
+                    { icon: "✉", label: "Email Us", value: "starindia.acc@gmail.com", href: "mailto:starindia.acc@gmail.com" },
                     { icon: "💬", label: "WhatsApp", value: "+91-9540190334", href: "https://wa.me/919540190334" },
-                  ].map(item => (
-                    <a key={item.label} href={item.href} style={{ display: "flex", alignItems: "center", gap: 14, textDecoration: "none" }}>
+                  ].map((item, index) => (
+                    <a key={index} href={item.href} style={{ display: "flex", alignItems: "center", gap: 14, textDecoration: "none" }}>
                       <div style={{
                         width: 44, height: 44, borderRadius: 8,
                         backgroundColor: T.tealLight, border: `1px solid ${T.ctaBandBorder}`,
