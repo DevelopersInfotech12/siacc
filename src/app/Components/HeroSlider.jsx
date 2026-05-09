@@ -132,6 +132,7 @@ export default function HeroSlider() {
           background: ${T.offWhite};
           border-bottom: 1px solid ${T.border};
           margin: 0; padding: 0;
+  
         }
         .hs2-tabs::-webkit-scrollbar { display: none; }
         .hs2-tab {

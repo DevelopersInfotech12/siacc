@@ -198,23 +198,17 @@ export default function Navbar() {
                 fontSize: 13, fontWeight: 700,
                 color: "#fff",
                 background: `linear-gradient(135deg, ${C.teal}, #0a6daa)`,
-                padding: "9px 13px", borderRadius: 10, border: "none",
+                padding: "9px 18px", borderRadius: 10, border: "none",
                 cursor: "pointer", fontFamily: C.sans,
                 animation: aiPulse ? "aiGlow 1.5s ease-in-out infinite" : "none",
               }}
             >
               {/* <Sparkles size={14} style={{ flexShrink: 0 }} /> */}
-              AI Recommendation
+             ✨ AI Recommendation
             </button>
 
             <button onClick={() => go("/contact")}
-              style={{ fontSize: 13, fontWeight: 600, color: C.navy, border: `1.5px solid ${C.border}`, padding: "9px 13px", borderRadius: 10, background: C.white, cursor: "pointer", fontFamily: C.sans }}
-              onMouseEnter={(e) => { e.currentTarget.style.borderColor = C.primary; e.currentTarget.style.color = C.primary; }}
-              onMouseLeave={(e) => { e.currentTarget.style.borderColor = C.border; e.currentTarget.style.color = C.navy; }}
-            >Get Quote</button>
-
-            <button onClick={() => go("/contact")}
-              style={{ fontSize: 13, fontWeight: 700, color: "#fff", backgroundColor: C.primary, padding: "9px 13px", borderRadius: 10, border: "none", cursor: "pointer", fontFamily: C.sans, boxShadow: "0 4px 12px rgba(249,115,22,0.3)" }}
+              style={{ fontSize: 13, fontWeight: 700, color: "#fff", backgroundColor: C.primary, padding: "9px 18px", borderRadius: 10, border: "none", cursor: "pointer", fontFamily: C.sans, boxShadow: "0 4px 12px rgba(249,115,22,0.3)" }}
               onMouseEnter={(e) => e.currentTarget.style.backgroundColor = C.primaryDark}
               onMouseLeave={(e) => e.currentTarget.style.backgroundColor = C.primary}
             >Free Consultation</button>
