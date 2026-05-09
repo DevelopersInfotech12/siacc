@@ -1,7 +1,7 @@
 "use client";
 import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
-import { ChevronDown, Menu, X, Instagram, Linkedin, Facebook } from "lucide-react";
+import { ChevronDown, Menu, X, Instagram, Linkedin, Facebook, Sparkles } from "lucide-react";
 
 const C = {
   primary: "#F97316",
@@ -13,6 +13,8 @@ const C = {
   border: "#E5E7EB",
   white: "#FFFFFF",
   offWhite: "#F9FAFB",
+  teal: "#1E88C8",
+  tealLight: "#EBF5F5",
   serif: "'Playfair Display', Georgia, serif",
   sans: "'DM Sans', system-ui, sans-serif",
 };
@@ -50,6 +52,7 @@ export default function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [dropdown, setDropdown] = useState(null);
   const [mobileServices, setMobileServices] = useState(false);
+  const [aiPulse, setAiPulse] = useState(true);
   const dropdownRef = useRef(null);
 
   useEffect(() => {
@@ -64,6 +67,12 @@ export default function Navbar() {
     };
     document.addEventListener("mousedown", handleClick);
     return () => document.removeEventListener("mousedown", handleClick);
+  }, []);
+
+  // Stop pulsing after 6 seconds
+  useEffect(() => {
+    const t = setTimeout(() => setAiPulse(false), 6000);
+    return () => clearTimeout(t);
   }, []);
 
   const go = (href) => { setDropdown(null); setMobileOpen(false); router.push(href); };
@@ -81,48 +90,44 @@ export default function Navbar() {
           .desktop-cta { display: none !important; }
           .mobile-burger { display: flex !important; }
         }
+        @keyframes aiGlow {
+          0%, 100% { box-shadow: 0 0 0 0 rgba(30,136,200,0.4); }
+          50% { box-shadow: 0 0 0 6px rgba(30,136,200,0); }
+        }
+        @keyframes shimmer {
+          0% { background-position: -200% center; }
+          100% { background-position: 200% center; }
+        }
+        .ai-btn {
+          position: relative;
+          overflow: hidden;
+          transition: all 0.25s !important;
+        }
+        .ai-btn:hover {
+          transform: translateY(-1px) !important;
+          box-shadow: 0 6px 20px rgba(30,136,200,0.35) !important;
+        }
+        .ai-btn::before {
+          content: '';
+          position: absolute;
+          inset: 0;
+          background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+          background-size: 200% 100%;
+          animation: shimmer 2.5s ease-in-out infinite;
+        }
       `}</style>
 
       {/* Top info bar */}
-      <div
-        className="desktop-top-bar"
-        style={{
-          backgroundColor: "#EBF4FF",
-          borderBottom: "1px solid #BFD7F5",
-          fontSize: 13,
-          padding: "7px 24px",
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-        }}
-      >
+      <div className="desktop-top-bar" style={{ backgroundColor: "#EBF4FF", borderBottom: "1px solid #BFD7F5", fontSize: 13, padding: "7px 24px", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
         <div style={{ display: "flex", gap: 24 }}>
           <span style={{ color: "#1E3A5F" }}>📞 +91- 9891229135</span>
           <span style={{ color: "#1E3A5F" }}>✉ starindia.acc@gmail.com</span>
         </div>
         <div style={{ display: "flex", gap: 24, alignItems: "center" }}>
           <span style={{ color: "#4A6FA5" }}>Mon–Sat: 9:00 AM – 6:00 PM</span>
-
-          {/* Social Icons */}
-          <div
-            style={{
-              display: "flex",
-              gap: 14,
-              alignItems: "center",
-              borderLeft: "1px solid #BFD7F5",
-              paddingLeft: 20,
-            }}
-          >
+          <div style={{ display: "flex", gap: 14, alignItems: "center", borderLeft: "1px solid #BFD7F5", paddingLeft: 20 }}>
             {socialLinks.map(({ name, href, icon: Icon }) => (
-              <a
-                key={name}
-                href={href}
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label={name}
-                className="social-icon"
-                style={{ color: C.primary, display: "flex", alignItems: "center" }}
-              >
+              <a key={name} href={href} target="_blank" rel="noopener noreferrer" aria-label={name} className="social-icon" style={{ color: C.primary, display: "flex", alignItems: "center" }}>
                 <Icon size={15} />
               </a>
             ))}
@@ -132,47 +137,15 @@ export default function Navbar() {
 
       {/* Main nav */}
       <nav style={{ backgroundColor: C.white, borderBottom: `1px solid ${C.border}`, boxShadow: scrolled ? "0 4px 20px rgba(0,0,0,0.08)" : "none", transition: "box-shadow 0.3s ease" }}>
-        <div style={{ maxWidth: 1280, margin: "0 auto", padding: "0 24px", display: "flex", alignItems: "center", justifyContent: "space-between", height: 68 }}>
+        <div style={{  margin: "0 auto", padding: "0 24px", display: "flex", alignItems: "center", justifyContent: "space-between", height: 68 }}>
 
-          {/* logo */}
-          <button
-            onClick={() => go("/")}
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: 0,
-              background: "none",
-              border: "none",
-              cursor: "pointer",
-              flexShrink: 0,
-              padding: 0,
-            }}
-          >
-            <img
-              src="/finalimages/starlogo.png"
-              alt="SIACC Logo"
-              style={{
-                height: 50,
-                width: "auto",
-                objectFit: "contain",
-                display: "block",
-                marginRight: -100,   // ← pulls title closer, adjust this value
-              }}
-            />
-            <img
-              src="/finalimages/starlogotitle.png"
-              alt="Star India Accreditation"
-              style={{
-                height: 20,
-                width: "auto",
-                objectFit: "contain",
-                display: "block",
-                marginLeft: 0,
-              }}
-            />
+          {/* Logo */}
+          <button onClick={() => go("/")} style={{ display: "flex", alignItems: "center", gap: 0, background: "none", border: "none", cursor: "pointer", flexShrink: 0, padding: 0 }}>
+            <img src="/finalimages/starlogo.png" alt="SIACC Logo" style={{ height: 50, width: "auto", objectFit: "contain", display: "block", marginRight: -100 }} />
+            <img src="/finalimages/starlogotitle.png" alt="Star India Accreditation" style={{ height: 20, width: "auto", objectFit: "contain", display: "block", marginLeft: 0 }} />
           </button>
 
-          {/* Desktop nav */}
+          {/* Desktop nav links */}
           <div className="desktop-nav" style={{ display: "flex", alignItems: "center", gap: 2 }}>
             {navLinks.map((link) =>
               link.hasDropdown ? (
@@ -215,13 +188,33 @@ export default function Navbar() {
 
           {/* Desktop CTAs */}
           <div className="desktop-cta" style={{ display: "flex", gap: 10, alignItems: "center", flexShrink: 0 }}>
+
+            {/* ── AI Recommendation Button ── */}
+            <button
+              onClick={() => go("/ai-recommendation")}
+              className="ai-btn"
+              style={{
+                display: "flex", alignItems: "center", gap: 7,
+                fontSize: 13, fontWeight: 700,
+                color: "#fff",
+                background: `linear-gradient(135deg, ${C.teal}, #0a6daa)`,
+                padding: "9px 13px", borderRadius: 10, border: "none",
+                cursor: "pointer", fontFamily: C.sans,
+                animation: aiPulse ? "aiGlow 1.5s ease-in-out infinite" : "none",
+              }}
+            >
+              {/* <Sparkles size={14} style={{ flexShrink: 0 }} /> */}
+              AI Recommendation
+            </button>
+
             <button onClick={() => go("/contact")}
-              style={{ fontSize: 13, fontWeight: 600, color: C.navy, border: `1.5px solid ${C.border}`, padding: "9px 18px", borderRadius: 10, background: C.white, cursor: "pointer", fontFamily: C.sans }}
+              style={{ fontSize: 13, fontWeight: 600, color: C.navy, border: `1.5px solid ${C.border}`, padding: "9px 13px", borderRadius: 10, background: C.white, cursor: "pointer", fontFamily: C.sans }}
               onMouseEnter={(e) => { e.currentTarget.style.borderColor = C.primary; e.currentTarget.style.color = C.primary; }}
               onMouseLeave={(e) => { e.currentTarget.style.borderColor = C.border; e.currentTarget.style.color = C.navy; }}
             >Get Quote</button>
+
             <button onClick={() => go("/contact")}
-              style={{ fontSize: 13, fontWeight: 700, color: "#fff", backgroundColor: C.primary, padding: "9px 20px", borderRadius: 10, border: "none", cursor: "pointer", fontFamily: C.sans, boxShadow: "0 4px 12px rgba(249,115,22,0.3)" }}
+              style={{ fontSize: 13, fontWeight: 700, color: "#fff", backgroundColor: C.primary, padding: "9px 13px", borderRadius: 10, border: "none", cursor: "pointer", fontFamily: C.sans, boxShadow: "0 4px 12px rgba(249,115,22,0.3)" }}
               onMouseEnter={(e) => e.currentTarget.style.backgroundColor = C.primaryDark}
               onMouseLeave={(e) => e.currentTarget.style.backgroundColor = C.primary}
             >Free Consultation</button>
@@ -238,6 +231,21 @@ export default function Navbar() {
       {/* Mobile menu */}
       {mobileOpen && (
         <div style={{ backgroundColor: C.white, borderTop: `3px solid ${C.primary}`, padding: "16px 24px", boxShadow: "0 8px 24px rgba(0,0,0,0.08)" }}>
+
+          {/* ── AI Recommendation (Mobile) ── */}
+          <button onClick={() => go("/ai-recommendation")}
+            style={{
+              display: "flex", alignItems: "center", justifyContent: "center", gap: 8,
+              width: "100%", marginBottom: 12, padding: "13px 16px",
+              fontSize: 14, fontWeight: 700, color: "#fff",
+              background: `linear-gradient(135deg, ${C.teal}, #0a6daa)`,
+              border: "none", borderRadius: 10, cursor: "pointer", fontFamily: C.sans,
+              boxShadow: "0 4px 12px rgba(30,136,200,0.3)",
+            }}>
+            <Sparkles size={15} />
+            ✨ AI Recommendation
+          </button>
+
           {navLinks.map((link) =>
             link.hasDropdown ? (
               <div key={link.name} style={{ marginBottom: 4 }}>

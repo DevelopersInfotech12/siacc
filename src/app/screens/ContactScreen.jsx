@@ -1,704 +1,389 @@
 "use client";
-import { useState, useEffect, useRef } from "react";
-import { useRouter } from "next/navigation";
+import { useState } from "react";
 import Navbar from "../Components/Navbar";
 import Footer from "../Components/Footer";
-import "../animations.css";
 
 const T = {
-  teal: "#1E88C8",
+  teal:      "#1E88C8",
   titleblue: "#0a6daa",
-  tealDark: "#074D4D",
-  tealMid: "#0E8080",
-  tealLight: "#EBF5F5",
-  tealGhost: "#F4FAFA",
-  amber: "#C8780A",
-  amberLight: "#FEF3DC",
-  amberDark: "#9A5C06",
-  slate: "#0D1B2A",
-  slateMid: "#1C3144",
-  body: "#2D3748",
-  muted: "#718096",
-  subtle: "#A0AEC0",
-  border: "#E8E3DA",
-  borderLight: "#F0ECE5",
-  white: "#FFFFFF",
-  cream: "#FAF8F4",
-  creamMid: "#F3EFE8",
-  ctaBand: "#EBF5FB",
-  ctaBandBorder: "#C8DFF0",
-  orange: "#F97316",
-  orangeDark: "#EA6A0A",
-  serif: "'Cormorant Garamond', 'Georgia', serif",
-  sans: "'Outfit', 'system-ui', sans-serif",
-  poppins: "'Poppins', 'system-ui', sans-serif",
+  orange:    "#F97316",
+  cream:     "#F8FAFC",
+  white:     "#FFFFFF",
+  border:    "#E2E8F0",
+  slate:     "#0D1B2A",
+  body:      "#374151",
+  muted:     "#94A3B8",
+  green:     "#22C55E",
+  font:      "'Poppins', 'system-ui', sans-serif",
 };
 
-function useReveal(opts = {}) {
-  const { threshold = 0.15, stagger = false, baseDelay = 90, once = true } = opts;
-  const ref = useRef(null);
-  useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-    const obs = new IntersectionObserver(([entry]) => {
-      if (!entry.isIntersecting) return;
-      if (stagger) {
-        Array.from(el.children).forEach((child, i) => {
-          child.style.transitionDelay = i * baseDelay + "ms";
-          child.classList.add("revealed");
-        });
-      } else {
-        el.classList.add("revealed");
-      }
-      if (once) obs.unobserve(el);
-    }, { threshold });
-    obs.observe(el);
-    return () => obs.disconnect();
-  }, [threshold, stagger, baseDelay, once]);
-  return ref;
-}
+const SERVICES = [
+  "BIS CRS / ISI Certification",
+  "WPC-ETA Approval",
+  "TEC / MTCTE Certification",
+  "BEE Star Rating",
+  "EPR Registration",
+  "LMPC Registration",
+  "CDSCO / Drug License",
+  "ISO Certification",
+  "Product Testing & Lab",
+  "Other / Not Sure",
+];
 
-/* ── Accordion FAQ Item (same as BIS) ── */
-function FaqItem({ faq }) {
-  const [open, setOpen] = useState(false);
+const HEARD_FROM = [
+  "Google Search",
+  "LinkedIn",
+  "Instagram / Facebook",
+  "Friend / Colleague Referral",
+  "QR Code",
+  "WhatsApp",
+  "Other",
+];
+
+const inp = {
+  width: "100%", padding: "12px 15px", borderRadius: "10px",
+  border: `1.5px solid ${T.border}`, fontSize: "14px",
+  fontFamily: T.font, backgroundColor: T.white,
+  color: T.slate, outline: "none",
+  transition: "border-color 0.2s, box-shadow 0.2s",
+  boxSizing: "border-box",
+};
+
+const lbl = {
+  fontFamily: T.font, fontSize: "13px", fontWeight: "600",
+  color: T.slate, display: "block", marginBottom: "6px",
+};
+
+function Field({ label, required, children }) {
   return (
-    <div style={{
-      border: `1px solid ${open ? "rgba(30,136,200,0.45)" : T.border}`,
-      borderRadius: 10, marginBottom: 10, overflow: "hidden", transition: "border-color 0.2s",
-    }}>
-      <button onClick={() => setOpen(!open)} style={{
-        display: "flex", alignItems: "flex-start", gap: 10, padding: "13px 16px",
-        background: open ? "rgba(30,136,200,0.04)" : "transparent",
-        border: "none", width: "100%", textAlign: "left", cursor: "pointer", transition: "background 0.18s",
-      }}>
-        <div style={{ width: 26, height: 26, borderRadius: "50%", background: open ? T.teal : T.tealLight, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 11, fontWeight: 700, color: open ? "#fff" : T.teal, flexShrink: 0, fontFamily: T.poppins, transition: "background 0.2s, color 0.2s" }}>Q</div>
-        <span style={{ fontFamily: T.poppins, fontSize: 13, fontWeight: 600, color: T.slate, lineHeight: 1.45, flex: 1 }}>{faq.q}</span>
-        <span style={{ fontSize: 14, color: open ? T.teal : T.muted, flexShrink: 0, marginTop: 4, transition: "transform 0.25s, color 0.2s", transform: open ? "rotate(180deg)" : "rotate(0deg)", display: "inline-block" }}>▾</span>
-      </button>
-      {open && (
-        <div style={{ display: "flex", gap: 10, padding: "0 16px 14px" }}>
-          <div style={{ width: 26, height: 26, borderRadius: "50%", background: T.amberLight, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 11, fontWeight: 700, color: T.amber, flexShrink: 0, fontFamily: T.poppins }}>A</div>
-          <p style={{ fontFamily: T.poppins, fontSize: 12.5, fontWeight: 300, color: "#080000c4", lineHeight: 1.75, margin: 0 }}>{faq.a}</p>
-        </div>
-      )}
+    <div>
+      <label style={lbl}>{label}{required && <span style={{ color: T.orange }}> *</span>}</label>
+      {children}
     </div>
   );
 }
 
-const services = [
-  "BIS Certification", "EPR Registration", "WPC-ETA Approval", "TEC / MTCTE",
-  "BEE Registration", "LMPC Registration", "ISO Certification", "CDSCO / Drug License", "Other",
-];
+async function submitToSheet(data) {
+  const res = await fetch("/api/contact", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(data),
+  });
+  const json = await res.json();
+  if (!res.ok || json.error) throw new Error(json.error || "Submission failed");
+  return json;
+}
 
-const faqs = [
-  { q: "How long does BIS certification take?", a: "Typically 4–12 weeks depending on the product category, lab testing schedules, and application completeness. We provide faster timelines for most categories." },
-  { q: "Do you handle clients across India?", a: "Yes, we serve manufacturers and importers from all states and union territories across India. We provide end-to-end support both in-person and remotely." },
-  { q: "What is the consultation fee?", a: "Our initial consultation is completely free. We assess your requirement and give you a clear cost and timeline breakdown before any commitment." },
-  { q: "Can you take over my stalled certification?", a: "Absolutely. We regularly take over applications that are stalled or rejected and successfully bring them to completion." },
-];
+function ContactFormBlock() {
+  const [form, setForm] = useState({
+    name: "", phone: "", email: "",
+    company: "", service: "", description: "", heard: "",
+  });
+  const [status,   setStatus]   = useState("idle"); // idle | loading | success | error
+  const [errorMsg, setErrorMsg] = useState("");
 
-const contactStats = [
-  { value: "2 hrs", label: "Response Time", icon: "⚡" },
-  { value: "Free", label: "Initial Consultation", icon: "🆓" },
-  { value: "Pan", label: "India Coverage", icon: "🇮🇳" },
-  { value: "0%", label: "Failure Rate", icon: "❌" },
-];
+  const set = (k) => (e) => setForm((p) => ({ ...p, [k]: e.target.value }));
+  const focus = (e) => { e.target.style.borderColor = T.teal; e.target.style.boxShadow = `0 0 0 3px rgba(30,136,200,0.1)`; };
+  const blur  = (e) => { e.target.style.borderColor = T.border; e.target.style.boxShadow = "none"; };
 
-export default function ContactScreen() {
-  const router = useRouter();
+  async function handleSubmit(e) {
+    e.preventDefault();
+    if (status === "loading") return;
+    setStatus("loading");
+    setErrorMsg("");
+    try {
+      await submitToSheet({ ...form, source: "SIACC Contact Page" });
+      setStatus("success");
+    } catch (err) {
+      setErrorMsg(err.message || "Something went wrong. Please call us directly.");
+      setStatus("error");
+    }
+  }
 
-  const heroLeftRef = useReveal();
-  const statsRef = useReveal({ stagger: true, baseDelay: 100 });
-  const formRef = useReveal();
-  const sidebarRef = useReveal({ stagger: true, baseDelay: 100 });
-  const officeTtlRef = useReveal();
-  const officeRef = useReveal({ stagger: true, baseDelay: 120 });
-  const faqRef = useReveal({ stagger: true, baseDelay: 80 });
-  const ctaRef = useReveal();
+  if (status === "success") {
+    return (
+      <div style={{ textAlign: "center", padding: "52px 24px" }}>
+        <div style={{ fontSize: 64, marginBottom: 16 }}>✅</div>
+        <h3 style={{ fontFamily: T.font, fontWeight: 800, fontSize: 24, color: T.slate, marginBottom: 10 }}>
+          Enquiry Received!
+        </h3>
+        <p style={{ fontFamily: T.font, fontSize: 15, color: T.muted, marginBottom: 6 }}>
+          Our expert will call you within <strong>2 business hours</strong>.
+        </p>
+        <p style={{ fontFamily: T.font, fontSize: 13, color: T.muted }}>
+          Need help now?{" "}
+          <a href="tel:+919540190334" style={{ color: T.teal, fontWeight: 600 }}>
+            +91-9540190334
+          </a>
+        </p>
+      </div>
+    );
+  }
 
   return (
-    <div style={{ minHeight: "100vh", backgroundColor: T.white, fontFamily: T.sans, color: T.body }}>
+    <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+
+      {/* Name + Phone */}
+      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 14 }}>
+        <Field label="Full Name" required>
+          <input required style={inp} placeholder="Your full name"
+            value={form.name} onChange={set("name")} onFocus={focus} onBlur={blur} />
+        </Field>
+        <Field label="Phone Number" required>
+          <input required type="tel" style={inp} placeholder="+91 98765 43210"
+            value={form.phone} onChange={set("phone")} onFocus={focus} onBlur={blur} />
+        </Field>
+      </div>
+
+      {/* Email + Company */}
+      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 14 }}>
+        <Field label="Email Address" required>
+          <input required type="email" style={inp} placeholder="you@company.com"
+            value={form.email} onChange={set("email")} onFocus={focus} onBlur={blur} />
+        </Field>
+        <Field label="Company Name">
+          <input style={inp} placeholder="Your company (optional)"
+            value={form.company} onChange={set("company")} onFocus={focus} onBlur={blur} />
+        </Field>
+      </div>
+
+      {/* Service */}
+      <Field label="Service Required">
+        <select style={{ ...inp, cursor: "pointer" }}
+          value={form.service} onChange={set("service")} onFocus={focus} onBlur={blur}>
+          <option value="">Select a service…</option>
+          {SERVICES.map(s => <option key={s} value={s}>{s}</option>)}
+        </select>
+      </Field>
+
+      {/* Description */}
+      <Field label="Product / Business Description" required>
+        <textarea required style={{ ...inp, minHeight: 110, resize: "vertical" }}
+          placeholder="Briefly describe your product and what certification you're looking for…"
+          value={form.description} onChange={set("description")} onFocus={focus} onBlur={blur} />
+      </Field>
+
+      {/* How did you hear */}
+      <Field label="How did you hear about us?">
+        <select style={{ ...inp, cursor: "pointer" }}
+          value={form.heard} onChange={set("heard")} onFocus={focus} onBlur={blur}>
+          <option value="">Select an option…</option>
+          {HEARD_FROM.map(h => <option key={h} value={h}>{h}</option>)}
+        </select>
+      </Field>
+
+      {/* Error */}
+      {status === "error" && (
+        <div style={{
+          background: "#FEF2F2", border: "1px solid #FCA5A5", borderRadius: 10,
+          padding: "12px 16px", display: "flex", alignItems: "flex-start", gap: 10,
+        }}>
+          <span style={{ fontSize: 18, flexShrink: 0 }}>⚠️</span>
+          <div>
+            <div style={{ fontFamily: T.font, fontSize: 13, fontWeight: 600, color: "#DC2626" }}>
+              Submission failed
+            </div>
+            <div style={{ fontFamily: T.font, fontSize: 12, color: "#EF4444", marginTop: 2 }}>
+              {errorMsg}&nbsp;·&nbsp;
+              <a href="tel:+919540190334" style={{ color: "#DC2626", fontWeight: 600 }}>
+                Call us directly →
+              </a>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Submit */}
+      <button type="submit" disabled={status === "loading"}
+        style={{
+          background: status === "loading"
+            ? T.muted
+            : `linear-gradient(135deg, ${T.titleblue}, ${T.teal})`,
+          color: "#fff", padding: "15px", borderRadius: 12,
+          fontFamily: T.font, fontWeight: 700, fontSize: 15,
+          border: "none", cursor: status === "loading" ? "default" : "pointer",
+          transition: "all 0.2s", letterSpacing: "0.3px",
+          display: "flex", alignItems: "center", justifyContent: "center", gap: 8,
+          boxShadow: status === "loading" ? "none" : "0 4px 16px rgba(30,136,200,0.3)",
+        }}
+        onMouseEnter={e => { if (status !== "loading") e.currentTarget.style.opacity = "0.9"; }}
+        onMouseLeave={e => { e.currentTarget.style.opacity = "1"; }}
+      >
+        {status === "loading" ? (
+          <>
+            <span style={{
+              width: 16, height: 16, border: "2px solid rgba(255,255,255,0.35)",
+              borderTopColor: "#fff", borderRadius: "50%",
+              display: "inline-block", animation: "spin 0.75s linear infinite",
+            }} />
+            Submitting…
+          </>
+        ) : "Submit Enquiry →"}
+      </button>
+
+      <style>{`@keyframes spin { to { transform:rotate(360deg) } }`}</style>
+      <p style={{ fontFamily: T.font, fontSize: 12, color: T.muted, textAlign: "center" }}>
+        We respond within 2 business hours. No spam, ever.
+      </p>
+    </form>
+  );
+}
+
+export default function ContactScreen() {
+  return (
+    <div style={{ minHeight: "100vh", background: T.cream, fontFamily: T.font }}>
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Outfit:wght@300;400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap');
-        *, *::before, *::after { box-sizing:border-box; margin:0; padding:0; }
-        img { max-width:100%; display:block; }
-        a { text-decoration:none; color:inherit; }
-
-        .sl-row { display:flex; align-items:center; gap:12px; margin-bottom:16px; }
-        .sl-line { width:28px; height:1.5px; background:${T.teal}; flex-shrink:0; }
-        .sl-text { font-family:${T.sans}; font-size:11px; font-weight:600; letter-spacing:0.15em; text-transform:uppercase; color:${T.teal}; }
-
-        /* ── HERO ── */
-        .contact-hero-wrap {
-          position: relative; overflow: hidden;
-          border-bottom: 1px solid ${T.border};
-          min-height: 420px;
-          display: flex; flex-direction: column; justify-content: center;
-        }
-        .contact-hero-bg {
-          position: absolute; inset: 0; width: 100%; height: 100%;
-          object-fit: cover; object-position: center 30%;
-          z-index: 0;
-        }
-        .contact-hero-overlay {
-          position: absolute; inset: 0; z-index: 1;
-          background: linear-gradient(
-            to right,
-            rgba(7, 18, 28, 0.88) 0%,
-            rgba(7, 18, 28, 0.60) 50%,
-            rgba(7, 18, 28, 0.10) 100%
-          );
-        }
-
-        .hero-accent-bar {
-          position: absolute; left: 0; top: 0; bottom: 0;
-          width: 4px;
-          background: linear-gradient(to bottom, ${T.orange}, ${T.teal});
-          z-index: 3;
-        }
-
-        .hero-badge-pill {
-          display: inline-flex; align-items: center; gap: 8px;
-          background: rgba(255,255,255,0.10);
-          border: 1px solid rgba(255,255,255,0.20);
-          backdrop-filter: blur(8px);
-          border-radius: 4px; padding: 6px 16px; margin-bottom: 22px;
-        }
-        .hero-badge-dot {
-          width: 7px; height: 7px; border-radius: 50%;
-          background: #4ade80;
-          box-shadow: 0 0 6px rgba(74,222,128,0.8);
-          animation: pulse-dot 2s ease-in-out infinite;
-        }
-        @keyframes pulse-dot {
-          0%,100% { opacity:1; transform:scale(1); }
-          50% { opacity:0.6; transform:scale(1.3); }
-        }
-
-        /* ── STATS STRIP ── */
-        .stats-strip { display:grid; grid-template-columns:repeat(4,1fr); }
-        @media(max-width:640px){ .stats-strip { grid-template-columns:repeat(2,1fr); } }
-
-        /* ── CONTACT MAIN GRID ── */
-        .contact-main-grid { display:grid; grid-template-columns:1fr 360px; gap:40px; align-items:flex-start; }
-        @media(max-width:1024px){ .contact-main-grid { grid-template-columns:1fr; } }
-
-        .form-card {
-          background:${T.white}; border-radius:10px; padding:36px;
-          border:1px solid ${T.border};
-          box-shadow:0 4px 24px rgba(0,0,0,0.05);
-          transition:box-shadow 0.25s;
-        }
-        .form-card:hover { box-shadow:0 8px 40px rgba(30,136,200,0.08); }
-        @media(max-width:480px){ .form-card { padding:20px 16px; } }
-
-        .two-col { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:16px; }
-        @media(max-width:540px){ .two-col { grid-template-columns:1fr; } }
-
-        .input-field {
-          width:100%; padding:12px 14px;
-          border:1.5px solid ${T.border}; border-radius:6px;
-          font-size:14px; color:${T.slate}; outline:none;
-          background:${T.cream}; font-family:${T.sans};
-          transition:border-color 0.2s, background 0.2s;
-        }
-        .input-field:focus { border-color:${T.teal}; background:${T.white}; }
-
-        .sidebar { display:flex; flex-direction:column; gap:16px; }
-
-        /* ── OFFICE ── */
-        .office-split { display:grid; grid-template-columns:340px 1fr; gap:20px; align-items:stretch; }
-        @media(max-width:900px){ .office-split { grid-template-columns:1fr; } }
-        .office-card {
-          background:${T.white}; border-radius:10px; padding:28px;
-          border:1px solid ${T.border};
-          transition:all 0.25s; display:flex; flex-direction:column; justify-content:space-between;
-        }
-        .office-card:hover { border-color:${T.teal}; transform:translateY(-3px); box-shadow:0 12px 32px rgba(30,136,200,0.09); }
-        .office-image-panel { position:relative; border-radius:10px; overflow:hidden; min-height:380px; }
-        @media(max-width:900px){ .office-image-panel { min-height:280px; } }
-        .office-stats-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin-top:28px; }
-        @media(max-width:480px){ .office-stats-grid { grid-template-columns:1fr; gap:10px; margin-top:16px; } }
-
-        /* ── FAQ SPLIT (same as BIS) ── */
-        .faq-split-grid {
-          display: grid;
-          grid-template-columns: 1fr 1fr;
-          border-radius: 14px;
-          overflow: hidden;
-          border: 1px solid ${T.border};
-          min-height: 440px;
-        }
-        @media(max-width:760px){ .faq-split-grid { grid-template-columns: 1fr !important; } }
-
-        /* ── CTA BAND ── */
-        .cta-split { display:grid; grid-template-columns:1fr auto; gap:40px; align-items:center; }
-        @media(max-width:720px){ .cta-split { grid-template-columns:1fr; gap:28px; } }
-
-        .sec { padding:clamp(64px,8vw,104px) clamp(16px,5vw,56px); }
-        .inner { max-width:1280px; margin:0 auto; }
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
+        *, *::before, *::after { box-sizing: border-box; }
+        @media(max-width:640px) { .contact-grid { grid-template-columns: 1fr !important; } }
+        @media(max-width:600px) { .form-row { grid-template-columns: 1fr !important; } }
       `}</style>
 
       <Navbar />
 
-      {/* ══════════════════════════════════════
-          HERO — Contact Us
-      ══════════════════════════════════════ */}
-      <section className="contact-hero-wrap">
-        <div className="hero-accent-bar" />
-        <img
-          src="/images/contactbanner.jpg"
-          alt="Contact us background"
-          className="contact-hero-bg"
-        />
-        <div className="contact-hero-overlay" />
+      {/* Hero */}
+      <div style={{
+        background: `linear-gradient(135deg, ${T.titleblue} 0%, ${T.teal} 100%)`,
+        padding: "44px 24px 36px", textAlign: "center",
+      }}>
         <div style={{
-          position: "relative", zIndex: 2,
-          maxWidth: 1280, margin: "0 auto", width: "100%",
-          padding: "clamp(48px,7vw,88px) clamp(20px,4vw,60px)",
+          display: "inline-flex", alignItems: "center", gap: 8,
+          background: "rgba(255,255,255,0.15)", borderRadius: 20,
+          padding: "5px 14px", marginBottom: 14, border: "1px solid rgba(255,255,255,0.2)",
         }}>
-          <div ref={heroLeftRef} className="reveal-left">
-            <div className="hero-badge-pill">
-              <span className="hero-badge-dot" />
-              <span style={{
-                fontFamily: T.sans, fontSize: 10.5, fontWeight: 700,
-                color: "#fff", letterSpacing: "0.14em", textTransform: "uppercase",
-              }}>
-                Contact Us — We Respond in 2 Hours
-              </span>
-            </div>
-            <h1 style={{
-              fontFamily: T.poppins,
-              fontSize: "clamp(2.6rem,5.2vw,4.2rem)",
-              fontWeight: 700, lineHeight: 1.04,
-              marginBottom: 20, letterSpacing: "-0.01em",
-              color: "#fff", maxWidth: 640,
-            }}>
-              We're Here to{" "}
-              <span style={{ color: T.orange }}>Help You</span>{" "}
-              Succeed
-            </h1>
-          </div>
+          <span style={{ width: 7, height: 7, borderRadius: "50%", background: T.green, display: "inline-block" }} />
+          <span style={{ fontFamily: T.font, fontSize: 11.5, fontWeight: 600, color: "#fff", letterSpacing: "0.08em", textTransform: "uppercase" }}>
+            Free Consultation · No Commitment
+          </span>
         </div>
-        <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, height: 3, background: T.teal, opacity: 0.6, zIndex: 2 }} />
-      </section>
+        <h1 style={{ fontFamily: T.font, fontSize: "clamp(1.7rem,3.5vw,2.6rem)", fontWeight: 800, color: "#fff", margin: "0 0 10px" }}>
+          Get in Touch with SIACC
+        </h1>
+        <p style={{ fontFamily: T.font, fontSize: 15, color: "rgba(255,255,255,0.82)", maxWidth: 500, margin: "0 auto" }}>
+          Tell us about your product — we'll tell you exactly what certifications you need and handle everything end-to-end.
+        </p>
+      </div>
 
-      {/* ══════════════════════════════════════
-          STATS STRIP
-      ══════════════════════════════════════ */}
-      <section style={{ background: T.teal }}>
-        <div style={{ maxWidth: 1280, margin: "0 auto" }}>
-          <div className="stats-strip" ref={statsRef}>
-            {contactStats.map((s, i) => (
-              <div key={s.label} className={`reveal d${i}`} style={{
-                textAlign: "center", padding: "36px 16px",
-                borderRight: i < contactStats.length - 1 ? "1px solid rgba(255,255,255,0.07)" : "none",
-              }}>
-                <div style={{ fontSize: 20, marginBottom: 6 }}>{s.icon}</div>
-                <div style={{ fontFamily: T.poppins, fontSize: "clamp(2rem,2.8vw,2.8rem)", color: "#fff", fontWeight: 700, lineHeight: 1, letterSpacing: "-0.01em" }}>{s.value}</div>
-                <div style={{ fontFamily: T.poppins, fontSize: 12, color: "rgba(255,255,255,0.80)", marginTop: 8, letterSpacing: "0.04em" }}>{s.label}</div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+      {/* Main grid */}
+      <div style={{ maxWidth: 1100, margin: "0 auto", padding: "36px 16px 80px" }}>
+        <div className="contact-grid" style={{ display: "grid", gridTemplateColumns: "1fr 380px", gap: 28, alignItems: "flex-start" }}>
 
-      {/* ══════════════════════════════════════
-          CONTACT FORM + SIDEBAR
-      ══════════════════════════════════════ */}
-      <section id="contact-form" className="sec" style={{ background: T.white }}>
-        <div className="inner">
-          <div className="contact-main-grid">
-
-            {/* ── Form Card ── */}
-            <div className="reveal form-card" ref={formRef}>
-              <div style={{ position: "relative", borderRadius: 8, overflow: "hidden", height: 140, marginBottom: 28 }}>
-                <img
-                  src="https://images.unsplash.com/photo-1596524430615-b46475ddff6e?w=900&q=80&fit=crop"
-                  alt="Talk to our team"
-                  style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center 40%" }}
-                />
-                <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to right, rgba(14,128,128,0.88) 0%, rgba(30,136,200,0.60) 60%, rgba(235,245,251,0.25) 100%)" }} />
-                <div style={{ position: "absolute", inset: 0, display: "flex", alignItems: "center", padding: "0 24px" }}>
-                  <div>
-                    <div style={{ fontFamily: T.poppins, fontSize: "clamp(1rem,2vw,1.3rem)", color: "#fff", fontWeight: 700, marginBottom: 4 }}>
-                      Talk to a Regulatory Expert
-                    </div>
-                    <p style={{ fontFamily: T.poppins, color: "rgba(255,255,255,0.78)", fontSize: 12 }}>
-                      We respond within 2 business hours. No spam, ever.
-                    </p>
-                  </div>
-                </div>
-              </div>
-
-              {/* Name & Company */}
-              <div className="two-col">
-                {[
-                  { label: "Full Name *", type: "text", placeholder: "Enter Your Full Name" },
-                  { label: "Company Name", type: "text", placeholder: "Enter Your Company Name" },
-                ].map(f => (
-                  <div key={f.label}>
-                    <label style={{ display: "block", fontFamily: T.poppins, fontSize: 13, fontWeight: 600, color: T.slate, marginBottom: 6 }}>{f.label}</label>
-                    <input type={f.type} placeholder={f.placeholder} className="input-field" />
-                  </div>
-                ))}
-              </div>
-
-              {/* Phone & Email */}
-              <div className="two-col">
-                {[
-                  { label: "Phone Number *", type: "tel", placeholder: "Enter Your Phone Number" },
-                  { label: "Email Address *", type: "email", placeholder: "Enter Your Email Address" },
-                ].map(f => (
-                  <div key={f.label}>
-                    <label style={{ display: "block", fontFamily: T.poppins, fontSize: 13, fontWeight: 600, color: T.slate, marginBottom: 6 }}>{f.label}</label>
-                    <input type={f.type} placeholder={f.placeholder} className="input-field" />
-                  </div>
-                ))}
-              </div>
-
-              {/* Service */}
-              <div style={{ marginBottom: 16 }}>
-                <label style={{ display: "block", fontFamily: T.poppins, fontSize: 13, fontWeight: 600, color: T.slate, marginBottom: 6 }}>Service Required *</label>
-                <select className="input-field">
-                  <option value="">Select a service</option>
-                  {services.map(s => <option key={s}>{s}</option>)}
-                </select>
-              </div>
-
-              {/* Description */}
-              <div style={{ marginBottom: 16 }}>
-                <label style={{ display: "block", fontFamily: T.poppins, fontSize: 13, fontWeight: 600, color: T.slate, marginBottom: 6 }}>Product / Business Description *</label>
-                <textarea rows={4} placeholder="Briefly describe your product and what certification you're looking for..." className="input-field" style={{ resize: "vertical" }} />
-              </div>
-
-              {/* Source */}
-              <div style={{ marginBottom: 28 }}>
-                <label style={{ display: "block", fontFamily: T.poppins, fontSize: 13, fontWeight: 600, color: T.slate, marginBottom: 6 }}>How did you hear about us?</label>
-                <select className="input-field">
-                  <option value="">Select an option</option>
-                  {["Google Search", "LinkedIn", "Referral", "Trade Show", "Other"].map(o => <option key={o}>{o}</option>)}
-                </select>
-              </div>
-
-              <button
-                style={{
-                  width: "100%", padding: "14px", background: T.orange, color: T.white,
-                  fontFamily: T.sans, fontWeight: 600, borderRadius: 6, border: "none",
-                  fontSize: 14.5, cursor: "pointer", letterSpacing: "0.02em",
-                  boxShadow: "0 4px 16px rgba(249,115,22,0.28)",
-                  transition: "background 0.2s, transform 0.2s",
-                }}
-                onMouseEnter={e => { e.currentTarget.style.background = T.teal; e.currentTarget.style.transform = "translateY(-1px)"; }}
-                onMouseLeave={e => { e.currentTarget.style.background = T.orange; e.currentTarget.style.transform = "translateY(0)"; }}
-              >
-                Submit Enquiry →
-              </button>
-              <p style={{ fontFamily: T.poppins, fontSize: 12, color: T.subtle, textAlign: "center", marginTop: 10 }}>
-                We respond within 2 business hours. No spam, ever.
-              </p>
-            </div>
-
-            {/* ── Sidebar ── */}
-            <div className="sidebar" ref={sidebarRef}>
-
-              {/* Quick Contact */}
-              <div className="reveal d0" style={{ background: T.ctaBand, border: `1px solid ${T.ctaBandBorder}`, borderRadius: 10, padding: 28 }}>
-                <div className="sl-row" style={{ marginBottom: 20 }}><div className="sl-line" /><span className="sl-text">Quick Contact</span></div>
-                <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
-                  {/* Call Us — two numbers stacked */}
-                  <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
-                    <div style={{
-                      width: 44, height: 44, borderRadius: 8,
-                      backgroundColor: T.tealLight, border: `1px solid ${T.ctaBandBorder}`,
-                      display: "flex", alignItems: "center", justifyContent: "center",
-                      fontSize: 18, flexShrink: 0,
-                    }}>📞</div>
-                    <div>
-                      <div style={{ fontFamily: T.poppins, fontSize: 10.5, color: T.teal, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.08em" }}>Call Us</div>
-                      <a href="tel:+919891229135" style={{ display: "block", fontFamily: T.poppins, fontSize: 15, color: T.slate, fontWeight: 500, marginTop: 2, textDecoration: "none" }}>+91-9891229135</a>
-                      <a href="tel:+919540190334" style={{ display: "block", fontFamily: T.poppins, fontSize: 15, color: T.slate, fontWeight: 500, marginTop: 2, textDecoration: "none" }}>+91-9540190334</a>
-
-                    </div>
-                  </div>
-
-                  {/* Email & WhatsApp */}
-                  {[
-                    { icon: "✉", label: "Email Us", value: "info@siacc.in", href: "mailto:info@siacc.in" },
-                    { icon: "✉", label: "Email Us", value: "starindia.acc@gmail.com", href: "mailto:starindia.acc@gmail.com" },
-                    { icon: "💬", label: "WhatsApp", value: "+91-9540190334", href: "https://wa.me/919540190334" },
-                  ].map((item, index) => (
-                    <a key={index} href={item.href} style={{ display: "flex", alignItems: "center", gap: 14, textDecoration: "none" }}>
-                      <div style={{
-                        width: 44, height: 44, borderRadius: 8,
-                        backgroundColor: T.tealLight, border: `1px solid ${T.ctaBandBorder}`,
-                        display: "flex", alignItems: "center", justifyContent: "center",
-                        fontSize: 18, flexShrink: 0,
-                      }}>{item.icon}</div>
-                      <div>
-                        <div style={{ fontFamily: T.poppins, fontSize: 10.5, color: T.teal, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.08em" }}>{item.label}</div>
-                        <div style={{ fontFamily: T.poppins, fontSize: 14, color: T.slate, fontWeight: 500, marginTop: 2 }}>{item.value}</div>
-                      </div>
-                    </a>
-                  ))}
-                </div>
-              </div>
-
-              {/* Business Hours */}
-              <div className="reveal d1" style={{ background: T.white, borderRadius: 10, padding: 24, border: `1px solid ${T.border}` }}>
-                <div className="sl-row" style={{ marginBottom: 16 }}><div className="sl-line" /><span className="sl-text">Business Hours</span></div>
-                {[
-                  { day: "Monday – Friday", time: "9:00 AM – 6:00 PM" },
-                  { day: "Saturday", time: "10:00 AM – 4:00 PM" },
-                  { day: "Sunday", time: "Closed" },
-                ].map((h, i, arr) => (
-                  <div key={h.day} style={{
-                    display: "flex", justifyContent: "space-between",
-                    fontFamily: T.poppins, fontSize: 13, padding: "10px 0",
-                    borderBottom: i < arr.length - 1 ? `1px solid ${T.border}` : "none",
-                  }}>
-                    <span style={{ color: T.muted }}>{h.day}</span>
-                    <span style={{ color: h.time === "Closed" ? "#ef4444" : T.slate, fontWeight: 600 }}>{h.time}</span>
-                  </div>
-                ))}
-              </div>
-
-              {/* Urgent card */}
-              <div className="reveal d2" style={{ position: "relative", borderRadius: 10, overflow: "hidden" }}>
-                <img
-                  src="https://images.unsplash.com/photo-1568219557405-376e23e4f7cf?w=600&q=80&fit=crop"
-                  alt="Urgent compliance"
-                  style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }}
-                />
-                <div style={{ position: "absolute", inset: 0, background: `linear-gradient(135deg, rgba(14,128,128,0.94) 0%, rgba(30,136,200,0.90) 100%)` }} />
-                <div style={{ position: "relative", zIndex: 1, padding: 24 }}>
-                  <div style={{ fontSize: 22, marginBottom: 10 }}>⚡</div>
-                  <h3 style={{ fontFamily: T.poppins, fontSize: 16, color: T.white, marginBottom: 8, fontWeight: 700 }}>Urgent Compliance Need?</h3>
-                  <p style={{ fontFamily: T.poppins, fontSize: 13, color: "rgba(255,255,255,0.88)", lineHeight: 1.65, marginBottom: 16 }}>
-                    Facing a regulatory deadline or port hold? We have an emergency response team available 24/7.
-                  </p>
-                  <a href="tel:+919891229135" style={{
-                    display: "block", textAlign: "center", padding: "11px",
-                    backgroundColor: T.white, color: T.teal,
-                    borderRadius: 6, fontSize: 13, fontWeight: 700,
-                    fontFamily: T.poppins,
-                  }}>Call Emergency Line →</a>
-                </div>
-              </div>
-
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ══════════════════════════════════════
-          OFFICE
-      ══════════════════════════════════════ */}
-      <section className="sec" style={{ background: T.cream }}>
-        <div className="inner">
-          <div style={{ textAlign: "center", marginBottom: 48 }} className="reveal" ref={officeTtlRef}>
-            <div style={{ display: "flex", justifyContent: "center" }}>
-              <div className="sl-row"><div className="sl-line" /><span className="sl-text">Our Office</span></div>
-            </div>
-            <h2 style={{ fontFamily: T.poppins, fontSize: "clamp(1.8rem,3.2vw,2.9rem)", color: T.titleblue, fontWeight: 700, letterSpacing: "-0.01em" }}>
-              Find Us in New Delhi
+          {/* Form card */}
+          <div style={{
+            background: T.white, borderRadius: 20, border: `1px solid ${T.border}`,
+            boxShadow: "0 4px 24px rgba(0,0,0,0.07)", padding: "32px 28px",
+          }}>
+            <h2 style={{ fontFamily: T.font, fontSize: 20, fontWeight: 700, color: T.slate, margin: "0 0 6px" }}>
+              Send Your Enquiry
             </h2>
+            <p style={{ fontFamily: T.font, fontSize: 13.5, color: T.muted, margin: "0 0 24px" }}>
+              Fill in the form below and our experts will get back to you within 2 hours.
+            </p>
+            <ContactFormBlock />
           </div>
 
-          <div className="office-split" ref={officeRef}>
-            <div className="reveal d0 office-card">
-              <div>
-                <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 24 }}>
+          {/* Right info panel */}
+          <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+
+            {/* Contact details */}
+            <div style={{
+              background: T.white, borderRadius: 16, border: `1px solid ${T.border}`,
+              boxShadow: "0 2px 12px rgba(0,0,0,0.05)", padding: "24px",
+            }}>
+              <h3 style={{ fontFamily: T.font, fontSize: 15, fontWeight: 700, color: T.slate, margin: "0 0 18px" }}>
+                Contact Details
+              </h3>
+              {[
+                { icon: "📞", label: "Call Us", value: "+91-9540190334", href: "tel:+919540190334" },
+                { icon: "📞", label: "Alternate", value: "+91-9891229135", href: "tel:+919891229135" },
+                { icon: "✉️", label: "Email", value: "info@siacc.in", href: "mailto:info@siacc.in" },
+                { icon: "✉️", label: "Alternate", value: "starindia.acc@gmail.com", href: "mailto:starindia.acc@gmail.com" },
+                { icon: "🕐", label: "Hours", value: "Mon–Sat: 9:00 AM – 6:00 PM", href: null },
+              ].map((item, i) => (
+                <div key={i} style={{
+                  display: "flex", alignItems: "flex-start", gap: 12,
+                  paddingBottom: i < 4 ? 14 : 0, marginBottom: i < 4 ? 14 : 0,
+                  borderBottom: i < 4 ? `1px solid ${T.border}` : "none",
+                }}>
                   <div style={{
-                    width: 48, height: 48, borderRadius: 9,
-                    background: T.tealLight, display: "flex", alignItems: "center",
-                    justifyContent: "center", fontSize: 22, flexShrink: 0,
-                  }}>🏢</div>
+                    width: 36, height: 36, borderRadius: 9,
+                    background: T.cream, border: `1px solid ${T.border}`,
+                    display: "flex", alignItems: "center", justifyContent: "center",
+                    fontSize: 16, flexShrink: 0,
+                  }}>{item.icon}</div>
                   <div>
-                    <div style={{ fontFamily: T.poppins, fontSize: 20, color: T.para, fontWeight: 700 }}>New Delhi</div>
-                    <div style={{ fontFamily: T.poppins, fontSize: 12, color: T.teal, fontWeight: 600 }}>Regional Office</div>
+                    <div style={{ fontFamily: T.font, fontSize: 11, color: T.muted, fontWeight: 500, textTransform: "uppercase", letterSpacing: "0.06em" }}>{item.label}</div>
+                    {item.href
+                      ? <a href={item.href} style={{ fontFamily: T.font, fontSize: 13.5, color: T.slate, fontWeight: 600, textDecoration: "none" }}>{item.value}</a>
+                      : <div style={{ fontFamily: T.font, fontSize: 13.5, color: T.slate, fontWeight: 600 }}>{item.value}</div>
+                    }
                   </div>
                 </div>
-                <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
-                  {[
-                    { icon: "📍", val: "House no. 211, Ground Floor, Pocket 9, North West New Delhi – 110086" },
-                    { icon: "📞", val: "+91-9891229135" },
-                    { icon: "✉", val: "info@siacc.in" },
-                    { icon: "🕐", val: "Mon–Sat: 9AM – 6PM" },
-                  ].map((item, i) => (
-                    <div key={i} style={{ display: "flex", gap: 12, alignItems: "flex-start" }}>
-                      <span style={{ flexShrink: 0, fontSize: 16 }}>{item.icon}</span>
-                      <span style={{ fontFamily: T.sans, fontSize: 16, color: T.muted, lineHeight: 1.6, textAlign: "justify" }}>{item.val}</span>
-                    </div>
-                  ))}
-                  <div style={{ display: "flex", gap: 12 }}>
-                    <span style={{ fontSize: 16 }}>👤</span>
-                    <span style={{ fontFamily: T.sans, fontSize: 14, color: T.muted }}>Head: <strong style={{ color: T.slate }}>Yogesh Jawa</strong></span>
-                  </div>
-                </div>
-              </div>
-              <div style={{ marginTop: 28, paddingTop: 22, borderTop: `1px solid ${T.border}` }}>
-                <a href="tel:+919891229135" style={{
-                  display: "block", textAlign: "center", padding: "12px",
-                  background: T.orange, color: "#fff", borderRadius: 6,
-                  fontFamily: T.poppins, fontSize: 14, fontWeight: 600,
-                  boxShadow: "0 4px 14px rgba(249,115,22,0.28)", marginBottom: 10,
-                  transition: "background 0.2s",
-                }}
-                  onMouseEnter={e => e.currentTarget.style.background = T.teal}
-                  onMouseLeave={e => e.currentTarget.style.background = T.orange}
-                >📞 Call This Office</a>
-                <a
-                  href="https://maps.google.com/?q=Pocket+9+North+West+New+Delhi+110086"
-                  target="_blank" rel="noopener noreferrer"
-                  style={{
-                    display: "block", textAlign: "center", padding: "12px",
-                    border: `1.5px solid ${T.border}`, color: T.slate, borderRadius: 6,
-                    fontFamily: T.poppins, fontSize: 14, fontWeight: 600,
-                    transition: "border-color 0.2s",
-                  }}
-                  onMouseEnter={e => e.currentTarget.style.borderColor = T.teal}
-                  onMouseLeave={e => e.currentTarget.style.borderColor = T.border}
-                >🗺️ Get Directions</a>
-              </div>
+              ))}
             </div>
 
-            <div className="reveal d1 office-image-panel">
-              <img
-                src="https://images.unsplash.com/photo-1587474260584-136574528ed5?w=1200&q=85&fit=crop"
-                alt="New Delhi"
-                style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", objectPosition: "center 40%" }}
-              />
-              <div style={{ position: "absolute", inset: 0, background: "linear-gradient(135deg, rgba(14,128,128,0.85) 0%, rgba(30,136,200,0.55) 55%, rgba(235,245,251,0.25) 100%)" }} />
-              <div style={{ position: "relative", zIndex: 1, padding: "clamp(24px,4vw,40px)", height: "100%", display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
-                <div>
-                  <div style={{
-                    display: "inline-flex", alignItems: "center", gap: 8,
-                    background: T.tealLight, borderRadius: 4, padding: "5px 14px", marginBottom: 18,
-                  }}>
-                    <span style={{ fontFamily: T.sans, fontSize: 10.5, fontWeight: 700, color: T.teal, letterSpacing: "0.12em", textTransform: "uppercase" }}>
-                      🇮🇳 New Delhi, India
-                    </span>
-                  </div>
-                  <h3 style={{ fontFamily: T.serif, fontSize: "clamp(1.2rem,2.5vw,2rem)", color: "#fff", fontWeight: 700, marginBottom: 12, lineHeight: 1.2 }}>
-                    Your Trusted Partner<br />in New Delhi
-                  </h3>
-                  <p style={{ fontFamily: T.sans, color: "rgba(255,255,255,0.80)", fontSize: "clamp(12px,1.5vw,14px)", lineHeight: 1.8, maxWidth: 420 }}>
-                    Based in New Delhi, we provide end-to-end regulatory compliance and certification services across India. Visit our office for a free consultation.
-                  </p>
-                </div>
-                <div className="office-stats-grid">
-                  {[
-                    { value: "10,000+", label: "Certifications Filed" },
-                    { value: "15+ yrs", label: "Industry Experience" },
-                    { value: "0%", label: "Failure Rate" },
-                  ].map(s => (
-                    <div key={s.label} style={{
-                      background: "rgba(255,255,255,0.13)", border: "1px solid rgba(255,255,255,0.20)",
-                      borderRadius: 8, padding: "14px 12px", backdropFilter: "blur(8px)",
-                    }}>
-                      <div style={{ fontFamily: T.poppins, fontSize: "clamp(1rem,2vw,1.4rem)", color: T.amberLight, fontWeight: 700 }}>{s.value}</div>
-                      <div style={{ fontFamily: T.poppins, fontSize: 13, color: "rgba(255, 255, 255, 0.81)", marginTop: 4, lineHeight: 1.4 }}>{s.label}</div>
-                    </div>
-                  ))}
-                </div>
+            {/* WhatsApp CTA */}
+            <a href="https://wa.me/919540190334" target="_blank"
+              style={{
+                display: "flex", alignItems: "center", gap: 12,
+                background: "#25D366", borderRadius: 14, padding: "16px 20px",
+                textDecoration: "none", transition: "all 0.2s",
+                boxShadow: "0 4px 14px rgba(37,211,102,0.28)",
+              }}
+              onMouseEnter={e => e.currentTarget.style.filter = "brightness(1.07)"}
+              onMouseLeave={e => e.currentTarget.style.filter = "brightness(1)"}
+            >
+              <span style={{ fontSize: 28 }}>💬</span>
+              <div>
+                <div style={{ fontFamily: T.font, fontSize: 14, fontWeight: 700, color: "#fff" }}>Chat on WhatsApp</div>
+                <div style={{ fontFamily: T.font, fontSize: 12, color: "rgba(255,255,255,0.82)" }}>We reply instantly during business hours</div>
               </div>
-            </div>
-          </div>
-        </div>
-      </section>
+            </a>
 
-      {/* ══════════════════════════════════════
-          FAQs — BIS-style split layout
-      ══════════════════════════════════════ */}
-      <section className="sec" style={{ background: T.white }}>
-        <div className="inner">
-          <div className="faq-split-grid">
-
-            {/* Left — image panel (no overlay, no content, same as BIS) */}
-            <div style={{ position: "relative", minHeight: 250, overflow: "hidden" }}>
-              <img
-                src="/finalimages/faq10.jpg"
-                alt="Contact FAQ"
-                style={{
-                  position: "absolute", inset: 0,
-                  width: "100%", height: "100%",
-                  objectFit: "cover", objectPosition: "center 30%",
-                }}
-              />
-            </div>
-
-            {/* Right — accordion (same structure as BIS) */}
-            <div style={{ background: T.white, padding: "28px 24px", borderLeft: `1px solid ${T.border}` }}>
-              <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 10 }}>
-                <div style={{ width: 22, height: 1.5, background: T.teal }} />
-                <span style={{ fontFamily: T.poppins, fontSize: 10.5, fontWeight: 600, color: T.teal, letterSpacing: "0.13em", textTransform: "uppercase" }}>Frequently Asked</span>
-              </div>
-              <h3 style={{ fontFamily: T.poppins, fontSize: 35, fontWeight: 600, color: T.titleblue, marginBottom: 20 }}>Common Questions</h3>
-
-              <div ref={faqRef}>
-                {faqs.map((faq) => (
-                  <FaqItem key={faq.q} faq={faq} />
+            {/* Services quick list */}
+            <div style={{
+              background: T.white, borderRadius: 16, border: `1px solid ${T.border}`,
+              boxShadow: "0 2px 12px rgba(0,0,0,0.05)", padding: "22px 24px",
+            }}>
+              <h3 style={{ fontFamily: T.font, fontSize: 14, fontWeight: 700, color: T.slate, margin: "0 0 14px" }}>
+                Our Services
+              </h3>
+              <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
+                {["BIS/CRS", "WPC-ETA", "TEC/MTCTE", "BEE", "EPR", "LMPC", "CDSCO", "ISO"].map(s => (
+                  <span key={s} style={{
+                    fontFamily: T.font, fontSize: 11.5, fontWeight: 600,
+                    padding: "4px 11px", borderRadius: 20,
+                    background: T.cream, border: `1px solid ${T.border}`, color: T.teal,
+                  }}>{s}</span>
                 ))}
               </div>
             </div>
 
-          </div>
-        </div>
-      </section>
-
-      {/* ══════════════════════════════════════
-          CTA BAND
-      ══════════════════════════════════════ */}
-      <section
-        className="reveal"
-        ref={ctaRef}
-        style={{
-          background: T.ctaBand,
-          borderTop: `1px solid ${T.ctaBandBorder}`,
-          borderBottom: `1px solid ${T.ctaBandBorder}`,
-          padding: "80px clamp(16px,5vw,56px)",
-        }}
-      >
-        <div style={{ maxWidth: 1100, margin: "0 auto" }}>
-          <div className="cta-split">
-            <div>
-              <div className="sl-row" style={{ marginBottom: 20 }}><div className="sl-line" /><span className="sl-text">Start Today</span></div>
-              <h2 style={{ fontFamily: T.poppins, fontSize: "clamp(1.9rem,3.2vw,2.9rem)", color: T.titleblue, fontWeight: 700, lineHeight: 1.1, letterSpacing: "-0.01em", marginBottom: 14 }}>
-                Ready to Get Certified?
-              </h2>
-              <p style={{ fontFamily: T.poppins, color: T.para, fontSize: 16, lineHeight: 1.8 }}>
-                Free consultation. Clear timeline. Transparent pricing.<br />Our experts respond within 2 hours.
-              </p>
-            </div>
-            <div style={{ display: "flex", flexDirection: "column", gap: 12, flexShrink: 0 }}>
-              <a
-                href="#contact-form"
-                style={{
-                  padding: "14px 36px", fontFamily: T.sans, fontSize: 14, fontWeight: 600,
-                  letterSpacing: "0.02em", border: "none", borderRadius: 6, cursor: "pointer",
-                  background: T.orange, color: "#fff", whiteSpace: "nowrap",
-                  transition: "background 0.2s", display: "block", textAlign: "center",
-                }}
-                onMouseEnter={e => e.currentTarget.style.background = T.teal}
-                onMouseLeave={e => e.currentTarget.style.background = T.orange}
-              >Get Free Consultation</a>
-              <a
-                href="tel:+919540190334"
-                style={{
-                  padding: "13px 28px", border: `1.5px solid ${T.border}`,
-                  borderRadius: 6, fontFamily: T.sans, fontSize: 14, fontWeight: 500,
-                  color: T.slate, display: "flex", alignItems: "center",
-                  justifyContent: "center", gap: 8, whiteSpace: "nowrap",
-                  background: T.white, transition: "border-color 0.2s",
-                }}
-                onMouseEnter={e => e.currentTarget.style.borderColor = T.teal}
-                onMouseLeave={e => e.currentTarget.style.borderColor = T.border}
-              >📞 +91-9891229135</a>
+            {/* Trust badges */}
+            <div style={{
+              background: `linear-gradient(135deg,${T.titleblue},${T.teal})`,
+              borderRadius: 14, padding: "18px 20px",
+            }}>
+              {[
+                { icon: "✅", text: "98% Success Rate" },
+                { icon: "⚡", text: "Free Initial Consultation" },
+                { icon: "🔒", text: "100% Confidential" },
+                { icon: "🎯", text: "End-to-End Service" },
+              ].map(b => (
+                <div key={b.text} style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 10 }}>
+                  <span style={{ fontSize: 16 }}>{b.icon}</span>
+                  <span style={{ fontFamily: T.font, fontSize: 13, fontWeight: 500, color: "#fff" }}>{b.text}</span>
+                </div>
+              ))}
+              <div style={{ borderTop: "1px solid rgba(255,255,255,0.2)", paddingTop: 12, marginTop: 4 }}>
+                <div style={{ fontFamily: T.font, fontSize: 11, color: "rgba(255,255,255,0.65)", textAlign: "center" }}>
+                  Trusted by 1,000+ businesses across India
+                </div>
+              </div>
             </div>
           </div>
         </div>
-      </section>
+      </div>
 
       <Footer />
     </div>
