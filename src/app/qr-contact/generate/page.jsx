@@ -113,7 +113,6 @@ export default function QRGeneratePage() {
 
                 {/* Page title */}
                 <div style={{ textAlign: "center", marginBottom: 24 }}>
-                    <div style={{ fontSize: 38, marginBottom: 8 }}>📲</div>
                     <h1 style={{ fontFamily: T.font, fontSize: 22, fontWeight: 800, color: T.slate, marginBottom: 6 }}>
                         SIACC Contact QR Code
                     </h1>
