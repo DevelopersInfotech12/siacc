@@ -3,7 +3,7 @@ import Navbar from "@/app/Components/Navbar";
 import { useEffect, useRef, useState } from "react";
 
 // ── Change this to your live domain when deploying ───────────
-const QR_URL = "https://siacc.in/qr-contact";
+const QR_URL = "https://siacc.co.in/qr-contact";
 // ─────────────────────────────────────────────────────────────
 
 // Minimal QR data matrix encoder (no external lib, no DOM conflicts)
