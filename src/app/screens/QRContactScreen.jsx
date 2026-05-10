@@ -212,7 +212,7 @@ export default function QRContactScreen() {
                 Star India Accreditation (SIACC)
               </div>
               <div style={{ fontFamily: T.font, fontSize: 12, color: T.muted }}>
-                98% Success Rate · 1,000+ Businesses Certified
+                0% Failure Rate  ·  1,000+ Businesses Certified
               </div>
             </div>
           </div>
@@ -281,7 +281,7 @@ export default function QRContactScreen() {
                   </div>
                   <div style={{ fontFamily: T.font, fontSize: 12, color: "#EF4444", marginTop: 2 }}>
                     {errorMsg}&nbsp;·&nbsp;
-                    <a href="tel:+919540190334" style={{ color: "#DC2626", fontWeight: 600 }}>
+                    <a href="tel:+919891229135" style={{ color: "#DC2626", fontWeight: 600 }}>
                       Call us directly →
                     </a>
                   </div>
@@ -326,7 +326,7 @@ export default function QRContactScreen() {
 
         {/* Bottom contact strip */}
         <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12, marginTop: 16 }}>
-          <a href="tel:+919540190334"
+          <a href="tel:+919891229135"
             style={{
               display: "flex", alignItems: "center", gap: 10,
               padding: "14px 16px", borderRadius: 12,
@@ -340,7 +340,7 @@ export default function QRContactScreen() {
             <span style={{ fontSize: 20 }}>📞</span>
             <div>
               <div style={{ fontFamily: T.font, fontSize: 11, color: T.muted, fontWeight: 500 }}>CALL US</div>
-              <div style={{ fontFamily: T.font, fontSize: 13, color: T.slate, fontWeight: 600 }}>+91-9540190334</div>
+              <div style={{ fontFamily: T.font, fontSize: 13, color: T.slate, fontWeight: 600 }}>+91-9891229135</div>
             </div>
           </a>
           <a href="https://wa.me/919540190334" target="_blank"

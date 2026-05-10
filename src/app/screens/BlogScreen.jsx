@@ -29,8 +29,9 @@ const T = {
   ctaBandBorder: "#C8DFF0",
   orange: "#F97316",
   orangeDark: "#EA6A0A",
-  serif: "'Cormorant Garamond', 'Georgia', serif",
-  sans: "'Outfit', 'system-ui', sans-serif",
+  poppins: "'Cormorant Garamond', 'Georgia', poppins",
+  poppins: "'Outfit', 'system-ui', poppins-poppins",
+  poppins:"'Poppins','system-ui',poppins-poppins",
 };
 
 function useReveal(opts = {}) {
@@ -109,7 +110,7 @@ export default function BlogScreen() {
   const newsletterRef = useReveal();
 
   return (
-    <div style={{ minHeight: "100vh", backgroundColor: T.white, fontFamily: T.sans, color: T.body }}>
+    <div style={{ minHeight: "100vh", backgroundColor: T.white, fontFamily: T.poppins, color: T.body }}>
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Outfit:wght@300;400;500;600;700&display=swap');
         *, *::before, *::after { box-sizing:border-box; margin:0; padding:0; }
@@ -127,7 +128,7 @@ export default function BlogScreen() {
           border:1px solid rgba(255,255,255,0.16);
           backdrop-filter:blur(6px);
           border-radius:6px; padding:9px 16px;
-          font-family:${T.sans}; font-size:12.5px; font-weight:500;
+          font-family:${T.poppins}; font-size:12.5px; font-weight:500;
           color:rgba(255,255,255,0.90);
           transition:background 0.2s, border-color 0.2s, transform 0.2s;
         }
@@ -155,7 +156,7 @@ export default function BlogScreen() {
         .cat-btn {
           padding:7px 16px; border-radius:999px; font-size:13px; font-weight:500;
           border:1.5px solid ${T.border}; background:transparent; color:${T.muted};
-          cursor:pointer; white-space:nowrap; font-family:${T.sans}; transition:all 0.2s; flex-shrink:0;
+          cursor:pointer; white-space:nowrap; font-family:${T.poppins}; transition:all 0.2s; flex-shrink:0;
         }
         .cat-btn:hover { border-color:${T.teal}; color:${T.teal}; }
         .cat-btn.active { background:${T.teal}; border-color:${T.teal}; color:#fff; }
@@ -198,7 +199,7 @@ export default function BlogScreen() {
         .section-label-row { display:flex; align-items:center; gap:12px; margin-bottom:16px; }
         .section-label-line { width:28px; height:1.5px; background:${T.teal}; }
         .section-label-text {
-          font-family:${T.sans}; font-size:11px; font-weight:600;
+          font-family:${T.poppins}; font-size:11px; font-weight:600;
           letter-spacing:0.15em; text-transform:uppercase; color:${T.teal};
         }
 
@@ -207,7 +208,7 @@ export default function BlogScreen() {
 
         .sl-row { display:flex; align-items:center; gap:12px; margin-bottom:16px; }
         .sl-line { width:28px; height:1.5px; background:${T.teal}; flex-shrink:0; }
-        .sl-text { font-family:${T.sans}; font-size:11px; font-weight:600; letter-spacing:0.15em; text-transform:uppercase; color:${T.teal}; }
+        .sl-text { font-family:${T.poppins}; font-size:11px; font-weight:600; letter-spacing:0.15em; text-transform:uppercase; color:${T.teal}; }
       `}</style>
 
       <Navbar />
@@ -265,7 +266,7 @@ export default function BlogScreen() {
                 animation: "pulse-dot 2s ease-in-out infinite",
               }} />
               <span style={{
-                fontFamily: T.sans, fontSize: 10.5, fontWeight: 700,
+                fontFamily: T.poppins, fontSize: 10.5, fontWeight: 700,
                 color: "#fff", letterSpacing: "0.14em", textTransform: "uppercase",
               }}>
                 Compliance Insights — Updated Weekly
@@ -274,8 +275,8 @@ export default function BlogScreen() {
 
             {/* Heading */}
             <h1 style={{
-              fontFamily: T.serif,
-              fontSize: "clamp(2.6rem,5.2vw,4.2rem)",
+              fontFamily: T.poppins,
+              fontSize: 55,
               fontWeight: 700, lineHeight: 1.04,
               marginBottom: 20, letterSpacing: "-0.01em",
               color: "#fff", maxWidth: 640,
@@ -332,36 +333,36 @@ export default function BlogScreen() {
                 <div style={{ position: "absolute", top: 16, left: 16 }}>
                   <span style={{
                     fontSize: 10, fontWeight: 800, backgroundColor: T.amber, color: "#fff",
-                    padding: "4px 14px", borderRadius: 3, letterSpacing: "0.06em", fontFamily: T.sans,
+                    padding: "4px 14px", borderRadius: 3, letterSpacing: "0.06em", fontFamily: T.poppins,
                   }}>FEATURED</span>
                 </div>
               </div>
               <div className="featured-content">
                 <div style={{ display: "flex", gap: 10, marginBottom: 14, alignItems: "center", flexWrap: "wrap" }}>
                   <span style={{
-                    fontFamily: T.sans, fontSize: 10, fontWeight: 700,
+                    fontFamily: T.poppins, fontSize: 10, fontWeight: 700,
                     backgroundColor: T.amberLight, color: T.amberDark,
                     padding: "3px 12px", borderRadius: 3,
                   }}>{featured.tag}</span>
-                  <span style={{ fontSize: 12, color: T.muted, fontFamily: T.sans }}>{featured.date}</span>
+                  <span style={{ fontSize: 12, color: T.muted, fontFamily: T.poppins }}>{featured.date}</span>
                 </div>
                 <h2 style={{
-                  fontFamily: T.serif, fontSize: "clamp(1.1rem,2vw,1.6rem)",
+                  fontFamily: T.poppins, fontSize: "clamp(1.1rem,2vw,1.6rem)",
                   color: T.slate, marginBottom: 12, fontWeight: 700, lineHeight: 1.3,
                 }}>{featured.title}</h2>
-                <p style={{ fontFamily: T.sans, fontSize: 15, color: T.muted, lineHeight: 1.75, marginBottom: 20, textAlign: "justify" }}>{featured.excerpt}</p>
+                <p style={{ fontFamily: T.poppins, fontSize: 15, color: T.muted, lineHeight: 1.75, marginBottom: 20, textAlign: "justify" }}>{featured.excerpt}</p>
                 <div style={{ display: "flex", gap: 16, alignItems: "center", flexWrap: "wrap" }}>
                   <button style={{
                     padding: "10px 22px", backgroundColor: T.orange, color: "#fff",
                     fontWeight: 600, borderRadius: 6, border: "none", fontSize: 13,
-                    cursor: "pointer", fontFamily: T.sans,
+                    cursor: "pointer", fontFamily: T.poppins,
                     boxShadow: "0 4px 12px rgba(249,115,22,0.35)",
                     transition: "background 0.2s",
                   }}
                     onMouseEnter={e => e.currentTarget.style.background = T.teal}
                     onMouseLeave={e => e.currentTarget.style.background = T.orange}
                   >Read Full Article →</button>
-                  <span style={{ fontSize: 12, color: T.subtle, fontFamily: T.sans }}>⏱ {featured.readTime}</span>
+                  <span style={{ fontSize: 12, color: T.subtle, fontFamily: T.poppins }}>⏱ {featured.readTime}</span>
                 </div>
               </div>
             </div>
@@ -374,7 +375,7 @@ export default function BlogScreen() {
               <span className="section-label-text">{activeCategory === "All" ? "Latest Articles" : `${activeCategory} Articles`}</span>
             </div>
             <h2 style={{
-              fontFamily: T.serif, fontSize: "clamp(1.3rem,2.5vw,2rem)",
+              fontFamily: T.poppins, fontSize: "clamp(1.3rem,2.5vw,2rem)",
               color: T.titleblue, fontWeight: 700, letterSpacing: "-0.01em",
             }}>
               {activeCategory === "All" ? "All Compliance Guides" : `${activeCategory} Compliance Guides`}
@@ -402,24 +403,24 @@ export default function BlogScreen() {
                         fontSize: 10, fontWeight: 700,
                         backgroundColor: tc.bg, color: tc.text,
                         padding: "4px 12px", borderRadius: 3,
-                        fontFamily: T.sans, letterSpacing: "0.06em",
+                        fontFamily: T.poppins, letterSpacing: "0.06em",
                       }}>{post.tag}</span>
                     </div>
                   </div>
                   <div style={{ padding: "20px 22px", flex: 1, display: "flex", flexDirection: "column" }}>
-                    <div style={{ fontFamily: T.sans, fontSize: 11, color: T.subtle, marginBottom: 8 }}>{post.date}</div>
+                    <div style={{ fontFamily: T.poppins, fontSize: 11, color: T.subtle, marginBottom: 8 }}>{post.date}</div>
                     <h3 style={{
-                      fontFamily: T.serif, fontSize: 16, color: T.slate,
+                      fontFamily: T.poppins, fontSize: 16, color: T.slate,
                       marginBottom: 8, fontWeight: 600, lineHeight: 1.35, flex: 1,
                     }}>{post.title}</h3>
-                    <p style={{ fontFamily: T.sans, fontSize: 14, color: T.muted, lineHeight: 1.7, marginBottom: 14 }}>{post.excerpt}</p>
+                    <p style={{ fontFamily: T.poppins, fontSize: 14, color: T.muted, lineHeight: 1.7, marginBottom: 14 }}>{post.excerpt}</p>
                     <div style={{
                       display: "flex", justifyContent: "space-between", alignItems: "center",
                       paddingTop: 12, borderTop: `1px solid ${T.border}`,
                     }}>
-                      <span style={{ fontFamily: T.sans, fontSize: 12, color: T.subtle }}>⏱ {post.readTime}</span>
+                      <span style={{ fontFamily: T.poppins, fontSize: 12, color: T.subtle }}>⏱ {post.readTime}</span>
                       <button style={{
-                        fontFamily: T.sans, fontSize: 12.5, color: T.orange,
+                        fontFamily: T.poppins, fontSize: 12.5, color: T.orange,
                         fontWeight: 600, background: "none", border: "none", cursor: "pointer",
                         letterSpacing: "0.02em",
                       }}>Read More →</button>
@@ -436,7 +437,7 @@ export default function BlogScreen() {
               style={{
                 padding: "13px 40px", border: `1.5px solid ${T.border}`,
                 color: "#fff", borderRadius: 6, background: T.orange,
-                fontFamily: T.sans, fontSize: 13.5, fontWeight: 600, cursor: "pointer",
+                fontFamily: T.poppins, fontSize: 13.5, fontWeight: 600, cursor: "pointer",
                 transition: "all 0.22s",
               }}
               onMouseEnter={e => { e.currentTarget.style.borderColor = T.teal; e.currentTarget.style.color = T.teal; e.currentTarget.style.background = T.tealLight; }}
@@ -464,17 +465,17 @@ export default function BlogScreen() {
           <div style={{ display: "flex", justifyContent: "center", marginBottom: 20 }}>
             <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
               <div style={{ width: 28, height: 1.5, background: T.teal }} />
-              <span style={{ fontFamily: T.sans, fontSize: 11, fontWeight: 600, letterSpacing: "0.14em", textTransform: "uppercase", color: T.teal }}>Stay Informed</span>
+              <span style={{ fontFamily: T.poppins, fontSize: 11, fontWeight: 600, letterSpacing: "0.14em", textTransform: "uppercase", color: T.teal }}>Stay Informed</span>
               <div style={{ width: 28, height: 1.5, background: T.teal }} />
             </div>
           </div>
           <h2 style={{
-            fontFamily: T.serif, fontSize: "clamp(1.4rem,3vw,2.2rem)",
+            fontFamily: T.poppins, fontSize: "clamp(1.4rem,3vw,2.2rem)",
             color: T.titleblue, marginBottom: 12, fontWeight: 700, letterSpacing: "-0.01em", lineHeight: 1.1,
           }}>
             Get Regulatory Updates<br />in Your Inbox
           </h2>
-          <p style={{ fontFamily: T.sans, fontSize: "clamp(13px,2vw,14.5px)", color: T.muted, marginBottom: 32, lineHeight: 1.8 }}>
+          <p style={{ fontFamily: T.poppins, fontSize: "clamp(13px,2vw,14.5px)", color: T.muted, marginBottom: 32, lineHeight: 1.8 }}>
             New QCO notifications, BIS updates, EPR changes — delivered weekly.<br />No spam, ever.
           </p>
           <div className="newsletter-input-row">
@@ -483,7 +484,7 @@ export default function BlogScreen() {
               style={{
                 flex: 1, padding: "13px 16px",
                 border: `1.5px solid ${T.border}`, borderRadius: 6,
-                fontFamily: T.sans, fontSize: 14, outline: "none",
+                fontFamily: T.poppins, fontSize: 14, outline: "none",
                 background: T.white, color: T.body, minWidth: 0,
                 transition: "border-color 0.2s",
               }}
@@ -494,7 +495,7 @@ export default function BlogScreen() {
               style={{
                 padding: "13px 22px", backgroundColor: T.orange, color: "#fff",
                 fontWeight: 600, borderRadius: 6, border: "none",
-                fontFamily: T.sans, fontSize: 14, cursor: "pointer",
+                fontFamily: T.poppins, fontSize: 14, cursor: "pointer",
                 whiteSpace: "nowrap", transition: "background 0.2s",
                 boxShadow: "0 4px 14px rgba(249,115,22,0.30)",
               }}
@@ -502,7 +503,7 @@ export default function BlogScreen() {
               onMouseLeave={e => e.currentTarget.style.background = T.orange}
             >Subscribe →</button>
           </div>
-          <p style={{ fontFamily: T.sans, fontSize: 12, color: T.subtle, marginTop: 14 }}>
+          <p style={{ fontFamily: T.poppins, fontSize: 12, color: T.subtle, marginTop: 14 }}>
             Join 5,000+ professionals. Unsubscribe anytime.
           </p>
         </div>

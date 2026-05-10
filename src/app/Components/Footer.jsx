@@ -191,7 +191,8 @@ export default function Footer() {
             <a href="mailto:info@siacc.co.in" className="f-link"
               style={{ display: "flex", alignItems: "center", gap: 10, fontFamily: T.sans, fontSize: 13, color: "rgba(255,255,255,0.60)", textDecoration: "none" }}>
               <Mail style={iconStyle} />
-              <span>info@siacc.co.in</span>
+              <span>✉ starindia.acc@gmail.com
+</span>
             </a>
             <div style={{ display: "flex", alignItems: "flex-start", gap: 10, fontFamily: T.sans, fontSize: 13, color: "rgba(255,255,255,0.55)" }}>
               <MapPin style={{ ...iconStyle, marginTop: 1 }} />

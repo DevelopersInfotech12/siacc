@@ -69,7 +69,6 @@ export default function Navbar() {
     return () => document.removeEventListener("mousedown", handleClick);
   }, []);
 
-  // Stop pulsing after 6 seconds
   useEffect(() => {
     const t = setTimeout(() => setAiPulse(false), 6000);
     return () => clearTimeout(t);
@@ -80,22 +79,43 @@ export default function Navbar() {
   return (
     <div style={{ fontFamily: C.sans, position: "sticky", top: 0, zIndex: 1000, margin: 0, padding: 0, lineHeight: 0 }}>
       <style>{`
-        .desktop-top-bar, .desktop-nav, .desktop-cta { }
         .mobile-burger { display: none !important; }
         .social-icon { transition: color 0.2s, opacity 0.2s; }
         .social-icon:hover { opacity: 0.7; }
-        @media (max-width: 1024px) {
-          .desktop-top-bar { display: none !important; }
-          .desktop-nav { display: none !important; }
-          .desktop-cta { display: none !important; }
-          .mobile-burger { display: flex !important; }
+
+        /* ── Fixed AI FAB: mobile only ── */
+        .ai-fab-mobile {
+          display: none;
+          position: fixed;
+          bottom: 88px;
+          right: 14px;
+          z-index: 9999;
+          width: 52px;
+          height: 52px;
+          border-radius: 50%;
+          background: linear-gradient(135deg, #1E88C8, #0a6daa);
+          border: none;
+          cursor: pointer;
+          align-items: center;
+          justify-content: center;
+          box-shadow: 0 4px 18px rgba(30,136,200,0.5);
+          font-size: 22px;
+          animation: aiFloat 3s ease-in-out infinite;
+        }
+        .ai-fab-mobile:active {
+          transform: scale(0.93);
+        }
+
+        @keyframes aiFloat {
+          0%, 100% { transform: translateY(0); box-shadow: 0 4px 18px rgba(30,136,200,0.5); }
+          50%       { transform: translateY(-5px); box-shadow: 0 10px 28px rgba(30,136,200,0.65); }
         }
         @keyframes aiGlow {
           0%, 100% { box-shadow: 0 0 0 0 rgba(30,136,200,0.4); }
-          50% { box-shadow: 0 0 0 6px rgba(30,136,200,0); }
+          50%       { box-shadow: 0 0 0 6px rgba(30,136,200,0); }
         }
         @keyframes shimmer {
-          0% { background-position: -200% center; }
+          0%   { background-position: -200% center; }
           100% { background-position: 200% center; }
         }
         .ai-btn {
@@ -115,7 +135,25 @@ export default function Navbar() {
           background-size: 200% 100%;
           animation: shimmer 2.5s ease-in-out infinite;
         }
+
+        @media (max-width: 1024px) {
+          .desktop-top-bar { display: none !important; }
+          .desktop-nav     { display: none !important; }
+          .desktop-cta     { display: none !important; }
+          .mobile-burger   { display: flex !important; }
+          .ai-fab-mobile   { display: flex !important; }
+        }
       `}</style>
+
+      {/* ── Fixed AI FAB (mobile only, above WhatsApp) ── */}
+      <button
+        className="ai-fab-mobile"
+        onClick={() => go("/ai-recommendation")}
+        aria-label="AI Recommendation"
+        title="AI Recommendation"
+      >
+        ✨
+      </button>
 
       {/* Top info bar */}
       <div className="desktop-top-bar" style={{ backgroundColor: "#EBF4FF", borderBottom: "1px solid #BFD7F5", fontSize: 13, padding: "7px 24px", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
@@ -137,7 +175,7 @@ export default function Navbar() {
 
       {/* Main nav */}
       <nav style={{ backgroundColor: C.white, borderBottom: `1px solid ${C.border}`, boxShadow: scrolled ? "0 4px 20px rgba(0,0,0,0.08)" : "none", transition: "box-shadow 0.3s ease" }}>
-        <div style={{  margin: "0 auto", padding: "0 24px", display: "flex", alignItems: "center", justifyContent: "space-between", height: 68 }}>
+        <div style={{ margin: "0 auto", padding: "0 24px", display: "flex", alignItems: "center", justifyContent: "space-between", height: 68 }}>
 
           {/* Logo */}
           <button onClick={() => go("/")} style={{ display: "flex", alignItems: "center", gap: 0, background: "none", border: "none", cursor: "pointer", flexShrink: 0, padding: 0 }}>
@@ -188,8 +226,6 @@ export default function Navbar() {
 
           {/* Desktop CTAs */}
           <div className="desktop-cta" style={{ display: "flex", gap: 10, alignItems: "center", flexShrink: 0 }}>
-
-            {/* ── AI Recommendation Button ── */}
             <button
               onClick={() => go("/ai-recommendation")}
               className="ai-btn"
@@ -203,8 +239,7 @@ export default function Navbar() {
                 animation: aiPulse ? "aiGlow 1.5s ease-in-out infinite" : "none",
               }}
             >
-              {/* <Sparkles size={14} style={{ flexShrink: 0 }} /> */}
-             ✨ AI Recommendation
+              ✨ AI Recommendation
             </button>
 
             <button onClick={() => go("/contact")}
@@ -226,7 +261,7 @@ export default function Navbar() {
       {mobileOpen && (
         <div style={{ backgroundColor: C.white, borderTop: `3px solid ${C.primary}`, padding: "16px 24px", boxShadow: "0 8px 24px rgba(0,0,0,0.08)" }}>
 
-          {/* ── AI Recommendation (Mobile) ── */}
+          {/* AI Recommendation (Mobile menu) */}
           <button onClick={() => go("/ai-recommendation")}
             style={{
               display: "flex", alignItems: "center", justifyContent: "center", gap: 8,
@@ -243,19 +278,33 @@ export default function Navbar() {
           {navLinks.map((link) =>
             link.hasDropdown ? (
               <div key={link.name} style={{ marginBottom: 4 }}>
-                <button onClick={() => setMobileServices(!mobileServices)}
-                  style={{ width: "100%", display: "flex", justifyContent: "space-between", alignItems: "center", padding: "12px 16px", fontSize: 14, fontWeight: 500, color: C.navy, background: "transparent", border: `1px solid ${C.border}`, borderRadius: 8, cursor: "pointer", fontFamily: C.sans, marginBottom: 4 }}>
+                <button
+                  onClick={() => setMobileServices(!mobileServices)}
+                  style={{
+                    width: "100%", display: "flex", justifyContent: "space-between", alignItems: "center",
+                    padding: "12px 16px", fontSize: 14, fontWeight: 500, color: C.navy,
+                    background: mobileServices ? C.primaryLight : "transparent",
+                    border: `1px solid ${C.border}`, borderRadius: 8, cursor: "pointer",
+                    fontFamily: C.sans, marginBottom: 4,
+                  }}>
                   {link.name}
                   <ChevronDown size={14} style={{ color: C.primary, transform: mobileServices ? "rotate(180deg)" : "rotate(0)", transition: "transform 0.2s" }} />
                 </button>
                 {mobileServices && (
-                  <div style={{ paddingLeft: 12 }}>
+                  <div style={{ paddingLeft: 12, marginBottom: 4, background: C.offWhite, borderRadius: 8, border: `1px solid ${C.border}` }}>
                     {serviceDropdown.map((d) => (
                       <button key={d.name} onClick={() => go(d.href)}
-                        style={{ display: "block", width: "100%", textAlign: "left", padding: "10px 16px", fontSize: 13, color: C.primary, background: "transparent", border: "none", cursor: "pointer", fontFamily: C.sans }}>
+                        style={{ display: "block", width: "100%", textAlign: "left", padding: "10px 16px", fontSize: 13, color: C.primary, background: "transparent", border: "none", borderBottom: `1px solid ${C.border}`, cursor: "pointer", fontFamily: C.sans }}
+                        onMouseEnter={(e) => e.currentTarget.style.color = C.primaryDark}
+                        onMouseLeave={(e) => e.currentTarget.style.color = C.primary}
+                      >
                         → {d.name}
                       </button>
                     ))}
+                    <button onClick={() => go("/services")}
+                      style={{ display: "block", width: "100%", textAlign: "left", padding: "10px 16px", fontSize: 12, fontWeight: 700, color: C.teal, background: "transparent", border: "none", cursor: "pointer", fontFamily: C.sans }}>
+                      View All Services →
+                    </button>
                   </div>
                 )}
               </div>
@@ -266,6 +315,7 @@ export default function Navbar() {
               </button>
             )
           )}
+
           <button onClick={() => go("/contact")}
             style={{ display: "block", width: "100%", marginTop: 12, padding: 13, fontSize: 14, fontWeight: 700, color: "#fff", backgroundColor: C.primary, borderRadius: 10, border: "none", cursor: "pointer", fontFamily: C.sans }}>
             Free Consultation

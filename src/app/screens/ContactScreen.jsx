@@ -296,8 +296,8 @@ export default function ContactScreen() {
               {[
                 { icon: "📞", label: "Call Us", value: "+91-9540190334", href: "tel:+919540190334" },
                 { icon: "📞", label: "Alternate", value: "+91-9891229135", href: "tel:+919891229135" },
-                { icon: "✉️", label: "Email", value: "info@siacc.in", href: "mailto:info@siacc.in" },
-                { icon: "✉️", label: "Alternate", value: "starindia.acc@gmail.com", href: "mailto:starindia.acc@gmail.com" },
+                { icon: "✉️", label: "Email", value: "starindia.acc@gmail.com", href: "mailto:starindia.acc@gmail.com" },
+                { icon: "✉️", label: "Alternate", value: "info@siacc.co.in", href: "mailto:info@siacc.co.in" },
                 { icon: "🕐", label: "Hours", value: "Mon–Sat: 9:00 AM – 6:00 PM", href: null },
               ].map((item, i) => (
                 <div key={i} style={{
@@ -365,7 +365,7 @@ export default function ContactScreen() {
               borderRadius: 14, padding: "18px 20px",
             }}>
               {[
-                { icon: "✅", text: "98% Success Rate" },
+                { icon: "✅", text: "0% Failure Rate" },
                 { icon: "⚡", text: "Free Initial Consultation" },
                 { icon: "🔒", text: "100% Confidential" },
                 { icon: "🎯", text: "End-to-End Service" },

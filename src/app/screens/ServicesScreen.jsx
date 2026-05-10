@@ -135,13 +135,6 @@ const process = [
   { step: "04", title: "Follow-up", desc: "We actively track and respond to queries until your certificate is issued.", icon: "🎓" },
 ];
 
-const stats = [
-  { v: "9+", l: "Services Offered" },
-  { v: "15+", l: "Regulatory Bodies" },
-  { v: "10K+", l: "Clients Served" },
-  { v: "0%", l: "Failure Rate" },
-];
-
 export default function ServicesScreen() {
   const router = useRouter();
 
@@ -149,26 +142,207 @@ export default function ServicesScreen() {
     <div style={{ minHeight: "100vh", backgroundColor: C.white, fontFamily: C.sans, color: C.bodyText }}>
       <style>{`
         * { box-sizing: border-box; }
-        .stats-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:0; }
-        @media(max-width:640px) { .stats-grid { grid-template-columns:repeat(2,1fr); } }
-        .svc-items { display:grid; grid-template-columns:repeat(auto-fill,minmax(200px,1fr)); gap:10px; padding:24px 32px; }
-        @media(max-width:600px) { .svc-items { grid-template-columns:1fr; } }
-        .steps-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:24px; }
-        .sec-pad { padding:88px 24px; }
-        @media(max-width:768px) { .sec-pad { padding:56px 16px !important; } }
-        .section-label { font-size:11px; font-weight:700; letter-spacing:.12em; text-transform:uppercase; color:#F97316; margin-bottom:12px; display:block; }
-        .cat-card { background:#fff; border-radius:20px; border:1.5px solid #E5E7EB; overflow:hidden; transition:box-shadow 0.25s; }
-        .cat-card:hover { box-shadow:0 12px 40px rgba(249,115,22,0.10); border-color:#F97316; }
-        .svc-item { display:flex; align-items:center; justify-content:space-between; padding:10px 14px; border-radius:10px; border:1.5px solid #F3F4F6; background:#F9FAFB; text-decoration:none; cursor:pointer; transition:all 0.2s; }
-        .svc-item:hover { border-color:#F97316; background:#FFF3E8; }
-        .step-card { background:#fff; border-radius:16px; padding:28px 24px; border:1.5px solid #E5E7EB; text-align:center; transition:all 0.2s; }
-        .step-card:hover { border-color:#F97316; box-shadow:0 8px 24px rgba(249,115,22,0.10); }
+
+        /* ── Hero ── */
+        .hero-grid {
+          display: grid;
+          grid-template-columns: 1fr 360px;
+          gap: 48px;
+          align-items: center;
+        }
+        @media (max-width: 900px) {
+          .hero-grid {
+            grid-template-columns: 1fr;
+            gap: 32px;
+          }
+        }
+
+        .hero-badges {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 10px;
+        }
+
+        .hero-section {
+          position: relative;
+          min-height: 72vh;
+          display: flex;
+          align-items: center;
+          overflow: hidden;
+        }
+        @media (max-width: 768px) {
+          .hero-section { min-height: auto; }
+        }
+
+        .hero-inner {
+          max-width: 1280px;
+          margin: 0 auto;
+          padding: 80px 40px;
+          width: 100%;
+          position: relative;
+          z-index: 2;
+        }
+        @media (max-width: 768px) {
+          .hero-inner { padding: 64px 20px; }
+        }
+        @media (max-width: 480px) {
+          .hero-inner { padding: 48px 16px; }
+        }
+
+        /* ── Category cards ── */
+        .cat-header {
+          background-color: var(--accent-bg);
+          padding: 24px 32px;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          flex-wrap: wrap;
+          gap: 16px;
+          border-bottom: 1.5px solid var(--accent-border);
+        }
+        @media (max-width: 768px) {
+          .cat-header { padding: 20px 20px; flex-direction: column; align-items: flex-start; }
+        }
+
+        .cat-header-right {
+          display: flex;
+          align-items: center;
+          gap: 20px;
+          flex-wrap: wrap;
+        }
+        @media (max-width: 768px) {
+          .cat-header-right { width: 100%; flex-direction: column; align-items: flex-start; gap: 12px; }
+          .cat-header-right button { width: 100%; }
+        }
+
+        .svc-items {
+          display: grid;
+          grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+          gap: 10px;
+          padding: 24px 32px;
+        }
+        @media (max-width: 768px) {
+          .svc-items { padding: 16px 20px; grid-template-columns: repeat(2, 1fr); }
+        }
+        @media (max-width: 480px) {
+          .svc-items { grid-template-columns: 1fr; }
+        }
+
+        /* ── Steps ── */
+        .steps-grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+          gap: 24px;
+        }
+        @media (max-width: 600px) {
+          .steps-grid { grid-template-columns: repeat(2, 1fr); gap: 16px; }
+        }
+        @media (max-width: 380px) {
+          .steps-grid { grid-template-columns: 1fr; }
+        }
+
+        /* ── Process banner ── */
+        .process-banner {
+          position: relative;
+          border-radius: 20px;
+          overflow: hidden;
+          margin-bottom: 40px;
+          height: 200px;
+        }
+        @media (max-width: 600px) {
+          .process-banner { height: 150px; border-radius: 14px; }
+        }
+
+        .process-banner-text {
+          position: absolute;
+          inset: 0;
+          display: flex;
+          align-items: center;
+          padding: 0 48px;
+        }
+        @media (max-width: 600px) {
+          .process-banner-text { padding: 0 24px; }
+        }
+
+        /* ── Shared section padding ── */
+        .sec-pad { padding: 88px 24px; }
+        @media (max-width: 768px) { .sec-pad { padding: 56px 16px; } }
+        @media (max-width: 480px) { .sec-pad { padding: 40px 12px; } }
+
+        /* ── Shared ── */
+        .section-label {
+          font-size: 11px; font-weight: 700; letter-spacing: .12em;
+          text-transform: uppercase; color: #F97316;
+          margin-bottom: 12px; display: block;
+        }
+
+        .cat-card {
+          background: #fff; border-radius: 20px;
+          border: 1.5px solid #E5E7EB; overflow: hidden;
+          transition: box-shadow 0.25s;
+        }
+        .cat-card:hover { box-shadow: 0 12px 40px rgba(249,115,22,0.10); border-color: #F97316; }
+
+        .svc-item {
+          display: flex; align-items: center; justify-content: space-between;
+          padding: 10px 14px; border-radius: 10px;
+          border: 1.5px solid #F3F4F6; background: #F9FAFB;
+          text-decoration: none; cursor: pointer; transition: all 0.2s;
+          width: 100%; font-family: inherit; text-align: left;
+        }
+        .svc-item:hover { border-color: #F97316; background: #FFF3E8; }
+
+        .step-card {
+          background: #fff; border-radius: 16px; padding: 28px 24px;
+          border: 1.5px solid #E5E7EB; text-align: center; transition: all 0.2s;
+          position: relative;
+        }
+        .step-card:hover { border-color: #F97316; box-shadow: 0 8px 24px rgba(249,115,22,0.10); }
+        @media (max-width: 600px) {
+          .step-card { padding: 20px 16px; }
+        }
+
+        /* Step connector lines — hide on small screens */
+        .step-connector {
+          position: absolute; top: 44px; right: -12px;
+          width: 24px; height: 2px; background: #F97316; z-index: 1;
+        }
+        @media (max-width: 600px) { .step-connector { display: none; } }
+
+        /* ── CTA ── */
+        .cta-buttons {
+          display: flex; flex-wrap: wrap;
+          justify-content: center; gap: 16px;
+        }
+        @media (max-width: 480px) {
+          .cta-buttons { flex-direction: column; align-items: stretch; }
+          .cta-buttons > * { text-align: center; justify-content: center; }
+        }
+
+        /* ── Frosted info card ── */
+        .info-card {
+          background: rgba(255,255,255,0.07);
+          border-radius: 20px; padding: 28px;
+          border: 1px solid rgba(255,255,255,0.15);
+          backdrop-filter: blur(10px);
+        }
+        @media (max-width: 900px) {
+          .info-card { padding: 24px 20px; }
+        }
+
+        /* ── Cat title area ── */
+        .cat-title-group {
+          display: flex; align-items: center; gap: 16px;
+        }
+        @media (max-width: 480px) {
+          .cat-title-group { gap: 12px; }
+        }
       `}</style>
 
       <Navbar />
 
-      {/* ── HERO — BIS style: full bleed image + frosted info card ── */}
-      <section style={{ position: "relative", minHeight: "72vh", display: "flex", alignItems: "center", overflow: "hidden" }}>
+      {/* ── HERO ── */}
+      <section className="hero-section">
         <img
           src="https://images.unsplash.com/photo-1556761175-5973dc0f32e7?w=1800&q=85&fit=crop"
           alt="Compliance services India"
@@ -176,23 +350,21 @@ export default function ServicesScreen() {
         />
         <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to right, rgba(12,35,64,0.90) 55%, rgba(12,35,64,0.55) 100%)" }} />
 
-        <div style={{ maxWidth: 1280, margin: "0 auto", padding: "80px 40px", width: "100%", position: "relative", zIndex: 2 }}>
-
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 360px", gap: 48, alignItems: "center" }}>
+        <div className="hero-inner">
+          <div className="hero-grid">
             {/* Left */}
             <div>
               <div style={{ display: "inline-flex", alignItems: "center", gap: 8, background: "rgba(249,115,22,0.2)", border: "1px solid rgba(249,115,22,0.4)", borderRadius: 999, padding: "6px 16px", marginBottom: 20 }}>
                 <span style={{ width: 7, height: 7, borderRadius: "50%", backgroundColor: C.primary, display: "inline-block" }} />
                 <span style={{ color: C.primary, fontSize: 11, fontWeight: 600, letterSpacing: "0.06em" }}>What We Offer</span>
               </div>
-              <h1 style={{ fontFamily: C.serif, fontSize: "clamp(2rem,4vw,3.4rem)", color: "#fff", margin: "0 0 20px", fontWeight: 800, lineHeight: 1.15 }}>
+              <h1 style={{ fontFamily: C.serif, fontSize: "clamp(1.75rem,4vw,3.4rem)", color: "#fff", margin: "0 0 20px", fontWeight: 800, lineHeight: 1.15 }}>
                 9 Certification &<br />Compliance Services
               </h1>
-              <p style={{ color: "rgba(255,255,255,0.78)", fontSize: 16, lineHeight: 1.8, maxWidth: 520, marginBottom: 32 }}>
+              <p style={{ color: "rgba(255,255,255,0.78)", fontSize: "clamp(14px,1.6vw,16px)", lineHeight: 1.8, maxWidth: 520, marginBottom: 32 }}>
                 End-to-end regulatory compliance solutions for manufacturers, importers, and brand owners. From BIS and EPR to ISO and CDSCO — we've got every certification covered.
               </p>
-              {/* Quick service badges */}
-              <div style={{ display: "flex", flexWrap: "wrap", gap: 10 }}>
+              <div className="hero-badges">
                 {categories.map(cat => (
                   <button key={cat.id} onClick={() => router.push(cat.href)}
                     style={{ display: "inline-flex", alignItems: "center", gap: 6, padding: "7px 16px", background: "rgba(255,255,255,0.10)", border: "1px solid rgba(255,255,255,0.2)", borderRadius: 999, color: "#fff", fontSize: 12, fontWeight: 500, cursor: "pointer", fontFamily: C.sans, backdropFilter: "blur(4px)" }}
@@ -205,8 +377,8 @@ export default function ServicesScreen() {
               </div>
             </div>
 
-            {/* Right — frosted info card (same as BISScreen) */}
-            <div style={{ background: "rgba(255,255,255,0.07)", borderRadius: 20, padding: 28, border: "1px solid rgba(255,255,255,0.15)", backdropFilter: "blur(10px)" }}>
+            {/* Right — frosted info card */}
+            <div className="info-card">
               <div style={{ fontSize: 11, fontWeight: 700, color: C.primary, letterSpacing: "0.1em", textTransform: "uppercase", marginBottom: 20 }}>Why Choose SIACC</div>
               {[
                 { label: "Services Offered", value: "50+" },
@@ -237,25 +409,28 @@ export default function ServicesScreen() {
         <div style={{ maxWidth: 1280, margin: "0 auto" }}>
           <div style={{ textAlign: "center", marginBottom: 56 }}>
             <span className="section-label">All Services</span>
-            <h2 style={{ fontFamily: C.serif, fontSize: "clamp(1.7rem,3vw,2.4rem)", color: C.navy, fontWeight: 800, marginBottom: 14 }}>Browse by Category</h2>
+            <h2 style={{ fontFamily: C.serif, fontSize: "clamp(1.5rem,3vw,2.4rem)", color: C.navy, fontWeight: 800, marginBottom: 14 }}>Browse by Category</h2>
             <p style={{ color: C.mutedText, maxWidth: 480, margin: "0 auto", lineHeight: 1.7, fontSize: 15 }}>Click any service to learn more about requirements, process, and timelines.</p>
           </div>
 
           <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
             {categories.map(cat => (
-              <div key={cat.id} className="cat-card">
+              <div key={cat.id} className="cat-card"
+                style={{ "--accent-bg": cat.accentBg, "--accent-border": cat.accentBorder }}>
                 {/* Header */}
-                <div style={{ backgroundColor: cat.accentBg, padding: "24px 32px", display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 16, borderBottom: `1.5px solid ${cat.accentBorder}` }}>
-                  <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
+                <div className="cat-header"
+                  style={{ backgroundColor: cat.accentBg, borderBottom: `1.5px solid ${cat.accentBorder}` }}>
+                  <div className="cat-title-group">
                     <div style={{ width: 56, height: 56, borderRadius: 14, backgroundColor: C.white, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 26, boxShadow: "0 2px 8px rgba(0,0,0,0.08)", flexShrink: 0 }}>
                       {cat.icon}
                     </div>
                     <div>
                       <div style={{ fontSize: 11, fontWeight: 700, color: cat.accentText, textTransform: "uppercase", letterSpacing: "0.08em", marginBottom: 4 }}>{cat.subtitle}</div>
-                      <h3 style={{ fontFamily: C.serif, fontSize: 21, color: C.navy, fontWeight: 800, margin: 0 }}>{cat.title}</h3>
+                      <h3 style={{ fontFamily: C.serif, fontSize: "clamp(16px,2vw,21px)", color: C.navy, fontWeight: 800, margin: 0 }}>{cat.title}</h3>
                     </div>
                   </div>
-                  <div style={{ display: "flex", alignItems: "center", gap: 20, flexWrap: "wrap" }}>
+
+                  <div className="cat-header-right">
                     <p style={{ fontSize: 13, color: C.mutedText, lineHeight: 1.65, margin: 0, maxWidth: 380 }}>{cat.desc}</p>
                     <button onClick={() => router.push(cat.href)}
                       style={{ display: "inline-block", padding: "10px 22px", backgroundColor: C.primary, color: C.white, borderRadius: 10, border: "none", fontSize: 13, fontWeight: 700, cursor: "pointer", fontFamily: C.sans, whiteSpace: "nowrap", boxShadow: "0 4px 12px rgba(249,115,22,0.3)" }}
@@ -286,34 +461,31 @@ export default function ServicesScreen() {
         </div>
       </section>
 
-      {/* ── PROCESS — image banner ── */}
+      {/* ── PROCESS ── */}
       <section className="sec-pad" style={{ background: C.white }}>
         <div style={{ maxWidth: 1280, margin: "0 auto" }}>
           <div style={{ textAlign: "center", marginBottom: 52 }}>
             <span className="section-label">How We Work</span>
-            <h2 style={{ fontFamily: C.serif, fontSize: "clamp(1.7rem,3vw,2.4rem)", color: C.navy, fontWeight: 800, marginBottom: 14 }}>Simple 4-Step Process</h2>
+            <h2 style={{ fontFamily: C.serif, fontSize: "clamp(1.5rem,3vw,2.4rem)", color: C.navy, fontWeight: 800, marginBottom: 14 }}>Simple 4-Step Process</h2>
             <p style={{ color: C.mutedText, maxWidth: 420, margin: "0 auto", lineHeight: 1.7, fontSize: 15 }}>From first enquiry to certificate delivery — we handle everything.</p>
           </div>
 
-          {/* Banner */}
-          <div style={{ position: "relative", borderRadius: 20, overflow: "hidden", marginBottom: 40, height: 200 }}>
+          <div className="process-banner">
             <img src="https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=1400&q=80&fit=crop" alt="Process"
               style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center 35%" }} />
             <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to right, rgba(12,35,64,0.88) 0%, rgba(12,35,64,0.4) 60%, transparent 100%)" }} />
-            <div style={{ position: "absolute", inset: 0, display: "flex", alignItems: "center", padding: "0 48px" }}>
+            <div className="process-banner-text">
               <div>
-                <div style={{ fontFamily: C.serif, fontSize: "clamp(1.3rem,2.5vw,1.8rem)", color: "#fff", fontWeight: 800, marginBottom: 8 }}>Your Certificate. Our Responsibility.</div>
-                <p style={{ color: "rgba(255,255,255,0.7)", fontSize: 14 }}>10,000+ certifications delivered across 50+ regulatory frameworks in India.</p>
+                <div style={{ fontFamily: C.serif, fontSize: "clamp(1.1rem,2.5vw,1.8rem)", color: "#fff", fontWeight: 800, marginBottom: 8 }}>Your Certificate. Our Responsibility.</div>
+                <p style={{ color: "rgba(255,255,255,0.7)", fontSize: "clamp(12px,1.4vw,14px)", margin: 0 }}>10,000+ certifications delivered across 50+ regulatory frameworks in India.</p>
               </div>
             </div>
           </div>
 
           <div className="steps-grid">
             {process.map((p, i) => (
-              <div key={p.step} className="step-card" style={{ position: "relative" }}>
-                {i < process.length - 1 && (
-                  <div style={{ position: "absolute", top: 44, right: -12, width: 24, height: 2, background: C.primary, zIndex: 1 }} />
-                )}
+              <div key={p.step} className="step-card">
+                {i < process.length - 1 && <div className="step-connector" />}
                 <div style={{ width: 56, height: 56, margin: "0 auto 16px", borderRadius: 16, backgroundColor: C.primaryLight, border: "2px solid #FED7AA", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 24 }}>{p.icon}</div>
                 <div style={{ fontSize: 11, fontWeight: 700, color: C.primary, letterSpacing: "0.1em", marginBottom: 8 }}>STEP {p.step}</div>
                 <h3 style={{ fontFamily: C.serif, fontSize: 17, color: C.navy, marginBottom: 10, fontWeight: 700 }}>{p.title}</h3>
@@ -324,21 +496,21 @@ export default function ServicesScreen() {
         </div>
       </section>
 
-      {/* ── CTA — orange gradient with image ── */}
+      {/* ── CTA ── */}
       <section style={{ position: "relative", padding: "80px 24px", overflow: "hidden" }}>
         <img src="https://images.unsplash.com/photo-1521737711867-e3b97375f902?w=1600&q=80&fit=crop" alt="CTA"
           style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }} />
         <div style={{ position: "absolute", inset: 0, background: "linear-gradient(135deg, rgba(249,115,22,0.93) 0%, rgba(234,88,12,0.88) 100%)" }} />
         <div style={{ maxWidth: 760, margin: "0 auto", textAlign: "center", position: "relative", zIndex: 1 }}>
-          <h2 style={{ fontFamily: C.serif, fontSize: "clamp(1.7rem,3vw,2.6rem)", color: "#fff", marginBottom: 16, fontWeight: 800 }}>Not Sure Which Certification You Need?</h2>
+          <h2 style={{ fontFamily: C.serif, fontSize: "clamp(1.5rem,3vw,2.6rem)", color: "#fff", marginBottom: 16, fontWeight: 800 }}>Not Sure Which Certification You Need?</h2>
           <p style={{ color: "rgba(255,255,255,0.88)", marginBottom: 36, lineHeight: 1.7, fontSize: 15 }}>Talk to our experts for free — we'll tell you exactly what's required for your product.</p>
-          <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "center", gap: 16 }}>
+          <div className="cta-buttons">
             <button onClick={() => router.push("/contact")}
               style={{ padding: "14px 36px", backgroundColor: "#fff", color: C.primary, fontWeight: 800, borderRadius: 12, border: "none", fontSize: 14, cursor: "pointer", fontFamily: C.sans, boxShadow: "0 6px 20px rgba(0,0,0,0.15)" }}>
               Get Free Consultation
             </button>
             <a href="tel:+919876543210"
-              style={{ padding: "14px 28px", border: "2px solid rgba(255,255,255,0.6)", color: "#fff", borderRadius: 12, textDecoration: "none", fontSize: 14, fontWeight: 600, display: "inline-flex", alignItems: "center", gap: 8 }}>
+              style={{ padding: "14px 28px", border: "2px solid rgba(255,255,255,0.6)", color: "#fff", borderRadius: 12, textDecoration: "none", fontSize: 14, fontWeight: 600, display: "inline-flex", alignItems: "center", justifyContent: "center", gap: 8 }}>
               📞 +91- 9540190334
             </a>
           </div>

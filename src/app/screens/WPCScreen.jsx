@@ -268,7 +268,7 @@ export default function WPCScreen() {
                 <div style={{ marginTop: 16, paddingTop: 16, borderTop: `1px solid ${T.border}`, display: "flex", flexDirection: "column", gap: 10 }}>
                   {[
                     { icon: "📞", label: "Call Us", value: "+91-9891229135", href: "tel:+919891229135" },
-                    { icon: "✉", label: "Email Us", value: "info@siacc.in", href: "mailto:info@siacc.in" },
+                    { icon: "✉", label: "Email Us", value: "starindia.acc@gmail.com", href: "mailto:starindia.acc@gmail.com" },
                   ].map(item => (
                     <a key={item.label} href={item.href} style={{ display: "flex", alignItems: "center", gap: 10, textDecoration: "none" }}>
                       <div style={{ width: 36, height: 36, borderRadius: 7, backgroundColor: T.tealLight, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 15, flexShrink: 0 }}>{item.icon}</div>

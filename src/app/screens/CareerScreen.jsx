@@ -29,9 +29,9 @@ const T = {
   ctaBandBorder: "#C8DFF0",
   orange: "#F97316",
   orangeDark: "#EA6A0A",
-  serif: "'Cormorant Garamond', 'Georgia', serif",
-  sans: "'Outfit', 'system-ui', sans-serif",
-  poppins: "'Poppins', 'system-ui', sans-serif",
+  poppins: "'Cormorant Garamond', 'Georgia', poppins",
+  poppins: "'Outfit', 'system-ui', poppins-poppins",
+  poppins: "'Poppins', 'system-ui', poppins-poppins",
 };
 
 function useReveal(opts = {}) {
@@ -111,7 +111,7 @@ export default function CareerScreen() {
   const ctaRef = useReveal();
 
   return (
-    <div style={{ minHeight: "100vh", backgroundColor: T.white, fontFamily: T.sans, color: T.body }}>
+    <div style={{ minHeight: "100vh", backgroundColor: T.white, fontFamily: T.poppins, color: T.body }}>
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Outfit:wght@300;400;500;600;700&family=Poppins:wght@400;500;600;700;800&display=swap');
         *, *::before, *::after { box-sizing:border-box; margin:0; padding:0; }
@@ -120,7 +120,7 @@ export default function CareerScreen() {
 
         .sl-row { display:flex; align-items:center; gap:12px; margin-bottom:16px; }
         .sl-line { width:28px; height:1.5px; background:${T.teal}; flex-shrink:0; }
-        .sl-text { font-family:${T.sans}; font-size:11px; font-weight:600; letter-spacing:0.15em; text-transform:uppercase; color:${T.teal}; }
+        .sl-text { font-family:${T.poppins}; font-size:11px; font-weight:600; letter-spacing:0.15em; text-transform:uppercase; color:${T.teal}; }
 
         @keyframes pulse-dot {
           0%,100% { opacity:1; transform:scale(1); }
@@ -133,7 +133,7 @@ export default function CareerScreen() {
           border:1px solid rgba(255,255,255,0.16);
           backdrop-filter:blur(6px);
           border-radius:6px; padding:9px 16px;
-          font-family:${T.sans}; font-size:12.5px; font-weight:500;
+          font-family:${T.poppins}; font-size:12.5px; font-weight:500;
           color:rgba(255,255,255,0.90);
           transition:background 0.2s, border-color 0.2s, transform 0.2s;
         }
@@ -193,7 +193,7 @@ export default function CareerScreen() {
           <div ref={heroLeftRef} className="reveal-left">
             <div style={{ display: "inline-flex", alignItems: "center", gap: 8, background: "rgba(255,255,255,0.10)", border: "1px solid rgba(255,255,255,0.20)", backdropFilter: "blur(8px)", borderRadius: 4, padding: "6px 16px", marginBottom: 22 }}>
               <span style={{ width: 7, height: 7, borderRadius: "50%", background: "#4ade80", boxShadow: "0 0 6px rgba(74,222,128,0.8)", display: "inline-block", animation: "pulse-dot 2s ease-in-out infinite" }} />
-              <span style={{ fontFamily: T.sans, fontSize: 10.5, fontWeight: 700, color: "#fff", letterSpacing: "0.14em", textTransform: "uppercase" }}>
+              <span style={{ fontFamily: T.poppins, fontSize: 10.5, fontWeight: 700, color: "#fff", letterSpacing: "0.14em", textTransform: "uppercase" }}>
                 We're Hiring — Join Our Team
               </span>
             </div>
@@ -223,7 +223,7 @@ export default function CareerScreen() {
               <div key={s.label} className={`reveal d${i}`} style={{ textAlign: "center", padding: "36px 16px", borderRight: i < stats.length - 1 ? "1px solid rgba(255,255,255,0.07)" : "none" }}>
                 <div style={{ fontSize: 20, marginBottom: 6 }}>{s.icon}</div>
                 <div style={{ fontFamily: T.poppins, fontSize: "clamp(2rem,2.8vw,2.8rem)", color: "#fff", fontWeight: 700, lineHeight: 1, letterSpacing: "-0.01em" }}>{s.value}</div>
-                <div style={{ fontFamily: T.sans, fontSize: 14, color: "rgba(255,255,255,0.80)", marginTop: 8, letterSpacing: "0.04em" }}>{s.label}</div>
+                <div style={{ fontFamily: T.poppins, fontSize: 14, color: "rgba(255,255,255,0.80)", marginTop: 8, letterSpacing: "0.04em" }}>{s.label}</div>
               </div>
             ))}
           </div>
@@ -238,7 +238,7 @@ export default function CareerScreen() {
               <img src="https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=700&q=80&fit=crop" alt="Team collaborating" style={{ width: "100%", borderRadius: 10, height: "clamp(280px,42vw,440px)", objectFit: "cover", boxShadow: "0 24px 64px rgba(0,0,0,0.09)" }} />
               <div style={{ position: "absolute", bottom: -16, right: -12, background: T.white, borderRadius: 8, padding: "20px 26px", boxShadow: "0 16px 48px rgba(0,0,0,0.11)", border: `1px solid ${T.tealLight}` }}>
                 <div style={{ fontFamily: T.poppins, fontSize: 36, color: T.teal, fontWeight: 700, lineHeight: 1 }}>100+</div>
-                <div style={{ fontFamily: T.sans, fontSize: 12, color: T.muted, marginTop: 4 }}>Experts on the Team</div>
+                <div style={{ fontFamily: T.poppins, fontSize: 12, color: T.muted, marginTop: 4 }}>Experts on the Team</div>
               </div>
             </div>
 
@@ -247,10 +247,10 @@ export default function CareerScreen() {
               <h2 style={{ fontFamily: T.poppins, fontSize: 40, color: T.titleblue, fontWeight: 700, marginBottom: 20, lineHeight: 1.12, letterSpacing: "-0.01em" }}>
                 A Place Where Experts Grow
               </h2>
-              <p style={{ fontFamily: T.sans, fontSize: 15.5, color: T.para, lineHeight: 1.9, marginBottom: 16, textAlign: "justify" }}>
+              <p style={{ fontFamily: T.poppins, fontSize: 15.5, color: T.para, lineHeight: 1.9, marginBottom: 16, textAlign: "justify" }}>
                 At SIACC, every team member works on real, high-impact client mandates from day one. You're not a cog in a machine — you're a trusted advisor to manufacturers and importers navigating India's regulatory system.
               </p>
-              <p style={{ fontFamily: T.sans, fontSize: 15.5, color: T.para, lineHeight: 1.9, marginBottom: 32, textAlign: "justify" }}>
+              <p style={{ fontFamily: T.poppins, fontSize: 15.5, color: T.para, lineHeight: 1.9, marginBottom: 32, textAlign: "justify" }}>
                 We invest in our people through training, mentorship, and clear career progression. Many of our division heads started here as freshers and analysts.
               </p>
 
@@ -263,7 +263,7 @@ export default function CareerScreen() {
                 ].map((s, i) => (
                   <div key={s.l} className={`reveal d${i}`} style={{ padding: "16px 20px", background: T.white, borderRadius: 8, border: `1px solid ${T.border}`, borderLeft: `3px solid ${i % 2 === 0 ? T.teal : T.amber}` }}>
                     <div style={{ fontFamily: T.poppins, fontSize: 26, color: i % 2 === 0 ? T.teal : T.amber, fontWeight: 700, lineHeight: 1 }}>{s.n}</div>
-                    <div style={{ fontFamily: T.sans, fontSize: 14, color: T.muted, marginTop: 4 }}>{s.l}</div>
+                    <div style={{ fontFamily: T.poppins, fontSize: 14, color: T.muted, marginTop: 4 }}>{s.l}</div>
                   </div>
                 ))}
               </div>
@@ -287,7 +287,7 @@ export default function CareerScreen() {
                 <div style={{ fontFamily: T.poppins, fontSize: "clamp(1.2rem,2.5vw,2rem)", color: "#fff", fontWeight: 700, marginBottom: 4 }}>
                   Benefits Built Around You
                 </div>
-                <p style={{ fontFamily: T.sans, color: "rgba(255,255,255,0.78)", fontSize: 14 }}>Flexible, rewarding, and meaningful work — from day one.</p>
+                <p style={{ fontFamily: T.poppins, color: "rgba(255,255,255,0.78)", fontSize: 14 }}>Flexible, rewarding, and meaningful work — from day one.</p>
               </div>
             </div>
           </div>
@@ -297,7 +297,7 @@ export default function CareerScreen() {
               <div key={p.title} className={`perk-card reveal d${i}`}>
                 <div style={{ width: 46, height: 46, borderRadius: 9, background: T.tealLight, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 20, marginBottom: 16 }}>{p.icon}</div>
                 <h3 style={{ fontFamily: T.poppins, fontSize: 17.5, color: T.slate, marginBottom: 8, fontWeight: 600 }}>{p.title}</h3>
-                <p style={{ fontFamily: T.sans, fontSize: 14.5, color: T.muted, lineHeight: 1.75 }}>{p.desc}</p>
+                <p style={{ fontFamily: T.poppins, fontSize: 14.5, color: T.muted, lineHeight: 1.75 }}>{p.desc}</p>
               </div>
             ))}
           </div>
@@ -310,7 +310,7 @@ export default function CareerScreen() {
           <div style={{ textAlign: "center", marginBottom: 52 }} className="reveal" ref={openingsTtlRef}>
             <div style={{ display: "flex", justifyContent: "center" }}><div className="sl-row"><div className="sl-line" /><span className="sl-text">We're Hiring</span></div></div>
             <h2 style={{ fontFamily: T.poppins, fontSize: "clamp(1.8rem,3.2vw,2.9rem)", color: T.titleblue, fontWeight: 700, letterSpacing: "-0.01em", marginBottom: 14 }}>Open Positions</h2>
-            <p style={{ fontFamily: T.sans, color: T.para, maxWidth: 460, margin: "0 auto", lineHeight: 1.75, fontSize: 15.5 }}>
+            <p style={{ fontFamily: T.poppins, color: T.para, maxWidth: 460, margin: "0 auto", lineHeight: 1.75, fontSize: 15.5 }}>
               Explore current openings across our divisions. All roles come with mentorship, growth paths, and a collaborative team culture.
             </p>
           </div>
@@ -322,13 +322,13 @@ export default function CareerScreen() {
                 <div key={job.title} className={`job-card reveal d${Math.min(i, 5)}`}>
                   <div>
                     <div className="job-meta">
-                      <span style={{ fontFamily: T.sans, fontSize: 10, fontWeight: 700, backgroundColor: tc.bg, color: tc.text, padding: "3px 10px", borderRadius: 3, letterSpacing: "0.06em" }}>{job.type}</span>
-                      <span style={{ fontFamily: T.sans, fontSize: 11, color: T.muted, backgroundColor: T.white, padding: "3px 10px", borderRadius: 3, border: `1px solid ${T.border}` }}>{job.dept}</span>
-                      <span style={{ fontFamily: T.sans, fontSize: 11, color: T.muted }}>📍 {job.location}</span>
-                      <span style={{ fontFamily: T.sans, fontSize: 11, color: T.muted }}>💼 {job.exp}</span>
+                      <span style={{ fontFamily: T.poppins, fontSize: 10, fontWeight: 700, backgroundColor: tc.bg, color: tc.text, padding: "3px 10px", borderRadius: 3, letterSpacing: "0.06em" }}>{job.type}</span>
+                      <span style={{ fontFamily: T.poppins, fontSize: 11, color: T.muted, backgroundColor: T.white, padding: "3px 10px", borderRadius: 3, border: `1px solid ${T.border}` }}>{job.dept}</span>
+                      <span style={{ fontFamily: T.poppins, fontSize: 11, color: T.muted }}>📍 {job.location}</span>
+                      <span style={{ fontFamily: T.poppins, fontSize: 11, color: T.muted }}>💼 {job.exp}</span>
                     </div>
                     <h3 style={{ fontFamily: T.poppins, fontSize: 18, color: T.para, marginBottom: 10, fontWeight: 600 }}>{job.title}</h3>
-                    <p style={{ fontFamily: T.sans, fontSize: 15, color: T.paradark, lineHeight: 1.7 }}>{job.desc}</p>
+                    <p style={{ fontFamily: T.poppins, fontSize: 15, color: T.paradark, lineHeight: 1.7 }}>{job.desc}</p>
                   </div>
                   <button onClick={() => router.push("/contact")} style={{ padding: "12px 26px", background: T.orange, color: "#fff", fontWeight: 600, borderRadius: 6, border: "none", fontFamily: T.poppins, fontSize: 13, cursor: "pointer", whiteSpace: "nowrap", transition: "background 0.2s", boxShadow: "0 4px 14px rgba(249,115,22,0.28)" }} onMouseEnter={e => e.currentTarget.style.background = T.teal} onMouseLeave={e => e.currentTarget.style.background = T.orange}>Apply Now →</button>
                 </div>
@@ -347,14 +347,14 @@ export default function CareerScreen() {
               <h2 style={{ fontFamily: T.poppins, fontSize: "clamp(1.9rem,3.2vw,2.9rem)", color: T.titleblue, fontWeight: 700, lineHeight: 1.1, letterSpacing: "-0.01em", marginBottom: 14 }}>
                 Send Us Your Resume Anytime
               </h2>
-              <p style={{ fontFamily: T.sans, color: T.paradark, fontSize: 14.5, lineHeight: 1.8, maxWidth: 500 }}>
+              <p style={{ fontFamily: T.poppins, color: T.paradark, fontSize: 14.5, lineHeight: 1.8, maxWidth: 500 }}>
                 We're always looking for talented people. Send your resume and we'll reach out when there's a fit — across any of our divisions.
               </p>
             </div>
             <div style={{ display: "flex", flexDirection: "column", gap: 12, flexShrink: 0 }}>
               <button onClick={() => router.push("/contact")} style={{ padding: "14px 36px", fontFamily: T.poppins, fontSize: 14, fontWeight: 600, border: "none", borderRadius: 6, cursor: "pointer", background: T.orange, color: "#fff", whiteSpace: "nowrap", transition: "all 0.22s" }} onMouseEnter={e => { e.currentTarget.style.background = T.teal; e.currentTarget.style.transform = "translateY(-1px)"; }} onMouseLeave={e => { e.currentTarget.style.background = T.orange; e.currentTarget.style.transform = "translateY(0)"; }}>Send Spontaneous Application</button>
 
-              <a href="mailto:info@siacc.co.in" style={{ padding: "13px 28px", border: `1.5px solid ${T.border}`, borderRadius: 6, fontFamily: T.poppins, fontSize: 14, fontWeight: 500, color: T.slate, display: "flex", alignItems: "center", justifyContent: "center", gap: 8, whiteSpace: "nowrap", background: T.white, transition: "border-color 0.2s" }} onMouseEnter={e => e.currentTarget.style.borderColor = T.teal} onMouseLeave={e => e.currentTarget.style.borderColor = T.border}>✉️ info@siacc.co.in</a>
+              <a href="mailto:starindia.acc@gmail.com" style={{ padding: "13px 28px", border: `1.5px solid ${T.border}`, borderRadius: 6, fontFamily: T.poppins, fontSize: 14, fontWeight: 500, color: T.slate, display: "flex", alignItems: "center", justifyContent: "center", gap: 8, whiteSpace: "nowrap", background: T.white, transition: "border-color 0.2s" }} onMouseEnter={e => e.currentTarget.style.borderColor = T.teal} onMouseLeave={e => e.currentTarget.style.borderColor = T.border}>✉️ starindia.acc@gmail.com</a>
             </div>
           </div>
         </div>

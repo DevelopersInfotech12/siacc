@@ -6,11 +6,7 @@ import { useEffect, useRef, useState } from "react";
 const QR_URL = "https://siacc.co.in/qr-contact";
 // ─────────────────────────────────────────────────────────────
 
-// Minimal QR data matrix encoder (no external lib, no DOM conflicts)
-// Uses a lookup table approach for alphanumeric QR codes
 function generateQRMatrix(url) {
-    // We'll render via a Google Charts QR API call on an <img> tag
-    // This is the safest React-friendly approach — no DOM manipulation
     return `https://api.qrserver.com/v1/create-qr-code/?size=280x280&data=${encodeURIComponent(url)}&color=0a6daa&bgcolor=ffffff&qzone=1&format=png&ecc=H`;
 }
 
@@ -40,12 +36,13 @@ export default function QRGeneratePage() {
 
         const canvas = document.createElement("canvas");
         canvas.width = 420;
-        canvas.height = 520;
+        // Reduced height since URL row is removed
+        canvas.height = 490;
         const ctx = canvas.getContext("2d");
 
         // White background
         ctx.fillStyle = "#ffffff";
-        ctx.fillRect(0, 0, 420, 520);
+        ctx.fillRect(0, 0, 420, 490);
 
         // Blue header
         ctx.fillStyle = "#0a6daa";
@@ -57,38 +54,33 @@ export default function QRGeneratePage() {
         ctx.font = "13px Arial";
         ctx.fillText("Scan for Free Certification Consultation", 210, 54);
 
-        // QR image
+        // QR image — moved up slightly since URL row is gone
         const img = imgRef.current;
         ctx.drawImage(img, 70, 84, 280, 280);
 
-        // URL
-        ctx.fillStyle = "#374151";
-        ctx.font = "11px Arial";
-        ctx.textAlign = "center";
-        ctx.fillText(QR_URL, 210, 384);
-
-        // Divider
+        // Divider — sits directly below QR
         ctx.strokeStyle = "#E2E8F0";
         ctx.lineWidth = 1;
         ctx.beginPath();
-        ctx.moveTo(40, 398); ctx.lineTo(380, 398);
+        ctx.moveTo(40, 374); ctx.lineTo(380, 374);
         ctx.stroke();
 
         // Contact info
         ctx.fillStyle = "#6B7280";
         ctx.font = "11px Arial";
-        ctx.fillText("📞 +91-9540190334   |   ✉ info@siacc.in", 210, 418);
-        ctx.fillText("Mon – Sat: 9:00 AM – 6:00 PM", 210, 436);
+        ctx.textAlign = "center";
+        ctx.fillText("📞 +91-9540190334   |   ✉ starindia.acc@gmail.com", 210, 396);
+        ctx.fillText("Mon – Sat: 9:00 AM – 6:00 PM", 210, 414);
 
         // Services strip
         ctx.fillStyle = "#1E88C8";
-        ctx.fillRect(0, 456, 420, 64);
+        ctx.fillRect(0, 432, 420, 58);
         ctx.fillStyle = "#ffffff";
         ctx.font = "bold 11px Arial";
-        ctx.fillText("BIS · WPC · TEC · BEE · EPR · LMPC · CDSCO · ISO", 210, 476);
+        ctx.fillText("BIS · WPC · TEC · BEE · EPR · LMPC · CDSCO · ISO", 210, 452);
         ctx.font = "10px Arial";
         ctx.fillStyle = "rgba(255,255,255,0.75)";
-        ctx.fillText("98% Success Rate  ·  1,000+ Businesses Certified", 210, 496);
+        ctx.fillText("0% Failure Rate  ·  1,000+ Businesses Certified", 210, 472);
 
         const link = document.createElement("a");
         link.download = "SIACC-Contact-QR.png";
@@ -116,10 +108,8 @@ export default function QRGeneratePage() {
         .dl-btn:hover  { opacity: 0.88 !important; transform: translateY(-1px); }
         .sec-btn:hover { background: ${T.cream} !important; border-color: ${T.teal} !important; color: ${T.teal} !important; }
       `}</style>
-            
+
             <div style={{ width: "100%", maxWidth: 460, animation: "fadeIn 0.4s ease" }}>
-
-
 
                 {/* Page title */}
                 <div style={{ textAlign: "center", marginBottom: 24 }}>
@@ -152,7 +142,7 @@ export default function QRGeneratePage() {
                         </div>
                     </div>
 
-                    {/* QR image — rendered as <img>, zero DOM conflict */}
+                    {/* QR image */}
                     <div style={{ padding: "28px 24px 16px", display: "flex", flexDirection: "column", alignItems: "center" }}>
                         <div style={{
                             padding: 14, borderRadius: 14,
@@ -169,7 +159,6 @@ export default function QRGeneratePage() {
                                     background: "#fff", borderRadius: 12,
                                 }}>Generating QR…</div>
                             )}
-                            {/* crossOrigin="anonymous" needed for canvas drawImage download */}
                             <img
                                 ref={imgRef}
                                 src={qrSrc}
@@ -184,25 +173,6 @@ export default function QRGeneratePage() {
                                     transition: "opacity 0.3s",
                                 }}
                             />
-                        </div>
-
-                        {/* URL row */}
-                        <div style={{
-                            display: "flex", alignItems: "center", gap: 8,
-                            background: T.cream, borderRadius: 8, padding: "8px 13px",
-                            border: `1px solid ${T.border}`, width: "100%",
-                        }}>
-                            <span style={{
-                                fontFamily: T.font, fontSize: 11.5, color: "#374151",
-                                wordBreak: "break-all", flex: 1,
-                            }}>{QR_URL}</span>
-                            <button onClick={handleCopy}
-                                style={{
-                                    background: "none", border: "none", cursor: "pointer",
-                                    fontSize: 18, flexShrink: 0, lineHeight: 1,
-                                }}
-                                title="Copy URL"
-                            >{copied ? "✅" : "📋"}</button>
                         </div>
                     </div>
 
@@ -244,41 +214,9 @@ export default function QRGeneratePage() {
                             boxShadow: imgReady ? "0 4px 14px rgba(30,136,200,0.28)" : "none",
                         }}
                     >
-                        ⬇ Download QR as PNG
+                        ⬇ Download QR Code
                     </button>
-
-                    <button onClick={() => window.print()} className="sec-btn"
-                        style={{
-                            padding: "13px", borderRadius: 12,
-                            border: `1.5px solid ${T.border}`, background: T.white,
-                            color: T.slate, fontFamily: T.font, fontWeight: 600,
-                            fontSize: 14, cursor: "pointer", transition: "all 0.2s",
-                        }}>
-                        🖨 Print QR Code
-                    </button>
-
-                    <a href="/qr-contact"
-                        style={{
-                            padding: "13px", borderRadius: 12,
-                            border: `1.5px solid ${T.border}`, background: T.white,
-                            color: T.slate, fontFamily: T.font, fontWeight: 600,
-                            fontSize: 14, cursor: "pointer", textDecoration: "none",
-                            display: "block", textAlign: "center", transition: "all 0.2s",
-                        }}
-                        onMouseEnter={e => { e.currentTarget.style.borderColor = T.teal; e.currentTarget.style.color = T.teal; }}
-                        onMouseLeave={e => { e.currentTarget.style.borderColor = T.border; e.currentTarget.style.color = T.slate; }}
-                    >
-                        👁 Preview the Form →
-                    </a>
                 </div>
-
-                <p style={{
-                    textAlign: "center", fontFamily: T.font,
-                    fontSize: 11, color: T.muted, marginTop: 16, lineHeight: 1.6,
-                }}>
-                    QR points to: <strong style={{ color: T.slate }}>{QR_URL}</strong><br />
-                    Update the URL in <code style={{ background: "#E2E8F0", padding: "1px 5px", borderRadius: 4 }}>qr-contact/generate/page.jsx</code> for production.
-                </p>
             </div>
         </div>
     );
