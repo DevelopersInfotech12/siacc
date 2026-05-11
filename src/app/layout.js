@@ -19,9 +19,14 @@ export const metadata = {
   title: "Siacc India | Compliance & Certification Consultants",
   description:
     "India's trusted compliance consultancy. BIS, EPR, WPC, TEC, LMPC, BEE, ISO, CDSCO certifications made fast and easy.",
+     icons: {
+    icon: "/finalimages/starlogo.png"
+  },
   keywords:
     "BIS certification, EPR registration, WPC approval, TEC MTCTE, LMPC, BEE registration, ISO certification, CDSCO, compliance India",
 };
+
+
 
 export default function RootLayout({ children }) {
   return (
