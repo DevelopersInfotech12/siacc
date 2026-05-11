@@ -45,29 +45,29 @@ function useReveal(opts = {}) {
 }
 
 const stats = [
-  { value: "2011",    label: "Year Founded",       icon: "📅" },
-  { value: "12+",     label: "Years of Experience", icon: "🏆" },
-  { value: "10,000+", label: "Clients Served",      icon: "🤝" },
-  { value: "0%",     label: "Failure Rate",        icon: "✅" },
+  { value: "2015", label: "Year Founded", icon: "📅" },
+  { value: "12+", label: "Years of Experience", icon: "🏆" },
+  { value: "10,000+", label: "Clients Served", icon: "🤝" },
+  { value: "0%", label: "Failure Rate", icon: "✅" },
 ];
 
 const timeline = [
-  { year: "2011", title: "Founded in New Delhi",       desc: "Siacc India was established with a mission to simplify Indian regulatory compliance for businesses of all sizes." },
-  { year: "2014", title: "Expanded to BIS Services",   desc: "Launched dedicated BIS ISI Mark & CRS certification services, becoming one of India's first specialized consultancies." },
-  { year: "2017", title: "10,000 Clients Milestone",   desc: "Crossed the 10,000 client mark and expanded our team to 80+ certification experts across India." },
+  { year: "2015", title: "Founded in New Delhi", desc: "Siacc India was established with a mission to simplify Indian regulatory compliance for businesses of all sizes." },
+  { year: "2014", title: "Expanded to BIS Services", desc: "Launched dedicated BIS ISI Mark & CRS certification services, becoming one of India's first specialized consultancies." },
+  { year: "2017", title: "10,000 Clients Milestone", desc: "Crossed the 10,000 client mark and expanded our team to 80+ certification experts across India." },
   { year: "2020", title: "EPR & Environment Division", desc: "Launched a dedicated EPR division covering E-Waste, Plastic, Battery and Tyre compliance under CPCB norms." },
-  { year: "2023", title: "Pan-India Presence",         desc: "Opened offices in Mumbai, Bengaluru & Chennai. Now serving clients in 25+ countries for India market entry." },
+  { year: "2023", title: "Pan-India Presence", desc: "Opened offices in Mumbai, Bengaluru & Chennai. Now serving clients in 25+ countries for India market entry." },
 ];
 
 const values = [
-  { icon: "🎯", title: "Accuracy First",          desc: "Every application we file is meticulously reviewed. We don't cut corners — ever." },
-  { icon: "🤝", title: "Client Partnership",       desc: "We treat your business as our own. Your compliance success is our reputation." },
-  { icon: "🔍", title: "Transparency",             desc: "Clear timelines, honest pricing, and regular updates at every stage of your certification." },
+  { icon: "🎯", title: "Accuracy First", desc: "Every application we file is meticulously reviewed. We don't cut corners — ever." },
+  { icon: "🤝", title: "Client Partnership", desc: "We treat your business as our own. Your compliance success is our reputation." },
+  { icon: "🔍", title: "Transparency", desc: "Clear timelines, honest pricing, and regular updates at every stage of your certification." },
   { icon: "⚡", title: "Speed Without Compromise", desc: "Fast doesn't mean sloppy. We move quickly while maintaining the highest quality standards." },
 ];
 
 const heroChips = [
-  { icon: "🏆", label: "Est. 2011" },
+  { icon: "🏆", label: "Est. 2015" },
   { icon: "🤝", label: "10,000+ Clients" },
   { icon: "🌍", label: "25+ Countries" },
   { icon: "✅", label: "0% Failure Rate" },
@@ -87,15 +87,15 @@ export default function AboutScreen() {
   const router = useRouter();
 
   const heroLeftRef = useReveal();
-  const statsRef    = useReveal({ stagger: true, baseDelay: 100 });
+  const statsRef = useReveal({ stagger: true, baseDelay: 100 });
   const overviewRef = useReveal();
   const infoCardRef = useReveal();
   const storyImgRef = useReveal();
   const storyTxtRef = useReveal();
-  const missionRef  = useReveal({ stagger: true, baseDelay: 100 });
-  const valuesRef   = useReveal({ stagger: true, baseDelay: 80 });
+  const missionRef = useReveal({ stagger: true, baseDelay: 100 });
+  const valuesRef = useReveal({ stagger: true, baseDelay: 80 });
   const timelineRef = useReveal({ stagger: true, baseDelay: 110 });
-  const ctaRef      = useReveal();
+  const ctaRef = useReveal();
 
   return (
     <div style={{ minHeight: "100vh", backgroundColor: T.white, fontFamily: T.sans, color: T.body }}>
@@ -149,40 +149,40 @@ export default function AboutScreen() {
       <Navbar />
 
       {/* ══ HERO ══ */}
-      <section style={{ position:"relative", overflow:"hidden", borderBottom:`1px solid ${T.border}`, minHeight:420, display:"flex", flexDirection:"column", justifyContent:"center" }}>
-        <div style={{ position:"absolute", left:0, top:0, bottom:0, width:4, background:`linear-gradient(to bottom, ${T.orange}, ${T.teal})`, zIndex:3 }} />
-        <img src="/images/aboutbanner3.jpg" alt="SIACC India" style={{ position:"absolute", inset:0, width:"100%", height:"100%", objectFit:"cover", objectPosition:"center 40%", zIndex:0 }} />
-        <div style={{ position:"absolute", inset:0, zIndex:1, background:"linear-gradient(to right,rgba(7,18,28,0.88) 0%,rgba(7,18,28,0.60) 50%,rgba(7,18,28,0.10) 100%)" }} />
-        <div style={{ position:"relative", zIndex:2, maxWidth:1280, margin:"0 auto", width:"100%", padding:"clamp(48px,7vw,88px) clamp(20px,4vw,60px)" }}>
+      <section style={{ position: "relative", overflow: "hidden", borderBottom: `1px solid ${T.border}`, minHeight: 420, display: "flex", flexDirection: "column", justifyContent: "center" }}>
+        <div style={{ position: "absolute", left: 0, top: 0, bottom: 0, width: 4, background: `linear-gradient(to bottom, ${T.orange}, ${T.teal})`, zIndex: 3 }} />
+        <img src="/images/aboutbanner3.jpg" alt="SIACC India" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", objectPosition: "center 40%", zIndex: 0 }} />
+        <div style={{ position: "absolute", inset: 0, zIndex: 1, background: "linear-gradient(to right,rgba(7,18,28,0.88) 0%,rgba(7,18,28,0.60) 50%,rgba(7,18,28,0.10) 100%)" }} />
+        <div style={{ position: "relative", zIndex: 2, maxWidth: 1280, margin: "0 auto", width: "100%", padding: "clamp(48px,7vw,88px) clamp(20px,4vw,60px)" }}>
           <div ref={heroLeftRef} className="reveal-left">
-            <div style={{ display:"inline-flex", alignItems:"center", gap:8, background:"rgba(255,255,255,0.10)", border:"1px solid rgba(255,255,255,0.20)", backdropFilter:"blur(8px)", borderRadius:4, padding:"6px 16px", marginBottom:22 }}>
-              <span style={{ width:7, height:7, borderRadius:"50%", background:"#4ade80", boxShadow:"0 0 6px rgba(74,222,128,0.8)", display:"inline-block", animation:"pulse-dot 2s ease-in-out infinite" }} />
-              <span style={{ fontFamily:T.sans, fontSize:10.5, fontWeight:700, color:"#fff", letterSpacing:"0.14em", textTransform:"uppercase" }}>India's Most Trusted Certification Consultancy</span>
+            <div style={{ display: "inline-flex", alignItems: "center", gap: 8, background: "rgba(255,255,255,0.10)", border: "1px solid rgba(255,255,255,0.20)", backdropFilter: "blur(8px)", borderRadius: 4, padding: "6px 16px", marginBottom: 22 }}>
+              <span style={{ width: 7, height: 7, borderRadius: "50%", background: "#4ade80", boxShadow: "0 0 6px rgba(74,222,128,0.8)", display: "inline-block", animation: "pulse-dot 2s ease-in-out infinite" }} />
+              <span style={{ fontFamily: T.sans, fontSize: 10.5, fontWeight: 700, color: "#fff", letterSpacing: "0.14em", textTransform: "uppercase" }}>India's Most Trusted Certification Consultancy</span>
             </div>
-            <h1 style={{ fontFamily:T.poppins, fontSize:50, fontWeight:700, lineHeight:1.04, marginBottom:20, letterSpacing:"-0.01em", color:"#fff", maxWidth:640 }}>
-              12 Years of Simplifying{" "}<span style={{ color:T.orange }}>Indian Compliance</span>
+            <h1 style={{ fontFamily: T.poppins, fontSize: 50, fontWeight: 700, lineHeight: 1.04, marginBottom: 20, letterSpacing: "-0.01em", color: "#fff", maxWidth: 640 }}>
+              12 Years of Simplifying{" "}<span style={{ color: T.orange }}>Indian Compliance</span>
             </h1>
-            <div style={{ display:"flex", flexWrap:"wrap", gap:10, marginTop:32 }}>
+            <div style={{ display: "flex", flexWrap: "wrap", gap: 10, marginTop: 32 }}>
               {heroChips.map(chip => (
                 <span key={chip.label} className="hero-chip">
-                  <span style={{ fontSize:15 }}>{chip.icon}</span>{chip.label}
+                  <span style={{ fontSize: 15 }}>{chip.icon}</span>{chip.label}
                 </span>
               ))}
             </div>
           </div>
         </div>
-        <div style={{ position:"absolute", bottom:0, left:0, right:0, height:3, background:T.teal, opacity:0.6, zIndex:2 }} />
+        <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, height: 3, background: T.teal, opacity: 0.6, zIndex: 2 }} />
       </section>
 
       {/* ══ STATS STRIP ══ */}
-      <section style={{ background:T.teal }}>
-        <div style={{ maxWidth:1280, margin:"0 auto" }}>
+      <section style={{ background: T.teal }}>
+        <div style={{ maxWidth: 1280, margin: "0 auto" }}>
           <div className="stats-grid" ref={statsRef}>
             {stats.map((s, i) => (
-              <div key={s.label} className={`reveal d${i}`} style={{ textAlign:"center", padding:"36px 16px", borderRight: i < stats.length-1 ? "1px solid rgba(255,255,255,0.07)" : "none" }}>
-                <div style={{ fontSize:20, marginBottom:6 }}>{s.icon}</div>
-                <div className="anim-count-up" style={{ fontFamily:T.poppins, fontSize:"clamp(2rem,2.8vw,2.8rem)", color:"#fff", fontWeight:700, lineHeight:1, letterSpacing:"-0.01em" }}>{s.value}</div>
-                <div style={{ fontFamily:T.sans, fontSize:14, color:"rgba(255,255,255,0.90)", marginTop:8, letterSpacing:"0.04em" }}>{s.label}</div>
+              <div key={s.label} className={`reveal d${i}`} style={{ textAlign: "center", padding: "36px 16px", borderRight: i < stats.length - 1 ? "1px solid rgba(255,255,255,0.07)" : "none" }}>
+                <div style={{ fontSize: 20, marginBottom: 6 }}>{s.icon}</div>
+                <div className="anim-count-up" style={{ fontFamily: T.poppins, fontSize: "clamp(2rem,2.8vw,2.8rem)", color: "#fff", fontWeight: 700, lineHeight: 1, letterSpacing: "-0.01em" }}>{s.value}</div>
+                <div style={{ fontFamily: T.sans, fontSize: 14, color: "rgba(255,255,255,0.90)", marginTop: 8, letterSpacing: "0.04em" }}>{s.label}</div>
               </div>
             ))}
           </div>
@@ -190,7 +190,7 @@ export default function AboutScreen() {
       </section>
 
       {/* ══ OVERVIEW ══ */}
-      <section className="sec" style={{ background:T.cream }}>
+      <section className="sec" style={{ background: T.cream }}>
         <div className="inner">
           <div className="overview-grid">
 
@@ -208,20 +208,20 @@ export default function AboutScreen() {
               }}>
                 India's Most Trusted<br />Compliance Partner
               </h2>
-              <p style={{ fontFamily:T.sans, fontSize:15.5, color:T.para, lineHeight:1.9, marginBottom:16, textAlign:"justify" }}>
+              <p style={{ fontFamily: T.sans, fontSize: 15.5, color: T.para, lineHeight: 1.9, marginBottom: 16, textAlign: "justify" }}>
                 We started SIACC with one belief — no business should lose market access due to complex regulatory paperwork. Today we are India's most trusted certification consultancy, having guided 10,000+ clients across BIS, WPC, EPR, ISO and more.
               </p>
-              <p style={{ fontFamily:T.sans, fontSize:15.5, color:T.para, lineHeight:1.9, marginBottom:32, textAlign:"justify" }}>
+              <p style={{ fontFamily: T.sans, fontSize: 15.5, color: T.para, lineHeight: 1.9, marginBottom: 32, textAlign: "justify" }}>
                 Our team of 100+ regulatory experts, lawyers, and certification specialists handle everything end-to-end — from lab coordination and document filing to government follow-ups and post-certification support — so you can focus on your business.
               </p>
 
-              <div style={{ position:"relative", borderRadius:10, overflow:"hidden", height:220 }}>
-                <img src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=900&q=80&fit=crop" alt="SIACC team" style={{ width:"100%", height:"100%", objectFit:"cover", objectPosition:"center 40%" }} />
-                <div style={{ position:"absolute", inset:0, background:"linear-gradient(to right,rgba(14,128,128,0.88) 0%,rgba(30,136,200,0.60) 55%,rgba(235,245,251,0.25) 100%)" }} />
-                <div style={{ position:"absolute", inset:0, display:"flex", alignItems:"center", padding:"0 28px" }}>
+              <div style={{ position: "relative", borderRadius: 10, overflow: "hidden", height: 220 }}>
+                <img src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=900&q=80&fit=crop" alt="SIACC team" style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center 40%" }} />
+                <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to right,rgba(14,128,128,0.88) 0%,rgba(30,136,200,0.60) 55%,rgba(235,245,251,0.25) 100%)" }} />
+                <div style={{ position: "absolute", inset: 0, display: "flex", alignItems: "center", padding: "0 28px" }}>
                   <div>
-                    <div style={{ fontFamily:T.poppins, fontSize:"clamp(1rem,2vw,1.3rem)", color:"#fff", fontWeight:700, marginBottom:4 }}>Trusted by 10,000+ Businesses</div>
-                    <p style={{ fontFamily:T.sans, color:"rgba(255,255,255,0.80)", fontSize:12.5 }}>BIS · WPC · EPR · ISO · Testing & More</p>
+                    <div style={{ fontFamily: T.poppins, fontSize: "clamp(1rem,2vw,1.3rem)", color: "#fff", fontWeight: 700, marginBottom: 4 }}>Trusted by 10,000+ Businesses</div>
+                    <p style={{ fontFamily: T.sans, color: "rgba(255,255,255,0.80)", fontSize: 12.5 }}>BIS · WPC · EPR · ISO · Testing & More</p>
                   </div>
                 </div>
               </div>
@@ -229,36 +229,36 @@ export default function AboutScreen() {
 
             {/* Right — sticky Quick Info */}
             <div className="reveal-right" ref={infoCardRef}>
-              <div style={{ background:T.white, border:`1px solid ${T.border}`, borderRadius:10, padding:28, boxShadow:"0 4px 20px rgba(0,0,0,0.05)", position:"sticky", top:100 }}>
+              <div style={{ background: T.white, border: `1px solid ${T.border}`, borderRadius: 10, padding: 28, boxShadow: "0 4px 20px rgba(0,0,0,0.05)", position: "sticky", top: 100 }}>
                 <SectionLabel>Quick Info</SectionLabel>
                 {[
-                  { label:"Founded",          value:"2011, New Delhi" },
-                  { label:"Team Size",         value:"100+ Experts" },
-                  { label:"Clients Served",    value:"10,000+" },
-                  { label:"Countries Covered", value:"25+ Countries" },
-                  { label:"Our Failure Rate",  value:"0%" },
+                  { label: "Founded", value: "2015, New Delhi" },
+                  { label: "Team Size", value: "100+ Experts" },
+                  { label: "Clients Served", value: "10,000+" },
+                  { label: "Countries Covered", value: "25+ Countries" },
+                  { label: "Our Failure Rate", value: "0%" },
                 ].map((item, i, arr) => (
-                  <div key={item.label} style={{ display:"flex", justifyContent:"space-between", alignItems:"center", padding:"12px 0", borderBottom: i < arr.length-1 ? `1px solid ${T.border}` : "none" }}>
-                    <span style={{ fontFamily:T.sans, fontSize:13, color:T.muted }}>{item.label}</span>
-                    <span style={{ fontFamily:T.poppins, fontSize:13, color:T.slate, fontWeight:600, textAlign:"right", maxWidth:"55%" }}>{item.value}</span>
+                  <div key={item.label} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "12px 0", borderBottom: i < arr.length - 1 ? `1px solid ${T.border}` : "none" }}>
+                    <span style={{ fontFamily: T.sans, fontSize: 13, color: T.muted }}>{item.label}</span>
+                    <span style={{ fontFamily: T.poppins, fontSize: 13, color: T.slate, fontWeight: 600, textAlign: "right", maxWidth: "55%" }}>{item.value}</span>
                   </div>
                 ))}
                 <button onClick={() => router.push("/contact")}
-                  style={{ width:"100%", marginTop:22, padding:13, background:T.orange, color:"#fff", fontWeight:600, borderRadius:6, border:"none", fontFamily:T.poppins, fontSize:14, cursor:"pointer", transition:"background 0.2s" }}
+                  style={{ width: "100%", marginTop: 22, padding: 13, background: T.orange, color: "#fff", fontWeight: 600, borderRadius: 6, border: "none", fontFamily: T.poppins, fontSize: 14, cursor: "pointer", transition: "background 0.2s" }}
                   onMouseEnter={e => e.currentTarget.style.background = T.teal}
                   onMouseLeave={e => e.currentTarget.style.background = T.orange}>
                   Get Free Consultation →
                 </button>
-                <div style={{ marginTop:16, paddingTop:16, borderTop:`1px solid ${T.border}`, display:"flex", flexDirection:"column", gap:10 }}>
+                <div style={{ marginTop: 16, paddingTop: 16, borderTop: `1px solid ${T.border}`, display: "flex", flexDirection: "column", gap: 10 }}>
                   {[
-                    { icon:"📞", label:"Call Us",  value:"+91-9891229135", href:"tel:+919891229135" },
-                    { icon:"✉",  label:"Email Us", value:"starindia.acc@gmail.com",  href:"mailto:starindia.acc@gmail.com" },
+                    { icon: "📞", label: "Call Us", value: "+91-9891229135", href: "tel:+919891229135" },
+                    { icon: "✉", label: "Email Us", value: "starindia.acc@gmail.com", href: "mailto:starindia.acc@gmail.com" },
                   ].map(item => (
-                    <a key={item.label} href={item.href} style={{ display:"flex", alignItems:"center", gap:10 }}>
-                      <div style={{ width:36, height:36, borderRadius:7, backgroundColor:T.tealLight, display:"flex", alignItems:"center", justifyContent:"center", fontSize:15, flexShrink:0 }}>{item.icon}</div>
+                    <a key={item.label} href={item.href} style={{ display: "flex", alignItems: "center", gap: 10 }}>
+                      <div style={{ width: 36, height: 36, borderRadius: 7, backgroundColor: T.tealLight, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 15, flexShrink: 0 }}>{item.icon}</div>
                       <div>
-                        <div style={{ fontFamily:T.sans, fontSize:10, color:T.teal, fontWeight:700, textTransform:"uppercase", letterSpacing:"0.08em" }}>{item.label}</div>
-                        <div style={{ fontFamily:T.poppins, fontSize:13, color:T.slate, fontWeight:500, marginTop:1 }}>{item.value}</div>
+                        <div style={{ fontFamily: T.sans, fontSize: 10, color: T.teal, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.08em" }}>{item.label}</div>
+                        <div style={{ fontFamily: T.poppins, fontSize: 13, color: T.slate, fontWeight: 500, marginTop: 1 }}>{item.value}</div>
                       </div>
                     </a>
                   ))}
@@ -271,41 +271,41 @@ export default function AboutScreen() {
       </section>
 
       {/* ══ STORY + MISSION ══ */}
-      <section className="sec" style={{ background:T.white }}>
+      <section className="sec" style={{ background: T.white }}>
         <div className="inner">
           <div className="story-grid">
-            <div className="reveal-left" ref={storyImgRef} style={{ position:"relative" }}>
-              <img src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=700&q=80&fit=crop" alt="Compliance experts" style={{ width:"100%", borderRadius:10, height:460, objectFit:"cover", boxShadow:"0 24px 64px rgba(0,0,0,0.10)" }} />
-              <div className="float-card" style={{ position:"absolute", bottom:-16, right:-12, background:T.white, borderRadius:8, padding:"20px 26px", boxShadow:"0 16px 48px rgba(0,0,0,0.11)", border:`1px solid ${T.tealLight}` }}>
-                <div style={{ fontFamily:T.poppins, fontSize:36, color:T.teal, fontWeight:700, lineHeight:1 }}>10K+</div>
-                <div style={{ fontFamily:T.sans, fontSize:11.5, color:T.muted, marginTop:4 }}>Happy Clients Served</div>
+            <div className="reveal-left" ref={storyImgRef} style={{ position: "relative" }}>
+              <img src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=700&q=80&fit=crop" alt="Compliance experts" style={{ width: "100%", borderRadius: 10, height: 460, objectFit: "cover", boxShadow: "0 24px 64px rgba(0,0,0,0.10)" }} />
+              <div className="float-card" style={{ position: "absolute", bottom: -16, right: -12, background: T.white, borderRadius: 8, padding: "20px 26px", boxShadow: "0 16px 48px rgba(0,0,0,0.11)", border: `1px solid ${T.tealLight}` }}>
+                <div style={{ fontFamily: T.poppins, fontSize: 36, color: T.teal, fontWeight: 700, lineHeight: 1 }}>10K+</div>
+                <div style={{ fontFamily: T.sans, fontSize: 11.5, color: T.muted, marginTop: 4 }}>Happy Clients Served</div>
               </div>
-              <div style={{ position:"absolute", top:20, left:20, background:T.teal, borderRadius:4, padding:"7px 16px" }}>
-                <span style={{ fontFamily:T.poppins, fontSize:11, fontWeight:700, color:"#fff", letterSpacing:"0.1em" }}>EST. 2011</span>
+              <div style={{ position: "absolute", top: 20, left: 20, background: T.teal, borderRadius: 4, padding: "7px 16px" }}>
+                <span style={{ fontFamily: T.poppins, fontSize: 11, fontWeight: 700, color: "#fff", letterSpacing: "0.1em" }}>EST. 2015</span>
               </div>
             </div>
             <div className="reveal-right" ref={storyTxtRef}>
               <SectionLabel>Our Story</SectionLabel>
-              <h2 style={{ fontFamily:T.poppins, fontSize:40, color:T.titleblue, marginBottom:20, fontWeight:700, lineHeight:1.12, letterSpacing:"-0.01em" }}>
+              <h2 style={{ fontFamily: T.poppins, fontSize: 40, color: T.titleblue, marginBottom: 20, fontWeight: 700, lineHeight: 1.12, letterSpacing: "-0.01em" }}>
                 Built by Compliance Experts,<br />for Businesses
               </h2>
-              <p style={{ fontFamily:T.sans, fontSize:15.5, color:T.para, lineHeight:1.9, marginBottom:16, textAlign:"justify" }}>
-                In 2011, our founder Vikram Anand — after spending over a decade navigating India's complex regulatory maze — saw how countless manufacturers and importers were losing months and lakhs of rupees due to the lack of reliable certification guidance.
+              <p style={{ fontFamily: T.sans, fontSize: 15.5, color: T.para, lineHeight: 1.9, marginBottom: 16, textAlign: "justify" }}>
+                In 2015, our founder Mahesh Kumar — after spending over a decade navigating India's complex regulatory maze — saw how countless manufacturers and importers were losing months and lakhs of rupees due to the lack of reliable certification guidance.
               </p>
-              <p style={{ fontFamily:T.sans, fontSize:15.5, color:T.para, lineHeight:1.9, marginBottom:16, textAlign:"justify" }}>
-                He founded SIACC to bridge that gap. What started as a three-person office in Connaught Place has grown into a 100+ strong team of regulatory experts, lawyers, and certification specialists serving clients from startups to Fortune 500 companies.
+              <p style={{ fontFamily: T.sans, fontSize: 15.5, color: T.para, lineHeight: 1.9, marginBottom: 16, textAlign: "justify" }}>
+                He founded SIACC to bridge that gap. What started as a three-person office in North West Delhi has grown into a 100+ strong team of regulatory experts, lawyers, and certification specialists serving clients from startups to Fortune 500 companies.
               </p>
-              <div style={{ display:"flex", flexDirection:"column", gap:12 }} ref={missionRef}>
+              <div style={{ display: "flex", flexDirection: "column", gap: 12 }} ref={missionRef}>
                 {[
-                  { icon:"🎯", title:"Our Mission", text:"To make Indian regulatory compliance accessible, affordable, and stress-free for every business — from local startups to global enterprises entering India." },
-                  { icon:"🔭", title:"Our Vision",  text:"To be Asia's most trusted compliance partner, known for speed, accuracy, and the genuine care we bring to every client relationship." },
-                  { icon:"⭐", title:"Our Promise", text:"No hidden fees. No unnecessary delays. No failed applications. If we take your case, we see it through — guaranteed." },
+                  { icon: "🎯", title: "Our Mission", text: "To make Indian regulatory compliance accessible, affordable, and stress-free for every business — from local startups to global enterprises entering India." },
+                  { icon: "🔭", title: "Our Vision", text: "To be Asia's most trusted compliance partner, known for speed, accuracy, and the genuine care we bring to every client relationship." },
+                  { icon: "⭐", title: "Our Promise", text: "No hidden fees. No unnecessary delays. No failed applications. If we take your case, we see it through — guaranteed." },
                 ].map((card, i) => (
                   <div key={card.title} className={`mission-card reveal d${i}`}>
                     <div className="mission-icon">{card.icon}</div>
                     <div>
-                      <h3 style={{ fontFamily:T.poppins, fontSize:18, color:T.slate, marginBottom:5, fontWeight:600 }}>{card.title}</h3>
-                      <p style={{ fontFamily:T.sans, fontSize:15, color:T.para, lineHeight:1.75, margin:0, textAlign:"justify" }}>{card.text}</p>
+                      <h3 style={{ fontFamily: T.poppins, fontSize: 18, color: T.slate, marginBottom: 5, fontWeight: 600 }}>{card.title}</h3>
+                      <p style={{ fontFamily: T.sans, fontSize: 15, color: T.para, lineHeight: 1.75, margin: 0, textAlign: "justify" }}>{card.text}</p>
                     </div>
                   </div>
                 ))}
@@ -316,18 +316,18 @@ export default function AboutScreen() {
       </section>
 
       {/* ══ VALUES ══ */}
-      <section className="sec" style={{ background:T.cream }}>
+      <section className="sec" style={{ background: T.cream }}>
         <div className="inner">
-          <div style={{ textAlign:"center", marginBottom:35 }} className="reveal" ref={useReveal()}>
-            <div style={{ display:"flex", justifyContent:"center" }}><SectionLabel>What We Stand For</SectionLabel></div>
-            <h2 style={{ fontFamily:T.poppins, fontSize:43, color:T.titleblue, fontWeight:700, letterSpacing:"-0.01em" }}>Our Core Values</h2>
+          <div style={{ textAlign: "center", marginBottom: 35 }} className="reveal" ref={useReveal()}>
+            <div style={{ display: "flex", justifyContent: "center" }}><SectionLabel>What We Stand For</SectionLabel></div>
+            <h2 style={{ fontFamily: T.poppins, fontSize: 43, color: T.titleblue, fontWeight: 700, letterSpacing: "-0.01em" }}>Our Core Values</h2>
           </div>
           <div className="values-grid" ref={valuesRef}>
             {values.map((v, i) => (
               <div key={v.title} className={`value-card reveal d${i}`}>
                 <div className="value-icon">{v.icon}</div>
-                <h3 style={{ fontFamily:T.poppins, fontSize:19, color:T.titleblue, marginBottom:8, fontWeight:600 }}>{v.title}</h3>
-                <p style={{ fontFamily:T.sans, fontSize:15, color:T.para, lineHeight:1.75, margin:0, textAlign:"justify" }}>{v.desc}</p>
+                <h3 style={{ fontFamily: T.poppins, fontSize: 19, color: T.titleblue, marginBottom: 8, fontWeight: 600 }}>{v.title}</h3>
+                <p style={{ fontFamily: T.sans, fontSize: 15, color: T.para, lineHeight: 1.75, margin: 0, textAlign: "justify" }}>{v.desc}</p>
               </div>
             ))}
           </div>
@@ -335,26 +335,26 @@ export default function AboutScreen() {
       </section>
 
       {/* ══ TIMELINE ══ */}
-      <section style={{ position:"relative", overflow:"hidden" }} className="sec">
-        <img src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=1600&q=80&fit=crop" alt="Company growth" style={{ position:"absolute", inset:0, width:"100%", height:"100%", objectFit:"cover" }} />
-        <div style={{ position:"absolute", inset:0, background:"linear-gradient(135deg, rgba(13,27,42,0.95) 0%, rgba(14,128,128,0.88) 100%)" }} />
-        <div style={{ maxWidth:900, margin:"0 auto", position:"relative", zIndex:1 }}>
-          <div style={{ textAlign:"center", marginBottom:52 }} className="reveal" ref={useReveal({ threshold:0.1 })}>
-            <div style={{ display:"flex", justifyContent:"center", marginBottom:16 }}><SectionLabel light>Our Journey</SectionLabel></div>
-            <h2 style={{ fontFamily:T.poppins, fontSize:"clamp(2rem,3.2vw,2.9rem)", color:"#fff", fontWeight:700, letterSpacing:"-0.01em" }}>Milestones That Define Us</h2>
+      <section style={{ position: "relative", overflow: "hidden" }} className="sec">
+        <img src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=1600&q=80&fit=crop" alt="Company growth" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }} />
+        <div style={{ position: "absolute", inset: 0, background: "linear-gradient(135deg, rgba(13,27,42,0.95) 0%, rgba(14,128,128,0.88) 100%)" }} />
+        <div style={{ maxWidth: 900, margin: "0 auto", position: "relative", zIndex: 1 }}>
+          <div style={{ textAlign: "center", marginBottom: 52 }} className="reveal" ref={useReveal({ threshold: 0.1 })}>
+            <div style={{ display: "flex", justifyContent: "center", marginBottom: 16 }}><SectionLabel light>Our Journey</SectionLabel></div>
+            <h2 style={{ fontFamily: T.poppins, fontSize: "clamp(2rem,3.2vw,2.9rem)", color: "#fff", fontWeight: 700, letterSpacing: "-0.01em" }}>Milestones That Define Us</h2>
           </div>
-          <div style={{ position:"relative" }}>
-            <div style={{ position:"absolute", left:88, top:0, bottom:0, width:1.5, background:"rgba(30,136,200,0.40)" }} />
-            <div style={{ display:"flex", flexDirection:"column", gap:28 }} ref={timelineRef}>
+          <div style={{ position: "relative" }}>
+            <div style={{ position: "absolute", left: 88, top: 0, bottom: 0, width: 1.5, background: "rgba(30,136,200,0.40)" }} />
+            <div style={{ display: "flex", flexDirection: "column", gap: 28 }} ref={timelineRef}>
               {timeline.map((item, i) => (
-                <div key={item.year} className={`reveal d${Math.min(i,5)}`} style={{ display:"flex", gap:28, alignItems:"flex-start" }}>
-                  <div style={{ width:80, flexShrink:0, textAlign:"right" }}>
-                    <span style={{ display:"inline-block", padding:"4px 12px", background:T.teal, color:"#fff", fontSize:11, fontWeight:700, borderRadius:4, fontFamily:T.poppins, letterSpacing:"0.04em" }}>{item.year}</span>
+                <div key={item.year} className={`reveal d${Math.min(i, 5)}`} style={{ display: "flex", gap: 28, alignItems: "flex-start" }}>
+                  <div style={{ width: 80, flexShrink: 0, textAlign: "right" }}>
+                    <span style={{ display: "inline-block", padding: "4px 12px", background: T.teal, color: "#fff", fontSize: 11, fontWeight: 700, borderRadius: 4, fontFamily: T.poppins, letterSpacing: "0.04em" }}>{item.year}</span>
                   </div>
-                  <div style={{ width:14, height:14, borderRadius:"50%", background:T.teal, border:"2.5px solid #fff", flexShrink:0, marginTop:5, position:"relative", zIndex:1 }} />
-                  <div style={{ background:"rgba(255,255,255,0.07)", borderRadius:10, padding:"20px 24px", border:"1px solid rgba(30,136,200,0.22)", flex:1, backdropFilter:"blur(6px)" }}>
-                    <h3 style={{ fontFamily:T.poppins, fontSize:17, color:"#fff", marginBottom:8, fontWeight:600 }}>{item.title}</h3>
-                    <p style={{ fontFamily:T.sans, fontSize:15, color:"rgba(255,255,255,0.68)", lineHeight:1.75, margin:0 }}>{item.desc}</p>
+                  <div style={{ width: 14, height: 14, borderRadius: "50%", background: T.teal, border: "2.5px solid #fff", flexShrink: 0, marginTop: 5, position: "relative", zIndex: 1 }} />
+                  <div style={{ background: "rgba(255,255,255,0.07)", borderRadius: 10, padding: "20px 24px", border: "1px solid rgba(30,136,200,0.22)", flex: 1, backdropFilter: "blur(6px)" }}>
+                    <h3 style={{ fontFamily: T.poppins, fontSize: 17, color: "#fff", marginBottom: 8, fontWeight: 600 }}>{item.title}</h3>
+                    <p style={{ fontFamily: T.sans, fontSize: 15, color: "rgba(255,255,255,0.68)", lineHeight: 1.75, margin: 0 }}>{item.desc}</p>
                   </div>
                 </div>
               ))}
@@ -364,30 +364,30 @@ export default function AboutScreen() {
       </section>
 
       {/* ══ CTA BAND ══ */}
-      <section className="reveal" ref={ctaRef} style={{ background:T.ctaBand, borderTop:`1px solid ${T.ctaBandBorder}`, borderBottom:`1px solid ${T.ctaBandBorder}`, padding:"80px clamp(16px,5vw,56px)" }}>
-        <div style={{ maxWidth:1100, margin:"0 auto" }}>
+      <section className="reveal" ref={ctaRef} style={{ background: T.ctaBand, borderTop: `1px solid ${T.ctaBandBorder}`, borderBottom: `1px solid ${T.ctaBandBorder}`, padding: "80px clamp(16px,5vw,56px)" }}>
+        <div style={{ maxWidth: 1100, margin: "0 auto" }}>
           <div className="cta-split">
             <div>
-              <div style={{ display:"flex", alignItems:"center", gap:12, marginBottom:20 }}>
-                <div style={{ width:28, height:1.5, background:T.teal }} />
-                <span style={{ fontFamily:T.sans, fontSize:11, fontWeight:600, letterSpacing:"0.14em", textTransform:"uppercase", color:T.teal }}>Start Today</span>
+              <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 20 }}>
+                <div style={{ width: 28, height: 1.5, background: T.teal }} />
+                <span style={{ fontFamily: T.sans, fontSize: 11, fontWeight: 600, letterSpacing: "0.14em", textTransform: "uppercase", color: T.teal }}>Start Today</span>
               </div>
-              <h2 style={{ fontFamily:T.poppins, fontSize:43, color:T.titleblue, fontWeight:700, lineHeight:1.1, letterSpacing:"-0.01em", marginBottom:14 }}>
+              <h2 style={{ fontFamily: T.poppins, fontSize: 43, color: T.titleblue, fontWeight: 700, lineHeight: 1.1, letterSpacing: "-0.01em", marginBottom: 14 }}>
                 Ready to Work With<br />India's Best?
               </h2>
-              <p style={{ fontFamily:T.sans, color:T.para, fontSize:16, lineHeight:1.8 }}>
+              <p style={{ fontFamily: T.sans, color: T.para, fontSize: 16, lineHeight: 1.8 }}>
                 Join 10,000+ businesses who trust SIACC for their compliance needs.<br />Free consultation. Clear timeline. Transparent pricing.
               </p>
             </div>
-            <div style={{ display:"flex", flexDirection:"column", gap:12, flexShrink:0 }}>
+            <div style={{ display: "flex", flexDirection: "column", gap: 12, flexShrink: 0 }}>
               <button onClick={() => router.push("/contact")}
-                style={{ padding:"14px 36px", fontFamily:T.poppins, fontSize:14, fontWeight:600, letterSpacing:"0.02em", border:"none", borderRadius:6, cursor:"pointer", background:T.orange, color:"#fff", whiteSpace:"nowrap", transition:"background 0.2s" }}
+                style={{ padding: "14px 36px", fontFamily: T.poppins, fontSize: 14, fontWeight: 600, letterSpacing: "0.02em", border: "none", borderRadius: 6, cursor: "pointer", background: T.orange, color: "#fff", whiteSpace: "nowrap", transition: "background 0.2s" }}
                 onMouseEnter={e => e.currentTarget.style.background = T.teal}
                 onMouseLeave={e => e.currentTarget.style.background = T.orange}>
                 Get Free Consultation
               </button>
               <button onClick={() => router.push("/services")}
-                style={{ padding:"13px 28px", border:`1.5px solid ${T.border}`, borderRadius:6, fontFamily:T.poppins, fontSize:14, fontWeight:500, color:T.slate, background:T.white, whiteSpace:"nowrap", transition:"border-color 0.2s" }}
+                style={{ padding: "13px 28px", border: `1.5px solid ${T.border}`, borderRadius: 6, fontFamily: T.poppins, fontSize: 14, fontWeight: 500, color: T.slate, background: T.white, whiteSpace: "nowrap", transition: "border-color 0.2s" }}
                 onMouseEnter={e => e.currentTarget.style.borderColor = T.teal}
                 onMouseLeave={e => e.currentTarget.style.borderColor = T.border}>
                 View Our Services →

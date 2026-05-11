@@ -242,7 +242,7 @@ export default function HomeScreen() {
                 <div style={{ fontFamily: T.poppins, fontSize: 13, color: "#000000d7", marginTop: 4 }}>Clients Served</div>
               </div>
               <div style={{ position: "absolute", top: 20, left: 20, background: T.teal, borderRadius: 4, padding: "7px 16px" }}>
-                <span style={{ fontFamily: T.poppins, fontWeight: 700, fontSize: 13, color: "#000000d7", letterSpacing: "0.1em" }}>SINCE 2011</span>
+                <span style={{ fontFamily: T.poppins, fontWeight: 700, fontSize: 13, color: "#000000d7", letterSpacing: "0.1em" }}>SINCE 2015</span>
               </div>
             </div>
 

@@ -105,7 +105,7 @@ The "Last Updated" date at the top of this page reflects the most recent revisio
 Siacc India — Privacy Officer
 Email: privacy@Siacc.in
 Phone: +91- 9540190334
-Address: 12, Connaught Place, New Delhi – 110001
+Address: 12, North West Delhi, New Delhi – 110001
 
 We aim to respond to all privacy inquiries within 5 business days.`
   },
