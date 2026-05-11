@@ -20,7 +20,8 @@ const C = {
 };
 
 const serviceDropdown = [
-  { name: "BIS-CRS & ISI Certification", href: "/bis" },
+  { name: "BIS-CRS Registration", href: "/bis-crs" },
+  { name: "BIS-ISI Mark Certification", href: "/bis-isi" },
   { name: "WPC-ETA Approval", href: "/wpc" },
   { name: "Testing & Certification", href: "/testing&certification" },
   { name: "BEE Certification", href: "/bee" },

@@ -29,7 +29,8 @@ const T = {
 };
 
 const services = [
-  { id: "bis-crs-isi", title: "BIS CRS & ISI Certification", desc: "Mandatory certification for 70+ electronics under CRS and 370+ categories under ISI including steel, cement, electrical goods and LPG cylinders.", img: "/finalimages/siaccbis.png", href: "/bis", tag: "BIS", accent: "#1E88C8" },
+  { id: "bis-crs", title: "BIS CRS Registration", desc: "Mandatory registration for 70+ electronic & IT product categories — mobiles, laptops, LED lights, chargers, power banks. Full end-to-end support from lab to R-number.", img: "/finalimages/siaccbis.png", href: "/bis-crs", tag: "CRS", accent: "#1E88C8" },
+  { id: "bis-isi", title: "BIS ISI Mark Certification", desc: "Mandatory quality mark for 370+ categories including steel, cement, electrical goods and LPG cylinders. Lab testing, factory inspection, and full BIS license handled for you.", img: "/finalimages/siaccbis.png", href: "/bis-isi", tag: "ISI", accent: "#0a6daa" },
   { id: "wpc-eta", title: "WPC-ETA Approval", desc: "Mandatory for all wireless, Bluetooth, Wi-Fi, Zigbee and RF devices imported or sold in India. Filed via the Saralsanchar portal.", img: "/finalimages/siaccwpc.png", href: "/wpc", tag: "WPC", accent: "#1567A0" },
   { id: "testing", title: "Testing & Certification", desc: "End-to-end lab testing for product safety, EMC, RF and chemical analysis. 50+ NABL / BIS / TEC accredited partner labs across India.", img: "/finalimages/siacctesting.png", href: "/testing", tag: "Testing", accent: "hsl(203, 74%, 45%)" },
   { id: "bee", title: "BEE Certification", desc: "Mandatory BEE star labelling for ACs, refrigerators, washing machines, geysers and fans. Both voluntary and mandatory schemes covered.", img: "/finalimages/siaccbee.png", href: "/bee", tag: "BEE", accent: "#F97316" },

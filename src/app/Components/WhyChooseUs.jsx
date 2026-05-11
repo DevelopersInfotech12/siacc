@@ -374,7 +374,7 @@ export default function WhyChooseUs() {
           <div className="wcu-img-overlay" />
           <div className="wcu-ribbon">The SIACC Difference</div>
           <div className="wcu-img-stats">
-            {[{ v: "100+", l: "Experts" }, { v: "50+", l: "Domains" }, { v: "12+", l: "Years" }].map((s) => (
+            {[{ v: "100+", l: "Experts" }, { v: "1000+", l: "Domains" }, { v: "12+", l: "Years" }].map((s) => (
               <div key={s.l} className="wcu-img-stat">
                 <div className="wcu-img-stat-val">{s.v}</div>
                 <div className="wcu-img-stat-lbl">{s.l}</div>

@@ -26,12 +26,20 @@ const T = {
 
 const slides = [
   {
-    id: "bis-crs-isi", tag: "BIS — CRS & ISI", shortTag: "BIS",
-    title: "BIS CRS & ISI Certification",
-    sub: "Compulsory Registration & Quality Mark",
-    desc: "Covers 70+ electronic product categories under CRS (mobiles, laptops, LED lights, chargers, power banks) and 370+ categories under ISI (steel, cement, electrical goods, LPG cylinders). Full end-to-end support from lab coordination to license.",
-    s1: { v: "440+", l: "Product categories" }, s2: { v: "4–12 wk", l: "Typical timeline" },
-    href: "/bis", img: "/images/bis2.png",
+    id: "bis-crs", tag: "BIS — CRS", shortTag: "CRS",
+    title: "BIS CRS Registration",
+    sub: "Compulsory Registration Scheme for Electronics",
+    desc: "Mandatory registration for 70+ electronic & IT product categories including mobiles, laptops, LED lights, chargers, and power banks. We handle lab coordination, BIS portal filing, and follow-up until your R-number is issued.",
+    s1: { v: "70+", l: "Product categories" }, s2: { v: "4–8 wk", l: "Typical timeline" },
+    href: "/bis-crs", img: "/images/bis2.png",
+  },
+  {
+    id: "bis-isi", tag: "BIS — ISI", shortTag: "ISI",
+    title: "BIS ISI Mark Certification",
+    sub: "Quality Mark for Manufactured Goods",
+    desc: "Mandatory for 370+ product categories including steel, cement, electrical goods, LPG cylinders and building materials. We manage lab testing, factory inspection preparation, and full BIS license application end-to-end.",
+    s1: { v: "370+", l: "Product categories" }, s2: { v: "8–12 wk", l: "Typical timeline" },
+    href: "/bis-isi", img: "/finalimages/siaccbis.png",
   },
   {
     id: "wpc", tag: "WPC — ETA", shortTag: "WPC",
