@@ -77,7 +77,7 @@ export default function QRGeneratePage() {
         ctx.fillRect(0, 432, 420, 58);
         ctx.fillStyle = "#ffffff";
         ctx.font = "bold 11px Arial";
-        ctx.fillText("BIS · WPC · TEC · BEE · EPR · LMPC · CDSCO · ISO", 210, 452);
+        ctx.fillText("BIS · ISI . WPC · TEC · BEE · EPR · LMPC · CDSCO · ISO", 210, 452);
         ctx.font = "10px Arial";
         ctx.fillStyle = "rgba(255,255,255,0.75)";
         ctx.fillText("0% Failure Rate  ·  1,000+ Businesses Certified", 210, 472);
