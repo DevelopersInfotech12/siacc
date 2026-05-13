@@ -200,9 +200,9 @@ export default function OurServicesHome() {
         <div className="oss-logo-mark">
           <svg viewBox="0 0 20 20" fill="none">
             <polygon points="10,2 18,7 18,13 10,18 2,13 2,7" stroke="#fff" strokeWidth="1.5" fill="none" />
-            <text x="10" y="13" textAnchor="middle" fill="#fff" fontSize="7" fontWeight="700">SS</text>
+            <text x="10" y="13" textAnchor="middle" fill="#fff" fontSize="7" fontWeight="700">SI</text>
           </svg>
-          <span>Siacc<br />Services</span>
+          <span>Star<br />India</span>
         </div>
       </div>
       <div className="oss-card-body">

@@ -18,7 +18,8 @@ const T = {
 };
 
 const SERVICES = [
-  "BIS CRS / ISI Certification",
+  "BIS-CRS Certification",
+   "BIS-ISI Certification",
   "WPC-ETA Approval",
   "TEC / MTCTE Certification",
   "BEE Star Rating",
@@ -294,8 +295,8 @@ export default function ContactScreen() {
                 Contact Details
               </h3>
               {[
-                { icon: "📞", label: "Call Us", value: "+91-9540190334", href: "tel:+919540190334" },
-                { icon: "📞", label: "Alternate", value: "+91-9891229135", href: "tel:+919891229135" },
+                { icon: "📞", label: "Call Us", value: "+91-9891229135", href: "tel:+919891229135" },
+                { icon: "📞", label: "Alternate", value: "+91-9540190334", href: "tel:+919540190334" },
                 { icon: "✉️", label: "Email", value: "starindia.acc@gmail.com", href: "mailto:starindia.acc@gmail.com" },
                 { icon: "✉️", label: "Alternate", value: "info@siacc.co.in", href: "mailto:info@siacc.co.in" },
                 { icon: "🕐", label: "Hours", value: "Mon–Sat: 9:00 AM – 6:00 PM", href: null },
