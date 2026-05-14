@@ -325,8 +325,8 @@ const css = `
   .cost-row { display:flex; justify-content:space-between; align-items:center; padding:14px 20px; border-bottom:1px solid #F0ECE5; transition:background 0.15s; gap:12px; }
   .cost-row:last-child { border-bottom:none; }
   .cost-row:hover { background:rgba(30,136,200,0.03); }
-  .validity-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:16px; }
-  @media(max-width:380px){ .validity-grid { grid-template-columns:1fr; } }
+.validity-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:16px;}
+@media(max-width:600px){.validity-grid{grid-template-columns:1fr;}}
   .validity-card { border-radius:12px; padding:24px 20px; border:1px solid #E8E3DA; background:#fff; transition:all 0.22s; text-align:center; }
   .validity-card:hover { transform:translateY(-3px); box-shadow:0 12px 32px rgba(0,0,0,0.07); }
   .tlcv-grid { display:grid; grid-template-columns:1fr 1fr; gap:32px; align-items:flex-start; }
@@ -339,24 +339,24 @@ const css = `
 `;
 
 export default function CDSCOScreen() {
-  const heroLeftRef  = useReveal();
-  const overviewRef  = useReveal();
-  const infoCardRef  = useReveal();
-  const statsRef     = useReveal({ stagger: true, baseDelay: 100 });
-  const typesTtlRef  = useReveal();
-  const typesRef     = useReveal({ stagger: true, baseDelay: 80 });
+  const heroLeftRef = useReveal();
+  const overviewRef = useReveal();
+  const infoCardRef = useReveal();
+  const statsRef = useReveal({ stagger: true, baseDelay: 100 });
+  const typesTtlRef = useReveal();
+  const typesRef = useReveal({ stagger: true, baseDelay: 80 });
 
   const benefitsTtlRef = useReveal();
-  const benefitsRef    = useReveal({ stagger: true, baseDelay: 75 });
+  const benefitsRef = useReveal({ stagger: true, baseDelay: 75 });
 
   const dstepsTtlRef = useReveal();
-  const dstepsRef    = useReveal();
+  const dstepsRef = useReveal();
 
   const crsDocsTtlRef = useReveal();
-  const crsDocsRef    = useReveal({ stagger: true, baseDelay: 70 });
+  const crsDocsRef = useReveal({ stagger: true, baseDelay: 70 });
 
   const tlcvTtlRef = useReveal();
-  const tlcvRef    = useReveal();
+  const tlcvRef = useReveal();
 
   const faqRef = useReveal({ stagger: true, baseDelay: 80 });
   const ctaRef = useReveal();
@@ -369,7 +369,7 @@ export default function CDSCOScreen() {
       {/* ══ HERO ══ */}
       <section style={{ position: "relative", overflow: "hidden", borderBottom: `1px solid ${T.border}`, minHeight: 420, display: "flex", flexDirection: "column", justifyContent: "center" }}>
         <div style={{ position: "absolute", left: 0, top: 0, bottom: 0, width: 4, background: `linear-gradient(to bottom,${T.orange},${T.teal})`, zIndex: 3 }} />
-        <img src="/images/cdsco.png" alt="CDSCO Licensing" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", objectPosition: "center 35%", zIndex: 0 }} />
+        <img src="/finalimages/siacccdsco.png" alt="CDSCO Licensing" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", objectPosition: "center 35%", zIndex: 0 }} />
         <div style={{ position: "absolute", inset: 0, zIndex: 1, background: "linear-gradient(to right,rgba(7,18,28,0.88) 0%,rgba(7,18,28,0.60) 50%,rgba(7,18,28,0.10) 100%)" }} />
         <div style={{ position: "relative", zIndex: 2, maxWidth: 1280, margin: "0 auto", width: "100%", padding: "clamp(48px,7vw,88px) clamp(20px,4vw,60px)" }}>
           <div ref={heroLeftRef} className="reveal-left">
@@ -515,7 +515,7 @@ export default function CDSCOScreen() {
                   <div style={{ width: 50, height: 50, borderRadius: 10, background: T.tealLight, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 22, flexShrink: 0 }}>{b.icon}</div>
                   <h3 style={{ fontFamily: T.poppins, fontSize: 15.5, color: T.titleblue, fontWeight: 700, lineHeight: 1.3 }}>{b.title}</h3>
                 </div>
-                <p style={{ fontFamily: T.sans, fontSize: 14, color: T.paradark, lineHeight: 1.8, margin: 0 }}>{b.desc}</p>
+                <p style={{ fontFamily: T.sans, fontSize: 14, color: T.paradark, textAlign: "justify",lineHeight: 1.8, margin: 0 }}>{b.desc}</p>
               </div>
             ))}
           </div>
@@ -571,7 +571,7 @@ export default function CDSCOScreen() {
                       <span style={{ fontSize: 20 }}>{s.icon}</span>
                       <h3 style={{ fontFamily: T.poppins, fontSize: 17, color: T.titleblue, fontWeight: 700 }}>{s.title}</h3>
                     </div>
-                    <p style={{ fontFamily: T.sans, fontSize: 14.5, color: T.paradark, lineHeight: 1.8, marginBottom: 10 }}>{s.desc}</p>
+                    <p style={{ fontFamily: T.sans, fontSize: 14.5, textAlign: "justify",color: T.paradark, lineHeight: 1.8, marginBottom: 10 }}>{s.desc}</p>
                     <div style={{ background: T.tealLight, borderLeft: `3px solid ${T.teal}`, borderRadius: "0 6px 6px 0", padding: "8px 14px" }}>
                       <span style={{ fontFamily: T.poppins, fontSize: 12.5, color: T.tealMid, fontWeight: 600 }}>{s.tip}</span>
                     </div>
@@ -650,7 +650,7 @@ export default function CDSCOScreen() {
                 </div>
                 <div>
                   <div style={{ fontFamily: T.poppins, fontSize: 14, fontWeight: 700, color: "#fff", marginBottom: 5 }}>{doc.title}</div>
-                  <p style={{ fontFamily: T.sans, fontSize: 13, color: "rgba(255,255,255,0.75)", lineHeight: 1.7, margin: 0 }}>{doc.desc}</p>
+                  <p style={{ fontFamily: T.sans,textAlign: "justify", fontSize: 13, color: "rgba(255,255,255,0.75)", lineHeight: 1.7, margin: 0 }}>{doc.desc}</p>
                 </div>
               </div>
             ))}
@@ -757,7 +757,7 @@ export default function CDSCOScreen() {
                       <div style={{ fontSize: 28, marginBottom: 10 }}>{vc.icon}</div>
                       <div style={{ fontFamily: T.poppins, fontSize: 22, fontWeight: 800, color: vc.color, marginBottom: 4 }}>{vc.value}</div>
                       <div style={{ fontFamily: T.poppins, fontSize: 13, color: T.titleblue, fontWeight: 700, marginBottom: 8 }}>{vc.title}</div>
-                      <p style={{ fontFamily: T.sans, fontSize: 12.5, color: T.muted, lineHeight: 1.7, margin: 0 }}>{vc.desc}</p>
+                      <p style={{ fontFamily: T.sans, fontSize: 12.5,textAlign: "justify", color: T.muted, lineHeight: 1.7, margin: 0 }}>{vc.desc}</p>
                     </div>
                   ))}
                 </div>

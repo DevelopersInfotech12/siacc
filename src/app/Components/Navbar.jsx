@@ -89,7 +89,7 @@ export default function Navbar() {
           display: none;
           position: fixed;
           bottom: 88px;
-          right: 14px;
+          right: 24px;
           z-index: 9999;
           width: 52px;
           height: 52px;

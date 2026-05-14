@@ -115,8 +115,6 @@ const heroChips = [
   { icon: "✅", label: "0% Failure Rate" },
 ];
 
-// ── NEW SECTION DATA ──────────────────────────────────────────────
-
 const benefits = [
   {
     icon: "⚖️",
@@ -296,7 +294,7 @@ const css = `
   .faq-grid{}
   @media(max-width:760px){.faq-grid{grid-template-columns:1fr!important;}}
 
-  /* ── NEW SECTION STYLES ── */
+  /* ── BENEFITS ── */
   .benefits-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:18px;}
   @media(max-width:640px){.benefits-grid{grid-template-columns:1fr;}}
   .benefit-card{background:#fff;border-radius:12px;padding:26px 24px;border:1px solid #E8E3DA;transition:all 0.25s;position:relative;overflow:hidden;}
@@ -304,18 +302,29 @@ const css = `
   .benefit-card:hover{border-color:#1E88C8;transform:translateY(-3px);box-shadow:0 14px 36px rgba(30,136,200,0.09);}
   .benefit-card:hover::before{opacity:1;}
 
+  /* ── STEP-BY-STEP — FIXED ── */
+  .dsteps-outer{display:grid;grid-template-columns:1fr 380px;gap:48px;align-items:flex-start;}
+  @media(max-width:860px){.dsteps-outer{grid-template-columns:1fr;gap:32px;}}
+  .dsteps-sticky{position:sticky;top:100px;}
+  @media(max-width:860px){.dsteps-sticky{position:static;}}
+
   .detailed-steps-list{display:flex;flex-direction:column;gap:0;}
   .dstep-row{display:grid;grid-template-columns:60px 1fr;gap:0;position:relative;}
   .dstep-row:not(:last-child) .dstep-line{position:absolute;left:29px;top:60px;bottom:-1px;width:2px;background:linear-gradient(to bottom,#1E88C8,rgba(30,136,200,0.15));z-index:0;}
   .dstep-left{display:flex;flex-direction:column;align-items:center;padding-top:6px;position:relative;z-index:1;}
   .dstep-num{width:42px;height:42px;border-radius:50%;background:#1E88C8;color:#fff;display:flex;align-items:center;justify-content:center;font-family:'Poppins','system-ui',sans-serif;font-size:13px;font-weight:700;flex-shrink:0;}
   .dstep-body{padding:4px 0 36px 20px;}
-  @media(max-width:640px){.detailed-steps-list{gap:0;} .dstep-body{padding-bottom:24px;}}
+  @media(max-width:480px){.dstep-body{padding-bottom:24px;} .dstep-row{grid-template-columns:50px 1fr;}}
 
+  /* ── DOCS ── */
   .crs-docs-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:14px;}
   @media(max-width:640px){.crs-docs-grid{grid-template-columns:1fr;}}
   .doc-card{background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.13);border-radius:10px;padding:20px;display:flex;gap:14px;align-items:flex-start;backdrop-filter:blur(4px);transition:background 0.2s,border-color 0.2s;}
   .doc-card:hover{background:rgba(255,255,255,0.14);border-color:rgba(255,255,255,0.28);}
+
+  /* ── TIMELINE/COST/VALIDITY — FIXED ── */
+  .tlcv-grid{display:grid;grid-template-columns:1fr 1fr;gap:32px;align-items:flex-start;}
+  @media(max-width:860px){.tlcv-grid{grid-template-columns:1fr;}}
 
   .timeline-table{width:100%;border-collapse:collapse;}
   .timeline-table th{font-family:'Poppins','system-ui',sans-serif;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:#1E88C8;padding:10px 16px;border-bottom:2px solid #E8E3DA;text-align:left;}
@@ -323,18 +332,25 @@ const css = `
   .timeline-table tr:last-child td{border-bottom:none;}
   .timeline-table tr:hover td{background:rgba(30,136,200,0.03);}
   .timeline-table td:nth-child(2){font-family:'Poppins','system-ui',sans-serif;font-weight:600;color:#1E88C8;white-space:nowrap;}
+  @media(max-width:500px){
+    .timeline-table th,.timeline-table td{padding:9px 10px;font-size:12px;}
+    .timeline-table td:nth-child(3){display:none;}
+    .timeline-table th:nth-child(3){display:none;}
+  }
 
-  .cost-row{display:flex;justify-content:space-between;align-items:center;padding:14px 20px;border-bottom:1px solid #F0ECE5;transition:background 0.15s;}
+  .cost-row{display:flex;justify-content:space-between;align-items:center;padding:14px 20px;border-bottom:1px solid #F0ECE5;transition:background 0.15s;gap:12px;}
   .cost-row:last-child{border-bottom:none;}
   .cost-row:hover{background:rgba(30,136,200,0.03);}
+  @media(max-width:500px){
+    .cost-row{flex-direction:column;align-items:flex-start;gap:4px;padding:12px 14px;}
+  }
+
+  /* ── VALIDITY CARDS — FIXED: always 1-col on mobile ── */
   .validity-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:16px;}
-  @media(max-width:600px){.validity-grid{grid-template-columns:1fr 1fr;}}
-  @media(max-width:380px){.validity-grid{grid-template-columns:1fr;}}
+  @media(max-width:600px){.validity-grid{grid-template-columns:1fr;}}
+
   .validity-card{border-radius:12px;padding:24px 20px;border:1px solid #E8E3DA;background:#fff;transition:all 0.22s;text-align:center;}
   .validity-card:hover{transform:translateY(-3px);box-shadow:0 12px 32px rgba(0,0,0,0.07);}
-
-  .tlcv-grid{display:grid;grid-template-columns:1fr 1fr;gap:32px;align-items:flex-start;}
-  @media(max-width:860px){.tlcv-grid{grid-template-columns:1fr;}}
 `;
 
 export default function BISCRSScreen() {
@@ -345,7 +361,6 @@ export default function BISCRSScreen() {
   const typesTtlRef  = useReveal();
   const typesRef     = useReveal({ stagger: true, baseDelay: 80 });
 
-  // NEW refs
   const benefitsTtlRef  = useReveal();
   const benefitsRef     = useReveal({ stagger: true, baseDelay: 75 });
   const dstepsTtlRef    = useReveal();
@@ -497,9 +512,7 @@ export default function BISCRSScreen() {
         </div>
       </section>
 
-      {/* ══════════════════════════════════════════════════════════════════
-          SECTION 1 — IMPORTANCE & BENEFITS OF BIS CRS CERTIFICATION
-      ══════════════════════════════════════════════════════════════════ */}
+      {/* ══ BENEFITS ══ */}
       <section className="sec" style={{ background: T.cream }}>
         <div className="inner">
           <div style={{ textAlign: "center", marginBottom: 52 }} className="reveal" ref={benefitsTtlRef}>
@@ -523,12 +536,11 @@ export default function BISCRSScreen() {
                   </div>
                   <h3 style={{ fontFamily: T.poppins, fontSize: 15.5, color: T.titleblue, fontWeight: 700, lineHeight: 1.3 }}>{b.title}</h3>
                 </div>
-                <p style={{ fontFamily: T.sans, fontSize: 14, color: T.paradark, lineHeight: 1.8, margin: 0 }}>{b.desc}</p>
+                <p style={{ fontFamily: T.sans, fontSize: 14,textAlign: "justify", color: T.paradark, lineHeight: 1.8, margin: 0 }}>{b.desc}</p>
               </div>
             ))}
           </div>
 
-          {/* Highlight callout */}
           <div style={{ marginTop: 40, background: `linear-gradient(135deg,${T.teal} 0%,${T.tealMid} 100%)`, borderRadius: 12, padding: "28px 36px", display: "flex", alignItems: "center", gap: 24, flexWrap: "wrap" }}>
             <div style={{ fontSize: 36, flexShrink: 0 }}>⚠️</div>
             <div style={{ flex: 1, minWidth: 220 }}>
@@ -546,9 +558,7 @@ export default function BISCRSScreen() {
         </div>
       </section>
 
-      {/* ══════════════════════════════════════════════════════════════════
-          SECTION 2 — STEP-BY-STEP PROCESS OF BIS CRS CERTIFICATION
-      ══════════════════════════════════════════════════════════════════ */}
+      {/* ══ STEP-BY-STEP — FIXED ══ */}
       <section className="sec" style={{ background: T.white }}>
         <div className="inner">
           <div style={{ textAlign: "center", marginBottom: 52 }} className="reveal" ref={dstepsTtlRef}>
@@ -563,7 +573,8 @@ export default function BISCRSScreen() {
             </p>
           </div>
 
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 380px", gap: 48, alignItems: "flex-start" }} ref={dstepsRef} className="reveal">
+          {/* ↓ was inline style grid — now uses CSS class for responsive collapse */}
+          <div className="dsteps-outer reveal" ref={dstepsRef}>
             {/* Timeline steps */}
             <div className="detailed-steps-list">
               {detailedSteps.map((s, i) => (
@@ -577,7 +588,7 @@ export default function BISCRSScreen() {
                       <span style={{ fontSize: 20 }}>{s.icon}</span>
                       <h3 style={{ fontFamily: T.poppins, fontSize: 17, color: T.titleblue, fontWeight: 700 }}>{s.title}</h3>
                     </div>
-                    <p style={{ fontFamily: T.sans, fontSize: 14.5, color: T.paradark, lineHeight: 1.8, marginBottom: 10 }}>{s.desc}</p>
+                    <p style={{ fontFamily: T.sans, fontSize: 14.5,textAlign: "justify", color: T.paradark, lineHeight: 1.8, marginBottom: 10 }}>{s.desc}</p>
                     <div style={{ background: T.tealLight, borderLeft: `3px solid ${T.teal}`, borderRadius: "0 6px 6px 0", padding: "8px 14px" }}>
                       <span style={{ fontFamily: T.poppins, fontSize: 12.5, color: T.tealMid, fontWeight: 600 }}>{s.tip}</span>
                     </div>
@@ -586,8 +597,8 @@ export default function BISCRSScreen() {
               ))}
             </div>
 
-            {/* Side info card */}
-            <div style={{ position: "sticky", top: 100 }}>
+            {/* Side info card — ↓ was inline position:sticky, now CSS class */}
+            <div className="dsteps-sticky">
               <div style={{ background: T.cream, border: `1px solid ${T.border}`, borderRadius: 12, padding: 28, marginBottom: 20 }}>
                 <div className="sl-row" style={{ marginBottom: 12 }}><div className="sl-line" /><span className="sl-text">Foreign Manufacturers</span></div>
                 <div style={{ fontSize: 28, marginBottom: 12 }}>🌏</div>
@@ -624,9 +635,7 @@ export default function BISCRSScreen() {
         </div>
       </section>
 
-      {/* ══════════════════════════════════════════════════════════════════
-          SECTION 3 — DOCUMENTS REQUIRED FOR BIS CRS CERTIFICATION
-      ══════════════════════════════════════════════════════════════════ */}
+      {/* ══ DOCUMENTS ══ */}
       <section style={{ position: "relative", overflow: "hidden" }} className="sec">
         <img src="https://images.unsplash.com/photo-1568219557405-376e23e4f7cf?w=1600&q=80&fit=crop" alt="documents" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }} />
         <div style={{ position: "absolute", inset: 0, background: "linear-gradient(135deg,rgba(13,27,42,0.96) 0%,rgba(14,128,128,0.88) 100%)" }} />
@@ -654,7 +663,7 @@ export default function BISCRSScreen() {
                 </div>
                 <div>
                   <div style={{ fontFamily: T.poppins, fontSize: 14, fontWeight: 700, color: "#fff", marginBottom: 5 }}>{doc.title}</div>
-                  <p style={{ fontFamily: T.sans, fontSize: 13, color: "rgba(255,255,255,0.75)", lineHeight: 1.7, margin: 0 }}>{doc.desc}</p>
+                  <p style={{ fontFamily: T.sans,textAlign: "justify", fontSize: 13, color: "rgba(255,255,255,0.75)", lineHeight: 1.7, margin: 0 }}>{doc.desc}</p>
                 </div>
               </div>
             ))}
@@ -675,9 +684,7 @@ export default function BISCRSScreen() {
         </div>
       </section>
 
-      {/* ══════════════════════════════════════════════════════════════════
-          SECTION 4 — TIMELINES, COSTS, VALIDITY & RENEWAL
-      ══════════════════════════════════════════════════════════════════ */}
+      {/* ══ TIMELINES, COSTS, VALIDITY & RENEWAL — FIXED ══ */}
       <section className="sec" style={{ background: T.cream }}>
         <div className="inner">
           <div style={{ textAlign: "center", marginBottom: 52 }} className="reveal" ref={tlcvTtlRef}>
@@ -692,10 +699,9 @@ export default function BISCRSScreen() {
             </p>
           </div>
 
-          <div className="tlcv-grid" ref={tlcvRef}>
-            {/* LEFT COLUMN — Timeline Table + Cost */}
+          <div className="tlcv-grid reveal" ref={tlcvRef}>
+            {/* LEFT — Timeline + Cost */}
             <div>
-              {/* Timeline */}
               <div style={{ background: T.white, border: `1px solid ${T.border}`, borderRadius: 12, overflow: "hidden", marginBottom: 24 }}>
                 <div style={{ padding: "20px 20px 0", borderBottom: `2px solid ${T.border}` }}>
                   <div className="sl-row" style={{ marginBottom: 10 }}><div className="sl-line" /><span className="sl-text">Typical Timeline</span></div>
@@ -725,7 +731,6 @@ export default function BISCRSScreen() {
                 </div>
               </div>
 
-              {/* Cost */}
               <div style={{ background: T.white, border: `1px solid ${T.border}`, borderRadius: 12, overflow: "hidden" }}>
                 <div style={{ padding: "20px 20px 0", borderBottom: `2px solid ${T.border}` }}>
                   <div className="sl-row" style={{ marginBottom: 10 }}><div className="sl-line" /><span className="sl-text">Cost Breakdown</span></div>
@@ -734,7 +739,7 @@ export default function BISCRSScreen() {
                 <div>
                   {costItems.map((c, i) => (
                     <div key={i} className="cost-row">
-                      <span style={{ fontFamily: T.sans, fontSize: 14, color: T.paradark, flex: 1, paddingRight: 12 }}>{c.label}</span>
+                      <span style={{ fontFamily: T.sans, fontSize: 14, color: T.paradark, flex: 1 }}>{c.label}</span>
                       <span style={{ fontFamily: T.poppins, fontSize: 14, color: T.teal, fontWeight: 700, flexShrink: 0 }}>{c.value}</span>
                     </div>
                   ))}
@@ -748,24 +753,24 @@ export default function BISCRSScreen() {
               </div>
             </div>
 
-            {/* RIGHT COLUMN — Validity & Renewal cards */}
+            {/* RIGHT — Validity + Renewal */}
             <div>
               <div style={{ background: T.white, border: `1px solid ${T.border}`, borderRadius: 12, padding: "28px 24px", marginBottom: 24 }}>
                 <div className="sl-row" style={{ marginBottom: 12 }}><div className="sl-line" /><span className="sl-text">Validity & Renewal</span></div>
                 <h3 style={{ fontFamily: T.poppins, fontSize: 20, color: T.titleblue, fontWeight: 700, marginBottom: 20 }}>Key Rules to Know</h3>
+                {/* ↓ FIXED: 1-col on mobile via CSS class */}
                 <div className="validity-grid">
                   {validityCards.map((vc, i) => (
                     <div key={i} className="validity-card" style={{ borderTop: `3px solid ${vc.color}` }}>
                       <div style={{ fontSize: 28, marginBottom: 10 }}>{vc.icon}</div>
                       <div style={{ fontFamily: T.poppins, fontSize: 22, fontWeight: 800, color: vc.color, marginBottom: 4 }}>{vc.value}</div>
                       <div style={{ fontFamily: T.poppins, fontSize: 13, color: T.titleblue, fontWeight: 700, marginBottom: 8 }}>{vc.title}</div>
-                      <p style={{ fontFamily: T.sans, fontSize: 12.5, color: T.muted, lineHeight: 1.7, margin: 0 }}>{vc.desc}</p>
+                      <p style={{ fontFamily: T.sans,textAlign: "justify", fontSize: 12.5, color: T.muted, lineHeight: 1.7, margin: 0 }}>{vc.desc}</p>
                     </div>
                   ))}
                 </div>
               </div>
 
-              {/* Renewal checklist */}
               <div style={{ background: T.titleblue, borderRadius: 12, padding: 28 }}>
                 <div style={{ fontFamily: T.poppins, fontSize: 16, fontWeight: 700, color: "#fff", marginBottom: 6 }}>🔄 Renewal Made Simple</div>
                 <p style={{ fontFamily: T.sans, fontSize: 13.5, color: "rgba(255,255,255,0.78)", lineHeight: 1.7, marginBottom: 18 }}>
