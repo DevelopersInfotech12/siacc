@@ -8,7 +8,7 @@ import "../../animations.css";
 
 /* ─── Reveal hook ─────────────────────────────────────────── */
 function useReveal(opts = {}) {
-  const { threshold = 0.12, stagger = false, baseDelay = 80, once = true } = opts;
+  const { threshold = 0.01, stagger = false, baseDelay = 80, once = true } = opts;
   const ref = useRef(null);
   useEffect(() => {
     const el = ref.current; if (!el) return;
@@ -131,6 +131,12 @@ const css = `
   @media(max-width:720px){ .cta-split { grid-template-columns:1fr; gap:24px; } }
   @media(max-width:900px){ .article-layout { grid-template-columns:1fr !important; } .sidebar { display:none; } }
   @media(max-width:600px){ .article-body p, .article-body li { font-size:15px; } .step-row { flex-direction:column; } }
+
+  /* mobile hero overlay — make dark across full width */
+  @media(max-width:640px){
+    .hero-overlay { background: rgba(7,18,28,0.84) !important; }
+    .hero-chip { padding:7px 12px; font-size:11.5px; }
+  }
 `;
 
 /* ─── Helpers ─────────────────────────────────────────────── */
@@ -235,11 +241,14 @@ export default function BlogDetailPage() {
           }}
         />
 
-        {/* Dark overlay — same gradient as BlogScreen hero */}
-        <div style={{
-          position: "absolute", inset: 0, zIndex: 1,
-          background: "linear-gradient(to right, rgba(7,18,28,0.88) 0%, rgba(7,18,28,0.60) 50%, rgba(7,18,28,0.10) 100%)",
-        }} />
+        {/* Dark overlay */}
+        <div
+          className="hero-overlay"
+          style={{
+            position: "absolute", inset: 0, zIndex: 1,
+            background: "linear-gradient(to right, rgba(7,18,28,0.88) 0%, rgba(7,18,28,0.72) 60%, rgba(7,18,28,0.30) 100%)",
+          }}
+        />
 
         {/* Content — full 1280 max-width, same padding as BlogScreen */}
         <div style={{
@@ -247,7 +256,7 @@ export default function BlogDetailPage() {
           maxWidth: 1280, margin: "0 auto", width: "100%",
           padding: "clamp(48px,7vw,88px) clamp(20px,4vw,60px)",
         }}>
-          <div ref={heroRef} className="reveal-left">
+          <div ref={heroRef} className="revealed reveal-left">
 
             {/* Breadcrumb pill — same style as blog hero badge */}
             <div style={{
@@ -272,13 +281,22 @@ export default function BlogDetailPage() {
             {/* Big bold heading — same size as BlogScreen h1 */}
             <h1 style={{
               fontFamily: T.poppins,
-              fontSize: 44,
+              fontSize: "clamp(2rem,5vw,3.4rem)",
               fontWeight: 700, lineHeight: 1.08,
               marginBottom: 20, letterSpacing: "-0.01em",
               color: "#fff", maxWidth: 760,
             }}>
               <HeroTitle title={blog.title} />
             </h1>
+
+            {/* Excerpt */}
+            <p style={{
+              fontFamily: T.sans, fontSize: "clamp(14px,1.6vw,16px)",
+              color: "rgba(255,255,255,0.78)", lineHeight: 1.8,
+              maxWidth: 600, marginBottom: 32,
+            }}>
+              {blog.excerpt}
+            </p>
 
             {/* Chips row — same style as BlogScreen hero chips */}
             <div style={{ display: "flex", flexWrap: "wrap", gap: 10 }}>
@@ -305,7 +323,7 @@ export default function BlogDetailPage() {
           <div className="article-layout" style={{ display: "grid", gridTemplateColumns: "1fr 300px", gap: 48, alignItems: "flex-start" }}>
 
             {/* ── Main content ── */}
-            <div ref={bodyRef} className="reveal article-body">
+            <div ref={bodyRef} className="reveal revealed article-body">
 
               {/* Highlights box */}
               <div style={{ background: T.white, border: `1px solid ${T.ctaBandBorder}`, borderRadius: 10, padding: "24px 28px", marginBottom: 36 }}>
