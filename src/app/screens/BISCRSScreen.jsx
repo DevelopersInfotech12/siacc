@@ -3,6 +3,8 @@ import { useEffect, useRef, useState } from "react";
 import Navbar from "../Components/Navbar";
 import Footer from "../Components/Footer";
 import "../animations.css";
+import BISCRSProductList from "../Components/BISCRSProductList";
+import BISCRSProductModal from "../Components/BISCRSProductModal";
 
 function FaqItem({ faq }) {
   const [open, setOpen] = useState(false);
@@ -354,6 +356,7 @@ const css = `
 `;
 
 export default function BISCRSScreen() {
+  const [selectedProduct, setSelectedProduct] = useState(null);
   const heroLeftRef  = useReveal();
   const overviewRef  = useReveal();
   const infoCardRef  = useReveal();
@@ -489,28 +492,31 @@ export default function BISCRSScreen() {
         </div>
       </section>
 
-      {/* ══ PRODUCTS COVERED ══ */}
+      {/* ══ PRODUCTS UNDER BIS REGISTRATION SCHEME ══ */}
       <section className="sec" style={{ background: T.white }}>
         <div className="inner">
           <div style={{ textAlign: "center", marginBottom: 52 }} className="reveal" ref={typesTtlRef}>
-            <div style={{ display: "flex", justifyContent: "center" }}><div className="sl-row"><div className="sl-line" /><span className="sl-text">CRS Product Categories</span></div></div>
-            <h2 style={{ fontFamily: T.poppins, fontSize: "clamp(2rem,3.2vw,2.9rem)", color: T.titleblue, fontWeight: 700, letterSpacing: "-0.01em", marginBottom: 14 }}>Which Products Need CRS?</h2>
-            <p style={{ fontFamily: T.sans, color: T.para, maxWidth: 480, margin: "0 auto", lineHeight: 1.75, fontSize: 16 }}>These are the most common product categories that require mandatory BIS CRS registration.</p>
+            <div style={{ display: "flex", justifyContent: "center" }}>
+              <div className="sl-row"><div className="sl-line" /><span className="sl-text">Complete CRS Product List</span></div>
+            </div>
+            <h2 style={{ fontFamily: T.poppins, fontSize: "clamp(2rem,3.2vw,2.9rem)", color: T.titleblue, fontWeight: 700, letterSpacing: "-0.01em", marginBottom: 14 }}>
+              Products Under BIS Registration Scheme
+            </h2>
+            <p style={{ fontFamily: T.sans, color: T.para, maxWidth: 560, margin: "0 auto", lineHeight: 1.8, fontSize: 15.5 }}>
+              79+ product categories require mandatory BIS CRS registration. <strong>Click any product</strong> to view detailed registration requirements, documents, and process.
+            </p>
           </div>
-          <div className="types-grid" ref={typesRef}>
-            {crsProducts.map((t, i) => (
-              <div key={t.title} className={`type-card reveal d${i % 6}`}>
-                <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", marginBottom: 16 }}>
-                  <div style={{ width: 52, height: 52, background: T.tealLight, borderRadius: 10, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 24 }}>{t.icon}</div>
-                  <span style={{ fontFamily: T.sans, fontSize: 10, fontWeight: 700, background: T.tealLight, color: T.tealMid, padding: "3px 10px", borderRadius: 3, letterSpacing: "0.06em" }}>{t.tag}</span>
-                </div>
-                <h3 style={{ fontFamily: T.poppins, fontSize: 17, color: T.titleblue, marginBottom: 10, fontWeight: 600 }}>{t.title}</h3>
-                <p style={{ fontSize: 15, color: T.para, margin: 0, fontWeight: 500, textAlign: "justify" }}>{t.desc}</p>
-              </div>
-            ))}
-          </div>
+          <BISCRSProductList onProductClick={setSelectedProduct} />
         </div>
       </section>
+
+      {/* ══ PRODUCT DETAIL MODAL ══ */}
+      {selectedProduct && (
+        <BISCRSProductModal
+          product={selectedProduct}
+          onClose={() => setSelectedProduct(null)}
+        />
+      )}
 
       {/* ══ BENEFITS ══ */}
       <section className="sec" style={{ background: T.cream }}>
