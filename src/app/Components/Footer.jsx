@@ -186,7 +186,7 @@ export default function Footer() {
               <Phone style={iconStyle} />
               <span>+91-9891229135</span>
               <span style={{ opacity: 0.4 }}>|</span>
-              <span>+91-9540190335</span>
+              <span>+91-9540190334</span>
             </a>
             <a href="mailto:info@siacc.co.in" className="f-link"
               style={{ display: "flex", alignItems: "center", gap: 10, fontFamily: T.sans, fontSize: 13, color: "rgba(255,255,255,0.60)", textDecoration: "none" }}>
