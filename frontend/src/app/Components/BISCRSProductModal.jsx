@@ -27,6 +27,7 @@ const CATEGORY_COLORS = {
 
 const TABS = [
     { id: "overview", label: "Overview", icon: "📖" },
+    { id: "types", label: "Types", icon: "🗂️" },
     { id: "procedure", label: "Procedure", icon: "🔄" },
     { id: "air", label: "AIR Guide", icon: "🌏" },
     { id: "documents", label: "Documents", icon: "📄" },
@@ -204,6 +205,58 @@ function TabOverview({ product, catColor }) {
                         </div>
                     ))}
                 </div>
+            </div>
+        </div>
+    );
+}
+
+function TabTypes({ product }) {
+    const [search, setSearch] = useState("");
+    const allTypes = product.types || [];
+    const filtered = allTypes.filter(t => t.toLowerCase().includes(search.toLowerCase()));
+    return (
+        <div>
+            <div style={{ background: "linear-gradient(135deg,#1E3A5F 0%,#0a6daa 60%,#1E88C8 100%)", borderRadius: 12, padding: "18px 20px", marginBottom: 16, display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 12 }}>
+                <div>
+                    <div style={{ fontFamily: T.poppins, fontSize: 11, fontWeight: 700, color: "rgba(255,255,255,0.65)", letterSpacing: "0.1em", textTransform: "uppercase", marginBottom: 4 }}>BIS CRS — ADPM</div>
+                    <div style={{ fontFamily: T.poppins, fontSize: 15, fontWeight: 700, color: "#fff" }}>Approved Product Types</div>
+                    <div style={{ fontSize: 12, color: "rgba(255,255,255,0.72)", marginTop: 3 }}>IS 13252 (Part 1):2010 — Scheme II, Schedule II</div>
+                </div>
+                <div style={{ display: "flex", gap: 10 }}>
+                    <div style={{ background: "rgba(255,255,255,0.15)", borderRadius: 10, padding: "10px 16px", textAlign: "center", minWidth: 60 }}>
+                        <div style={{ fontFamily: T.poppins, fontSize: 22, fontWeight: 800, color: "#fff", lineHeight: 1 }}>{allTypes.length}</div>
+                        <div style={{ fontSize: 10, color: "rgba(255,255,255,0.7)", fontWeight: 600, marginTop: 2 }}>Total Types</div>
+                    </div>
+                    {search && <div style={{ background: "rgba(255,255,255,0.15)", borderRadius: 10, padding: "10px 16px", textAlign: "center", minWidth: 60 }}>
+                        <div style={{ fontFamily: T.poppins, fontSize: 22, fontWeight: 800, color: filtered.length > 0 ? "#7EFFA0" : "#FFB3B3", lineHeight: 1 }}>{filtered.length}</div>
+                        <div style={{ fontSize: 10, color: "rgba(255,255,255,0.7)", fontWeight: 600, marginTop: 2 }}>Matches</div>
+                    </div>}
+                </div>
+            </div>
+            <div style={{ position: "relative", marginBottom: 14 }}>
+                <svg style={{ position: "absolute", left: 12, top: "50%", transform: "translateY(-50%)", width: 15, height: 15, color: "#1E88C8" }} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+                <input type="text" placeholder="Search product type..." value={search} onChange={e => setSearch(e.target.value)}
+                    style={{ width: "100%", boxSizing: "border-box", padding: "10px 36px", border: "1.5px solid #C8DFF0", borderRadius: 10, fontSize: 13, fontFamily: T.sans, color: T.slate, outline: "none", background: "#fff" }}
+                    onFocus={e => e.target.style.borderColor="#1E88C8"} onBlur={e => e.target.style.borderColor="#C8DFF0"} />
+                {search && <button onClick={() => setSearch("")} style={{ position: "absolute", right: 12, top: "50%", transform: "translateY(-50%)", background: "#EBF0FB", border: "none", cursor: "pointer", fontSize: 11, color: "#0a4daa", width: 20, height: 20, borderRadius: "50%", fontWeight: 700 }}>✕</button>}
+            </div>
+            {search && filtered.length === 0 && <div style={{ textAlign: "center", padding: "32px 16px", color: T.muted, fontSize: 13 }}><div style={{ fontSize: 32, marginBottom: 8 }}>🔍</div>No types found for "<strong>{search}</strong>"</div>}
+            {filtered.length > 0 && <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill,minmax(230px,1fr))", gap: 8, maxHeight: 400, overflowY: "auto", paddingBottom: 4 }}>
+                {filtered.map((type, i) => {
+                    const hl = search && type.toLowerCase().includes(search.toLowerCase());
+                    return (
+                        <div key={i} style={{ display: "flex", alignItems: "center", gap: 10, background: hl ? "linear-gradient(135deg,#EBF0FB,#F5F3FF)" : "#FAFBFC", border: `1.5px solid ${hl ? "#A5B4FC" : "#E8E3DA"}`, borderRadius: 9, padding: "9px 13px" }}>
+                            <div style={{ width: 26, height: 26, borderRadius: 7, flexShrink: 0, background: hl ? "#7C3AED" : "#1E88C8", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                                <span style={{ color: "#fff", fontSize: 10, fontWeight: 700, fontFamily: T.poppins }}>{String(i+1).padStart(2,"0")}</span>
+                            </div>
+                            <span style={{ fontFamily: T.sans, fontSize: 12.5, color: T.paradark, lineHeight: 1.45, fontWeight: hl ? 600 : 400 }}>{type}</span>
+                        </div>
+                    );
+                })}
+            </div>}
+            <div style={{ marginTop: 14, padding: "10px 14px", background: "#FEF3DC", border: "1px solid #F6D992", borderRadius: 8, display: "flex", gap: 8, alignItems: "flex-start" }}>
+                <span style={{ fontSize: 15, flexShrink: 0 }}>💡</span>
+                <p style={{ margin: 0, fontSize: 12, color: "#7A5C10", lineHeight: 1.6 }}>Each type requires a <strong>separate BIS CRS licence</strong> per manufacturer, per factory, and per brand. Multiple models of the same type can share one R-number.</p>
             </div>
         </div>
     );
@@ -550,7 +603,7 @@ export default function BISCRSProductModal({ product, onClose }) {
 
                         {/* Tabs */}
                         <div className="m-tabs">
-                            {TABS.map(tab => (
+                            {TABS.filter(tab => tab.id !== "types" || product.types?.length).map(tab => (
                                 <button key={tab.id} className={`m-tab${activeTab === tab.id ? " active" : ""}`} onClick={() => setActiveTab(tab.id)}>
                                     <span>{tab.icon}</span>{tab.label}
                                 </button>
@@ -561,6 +614,7 @@ export default function BISCRSProductModal({ product, onClose }) {
                     {/* Scrollable Body */}
                     <div className="m-body" ref={bodyRef}>
                         {activeTab === "overview" && <TabOverview product={product} catColor={catColor} />}
+                        {activeTab === "types" && <TabTypes product={product} />}
                         {activeTab === "procedure" && <TabProcedure product={product} />}
                         {activeTab === "air" && <TabAIR />}
                         {activeTab === "documents" && <TabDocuments product={product} />}
